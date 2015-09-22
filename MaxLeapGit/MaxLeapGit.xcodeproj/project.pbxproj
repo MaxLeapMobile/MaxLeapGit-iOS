@@ -221,6 +221,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B43F3FAA1BB10E180036ECF6 /* Build configuration list for PBXNativeTarget "MaxLeapGit" */;
 			buildPhases = (
+				B43F3FC71BB130760036ECF6 /* ShellScript */,
 				B43F3F831BB10E180036ECF6 /* Sources */,
 				B43F3F841BB10E180036ECF6 /* Frameworks */,
 				B43F3F851BB10E180036ECF6 /* Resources */,
@@ -307,6 +308,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B43F3FC71BB130760036ECF6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n(cd ..; ./restore-encrypted-fields.sh)";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B43F3F831BB10E180036ECF6 /* Sources */ = {
