@@ -1,0 +1,102 @@
+//
+//  PrefixHeader.pch
+//  MaxLeapGit
+//
+//  Created by XiaJun on 15/4/14.
+//  Copyright (c) 2015年 XiaJun. All rights reserved.
+//
+
+#import <Availability.h>
+#ifndef __IPHONE_8_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+/*! 头文件导入 */
+#ifdef __OBJC__
+#import <CoreData/CoreData.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <CoreText/CoreText.h>
+#import <QuartzCore/QuartzCore.h>
+#import <CoreLocation/CoreLocation.h>
+#import <Security/Security.h>
+#import <QuickLook/QuickLook.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <CFNetwork/CFNetwork.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <StoreKit/StoreKit.h>
+
+#import "Flurry.h"
+#endif
+
+#define kAppVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+
+#define DEFINE_SHARED_INSTANCE_USING_BLOCK(block) \
+static dispatch_once_t pred = 0; \
+__strong static id _sharedObject = nil; \
+dispatch_once(&pred, ^{ \
+_sharedObject = block(); \
+}); \
+return _sharedObject; \
+
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+Stuff; \
+_Pragma("clang diagnostic pop") \
+} while (0)
+
+#define BLOCK_SAFE_RUN(block, ...) block ? block(__VA_ARGS__) : nil
+
+#define BLOCK_SAFE_ASY_RUN_MainQueue(block, ...) block ? dispatch_async(dispatch_get_main_queue(), ^{\
+BLOCK_SAFE_RUN(block,__VA_ARGS__); \
+}): nil
+
+#define BLOCK_SAFE_ASY_RUN_GlobalQueue(block, ...) block ? dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){\
+BLOCK_SAFE_RUN(block,__VA_ARGS__); \
+}): nil
+
+#define SAFE_STRING(string) string ?: @""
+
+#define CONFIGURE(CONFIG_KEY) 1
+
+#define execute_after_main_queue(delayInSeconds,  block) \
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{ \
+    BLOCK_SAFE_ASY_RUN_MainQueue(block); \
+})
+
+#define JSON_OBJECT_WITH_STRING(string) (string?[NSJSONSerialization JSONObjectWithData: [string dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil]:nil)
+#define JSON_STRING_WITH_OBJ(dic) (obj?[[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:dic options:kNilOptions error:nil] encoding:NSUTF8StringEncoding]:nil)ios io
+
+#define ImageNamed(x)               [UIImage imageNamed:x]
+#define OriginalImageNamed(x)       [[UIImage imageNamed:x] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define UIColorFromRGBWithAlpha( rgbValue, a ) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+#ifdef DEBUG
+#define LOG_Message(level, ...) LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"message",level,__VA_ARGS__)
+#define LOG_IMAGE(level, image) LogImageDataF(__FILE__, __LINE__, __FUNCTION__, @"image", level, image.size.width, image.size.width, UIImagePNGRepresentation(image))
+#else
+#define LOG_Message(...)   do{}while(0)
+#define LOG_IMAGE(...)     do{}while(0)
+#endif
+
+#define HelveticalRegular           @"HelveticaNeue"
+#define HelveticalBold              @"HelveticaNeue-Bold"
+#define HelveticalLight             @"HelveticaNeue-Light"
+#define HelveticalMedium            @"HelveticaNeue-Medium"
+
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE_4 ([[UIScreen mainScreen] bounds].size.height == 480.0f || [[UIScreen mainScreen] bounds].size.width == 480.0f)
+#define IS_IPHONE_5 ([[UIScreen mainScreen] bounds].size.height == 568.0f || [[UIScreen mainScreen] bounds].size.width == 568.0f)
+#define IS_IPHONE_6 ([[UIScreen mainScreen] bounds].size.height == 667.0f || [[UIScreen mainScreen] bounds].size.width == 667.0f)
+#define IS_IPHONE_6_Plus ([[UIScreen mainScreen] bounds].size.height == 736.0f || [[UIScreen mainScreen] bounds].size.width == 736.0f)
+
+#define ScreenRect [[UIScreen mainScreen] bounds]

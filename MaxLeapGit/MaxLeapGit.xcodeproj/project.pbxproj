@@ -7,50 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B4B577131BAFFC3B00F09B9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B577121BAFFC3B00F09B9C /* main.m */; };
-		B4B577161BAFFC3B00F09B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B577151BAFFC3B00F09B9C /* AppDelegate.m */; };
-		B4B577191BAFFC3B00F09B9C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B577181BAFFC3B00F09B9C /* ViewController.m */; };
-		B4B5771C1BAFFC3B00F09B9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4B5771A1BAFFC3B00F09B9C /* Main.storyboard */; };
-		B4B5771E1BAFFC3B00F09B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4B5771D1BAFFC3B00F09B9C /* Images.xcassets */; };
-		B4B577211BAFFC3B00F09B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B5771F1BAFFC3B00F09B9C /* LaunchScreen.xib */; };
-		B4B5772D1BAFFC3B00F09B9C /* MaxLeapGitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B5772C1BAFFC3B00F09B9C /* MaxLeapGitTests.m */; };
+		B43F3F961BB10E180036ECF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B43F3F941BB10E180036ECF6 /* Main.storyboard */; };
+		B43F3F981BB10E180036ECF6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B43F3F971BB10E180036ECF6 /* Images.xcassets */; };
+		B43F3FA71BB10E180036ECF6 /* MaxLeapGitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FA61BB10E180036ECF6 /* MaxLeapGitTests.m */; };
+		B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FBB1BB10F6A0036ECF6 /* AppDelegate.m */; };
+		B43F3FBF1BB125D80036ECF6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FBE1BB125D80036ECF6 /* ViewController.m */; };
+		B43F3FC11BB126450036ECF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FC01BB126450036ECF6 /* main.m */; };
+		B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B4B577271BAFFC3B00F09B9C /* PBXContainerItemProxy */ = {
+		B43F3FA11BB10E180036ECF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B4B577051BAFFC3B00F09B9C /* Project object */;
+			containerPortal = B43F3F7F1BB10E180036ECF6 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B4B5770C1BAFFC3B00F09B9C;
+			remoteGlobalIDString = B43F3F861BB10E180036ECF6;
 			remoteInfo = MaxLeapGit;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B4B5770D1BAFFC3B00F09B9C /* MaxLeapGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaxLeapGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4B577111BAFFC3B00F09B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4B577121BAFFC3B00F09B9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B4B577141BAFFC3B00F09B9C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		B4B577151BAFFC3B00F09B9C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B4B577171BAFFC3B00F09B9C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B4B577181BAFFC3B00F09B9C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		B4B5771B1BAFFC3B00F09B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B4B5771D1BAFFC3B00F09B9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		B4B577201BAFFC3B00F09B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		B4B577261BAFFC3B00F09B9C /* MaxLeapGitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaxLeapGitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4B5772B1BAFFC3B00F09B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4B5772C1BAFFC3B00F09B9C /* MaxLeapGitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaxLeapGitTests.m; sourceTree = "<group>"; };
+		B405FB741BB12953002F972F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		B43F3F871BB10E180036ECF6 /* MaxLeapGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaxLeapGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B43F3F8B1BB10E180036ECF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B43F3F951BB10E180036ECF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B43F3F971BB10E180036ECF6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B43F3FA01BB10E180036ECF6 /* MaxLeapGitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaxLeapGitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B43F3FA51BB10E180036ECF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B43F3FA61BB10E180036ECF6 /* MaxLeapGitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaxLeapGitTests.m; sourceTree = "<group>"; };
+		B43F3FBA1BB10F6A0036ECF6 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B43F3FBB1BB10F6A0036ECF6 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B43F3FBD1BB125D80036ECF6 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		B43F3FBE1BB125D80036ECF6 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B43F3FC01BB126450036ECF6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B43F3FC31BB12BCB0036ECF6 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
+		B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.0.0.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B4B5770A1BAFFC3B00F09B9C /* Frameworks */ = {
+		B43F3F841BB10E180036ECF6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B4B577231BAFFC3B00F09B9C /* Frameworks */ = {
+		B43F3F9D1BB10E180036ECF6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,75 +64,166 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B4B577041BAFFC3B00F09B9C = {
+		B43F3F7E1BB10E180036ECF6 = {
 			isa = PBXGroup;
 			children = (
-				B4B5770F1BAFFC3B00F09B9C /* MaxLeapGit */,
-				B4B577291BAFFC3B00F09B9C /* MaxLeapGitTests */,
-				B4B5770E1BAFFC3B00F09B9C /* Products */,
+				B43F3F891BB10E180036ECF6 /* MaxLeapGit */,
+				B43F3FA31BB10E180036ECF6 /* MaxLeapGitTests */,
+				B43F3F881BB10E180036ECF6 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B4B5770E1BAFFC3B00F09B9C /* Products */ = {
+		B43F3F881BB10E180036ECF6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B4B5770D1BAFFC3B00F09B9C /* MaxLeapGit.app */,
-				B4B577261BAFFC3B00F09B9C /* MaxLeapGitTests.xctest */,
+				B43F3F871BB10E180036ECF6 /* MaxLeapGit.app */,
+				B43F3FA01BB10E180036ECF6 /* MaxLeapGitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B4B5770F1BAFFC3B00F09B9C /* MaxLeapGit */ = {
+		B43F3F891BB10E180036ECF6 /* MaxLeapGit */ = {
 			isa = PBXGroup;
 			children = (
-				B4B577141BAFFC3B00F09B9C /* AppDelegate.h */,
-				B4B577151BAFFC3B00F09B9C /* AppDelegate.m */,
-				B4B577171BAFFC3B00F09B9C /* ViewController.h */,
-				B4B577181BAFFC3B00F09B9C /* ViewController.m */,
-				B4B5771A1BAFFC3B00F09B9C /* Main.storyboard */,
-				B4B5771D1BAFFC3B00F09B9C /* Images.xcassets */,
-				B4B5771F1BAFFC3B00F09B9C /* LaunchScreen.xib */,
-				B4B577101BAFFC3B00F09B9C /* Supporting Files */,
+				B43F3F941BB10E180036ECF6 /* Main.storyboard */,
+				B43F3FB01BB10F570036ECF6 /* Application */,
+				B43F3FB81BB10F570036ECF6 /* ViewControllers */,
+				B43F3FB91BB10F570036ECF6 /* Views */,
+				B43F3FB41BB10F570036ECF6 /* Models */,
+				B43F3FB21BB10F570036ECF6 /* Layout */,
+				B43F3FB71BB10F570036ECF6 /* Utils */,
+				B43F3FB31BB10F570036ECF6 /* Library */,
+				B43F3FB51BB10F570036ECF6 /* Resources */,
+				B43F3FB61BB10F570036ECF6 /* Services */,
+				B43F3FB11BB10F570036ECF6 /* Framework */,
+				B43F3F971BB10E180036ECF6 /* Images.xcassets */,
+				B43F3F8A1BB10E180036ECF6 /* Supporting Files */,
 			);
 			path = MaxLeapGit;
 			sourceTree = "<group>";
 		};
-		B4B577101BAFFC3B00F09B9C /* Supporting Files */ = {
+		B43F3F8A1BB10E180036ECF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B4B577111BAFFC3B00F09B9C /* Info.plist */,
-				B4B577121BAFFC3B00F09B9C /* main.m */,
+				B43F3F8B1BB10E180036ECF6 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B4B577291BAFFC3B00F09B9C /* MaxLeapGitTests */ = {
+		B43F3FA31BB10E180036ECF6 /* MaxLeapGitTests */ = {
 			isa = PBXGroup;
 			children = (
-				B4B5772C1BAFFC3B00F09B9C /* MaxLeapGitTests.m */,
-				B4B5772A1BAFFC3B00F09B9C /* Supporting Files */,
+				B43F3FA61BB10E180036ECF6 /* MaxLeapGitTests.m */,
+				B43F3FA41BB10E180036ECF6 /* Supporting Files */,
 			);
 			path = MaxLeapGitTests;
 			sourceTree = "<group>";
 		};
-		B4B5772A1BAFFC3B00F09B9C /* Supporting Files */ = {
+		B43F3FA41BB10E180036ECF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B4B5772B1BAFFC3B00F09B9C /* Info.plist */,
+				B43F3FA51BB10E180036ECF6 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B43F3FB01BB10F570036ECF6 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B43F3FC01BB126450036ECF6 /* main.m */,
+				B43F3FBA1BB10F6A0036ECF6 /* AppDelegate.h */,
+				B43F3FBB1BB10F6A0036ECF6 /* AppDelegate.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		B43F3FB11BB10F570036ECF6 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				B43F3FC21BB12BCB0036ECF6 /* Flurry */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
+		B43F3FB21BB10F570036ECF6 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		B43F3FB31BB10F570036ECF6 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		B43F3FB41BB10F570036ECF6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B43F3FB51BB10F570036ECF6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B43F3FB61BB10F570036ECF6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B43F3FB71BB10F570036ECF6 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B405FB741BB12953002F972F /* PrefixHeader.pch */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B43F3FB81BB10F570036ECF6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B43F3FBD1BB125D80036ECF6 /* ViewController.h */,
+				B43F3FBE1BB125D80036ECF6 /* ViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B43F3FB91BB10F570036ECF6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B43F3FC21BB12BCB0036ECF6 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				B43F3FC31BB12BCB0036ECF6 /* Flurry.h */,
+				B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */,
+				B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B4B5770C1BAFFC3B00F09B9C /* MaxLeapGit */ = {
+		B43F3F861BB10E180036ECF6 /* MaxLeapGit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4B577301BAFFC3B00F09B9C /* Build configuration list for PBXNativeTarget "MaxLeapGit" */;
+			buildConfigurationList = B43F3FAA1BB10E180036ECF6 /* Build configuration list for PBXNativeTarget "MaxLeapGit" */;
 			buildPhases = (
-				B4B577091BAFFC3B00F09B9C /* Sources */,
-				B4B5770A1BAFFC3B00F09B9C /* Frameworks */,
-				B4B5770B1BAFFC3B00F09B9C /* Resources */,
+				B43F3F831BB10E180036ECF6 /* Sources */,
+				B43F3F841BB10E180036ECF6 /* Frameworks */,
+				B43F3F851BB10E180036ECF6 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -136,46 +231,46 @@
 			);
 			name = MaxLeapGit;
 			productName = MaxLeapGit;
-			productReference = B4B5770D1BAFFC3B00F09B9C /* MaxLeapGit.app */;
+			productReference = B43F3F871BB10E180036ECF6 /* MaxLeapGit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B4B577251BAFFC3B00F09B9C /* MaxLeapGitTests */ = {
+		B43F3F9F1BB10E180036ECF6 /* MaxLeapGitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4B577331BAFFC3B00F09B9C /* Build configuration list for PBXNativeTarget "MaxLeapGitTests" */;
+			buildConfigurationList = B43F3FAD1BB10E180036ECF6 /* Build configuration list for PBXNativeTarget "MaxLeapGitTests" */;
 			buildPhases = (
-				B4B577221BAFFC3B00F09B9C /* Sources */,
-				B4B577231BAFFC3B00F09B9C /* Frameworks */,
-				B4B577241BAFFC3B00F09B9C /* Resources */,
+				B43F3F9C1BB10E180036ECF6 /* Sources */,
+				B43F3F9D1BB10E180036ECF6 /* Frameworks */,
+				B43F3F9E1BB10E180036ECF6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B4B577281BAFFC3B00F09B9C /* PBXTargetDependency */,
+				B43F3FA21BB10E180036ECF6 /* PBXTargetDependency */,
 			);
 			name = MaxLeapGitTests;
 			productName = MaxLeapGitTests;
-			productReference = B4B577261BAFFC3B00F09B9C /* MaxLeapGitTests.xctest */;
+			productReference = B43F3FA01BB10E180036ECF6 /* MaxLeapGitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B4B577051BAFFC3B00F09B9C /* Project object */ = {
+		B43F3F7F1BB10E180036ECF6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = iLegendsoft;
 				TargetAttributes = {
-					B4B5770C1BAFFC3B00F09B9C = {
+					B43F3F861BB10E180036ECF6 = {
 						CreatedOnToolsVersion = 6.4;
 					};
-					B4B577251BAFFC3B00F09B9C = {
+					B43F3F9F1BB10E180036ECF6 = {
 						CreatedOnToolsVersion = 6.4;
-						TestTargetID = B4B5770C1BAFFC3B00F09B9C;
+						TestTargetID = B43F3F861BB10E180036ECF6;
 					};
 				};
 			};
-			buildConfigurationList = B4B577081BAFFC3B00F09B9C /* Build configuration list for PBXProject "MaxLeapGit" */;
+			buildConfigurationList = B43F3F821BB10E180036ECF6 /* Build configuration list for PBXProject "MaxLeapGit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -183,29 +278,28 @@
 				en,
 				Base,
 			);
-			mainGroup = B4B577041BAFFC3B00F09B9C;
-			productRefGroup = B4B5770E1BAFFC3B00F09B9C /* Products */;
+			mainGroup = B43F3F7E1BB10E180036ECF6;
+			productRefGroup = B43F3F881BB10E180036ECF6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B4B5770C1BAFFC3B00F09B9C /* MaxLeapGit */,
-				B4B577251BAFFC3B00F09B9C /* MaxLeapGitTests */,
+				B43F3F861BB10E180036ECF6 /* MaxLeapGit */,
+				B43F3F9F1BB10E180036ECF6 /* MaxLeapGitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B4B5770B1BAFFC3B00F09B9C /* Resources */ = {
+		B43F3F851BB10E180036ECF6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4B5771C1BAFFC3B00F09B9C /* Main.storyboard in Resources */,
-				B4B577211BAFFC3B00F09B9C /* LaunchScreen.xib in Resources */,
-				B4B5771E1BAFFC3B00F09B9C /* Images.xcassets in Resources */,
+				B43F3F961BB10E180036ECF6 /* Main.storyboard in Resources */,
+				B43F3F981BB10E180036ECF6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B4B577241BAFFC3B00F09B9C /* Resources */ = {
+		B43F3F9E1BB10E180036ECF6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,55 +309,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B4B577091BAFFC3B00F09B9C /* Sources */ = {
+		B43F3F831BB10E180036ECF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4B577191BAFFC3B00F09B9C /* ViewController.m in Sources */,
-				B4B577161BAFFC3B00F09B9C /* AppDelegate.m in Sources */,
-				B4B577131BAFFC3B00F09B9C /* main.m in Sources */,
+				B43F3FBF1BB125D80036ECF6 /* ViewController.m in Sources */,
+				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
+				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B4B577221BAFFC3B00F09B9C /* Sources */ = {
+		B43F3F9C1BB10E180036ECF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4B5772D1BAFFC3B00F09B9C /* MaxLeapGitTests.m in Sources */,
+				B43F3FA71BB10E180036ECF6 /* MaxLeapGitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B4B577281BAFFC3B00F09B9C /* PBXTargetDependency */ = {
+		B43F3FA21BB10E180036ECF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B4B5770C1BAFFC3B00F09B9C /* MaxLeapGit */;
-			targetProxy = B4B577271BAFFC3B00F09B9C /* PBXContainerItemProxy */;
+			target = B43F3F861BB10E180036ECF6 /* MaxLeapGit */;
+			targetProxy = B43F3FA11BB10E180036ECF6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B4B5771A1BAFFC3B00F09B9C /* Main.storyboard */ = {
+		B43F3F941BB10E180036ECF6 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B4B5771B1BAFFC3B00F09B9C /* Base */,
+				B43F3F951BB10E180036ECF6 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B4B5771F1BAFFC3B00F09B9C /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B4B577201BAFFC3B00F09B9C /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B4B5772E1BAFFC3B00F09B9C /* Debug */ = {
+		B43F3FA81BB10E180036ECF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -307,7 +393,7 @@
 			};
 			name = Debug;
 		};
-		B4B5772F1BAFFC3B00F09B9C /* Release */ = {
+		B43F3FA91BB10E180036ECF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -345,27 +431,39 @@
 			};
 			name = Release;
 		};
-		B4B577311BAFFC3B00F09B9C /* Debug */ = {
+		B43F3FAB1BB10E180036ECF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MaxLeapGit/Utils/PrefixHeader.pch";
 				INFOPLIST_FILE = MaxLeapGit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MaxLeapGit/Framework/Flurry",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		B4B577321BAFFC3B00F09B9C /* Release */ = {
+		B43F3FAC1BB10E180036ECF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MaxLeapGit/Utils/PrefixHeader.pch";
 				INFOPLIST_FILE = MaxLeapGit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MaxLeapGit/Framework/Flurry",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		B4B577341BAFFC3B00F09B9C /* Debug */ = {
+		B43F3FAE1BB10E180036ECF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -384,7 +482,7 @@
 			};
 			name = Debug;
 		};
-		B4B577351BAFFC3B00F09B9C /* Release */ = {
+		B43F3FAF1BB10E180036ECF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -402,32 +500,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B4B577081BAFFC3B00F09B9C /* Build configuration list for PBXProject "MaxLeapGit" */ = {
+		B43F3F821BB10E180036ECF6 /* Build configuration list for PBXProject "MaxLeapGit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B4B5772E1BAFFC3B00F09B9C /* Debug */,
-				B4B5772F1BAFFC3B00F09B9C /* Release */,
+				B43F3FA81BB10E180036ECF6 /* Debug */,
+				B43F3FA91BB10E180036ECF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4B577301BAFFC3B00F09B9C /* Build configuration list for PBXNativeTarget "MaxLeapGit" */ = {
+		B43F3FAA1BB10E180036ECF6 /* Build configuration list for PBXNativeTarget "MaxLeapGit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B4B577311BAFFC3B00F09B9C /* Debug */,
-				B4B577321BAFFC3B00F09B9C /* Release */,
+				B43F3FAB1BB10E180036ECF6 /* Debug */,
+				B43F3FAC1BB10E180036ECF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		B4B577331BAFFC3B00F09B9C /* Build configuration list for PBXNativeTarget "MaxLeapGitTests" */ = {
+		B43F3FAD1BB10E180036ECF6 /* Build configuration list for PBXNativeTarget "MaxLeapGitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B4B577341BAFFC3B00F09B9C /* Debug */,
-				B4B577351BAFFC3B00F09B9C /* Release */,
+				B43F3FAE1BB10E180036ECF6 /* Debug */,
+				B43F3FAF1BB10E180036ECF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B4B577051BAFFC3B00F09B9C /* Project object */;
+	rootObject = B43F3F7F1BB10E180036ECF6 /* Project object */;
 }
