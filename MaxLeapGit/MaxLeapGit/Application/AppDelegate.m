@@ -32,7 +32,7 @@
 
 - (void)configureThirdPartySDK {
     [Flurry setAppVersion:kAppVersion];
-    [Flurry startSession:@"FlurrySessionID"];
+    [Flurry startSession:CONFIGURE(@"FlurrySessionID")];
 }
 
 @end

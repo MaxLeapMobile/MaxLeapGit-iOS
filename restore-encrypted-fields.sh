@@ -10,7 +10,7 @@ if [ -f $maxleapgitconfig ]; then
 	for replaceItem in $LINE; do
 	    key=`echo $replaceItem | awk -F = '{print $1}'`
 	    value=`echo $replaceItem | awk -F = '{print $2}'`
-        sed -e s/$key/$value/g $i > ${i}.tmp && mv ${i}.tmp ${i}
+	    sed -e "/CONFIGURE(@\"/s/$key/$value/g"  $i > ${i}.tmp && mv ${i}.tmp ${i}
 	done
 
       echo "${i} is done"

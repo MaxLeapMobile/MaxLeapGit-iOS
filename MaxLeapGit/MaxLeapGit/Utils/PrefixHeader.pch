@@ -30,6 +30,8 @@
 #import "Flurry.h"
 #endif
 
+#define CONFIGURE(configureKey) configureKey
+
 #define kAppVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
 
 #define DEFINE_SHARED_INSTANCE_USING_BLOCK(block) \
@@ -59,8 +61,6 @@ BLOCK_SAFE_RUN(block,__VA_ARGS__); \
 }): nil
 
 #define SAFE_STRING(string) string ?: @""
-
-#define CONFIGURE(CONFIG_KEY) 1
 
 #define execute_after_main_queue(delayInSeconds,  block) \
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{ \
