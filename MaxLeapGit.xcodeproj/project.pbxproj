@@ -15,6 +15,14 @@
 		B43F3FC11BB126450036ECF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FC01BB126450036ECF6 /* main.m */; };
 		B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E3D1B3DE1BC616D400954095 /* GMTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3DD1BC616D400954095 /* GMTimeLineViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3E11BC6171000954095 /* GMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E01BC6171000954095 /* GMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3E41BC6172800954095 /* GMMyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E31BC6172800954095 /* GMMyPageViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3E71BC61A4D00954095 /* GMIntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E61BC61A4D00954095 /* GMIntroductionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3EE1BC6203600954095 /* GMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3ED1BC6203600954095 /* GMLoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3F11BC63DAF00954095 /* GMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F01BC63DAF00954095 /* GMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3F41BC63FE500954095 /* GMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F31BC63FE500954095 /* GMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3F81BC6438E00954095 /* GMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F71BC6438E00954095 /* GMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +55,22 @@
 		B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
 		B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.0.0.a; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E3D1B3DC1BC616D400954095 /* GMTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMTimeLineViewController.h; sourceTree = "<group>"; };
+		E3D1B3DD1BC616D400954095 /* GMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMTimeLineViewController.m; sourceTree = "<group>"; };
+		E3D1B3DF1BC6171000954095 /* GMRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMRecommendViewController.h; sourceTree = "<group>"; };
+		E3D1B3E01BC6171000954095 /* GMRecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMRecommendViewController.m; sourceTree = "<group>"; };
+		E3D1B3E21BC6172800954095 /* GMMyPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMMyPageViewController.h; sourceTree = "<group>"; };
+		E3D1B3E31BC6172800954095 /* GMMyPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMMyPageViewController.m; sourceTree = "<group>"; };
+		E3D1B3E51BC61A4D00954095 /* GMIntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMIntroductionViewController.h; sourceTree = "<group>"; };
+		E3D1B3E61BC61A4D00954095 /* GMIntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMIntroductionViewController.m; sourceTree = "<group>"; };
+		E3D1B3EC1BC6203600954095 /* GMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMLoginViewController.h; sourceTree = "<group>"; };
+		E3D1B3ED1BC6203600954095 /* GMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMLoginViewController.m; sourceTree = "<group>"; };
+		E3D1B3EF1BC63DAF00954095 /* GMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMSearchViewController.h; sourceTree = "<group>"; };
+		E3D1B3F01BC63DAF00954095 /* GMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMSearchViewController.m; sourceTree = "<group>"; };
+		E3D1B3F21BC63FE500954095 /* GMGenesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMGenesViewController.h; sourceTree = "<group>"; };
+		E3D1B3F31BC63FE500954095 /* GMGenesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMGenesViewController.m; sourceTree = "<group>"; };
+		E3D1B3F61BC6438E00954095 /* GMAddNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAddNewGeneViewController.h; sourceTree = "<group>"; };
+		E3D1B3F71BC6438E00954095 /* GMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAddNewGeneViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +241,11 @@
 			children = (
 				B43F3FBD1BB125D80036ECF6 /* ViewController.h */,
 				B43F3FBE1BB125D80036ECF6 /* ViewController.m */,
+				E3D1B3F51BC6435300954095 /* Shared */,
+				E3D1B3EB1BC61F5F00954095 /* Login */,
+				E3D1B3E81BC61BB100954095 /* TimeLine */,
+				E3D1B3E91BC61BBD00954095 /* Recommend */,
+				E3D1B3EA1BC61BC400954095 /* MyPage */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -236,6 +265,57 @@
 				B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */,
 			);
 			path = Flurry;
+			sourceTree = "<group>";
+		};
+		E3D1B3E81BC61BB100954095 /* TimeLine */ = {
+			isa = PBXGroup;
+			children = (
+				E3D1B3DC1BC616D400954095 /* GMTimeLineViewController.h */,
+				E3D1B3DD1BC616D400954095 /* GMTimeLineViewController.m */,
+			);
+			name = TimeLine;
+			sourceTree = "<group>";
+		};
+		E3D1B3E91BC61BBD00954095 /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+				E3D1B3DF1BC6171000954095 /* GMRecommendViewController.h */,
+				E3D1B3E01BC6171000954095 /* GMRecommendViewController.m */,
+			);
+			name = Recommend;
+			sourceTree = "<group>";
+		};
+		E3D1B3EA1BC61BC400954095 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				E3D1B3E21BC6172800954095 /* GMMyPageViewController.h */,
+				E3D1B3E31BC6172800954095 /* GMMyPageViewController.m */,
+			);
+			name = MyPage;
+			sourceTree = "<group>";
+		};
+		E3D1B3EB1BC61F5F00954095 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E3D1B3E51BC61A4D00954095 /* GMIntroductionViewController.h */,
+				E3D1B3E61BC61A4D00954095 /* GMIntroductionViewController.m */,
+				E3D1B3EC1BC6203600954095 /* GMLoginViewController.h */,
+				E3D1B3ED1BC6203600954095 /* GMLoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		E3D1B3F51BC6435300954095 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E3D1B3EF1BC63DAF00954095 /* GMSearchViewController.h */,
+				E3D1B3F01BC63DAF00954095 /* GMSearchViewController.m */,
+				E3D1B3F21BC63FE500954095 /* GMGenesViewController.h */,
+				E3D1B3F31BC63FE500954095 /* GMGenesViewController.m */,
+				E3D1B3F61BC6438E00954095 /* GMAddNewGeneViewController.h */,
+				E3D1B3F71BC6438E00954095 /* GMAddNewGeneViewController.m */,
+			);
+			name = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,8 +468,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				B43F3FBF1BB125D80036ECF6 /* ViewController.m in Sources */,
+				E3D1B3F11BC63DAF00954095 /* GMSearchViewController.m in Sources */,
+				E3D1B3E71BC61A4D00954095 /* GMIntroductionViewController.m in Sources */,
+				E3D1B3E41BC6172800954095 /* GMMyPageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
+				E3D1B3DE1BC616D400954095 /* GMTimeLineViewController.m in Sources */,
+				E3D1B3F81BC6438E00954095 /* GMAddNewGeneViewController.m in Sources */,
+				E3D1B3EE1BC6203600954095 /* GMLoginViewController.m in Sources */,
+				E3D1B3E11BC6171000954095 /* GMRecommendViewController.m in Sources */,
+				E3D1B3F41BC63FE500954095 /* GMGenesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

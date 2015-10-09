@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "GMTimeLineViewController.h"
+#import "GMRecommendViewController.h"
+#import "GMMyPageViewController.h"
+#import "GMIntroductionViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureThirdPartySDK];
+   
+    [self mainViewInit];
     
     return YES;    // Override point for customization after application launch.
 }
@@ -33,6 +39,36 @@
 - (void)configureThirdPartySDK {
     [Flurry setAppVersion:kAppVersion];
     [Flurry startSession:CONFIGURE(@"GitHub_Client_Secret")];
+}
+
+- (void)mainViewInit {
+    [self setUpTabBarController];
+    
+    BOOL isAuthorized = NO;//TODO:check authorization state
+    if (!isAuthorized) {
+        UIViewController *vcIntro = [[GMIntroductionViewController alloc] init];
+        self.window.rootViewController = vcIntro;
+    } else {
+        self.window.rootViewController = self.tabBarController;
+    }
+}
+
+- (void)setUpTabBarController {
+    self.tabBarController = [[UITabBarController alloc] init];
+    
+    UIViewController *vc1 = [[GMTimeLineViewController alloc] init];
+    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:vc1];
+    nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
+   
+    UIViewController *vc2 = [[GMRecommendViewController alloc] init];
+    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:vc2];
+    nav2.title = vc2.title = NSLocalizedString(@"Recommend", @"");
+    
+    UIViewController *vc3 = [[GMMyPageViewController alloc] init];
+    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:vc3];
+    nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
+    
+    self.tabBarController.viewControllers = @[nav1, nav2, nav3];
 }
 
 @end
