@@ -23,6 +23,11 @@
 		E3D1B3F11BC63DAF00954095 /* GMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F01BC63DAF00954095 /* GMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3F41BC63FE500954095 /* GMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F31BC63FE500954095 /* GMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3F81BC6438E00954095 /* GMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3F71BC6438E00954095 /* GMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3FC1BC764D000954095 /* GMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3FB1BC764D000954095 /* GMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B3FF1BC764E100954095 /* GMRepoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3FE1BC764E100954095 /* GMRepoCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B4021BC764EE00954095 /* GMUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B4011BC764EE00954095 /* GMUserCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B4051BC7683F00954095 /* GMStringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B4041BC7683F00954095 /* GMStringUtil.m */; settings = {ASSET_TAGS = (); }; };
+		E3D1B40C1BC7996B00954095 /* GMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B40B1BC7996B00954095 /* GMNavigationController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +76,16 @@
 		E3D1B3F31BC63FE500954095 /* GMGenesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMGenesViewController.m; sourceTree = "<group>"; };
 		E3D1B3F61BC6438E00954095 /* GMAddNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAddNewGeneViewController.h; sourceTree = "<group>"; };
 		E3D1B3F71BC6438E00954095 /* GMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAddNewGeneViewController.m; sourceTree = "<group>"; };
+		E3D1B3FA1BC764D000954095 /* GMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMTimeLineCell.h; path = MaxLeapGit/ViewControllers/GMTimeLineCell.h; sourceTree = SOURCE_ROOT; };
+		E3D1B3FB1BC764D000954095 /* GMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMTimeLineCell.m; path = MaxLeapGit/ViewControllers/GMTimeLineCell.m; sourceTree = SOURCE_ROOT; };
+		E3D1B3FD1BC764E100954095 /* GMRepoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMRepoCell.h; path = MaxLeapGit/ViewControllers/GMRepoCell.h; sourceTree = SOURCE_ROOT; };
+		E3D1B3FE1BC764E100954095 /* GMRepoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMRepoCell.m; path = MaxLeapGit/ViewControllers/GMRepoCell.m; sourceTree = SOURCE_ROOT; };
+		E3D1B4001BC764EE00954095 /* GMUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMUserCell.h; path = MaxLeapGit/ViewControllers/GMUserCell.h; sourceTree = SOURCE_ROOT; };
+		E3D1B4011BC764EE00954095 /* GMUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMUserCell.m; path = MaxLeapGit/ViewControllers/GMUserCell.m; sourceTree = SOURCE_ROOT; };
+		E3D1B4031BC7683F00954095 /* GMStringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMStringUtil.h; sourceTree = "<group>"; };
+		E3D1B4041BC7683F00954095 /* GMStringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMStringUtil.m; sourceTree = "<group>"; };
+		E3D1B40A1BC7996B00954095 /* GMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMNavigationController.h; sourceTree = "<group>"; };
+		E3D1B40B1BC7996B00954095 /* GMNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMNavigationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +247,8 @@
 			isa = PBXGroup;
 			children = (
 				B405FB741BB12953002F972F /* PrefixHeader.pch */,
+				E3D1B4031BC7683F00954095 /* GMStringUtil.h */,
+				E3D1B4041BC7683F00954095 /* GMStringUtil.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -241,6 +258,8 @@
 			children = (
 				B43F3FBD1BB125D80036ECF6 /* ViewController.h */,
 				B43F3FBE1BB125D80036ECF6 /* ViewController.m */,
+				E3D1B40A1BC7996B00954095 /* GMNavigationController.h */,
+				E3D1B40B1BC7996B00954095 /* GMNavigationController.m */,
 				E3D1B3F51BC6435300954095 /* Shared */,
 				E3D1B3EB1BC61F5F00954095 /* Login */,
 				E3D1B3E81BC61BB100954095 /* TimeLine */,
@@ -253,6 +272,12 @@
 		B43F3FB91BB10F570036ECF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E3D1B3FA1BC764D000954095 /* GMTimeLineCell.h */,
+				E3D1B3FB1BC764D000954095 /* GMTimeLineCell.m */,
+				E3D1B3FD1BC764E100954095 /* GMRepoCell.h */,
+				E3D1B3FE1BC764E100954095 /* GMRepoCell.m */,
+				E3D1B4001BC764EE00954095 /* GMUserCell.h */,
+				E3D1B4011BC764EE00954095 /* GMUserCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -469,14 +494,19 @@
 			files = (
 				B43F3FBF1BB125D80036ECF6 /* ViewController.m in Sources */,
 				E3D1B3F11BC63DAF00954095 /* GMSearchViewController.m in Sources */,
+				E3D1B4051BC7683F00954095 /* GMStringUtil.m in Sources */,
 				E3D1B3E71BC61A4D00954095 /* GMIntroductionViewController.m in Sources */,
+				E3D1B3FF1BC764E100954095 /* GMRepoCell.m in Sources */,
 				E3D1B3E41BC6172800954095 /* GMMyPageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
+				E3D1B3FC1BC764D000954095 /* GMTimeLineCell.m in Sources */,
 				E3D1B3DE1BC616D400954095 /* GMTimeLineViewController.m in Sources */,
 				E3D1B3F81BC6438E00954095 /* GMAddNewGeneViewController.m in Sources */,
+				E3D1B40C1BC7996B00954095 /* GMNavigationController.m in Sources */,
 				E3D1B3EE1BC6203600954095 /* GMLoginViewController.m in Sources */,
 				E3D1B3E11BC6171000954095 /* GMRecommendViewController.m in Sources */,
+				E3D1B4021BC764EE00954095 /* GMUserCell.m in Sources */,
 				E3D1B3F41BC63FE500954095 /* GMGenesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

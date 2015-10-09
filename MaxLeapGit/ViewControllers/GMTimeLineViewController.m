@@ -7,7 +7,9 @@
 //
 
 #import "GMTimeLineViewController.h"
+#import "GMTimeLineCell.h"
 #import "GMSearchViewController.h"
+#import "GMNavigationController.h"
 
 @interface GMTimeLineViewController ()
 
@@ -23,22 +25,24 @@
 
 - (void)search {
     GMSearchViewController *vcSearch = [[GMSearchViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
+    UINavigationController *nav = [[GMNavigationController alloc] initWithRootViewController:vcSearch];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 6;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[GMTimeLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.textLabel.text = @"1";
     return cell;
 }
 

@@ -11,6 +11,7 @@
 #import "GMRecommendViewController.h"
 #import "GMMyPageViewController.h"
 #import "GMIntroductionViewController.h"
+#import "GMNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -44,7 +45,7 @@
 - (void)mainViewInit {
     [self setUpTabBarController];
     
-    BOOL isAuthorized = NO;//TODO:check authorization state
+    BOOL isAuthorized = YES;//TODO:check authorization state
     if (!isAuthorized) {
         UIViewController *vcIntro = [[GMIntroductionViewController alloc] init];
         self.window.rootViewController = vcIntro;
@@ -57,15 +58,15 @@
     self.tabBarController = [[UITabBarController alloc] init];
     
     UIViewController *vc1 = [[GMTimeLineViewController alloc] init];
-    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:vc1];
+    UINavigationController *nav1 = [[GMNavigationController alloc] initWithRootViewController:vc1];
     nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
    
     UIViewController *vc2 = [[GMRecommendViewController alloc] init];
-    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:vc2];
+    UINavigationController *nav2 = [[GMNavigationController alloc] initWithRootViewController:vc2];
     nav2.title = vc2.title = NSLocalizedString(@"Recommend", @"");
     
     UIViewController *vc3 = [[GMMyPageViewController alloc] init];
-    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:vc3];
+    UINavigationController *nav3 = [[GMNavigationController alloc] initWithRootViewController:vc3];
     nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
     
     self.tabBarController.viewControllers = @[nav1, nav2, nav3];
