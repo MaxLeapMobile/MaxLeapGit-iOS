@@ -3,12 +3,12 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMUserCell.h"
+#import "MLGMUserCell.h"
 
-@interface GMUserCell ()
+@interface MLGMUserCell ()
 @property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *updateTimeLabel;
@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL didSetUpConstraints;
 @end
 
-@implementation GMUserCell
+@implementation MLGMUserCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {

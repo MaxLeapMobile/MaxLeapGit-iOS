@@ -3,16 +3,16 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMAddNewGeneViewController.h"
+#import "MLGMAddNewGeneViewController.h"
 
-@interface GMAddNewGeneViewController ()
+@interface MLGMAddNewGeneViewController ()
 @property (nonatomic, strong) NSArray *popularGenes;
 @end
 
-@implementation GMAddNewGeneViewController
+@implementation MLGMAddNewGeneViewController
 - (instancetype)init
 {
     self = [super initWithStyle:UITableViewStyleGrouped];

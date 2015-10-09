@@ -3,19 +3,19 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMTimeLineViewController.h"
-#import "GMTimeLineCell.h"
-#import "GMSearchViewController.h"
-#import "GMNavigationController.h"
+#import "MLGMTimeLineViewController.h"
+#import "MLGMTimeLineCell.h"
+#import "MLGMSearchViewController.h"
+#import "MLGMNavigationController.h"
 
-@interface GMTimeLineViewController ()
+@interface MLGMTimeLineViewController ()
 
 @end
 
-@implementation GMTimeLineViewController
+@implementation MLGMTimeLineViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,8 +24,8 @@
 }
 
 - (void)search {
-    GMSearchViewController *vcSearch = [[GMSearchViewController alloc] init];
-    UINavigationController *nav = [[GMNavigationController alloc] initWithRootViewController:vcSearch];
+    MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
+    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcSearch];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
@@ -41,7 +41,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[GMTimeLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[MLGMTimeLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     return cell;
 }

@@ -3,17 +3,17 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMGenesViewController.h"
-#import "GMAddNewGeneViewController.h"
+#import "MLGMGenesViewController.h"
+#import "MLGMAddNewGeneViewController.h"
 
-@interface GMGenesViewController ()
+@interface MLGMGenesViewController ()
 @property (nonatomic, strong) NSArray *myGenes;
 @end
 
-@implementation GMGenesViewController
+@implementation MLGMGenesViewController
 - (instancetype)init
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
@@ -68,7 +68,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {
-        GMAddNewGeneViewController *vcAddGene = [[GMAddNewGeneViewController alloc] init];
+        MLGMAddNewGeneViewController *vcAddGene = [[MLGMAddNewGeneViewController alloc] init];
         [self.navigationController pushViewController:vcAddGene animated:YES];
     }
 }

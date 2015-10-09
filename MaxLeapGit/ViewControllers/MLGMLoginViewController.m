@@ -3,24 +3,24 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMLoginViewController.h"
+#import "MLGMLoginViewController.h"
 #import <WebKit/WebKit.h>
 
 static NSString *const GITHUB_CALLBACK_URL  = @"https://github.com/";
 static NSString *const GITHUB_CLIENT_ID     = @"f5df8209612826768527";
 static NSString *const GITHUB_CLIENT_SECRET = @"3cce3f30d1c88bef1cb54f4caa09abeb64863112";
 
-@interface GMLoginViewController () <WKNavigationDelegate>
+@interface MLGMLoginViewController () <WKNavigationDelegate>
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) WKWebView *webView;
 
 @property (nonatomic, copy) void(^completionBlock)(BOOL succeeded);
 @end
 
-@implementation GMLoginViewController
+@implementation MLGMLoginViewController
 
 - (instancetype)initWithCompletionBlock:(void(^)(BOOL succeeded))completionBlock {
     self = [super init];

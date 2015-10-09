@@ -3,12 +3,12 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMStringUtil.h"
+#import "MLGMStringUtil.h"
 
-@implementation GMStringUtil
+@implementation MLGMStringUtil
 + (CGSize)sizeInOneLineOfText:(NSString *)text font:(UIFont *)font{
     CGSize result =CGSizeZero ;
     if (text) {

@@ -3,14 +3,16 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMSearchViewController.h"
-#import "GMRepoCell.h"
-#import "GMUserCell.h"
+#import "MLGMSearchViewController.h"
+#import "MLGMRepoCell.h"
+#import "MLGMUserCell.h"
+#import "WYPopoverController.h"
+#import "MLGMSortViewController.h"
 
-@interface GMSearchViewController () <UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@interface MLGMSearchViewController () <UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 
 @property (nonatomic, strong) UIView *titleView;
@@ -25,7 +27,10 @@
 
 @property (nonatomic, strong) UIView *scrollIndicator;
 
-@property (nonatomic, strong) UIPopoverController *popover;
+@property (nonatomic, strong) WYPopoverController *popover;
+
+@property (nonatomic, assign) BOOL searchTargetIsUser;
+@property (nonatomic, strong) NSString *sortMethod;
 
 //results
 @property (nonatomic, strong) NSArray *repos;
@@ -33,7 +38,7 @@
 
 @end
 
-@implementation GMSearchViewController
+@implementation MLGMSearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,6 +51,14 @@
     [self configureUI];
 }
 
+- (void)setSearchTargetIsUser:(BOOL)searchTargetIsUser {
+    if (_searchTargetIsUser != searchTargetIsUser) {
+        _searchTargetIsUser = searchTargetIsUser;
+        _sortMethod = nil;
+    }
+}
+
+#pragma mark - SubView Configuration
 - (void)configureUI {
     [self configureSearchController];
     [self configureTitleView];
@@ -70,12 +83,14 @@
     _repoButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_repoButton setTitle:NSLocalizedString(@"Repo", @"") forState:UIControlStateNormal];
     [_repoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_repoButton addTarget:self action:@selector(onClickedRepoButton) forControlEvents:UIControlEventTouchUpInside];
     [_titleView addSubview:_repoButton];
     
     _userButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _userButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_userButton setTitle:NSLocalizedString(@"User", @"") forState:UIControlStateNormal];
     [_userButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_userButton addTarget:self action:@selector(onClickedUserButton) forControlEvents:UIControlEventTouchUpInside];
     [_titleView addSubview:_userButton];
     
     _separatorLine = [[UIView alloc] init];
@@ -134,21 +149,22 @@
 }
 
 - (void)onClickedSortButton {
-
+    MLGMSortGroupType sortGroupType = _searchTargetIsUser ? MLGMSortGroupTypeUser : MLGMSortGroupTypeRepo;
+    MLGMSortViewController *vc = [[MLGMSortViewController alloc] initWithSortGroupType:sortGroupType selectedSortMethod:_sortMethod];
+    vc.preferredContentSize = CGSizeMake(250, 44 * 4);
+    vc.delegate = self;
+    
+    _popover = [[WYPopoverController alloc] initWithContentViewController:vc];
+    _popover.delegate = self;
+    [_popover presentPopoverFromRect:CGRectMake(self.view.bounds.size.width - 80, _titleView.bounds.size.height -10, 0, 0) inView:self.view permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
 
-- (void)showPopoverForIPad {
-    if (!_popover) {
-        UIViewController *vc = [[UIViewController alloc] init];
-        vc.preferredContentSize = CGSizeMake(250, 44 * 4);
-        _popover = [[UIPopoverController alloc] initWithContentViewController:vc];
-    }
-    
-    if (!_popover.isPopoverVisible) {
-        [_popover presentPopoverFromRect:CGRectMake(self.view.bounds.size.width - 30, -10, 0, 0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    } else {
-        [_popover dismissPopoverAnimated:YES];
-    }
+- (void)onClickedRepoButton {
+    [self updateContentViewWithSearchTargetStatus:NO];
+}
+
+- (void)onClickedUserButton {
+    [self updateContentViewWithSearchTargetStatus:YES];
 }
 
 #pragma mark - UISearchController Delegate
@@ -156,7 +172,7 @@
     _searchController.searchBar.showsCancelButton = NO;
 }
 
-#pragma mark - UITableView Data Source
+#pragma mark - UITableView Data Source & Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _repoTableView) {
         return 80;
@@ -175,20 +191,49 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
         if (tableView == _repoTableView) {
-            cell = [[GMRepoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            cell = [[MLGMRepoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         } else {
-            cell = [[GMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            cell = [[MLGMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         }
     }
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == _contentView) {
-        CGFloat indicatorOriginX = (_contentView.contentOffset.x == 0) ? 30 : 30 + 100;
-        _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, 50, 2);
+        BOOL searchTargetIsUser = _contentView.contentOffset.x == self.view.bounds.size.width;
+        [self updateContentViewWithSearchTargetStatus:searchTargetIsUser];
     }
+}
+
+- (void)updateContentViewWithSearchTargetStatus:(BOOL)searchTargetIsUser {
+    [self setSearchTargetIsUser:searchTargetIsUser];
+    
+    //update scrollIndicator position
+    CGFloat indicatorOriginX = _searchTargetIsUser ? 30 + 100 : 30;
+    _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, 50, 2);
+    CGFloat scrollViewOffsetX = _searchTargetIsUser ? self.view.bounds.size.width : 0;
+    _contentView.contentOffset = CGPointMake(scrollViewOffsetX, 0);
+}
+
+#pragma mark - WYPopoverController Delegate
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller {
+    _popover.delegate = nil;
+    _popover = nil;
+}
+
+#pragma mark - MLGMSortViewController Delegate
+- (void)sortViewControllerDidSelectSortMethod:(NSString *)sortMethod {
+    _sortMethod = sortMethod;
+    [_popover dismissPopoverAnimated:YES];
+    
+    //search and reload data
+  
 }
 
 @end

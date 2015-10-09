@@ -3,21 +3,22 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMNavigationController.h"
+#import "MLGMNavigationController.h"
 
-@interface GMNavigationController ()
+@interface MLGMNavigationController ()
 
 @end
 
-@implementation GMNavigationController
+@implementation MLGMNavigationController
 
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
     self = [super initWithRootViewController:rootViewController];
     if (self) {
         self.navigationBar.barTintColor = ThemeNavigationBarColor;
+        self.navigationBar.tintColor = [UIColor whiteColor];
         self.navigationBar.translucent = NO;
     }
     return self;

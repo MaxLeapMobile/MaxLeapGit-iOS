@@ -3,17 +3,17 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMMyPageViewController.h"
-#import "GMSearchViewController.h"
+#import "MLGMMyPageViewController.h"
+#import "MLGMSearchViewController.h"
 
-@interface GMMyPageViewController ()
+@interface MLGMMyPageViewController ()
 
 @end
 
-@implementation GMMyPageViewController
+@implementation MLGMMyPageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +25,7 @@
 }
 
 - (void)search {
-    GMSearchViewController *vcSearch = [[GMSearchViewController alloc] init];
+    MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
     [self presentViewController:nav animated:YES completion:nil];
 }

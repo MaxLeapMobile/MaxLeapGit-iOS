@@ -3,21 +3,21 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMIntroductionViewController.h"
-#import "GMLoginViewController.h"
+#import "MLGMIntroductionViewController.h"
+#import "MLGMLoginViewController.h"
 #import "AppDelegate.h"
 
-@interface GMIntroductionViewController ()
+@interface MLGMIntroductionViewController ()
 @property (nonatomic, strong) UIImageView *logo;
 @property (nonatomic, strong) UILabel *textLabel;
 
 @property (nonatomic, strong) UIButton *signInButton;
 @end
 
-@implementation GMIntroductionViewController
+@implementation MLGMIntroductionViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,7 +63,7 @@
 
 #pragma mark - Actions
 - (void)signInWithGitHub {
-    GMLoginViewController *vcLogin = [[GMLoginViewController alloc] initWithCompletionBlock:^(BOOL succeeded){
+    MLGMLoginViewController *vcLogin = [[MLGMLoginViewController alloc] initWithCompletionBlock:^(BOOL succeeded){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showMainViewAfterLogin];
         });

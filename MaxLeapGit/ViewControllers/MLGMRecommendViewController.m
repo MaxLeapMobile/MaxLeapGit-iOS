@@ -3,18 +3,19 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "GMRecommendViewController.h"
-#import "GMSearchViewController.h"
-#import "GMGenesViewController.h"
+#import "MLGMRecommendViewController.h"
+#import "MLGMSearchViewController.h"
+#import "MLGMGenesViewController.h"
+#import "MLGMNavigationController.h"
 
-@interface GMRecommendViewController ()
+@interface MLGMRecommendViewController ()
 
 @end
 
-@implementation GMRecommendViewController
+@implementation MLGMRecommendViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,13 +28,13 @@
 }
 
 - (void)search {
-    GMSearchViewController *vcSearch = [[GMSearchViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
+    MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
+    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcSearch];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)showGitHubGenes {
-    GMGenesViewController *vcGenes = [[GMGenesViewController alloc] init];
+    MLGMGenesViewController *vcGenes = [[MLGMGenesViewController alloc] init];
     [self.navigationController pushViewController:vcGenes animated:YES];
 }
 
