@@ -11,14 +11,14 @@
 
 @interface MLGMGenesViewController ()
 @property (nonatomic, strong) NSArray *myGenes;
+
 @end
 
 @implementation MLGMGenesViewController
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-    
+        
     }
     return self;
 }
@@ -26,11 +26,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = NSLocalizedString(@"Genes", @"");
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStyleDone target:self action:@selector(cancel)];
+    
     _myGenes = @[@"iOS", @"Android"];
 }
 
-#pragma mark - Table view data source
+- (void)cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
+#pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
@@ -62,7 +68,7 @@
     if (section == 0) {
         return nil;
     } else {
-        return NSLocalizedString(@"My Gene", @"");
+        return NSLocalizedString(@"My Genes", @"");
     }
 }
 

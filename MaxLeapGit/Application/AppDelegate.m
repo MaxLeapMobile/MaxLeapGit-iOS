@@ -67,10 +67,9 @@
     nav2.title = NSLocalizedString(@"Recommend", @"");
     
     UIViewController *vc3 = [[MLGMMyPageViewController alloc] init];
-    UINavigationController *nav3 = [[MLGMNavigationController alloc] initWithRootViewController:vc3];
-    nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
+    vc3.title = NSLocalizedString(@"Mine", @"");
     
-    self.tabBarController.viewControllers = @[nav1, nav2, nav3];
+    self.tabBarController.viewControllers = @[nav1, nav2, vc3];
     self.tabBarController.delegate = self;
 }
 
@@ -86,6 +85,7 @@
         [tabBarController presentViewController:navRecommend animated:YES completion:^{
             [tabBarController setSelectedIndex:currentlySelectedIndex];
         }];
+        return NO;
     }
     return YES;
 }

@@ -17,6 +17,7 @@
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E36999EA1BC7D18900093C62 /* MLGMRepoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36999E91BC7D18900093C62 /* MLGMRepoDetailController.m */; settings = {ASSET_TAGS = (); }; };
 		E36999EE1BC8C95200093C62 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36999ED1BC8C95200093C62 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
+		E36999F11BC9097400093C62 /* MLGMUserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36999F01BC9097400093C62 /* MLGMUserDetailView.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3DE1BC616D400954095 /* MLGMTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3DD1BC616D400954095 /* MLGMTimeLineViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3E11BC6171000954095 /* MLGMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E01BC6171000954095 /* MLGMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3E41BC6172800954095 /* MLGMMyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E31BC6172800954095 /* MLGMMyPageViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -67,6 +68,8 @@
 		E36999E91BC7D18900093C62 /* MLGMRepoDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoDetailController.m; sourceTree = "<group>"; };
 		E36999EC1BC8C95200093C62 /* MLGMRecommendEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendEmptyView.h; sourceTree = "<group>"; };
 		E36999ED1BC8C95200093C62 /* MLGMRecommendEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendEmptyView.m; sourceTree = "<group>"; };
+		E36999EF1BC9097400093C62 /* MLGMUserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMUserDetailView.h; path = MaxLeapGit/ViewControllers/MLGMUserDetailView.h; sourceTree = SOURCE_ROOT; };
+		E36999F01BC9097400093C62 /* MLGMUserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMUserDetailView.m; path = MaxLeapGit/ViewControllers/MLGMUserDetailView.m; sourceTree = SOURCE_ROOT; };
 		E3D1B3DC1BC616D400954095 /* MLGMTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineViewController.h; sourceTree = "<group>"; };
 		E3D1B3DD1BC616D400954095 /* MLGMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineViewController.m; sourceTree = "<group>"; };
 		E3D1B3DF1BC6171000954095 /* MLGMRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendViewController.h; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				E3D1B3FE1BC764E100954095 /* MLGMRepoCell.m */,
 				E3D1B4001BC764EE00954095 /* MLGMUserCell.h */,
 				E3D1B4011BC764EE00954095 /* MLGMUserCell.m */,
+				E36999EF1BC9097400093C62 /* MLGMUserDetailView.h */,
+				E36999F01BC9097400093C62 /* MLGMUserDetailView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
 				E36999EA1BC7D18900093C62 /* MLGMRepoDetailController.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
+				E36999F11BC9097400093C62 /* MLGMUserDetailView.m in Sources */,
 				E3D1B3FC1BC764D000954095 /* MLGMTimeLineCell.m in Sources */,
 				E3D1B3DE1BC616D400954095 /* MLGMTimeLineViewController.m in Sources */,
 				E3D1B4221BC7AC4300954095 /* MLGMSortViewController.m in Sources */,
