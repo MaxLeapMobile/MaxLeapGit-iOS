@@ -13,8 +13,8 @@
 #import "MLGMIntroductionViewController.h"
 #import "MLGMNavigationController.h"
 
-@interface AppDelegate ()
-
+@interface AppDelegate () <UITabBarControllerDelegate>
+@property (nonatomic, assign) NSUInteger selectedControllerIndex;
 @end
 
 @implementation AppDelegate
@@ -61,15 +61,33 @@
     UINavigationController *nav1 = [[MLGMNavigationController alloc] initWithRootViewController:vc1];
     nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
    
-    UIViewController *vc2 = [[MLGMRecommendViewController alloc] init];
+    UIViewController *vc2 = [[MLGMTimeLineViewController alloc] init];
     UINavigationController *nav2 = [[MLGMNavigationController alloc] initWithRootViewController:vc2];
-    nav2.title = vc2.title = NSLocalizedString(@"Recommend", @"");
+    vc2.title = NSLocalizedString(@"TimeLine", @"");
+    nav2.title = NSLocalizedString(@"Recommend", @"");
     
     UIViewController *vc3 = [[MLGMMyPageViewController alloc] init];
     UINavigationController *nav3 = [[MLGMNavigationController alloc] initWithRootViewController:vc3];
     nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
     
     self.tabBarController.viewControllers = @[nav1, nav2, nav3];
+    self.tabBarController.delegate = self;
+}
+
+
+#pragma mark - UITabBarControllerDelegate
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    UIViewController *recommendController = self.tabBarController.viewControllers[1];
+    if (viewController == recommendController) {
+        NSUInteger currentlySelectedIndex = tabBarController.selectedIndex;
+        UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
+        UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
+        navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
+        [tabBarController presentViewController:navRecommend animated:YES completion:^{
+            [tabBarController setSelectedIndex:currentlySelectedIndex];
+        }];
+    }
+    return YES;
 }
 
 @end

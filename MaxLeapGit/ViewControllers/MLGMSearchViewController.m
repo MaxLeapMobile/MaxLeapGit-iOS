@@ -11,6 +11,7 @@
 #import "MLGMUserCell.h"
 #import "WYPopoverController.h"
 #import "MLGMSortViewController.h"
+#import "MLGMRepoDetailController.h"
 
 @interface MLGMSearchViewController () <UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
@@ -201,6 +202,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == _repoTableView) {
+        UIViewController *vc = [[MLGMRepoDetailController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - UIScrollView Delegate

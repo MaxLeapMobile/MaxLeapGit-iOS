@@ -15,6 +15,8 @@
 		B43F3FC11BB126450036ECF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FC01BB126450036ECF6 /* main.m */; };
 		B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E36999EA1BC7D18900093C62 /* MLGMRepoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36999E91BC7D18900093C62 /* MLGMRepoDetailController.m */; settings = {ASSET_TAGS = (); }; };
+		E36999EE1BC8C95200093C62 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36999ED1BC8C95200093C62 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3DE1BC616D400954095 /* MLGMTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3DD1BC616D400954095 /* MLGMTimeLineViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3E11BC6171000954095 /* MLGMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E01BC6171000954095 /* MLGMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3D1B3E41BC6172800954095 /* MLGMMyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1B3E31BC6172800954095 /* MLGMMyPageViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -61,6 +63,10 @@
 		B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
 		B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.0.0.a; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E36999E81BC7D18900093C62 /* MLGMRepoDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepoDetailController.h; sourceTree = "<group>"; };
+		E36999E91BC7D18900093C62 /* MLGMRepoDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoDetailController.m; sourceTree = "<group>"; };
+		E36999EC1BC8C95200093C62 /* MLGMRecommendEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendEmptyView.h; sourceTree = "<group>"; };
+		E36999ED1BC8C95200093C62 /* MLGMRecommendEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendEmptyView.m; sourceTree = "<group>"; };
 		E3D1B3DC1BC616D400954095 /* MLGMTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineViewController.h; sourceTree = "<group>"; };
 		E3D1B3DD1BC616D400954095 /* MLGMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineViewController.m; sourceTree = "<group>"; };
 		E3D1B3DF1BC6171000954095 /* MLGMRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendViewController.h; sourceTree = "<group>"; };
@@ -311,6 +317,8 @@
 			children = (
 				E3D1B3DF1BC6171000954095 /* MLGMRecommendViewController.h */,
 				E3D1B3E01BC6171000954095 /* MLGMRecommendViewController.m */,
+				E36999EC1BC8C95200093C62 /* MLGMRecommendEmptyView.h */,
+				E36999ED1BC8C95200093C62 /* MLGMRecommendEmptyView.m */,
 			);
 			name = Recommend;
 			sourceTree = "<group>";
@@ -342,6 +350,8 @@
 				E3D1B3F01BC63DAF00954095 /* MLGMSearchViewController.m */,
 				E3D1B4201BC7AC4300954095 /* MLGMSortViewController.h */,
 				E3D1B4211BC7AC4300954095 /* MLGMSortViewController.m */,
+				E36999E81BC7D18900093C62 /* MLGMRepoDetailController.h */,
+				E36999E91BC7D18900093C62 /* MLGMRepoDetailController.m */,
 				E3D1B3F21BC63FE500954095 /* MLGMGenesViewController.h */,
 				E3D1B3F31BC63FE500954095 /* MLGMGenesViewController.m */,
 				E3D1B3F61BC6438E00954095 /* MLGMAddNewGeneViewController.h */,
@@ -506,6 +516,7 @@
 				E3D1B3FF1BC764E100954095 /* MLGMRepoCell.m in Sources */,
 				E3D1B3E41BC6172800954095 /* MLGMMyPageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
+				E36999EA1BC7D18900093C62 /* MLGMRepoDetailController.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
 				E3D1B3FC1BC764D000954095 /* MLGMTimeLineCell.m in Sources */,
 				E3D1B3DE1BC616D400954095 /* MLGMTimeLineViewController.m in Sources */,
@@ -513,6 +524,7 @@
 				E3D1B3F81BC6438E00954095 /* MLGMAddNewGeneViewController.m in Sources */,
 				E3D1B40C1BC7996B00954095 /* MLGMNavigationController.m in Sources */,
 				E3D1B3EE1BC6203600954095 /* MLGMLoginViewController.m in Sources */,
+				E36999EE1BC8C95200093C62 /* MLGMRecommendEmptyView.m in Sources */,
 				E3D1B3E11BC6171000954095 /* MLGMRecommendViewController.m in Sources */,
 				E3D1B4021BC764EE00954095 /* MLGMUserCell.m in Sources */,
 				E3D1B3F41BC63FE500954095 /* MLGMGenesViewController.m in Sources */,
