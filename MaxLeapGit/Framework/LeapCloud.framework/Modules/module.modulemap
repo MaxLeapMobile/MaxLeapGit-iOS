@@ -1,0 +1,6 @@
+framework module LeapCloud {
+  umbrella header "LeapCloud.h"
+
+  export *
+  module * { export * }
+}

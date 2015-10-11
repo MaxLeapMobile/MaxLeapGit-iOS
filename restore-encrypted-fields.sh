@@ -5,12 +5,14 @@ if [ -f $maxleapgitconfig ]; then
     
     LINE=`/usr/libexec/PlistBuddy ${maxleapgitconfig} -c print | grep = | tr -d ' '`
     
-    for i in `find ${project_root} -name "*.m"`; do
+    for i in `find ${project_root} -name "*.pch"`; do
 
 	for replaceItem in $LINE; do
-	    key=`echo $replaceItem | awk -F = '{print $1}'`
-	    value=`echo $replaceItem | awk -F = '{print $2}'`
-	    sed -e "/CONFIGURE(@\"/s/$key/$value/g"  $i > ${i}.tmp && mv ${i}.tmp ${i}
+	    keyInPlist=`echo $replaceItem | awk -F = '{print $1}'`
+	    valueInPlist=`echo $replaceItem | awk -F = '{print $2}'`
+        pattern="CONFIGURE(@\"${keyInPlist}";
+        replacement="CONFIGURE(@\"${valueInPlist}";
+        sed -e s/$pattern/$replacement/g $i > ${i}.tmp && mv ${i}.tmp ${i}
 	done
 
       echo "${i} is done"

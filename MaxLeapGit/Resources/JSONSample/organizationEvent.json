@@ -1,0 +1,103 @@
+ [
+  {
+  "id": "3227147639",
+  "type": "IssueCommentEvent",
+  "actor": {
+  "id": 6032869,
+  "login": "paperboyo",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/paperboyo",
+  "avatar_url": "https://avatars.githubusercontent.com/u/6032869?"
+  },
+  "repo": {
+  "id": 4370755,
+  "name": "guardian/frontend",
+  "url": "https://api.github.com/repos/guardian/frontend"
+  },
+  "payload": {
+  "action": "created",
+  "issue": {
+  "url": "https://api.github.com/repos/guardian/frontend/issues/10331",
+  "labels_url": "https://api.github.com/repos/guardian/frontend/issues/10331/labels{/name}",
+  "comments_url": "https://api.github.com/repos/guardian/frontend/issues/10331/comments",
+  "events_url": "https://api.github.com/repos/guardian/frontend/issues/10331/events",
+  "html_url": "https://github.com/guardian/frontend/issues/10331",
+  "id": 104044717,
+  "number": 10331,
+  "title": "Back button not working correctly on Firefox 40.0.3, Windows 8.1",
+  "user": {
+  "login": "niksilver",
+  "id": 149467,
+  "avatar_url": "https://avatars.githubusercontent.com/u/149467?v=3",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/niksilver",
+  "html_url": "https://github.com/niksilver",
+  "followers_url": "https://api.github.com/users/niksilver/followers",
+  "following_url": "https://api.github.com/users/niksilver/following{/other_user}",
+  "gists_url": "https://api.github.com/users/niksilver/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/niksilver/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/niksilver/subscriptions",
+  "organizations_url": "https://api.github.com/users/niksilver/orgs",
+  "repos_url": "https://api.github.com/users/niksilver/repos",
+  "events_url": "https://api.github.com/users/niksilver/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/niksilver/received_events",
+  "type": "User",
+  "site_admin": false
+  },
+  "labels": [
+             {
+             "url": "https://api.github.com/repos/guardian/frontend/labels/sustain",
+             "name": "sustain",
+             "color": "197caa"
+             }
+             ],
+  "state": "open",
+  "locked": false,
+  "assignee": null,
+  "milestone": null,
+  "comments": 11,
+  "created_at": "2015-08-31T12:27:36Z",
+  "updated_at": "2015-10-10T22:48:29Z",
+  "closed_at": null,
+  "body": "Bug occurs on Firefox 40.0.3 (and some previous versions from memory). Does not occur on IE11. Both tested on Windows 8.1.\r\n\r\nSteps to reproduce:\r\n\r\n1. Open a new browser tab. (This seems to be an important step.)\r\n1. Go to http://theguardian.com by typing it directly into the location box.\r\n1. Click on a link on the home page. Today I chose http://www.theguardian.com/commentisfree/2015/aug/31/serena-williams-best-because-brains-not-body\r\n1. Notice the browser's Back/Forward buttons are displaying correctly: Only Back is active; there is no Forward button.\r\n1. Click the browser's Back button.\r\n1. Then...\r\n  * What actually happens: The page doesn't change at all. But the browser's Forward button becomes active.\r\n  * What should happen: The page should go back to the home page.\r\n\r\nOnce we've got to that point we can then continue to find more weirdness:\r\n\r\n1. Click on another link. I chose http://www.theguardian.com/sport/serena-williams\r\n1. Click the Back button again.\r\n1. Then...\r\n  * What actually happens: The page goes back to the original article (good!) but the now the browser's Forward button is not active.\r\n  * What should have happened: The page should indeed have gone back to the original article, but the browser's Forward button should be active."
+  },
+  "comment": {
+  "url": "https://api.github.com/repos/guardian/frontend/issues/comments/147133054",
+  "html_url": "https://github.com/guardian/frontend/issues/10331#issuecomment-147133054",
+  "issue_url": "https://api.github.com/repos/guardian/frontend/issues/10331",
+  "id": 147133054,
+  "user": {
+  "login": "paperboyo",
+  "id": 6032869,
+  "avatar_url": "https://avatars.githubusercontent.com/u/6032869?v=3",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/paperboyo",
+  "html_url": "https://github.com/paperboyo",
+  "followers_url": "https://api.github.com/users/paperboyo/followers",
+  "following_url": "https://api.github.com/users/paperboyo/following{/other_user}",
+  "gists_url": "https://api.github.com/users/paperboyo/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/paperboyo/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/paperboyo/subscriptions",
+  "organizations_url": "https://api.github.com/users/paperboyo/orgs",
+  "repos_url": "https://api.github.com/users/paperboyo/repos",
+  "events_url": "https://api.github.com/users/paperboyo/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/paperboyo/received_events",
+  "type": "User",
+  "site_admin": false
+  },
+  "created_at": "2015-10-10T22:48:29Z",
+  "updated_at": "2015-10-10T22:48:29Z",
+  "body": "@niksilver Thanks for checking. Back to the drawing board, then..."
+  }
+  },
+  "public": true,
+  "created_at": "2015-10-10T22:48:31Z",
+  "org": {
+  "id": 164318,
+  "login": "guardian",
+  "gravatar_id": "",
+  "url": "https://api.github.com/orgs/guardian",
+  "avatar_url": "https://avatars.githubusercontent.com/u/164318?"
+  }
+  }
+  ]
