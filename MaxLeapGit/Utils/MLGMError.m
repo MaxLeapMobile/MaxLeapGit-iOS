@@ -37,6 +37,9 @@ NSString* const MLGMErrorDomain = @"MFLMErrorDomain";
             case MLGMErrorTypeBadCredentials:
                 message = NSLocalizedString(@"非法Access Token", nil);
                 break;
+            case MLGMErrorTypeNoOnlineAccount:
+                message = NSLocalizedString(@"没有登录的账号", nil);
+                break;
             default:
                 break;
         }

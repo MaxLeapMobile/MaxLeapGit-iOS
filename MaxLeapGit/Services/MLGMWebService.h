@@ -119,7 +119,7 @@ static NSUInteger const kPerPage = 30;
 /**
  * 保存用户的基因
  */
-- (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)())completion;
+- (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion;
 
 /**
  * 获取指定用户的基因

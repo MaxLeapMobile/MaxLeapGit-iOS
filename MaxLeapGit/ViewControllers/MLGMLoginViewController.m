@@ -43,7 +43,6 @@
 #pragma mark- Action
 - (void)loginButtonPressed:(id)sender {
     [self presentAuthViewController];
-    return;
 }
 
 #pragma mark- Public Method

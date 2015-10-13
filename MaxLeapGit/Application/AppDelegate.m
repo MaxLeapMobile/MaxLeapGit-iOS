@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <ILSLeapCloud/ILSLeapCloud.h>
 #import "MLGMLoginViewController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
@@ -21,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureGlobalAppearance];
+    [self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureCocoaLumberjack];
     [self configureFlurry];
@@ -65,6 +67,10 @@
                                           forState:UIControlStateNormal];
     [[UINavigationBar appearance] setBackgroundImage:barBGImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:barLineImage];
+}
+
+- (void)configureLeapCloud {
+    [ILSLeapCloud setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key];
 }
 
 - (void)configureMagicalRecord {

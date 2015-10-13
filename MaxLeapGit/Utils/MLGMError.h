@@ -14,7 +14,8 @@ typedef NS_ENUM(NSInteger, MLGMErrorType) {
     MLGMErrorTypeServerDataFormateError,
     MLGMErrorTypeServerDataNil,
     MLGMErrorTypeServerResponseError,
-    MLGMErrorTypeBadCredentials
+    MLGMErrorTypeBadCredentials,
+    MLGMErrorTypeNoOnlineAccount
 };
 
 @interface MLGMError : NSError

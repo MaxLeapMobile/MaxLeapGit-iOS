@@ -6,12 +6,14 @@
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
+#import <LeapCloud/LeapCloud.h>
 #import "MLGMWebService.h"
 #import "MLGMWebService+Convenience.h"
 #import "MLGMAccount.h"
 #import "MLGMActorProfile.h"
 #import "MLGMEvent.h"
 #import "MLGMRepo.h"
+#import "MLGMGene.h"
 
 @interface MLGMWebService()
 @property (nonatomic, strong) NSManagedObjectContext *defaultContext;
@@ -20,7 +22,7 @@
 
 @implementation MLGMWebService
 
-static int totalPageForHeadField(NSDictionary *responHeaderFields) {
+static int totalPageInHeadField(NSDictionary *responHeaderFields) {
     int totalPage = 0;
     if ([responHeaderFields.allKeys containsObject:@"Link"]) {
         NSString *linkValue = responHeaderFields[@"link"];
@@ -156,7 +158,7 @@ static NSArray *supportEvent() {
             return;
         }
         
-        int orgCount = totalPageForHeadField(responHeaderFields);
+        int orgCount = totalPageInHeadField(responHeaderFields);
  
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
@@ -175,7 +177,7 @@ static NSArray *supportEvent() {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, orgName, error);
             if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"orgs/%@/events?page=1&per_page=1 api data format invalid:%@", orgName, error.description);
+                DDLogError(@"orgs/%@/ api data format invalid:%@", orgName, error.description);
             }
             return;
         }
@@ -188,8 +190,8 @@ static NSArray *supportEvent() {
                 DDLogError(@"/orgs/%@ api data format invalid:%@", orgName, error.description);
             }
             
-            MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:orgName];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, userProfile.updatedAt, orgName, error);
+            MLGMActorProfile *orgProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:orgName];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, orgProfile.updatedAt, orgName, error);
         }];
     }];
 }
@@ -207,7 +209,7 @@ static NSArray *supportEvent() {
             return;
         }
         
-        int starCount = totalPageForHeadField(responHeaderFields);
+        int starCount = totalPageInHeadField(responHeaderFields);
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
@@ -411,4 +413,33 @@ static NSArray *supportEvent() {
         [NSClassFromString([entityDescription managedObjectClassName]) MR_truncateAll];
     }];
 }
+
+- (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
+    MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
+    if (!account) {
+        NSError *error = [MLGMError errorWithCode:MLGMErrorTypeNoOnlineAccount message:nil];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
+    }
+    
+    NSNumber *loginName = account.actorProfile.loginName;
+    LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
+                                            dictionary:@{@"language":gene.language, @"skill": gene.skill, @"userName" : @"xdream86"}];
+    [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"%d", succeeded);
+    }];
+}
+
+- (void)geneForUserName:(NSString *)userName completion:(void(^)())completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userName = %@", userName];
+    LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicate];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        [objects enumerateObjectsUsingBlock:^(LCObject *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *userName = [obj valueForKey:@"userName"];
+            NSString *language = [obj valueForKey:@"language"];
+            NSString *skill  = [obj valueForKey:@"skill"];
+            NSLog(@"%@, %@, %@", userName, language, skill);
+        }];
+    }];
+}
+
 @end

@@ -86,7 +86,7 @@
 /*!
  The ACL for this object.
  */
-@property (nonatomic, strong) LCACL *ACL;
+@property (nonatomic, strong, readonly) LCACL *ACL;
 
 /*!
  Returns an array of the keys contained in this object. This does not include createdAt, updatedAt, authData, or objectId. It does include things like username and ACL.

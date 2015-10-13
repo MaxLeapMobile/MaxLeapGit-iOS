@@ -205,8 +205,8 @@
 /**
  *  Deletes a collection of files all at once asynchronously and excutes the block when done.
  *
- *  @param fileList A collection of files to delete.
- *  @param block    The block should have the following argument signature: (BOOL success, NSError *error)
+ *  @param filePaths The remote paths of files to delete.
+ *  @param block     The block should have the following argument signature: (BOOL success, NSError *error)
  */
 + (void)deleteAllInBackground:(NSArray *)filePaths block:(void (^)(BOOL isAllDeleted, NSArray *deleted, NSError *error))block;
 

@@ -16,7 +16,6 @@
 #import <LeapCloud/LCQuery.h>
 #import <LeapCloud/LCSearchQuery.h>
 #import <LeapCloud/LCInstallation.h>
-#import <LeapCloud/LCRole.h>
 #import <LeapCloud/LCUser.h>
 #import <LeapCloud/LCAnonymousUtils.h>
 #import <LeapCloud/LCPassport.h>

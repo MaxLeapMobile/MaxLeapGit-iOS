@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/LCACL.h</key>
 		<data>
-		t8O99B8Od1XilU1lhem97w+3+YA=
+		lOgMxGZEwt3kKvhDNCQ+szYojYE=
 		</data>
 		<key>Headers/LCACurrency.h</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/LCFile.h</key>
 		<data>
-		tNzK/G3VvnUMbiAF9/2LSFv11rM=
+		ZnBwfPa3j7UNH4Mrz/SQF8tbZMM=
 		</data>
 		<key>Headers/LCGAItem.h</key>
 		<data>
@@ -78,15 +78,15 @@
 		</data>
 		<key>Headers/LCObject.h</key>
 		<data>
-		2c5S0mPlJMcUlQ27SzSwqghcPIA=
+		aYKMMlpVt/R5fPUKVkEE+QZ0mXw=
 		</data>
 		<key>Headers/LCPassport.h</key>
 		<data>
-		6mXdN+qX4/cLL90j8Fla1QI1574=
+		IOdisyxPcEWrUO36OyTl6rYsJV4=
 		</data>
 		<key>Headers/LCPrivateFile.h</key>
 		<data>
-		m6SBSPfFEa9KT9bUo+iP9+HYZAU=
+		GF1T1e/BBeTIbIE5yVcO0qbzV4Y=
 		</data>
 		<key>Headers/LCQuery.h</key>
 		<data>
@@ -99,10 +99,6 @@
 		<key>Headers/LCRelation.h</key>
 		<data>
 		hLmiwh0oI37kqJR+QnzLSmqfMl4=
-		</data>
-		<key>Headers/LCRole.h</key>
-		<data>
-		BqDj5E2W8AXkEV2JMYriMTKMnNs=
 		</data>
 		<key>Headers/LCSearchQuery.h</key>
 		<data>
@@ -118,11 +114,11 @@
 		</data>
 		<key>Headers/LeapCloud.h</key>
 		<data>
-		bZ/97ih6/7xrYVNgiIGLEbtXR+4=
+		QJ8r7PFHm+DAPIu+MKduQhLdqa0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		yBE9jpAhUtXuvMa0ZaOHJCKBjXE=
+		gRP1H2kQeXdPOlMFLgE28pNhFIg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -139,10 +135,6 @@
 		<key>PrivateHeaders/LCFileHash.h</key>
 		<data>
 		qKHSvIUa342zCMariBWavgLxv1U=
-		</data>
-		<key>PrivateHeaders/LCKeychainStorage.h</key>
-		<data>
-		kA61kbbT8fXCVN1pGgGEwMsJ18A=
 		</data>
 		<key>PrivateHeaders/LCObjectOfflineCoder.h</key>
 		<data>
@@ -190,7 +182,7 @@
 	<dict>
 		<key>Headers/LCACL.h</key>
 		<data>
-		t8O99B8Od1XilU1lhem97w+3+YA=
+		lOgMxGZEwt3kKvhDNCQ+szYojYE=
 		</data>
 		<key>Headers/LCACurrency.h</key>
 		<data>
@@ -226,7 +218,7 @@
 		</data>
 		<key>Headers/LCFile.h</key>
 		<data>
-		tNzK/G3VvnUMbiAF9/2LSFv11rM=
+		ZnBwfPa3j7UNH4Mrz/SQF8tbZMM=
 		</data>
 		<key>Headers/LCGAItem.h</key>
 		<data>
@@ -262,15 +254,15 @@
 		</data>
 		<key>Headers/LCObject.h</key>
 		<data>
-		2c5S0mPlJMcUlQ27SzSwqghcPIA=
+		aYKMMlpVt/R5fPUKVkEE+QZ0mXw=
 		</data>
 		<key>Headers/LCPassport.h</key>
 		<data>
-		6mXdN+qX4/cLL90j8Fla1QI1574=
+		IOdisyxPcEWrUO36OyTl6rYsJV4=
 		</data>
 		<key>Headers/LCPrivateFile.h</key>
 		<data>
-		m6SBSPfFEa9KT9bUo+iP9+HYZAU=
+		GF1T1e/BBeTIbIE5yVcO0qbzV4Y=
 		</data>
 		<key>Headers/LCQuery.h</key>
 		<data>
@@ -283,10 +275,6 @@
 		<key>Headers/LCRelation.h</key>
 		<data>
 		hLmiwh0oI37kqJR+QnzLSmqfMl4=
-		</data>
-		<key>Headers/LCRole.h</key>
-		<data>
-		BqDj5E2W8AXkEV2JMYriMTKMnNs=
 		</data>
 		<key>Headers/LCSearchQuery.h</key>
 		<data>
@@ -302,7 +290,7 @@
 		</data>
 		<key>Headers/LeapCloud.h</key>
 		<data>
-		bZ/97ih6/7xrYVNgiIGLEbtXR+4=
+		QJ8r7PFHm+DAPIu+MKduQhLdqa0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -319,10 +307,6 @@
 		<key>PrivateHeaders/LCFileHash.h</key>
 		<data>
 		qKHSvIUa342zCMariBWavgLxv1U=
-		</data>
-		<key>PrivateHeaders/LCKeychainStorage.h</key>
-		<data>
-		kA61kbbT8fXCVN1pGgGEwMsJ18A=
 		</data>
 		<key>PrivateHeaders/LCObjectOfflineCoder.h</key>
 		<data>

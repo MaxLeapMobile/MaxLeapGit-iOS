@@ -86,7 +86,6 @@
 /*!
  Signs up the passport asynchronously. Make sure that password, username and email are set. The capthca also cannot be nil. This will also enforce that the username and email isn't already taken.
  
- @param passport    The new passport to create.
  @param captcha     The captcha
  @param block       The block to execute. The block should have the following argument signature: (BOOL succeeded, NSError *error)
  */

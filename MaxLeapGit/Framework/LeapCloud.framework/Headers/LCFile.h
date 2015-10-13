@@ -80,7 +80,6 @@
  Saves the file asynchronously and executes the given resultBlock. Executes the progressBlock periodically with the percent
  progress. progressBlock will get called with 100 before resultBlock is called.
  
- @param file    The file to save.
  @param block   The block should have the following argument signature: (BOOL succeeded, NSError *error)
  @param progressBlock The block should have the following argument signature: (int percentDone)
  */

@@ -21,8 +21,6 @@
 		B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = B410BAB41BCA359C00E24AFE /* APIReadMe.md */; settings = {ASSET_TAGS = (); }; };
 		B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAB91BCA36EC00E24AFE /* userPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */; settings = {ASSET_TAGS = (); }; };
-		B41193471BC6BD9E0069483C /* ILSLeapCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193451BC6BD9E0069483C /* ILSLeapCloud.framework */; settings = {ASSET_TAGS = (); }; };
-		B41193481BC6BD9F0069483C /* LeapCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193461BC6BD9E0069483C /* LeapCloud.framework */; settings = {ASSET_TAGS = (); }; };
 		B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193491BC6BE6D0069483C /* libz.tbd */; };
 		B411934C1BC6BE7F0069483C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B411934B1BC6BE7F0069483C /* libsqlite3.tbd */; };
 		B42264E01BCB6E0B00CD5634 /* reposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B42264DF1BCB6E0B00CD5634 /* reposPattern.json */; settings = {ASSET_TAGS = (); }; };
@@ -44,6 +42,8 @@
 		B423C3661BCCBC190087CE3B /* MLGMUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B423C3611BCCBC190087CE3B /* MLGMUserCell.m */; settings = {ASSET_TAGS = (); }; };
 		B423C3671BCCBC190087CE3B /* MLGMUserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B423C3631BCCBC190087CE3B /* MLGMUserDetailView.m */; settings = {ASSET_TAGS = (); }; };
 		B423C36A1BCCBC340087CE3B /* MLGMStringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B423C3691BCCBC340087CE3B /* MLGMStringUtil.m */; settings = {ASSET_TAGS = (); }; };
+		B423C36D1BCCDDD50087CE3B /* ILSLeapCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B423C36B1BCCDDD50087CE3B /* ILSLeapCloud.framework */; settings = {ASSET_TAGS = (); }; };
+		B423C36E1BCCDDD50087CE3B /* LeapCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B423C36C1BCCDDD50087CE3B /* LeapCloud.framework */; settings = {ASSET_TAGS = (); }; };
 		B43F3F981BB10E180036ECF6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B43F3F971BB10E180036ECF6 /* Images.xcassets */; };
 		B43F3FA71BB10E180036ECF6 /* MaxLeapGitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FA61BB10E180036ECF6 /* MaxLeapGitTests.m */; };
 		B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FBB1BB10F6A0036ECF6 /* AppDelegate.m */; };
@@ -107,8 +107,6 @@
 		B410BAC81BCA406300E24AFE /* repos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = repos.json; sourceTree = "<group>"; };
 		B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = timelineEventPattern.json; sourceTree = "<group>"; };
 		B410BAE11BCA851A00E24AFE /* staredRepo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = staredRepo.json; sourceTree = "<group>"; };
-		B41193451BC6BD9E0069483C /* ILSLeapCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ILSLeapCloud.framework; sourceTree = "<group>"; };
-		B41193461BC6BD9E0069483C /* LeapCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LeapCloud.framework; sourceTree = "<group>"; };
 		B41193491BC6BE6D0069483C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B411934B1BC6BE7F0069483C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B42264DF1BCB6E0B00CD5634 /* reposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reposPattern.json; sourceTree = "<group>"; };
@@ -166,6 +164,8 @@
 		B423C3631BCCBC190087CE3B /* MLGMUserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMUserDetailView.m; sourceTree = "<group>"; };
 		B423C3681BCCBC340087CE3B /* MLGMStringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMStringUtil.h; sourceTree = "<group>"; };
 		B423C3691BCCBC340087CE3B /* MLGMStringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMStringUtil.m; sourceTree = "<group>"; };
+		B423C36B1BCCDDD50087CE3B /* ILSLeapCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ILSLeapCloud.framework; sourceTree = "<group>"; };
+		B423C36C1BCCDDD50087CE3B /* LeapCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LeapCloud.framework; sourceTree = "<group>"; };
 		B43F3F871BB10E180036ECF6 /* MaxLeapGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaxLeapGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B43F3F8B1BB10E180036ECF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B43F3F971BB10E180036ECF6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -209,10 +209,10 @@
 			files = (
 				B411934C1BC6BE7F0069483C /* libsqlite3.tbd in Frameworks */,
 				B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */,
-				B41193481BC6BD9F0069483C /* LeapCloud.framework in Frameworks */,
-				B41193471BC6BD9E0069483C /* ILSLeapCloud.framework in Frameworks */,
-				B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */,
+				B423C36E1BCCDDD50087CE3B /* LeapCloud.framework in Frameworks */,
+				B423C36D1BCCDDD50087CE3B /* ILSLeapCloud.framework in Frameworks */,
 				B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */,
+				B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,8 +429,8 @@
 		B43F3FB11BB10F570036ECF6 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				B41193451BC6BD9E0069483C /* ILSLeapCloud.framework */,
-				B41193461BC6BD9E0069483C /* LeapCloud.framework */,
+				B423C36B1BCCDDD50087CE3B /* ILSLeapCloud.framework */,
+				B423C36C1BCCDDD50087CE3B /* LeapCloud.framework */,
 				B43F3FC21BB12BCB0036ECF6 /* Flurry */,
 			);
 			path = Framework;
