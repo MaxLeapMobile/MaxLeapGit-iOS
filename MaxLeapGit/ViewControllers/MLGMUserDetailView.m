@@ -98,19 +98,19 @@
 
 #pragma mark - Actions
 - (void)onClickedFollowersButton {
-    
+    BLOCK_SAFE_RUN(_followersButtonAction);
 }
 
 - (void)onClickedFollowingButton {
-    
+    BLOCK_SAFE_RUN(_followingButtonAction);
 }
 
 - (void)onClickedReposButton {
-    
+    BLOCK_SAFE_RUN(_reposButtonAction);
 }
 
 - (void)onClickedStarsButton {
-    
+    BLOCK_SAFE_RUN(_starsButtonAction);
 }
 
 @end

@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
 #import "MLGMSearchViewController.h"
@@ -176,7 +176,7 @@
 #pragma mark - UITableView Data Source & Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _repoTableView) {
-        return 80;
+        return 100;
     } else {
         return 60;
     }

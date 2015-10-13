@@ -8,6 +8,7 @@
 
 #import "MLGMRepoDetailController.h"
 #import <WebKit/WebKit.h>
+#import "MLGMTabBarController.h"
 
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 2
@@ -25,20 +26,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
    
-    self.title = @"AFNetworking";
+    if (_url.length) {
+        NSArray *array = [_url componentsSeparatedByString:@"/"];
+        self.title = [array lastObject];
+    }
+    
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
     [self configureWebView];
     [self configureToolbarView];
-
 }
 
 - (void)configureWebView {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44) configuration:webViewConfiguration];
     [self.view addSubview:self.webView];
-    
-    NSString *requestURL = @"https://github.com/AFNetworking/AFNetworking";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
+   
+    if (!_url) {
+        _url = @"https://github.com/AFNetworking/AFNetworking";
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
     [self.webView loadRequest:request];
 }
 

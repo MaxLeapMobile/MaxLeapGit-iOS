@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
-//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
 #import "MLGMUserCell.h"
@@ -47,7 +47,7 @@
     _icon.layer.borderColor = [UIColor grayColor].CGColor;//temp
     
     _nameLabel.text = @"Name";
-    _updateTimeLabel.text = @"1 hour ago";
+    _updateTimeLabel.text = @"Last Updated at: 13:24";
 }
 
 - (void)updateConstraints {
@@ -61,9 +61,9 @@
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_icon(50)]-10-[_updateTimeLabel]-10-|" options:0 metrics:nil views:views]];
         
         _didSetUpConstraints = YES;
+        
+        [super updateConstraints];
     }
-    
-    [super updateConstraints];
 }
 
 @end

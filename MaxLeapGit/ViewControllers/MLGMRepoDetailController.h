@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMRepoDetailController : UIViewController
-
+@property (nonatomic, strong) NSString *url;
 @end

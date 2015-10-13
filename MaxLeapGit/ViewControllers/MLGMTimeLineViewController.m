@@ -3,19 +3,28 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
 #import "MLGMTimeLineViewController.h"
 #import "MLGMTimeLineCell.h"
 #import "MLGMSearchViewController.h"
 #import "MLGMNavigationController.h"
+#import "MLGMRepoDetailController.h"
+#import "MLGMTabBarController.h"
+#import "MLGMUserPageViewController.h"
 
 @interface MLGMTimeLineViewController ()
 
 @end
 
 @implementation MLGMTimeLineViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,14 +44,25 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    MLGMTimeLineCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[MLGMTimeLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
+   
+    cell.tapUserAction = ^{
+        MLGMUserPageViewController *vcUser = [[MLGMUserPageViewController alloc] init];
+        vcUser.isMyPage = NO;
+        [self.navigationController pushViewController:vcUser animated:YES];
+    };
+    cell.tapSourceRepoAction = ^{
+        MLGMRepoDetailController *vc = [[MLGMRepoDetailController alloc] init];
+        vc.url = @"https://github.com/eyeplum/Conche"; //temp
+        [self.navigationController pushViewController:vc animated:YES];
+    };
     return cell;
 }
 
