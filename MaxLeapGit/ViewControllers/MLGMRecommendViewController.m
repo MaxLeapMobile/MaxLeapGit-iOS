@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
+//  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
 #import "MLGMRecommendViewController.h"
@@ -36,8 +36,14 @@
     
     self.title = @"AFNetworking";
     self.view.backgroundColor = [UIColor whiteColor];
-   
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+  
+    UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    dismissButton.frame = CGRectMake(0, 0, 21, 12.5);
+    [dismissButton setImage:ImageNamed(@"back_arrow_normal") forState:UIControlStateNormal];
+    [dismissButton setImage:ImageNamed(@"back_arrow_selected") forState:UIControlStateHighlighted];
+    [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)];
     
     [self configureWebView];

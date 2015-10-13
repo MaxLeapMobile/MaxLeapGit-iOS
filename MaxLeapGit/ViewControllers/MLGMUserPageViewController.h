@@ -1,5 +1,5 @@
 //
-//  GMGenesViewController.h
+//  GMMyPageViewController.h
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMGenesViewController : UITableViewController
-
+@interface MLGMUserPageViewController : UIViewController
+@property (nonatomic, assign) BOOL isMyPage;
 @end

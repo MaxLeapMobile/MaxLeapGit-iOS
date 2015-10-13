@@ -8,18 +8,23 @@
 
 #import "MLGMRecommendEmptyView.h"
 #import "MLGMStringUtil.h"
+#import <CCHLinkTextView/CCHLinkTextView.h>
+#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 
 #define kTextFont               [UIFont systemFontOfSize:16]
 #define kHightlightedTextColor  [UIColor blueColor]
 
-@interface MLGMRecommendEmptyView ()
+#define kAddNewGenesLinkTag                 @"addNewGenesLink"
+#define kReplayRecommendationListLinkTag    @"replayRecommendationList"
+
+@interface MLGMRecommendEmptyView () <CCHLinkTextViewDelegate>
 
 @property (nonatomic, copy) dispatch_block_t addNewGeneAction;
 @property (nonatomic, copy) dispatch_block_t replayAction;
 
 @property (nonatomic, strong) UILabel *topLabel;
-@property (nonatomic, strong) UILabel *addNewGeneLabel;
-@property (nonatomic, strong) UILabel *replayLabel;
+@property (nonatomic, strong) CCHLinkTextView *addNewGeneTextView;
+@property (nonatomic, strong) CCHLinkTextView *replayTextView;
 
 @property (nonatomic, assign) BOOL didSetUpConstraints;
 @end
@@ -46,72 +51,72 @@
     _topLabel.font = kTextFont;
     [self addSubview:_topLabel];
    
-    _addNewGeneLabel = [self createLabelWithAction:@selector(onTappedAddNewGeneLabel)];
-    [_addNewGeneLabel setAttributedText:[self attributedStringForAddNewGeneLabel]];
-    [self addSubview:_addNewGeneLabel];
-  
-    _replayLabel = [self createLabelWithAction:@selector(onTappedReplayLabel)];
-    [_replayLabel setAttributedText:[self attributedStringForReplayLabel]];
-    [self addSubview:_replayLabel];
+    _addNewGeneTextView = [[CCHLinkTextView alloc] init];
+    _addNewGeneTextView.translatesAutoresizingMaskIntoConstraints = NO;
+    _addNewGeneTextView.linkDelegate = self;
+    _addNewGeneTextView.attributedText = [self attributedStringForaddNewGeneTextView];
+    [self addSubview:_addNewGeneTextView];
+    
+    _replayTextView = [[CCHLinkTextView alloc] init];
+    _replayTextView.translatesAutoresizingMaskIntoConstraints = NO;
+    _replayTextView.linkDelegate = self;
+    _replayTextView.attributedText = [self attributedStringForreplayTextView];
+    [self addSubview:_replayTextView];
     
     [self updateConstraintsIfNeeded];
 }
 
-- (NSAttributedString *)attributedStringForAddNewGeneLabel {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Add new genes",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}];
+- (NSAttributedString *)attributedStringForaddNewGeneTextView {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Add new genes",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kAddNewGenesLinkTag}];
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" to find more repos worth recommending",@"") attributes:@{NSFontAttributeName : kTextFont}]];
     return string;
 }
 
-- (NSAttributedString *)attributedStringForReplayLabel {
+- (NSAttributedString *)attributedStringForreplayTextView {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Or you can ",@"") attributes:@{NSFontAttributeName : kTextFont}];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kReplayRecommendationListLinkTag}]];
     return string;
 }
 
-- (UILabel *)createLabelWithAction:(SEL)action {
-    UILabel *label = [[UILabel alloc] init];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    label.numberOfLines = 0;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.userInteractionEnabled = YES;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:action];
-    [label addGestureRecognizer:tap];
-    return label;
-}
+//- (UILabel *)createLabelWithAction:(SEL)action {
+//    UILabel *label = [[UILabel alloc] init];
+//    label.translatesAutoresizingMaskIntoConstraints = NO;
+//    label.numberOfLines = 0;
+//    label.textAlignment = NSTextAlignmentCenter;
+//    label.userInteractionEnabled = YES;
+//    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:action];
+//    [label addGestureRecognizer:tap];
+//    return label;
+//}
 
 - (void)updateConstraints {
     [self removeConstraints:self.constraints];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_topLabel, _addNewGeneLabel, _replayLabel);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_topLabel, _addNewGeneTextView, _replayTextView);
     
     CGFloat topLabelHeight = [MLGMStringUtil sizeInOneLineOfText:_topLabel.text font:kTextFont].height;
-    CGFloat addNewGeneLabelHeight = [MLGMStringUtil sizeOfText:_addNewGeneLabel.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height;
-    CGFloat replayLabelHeight = [MLGMStringUtil sizeOfText:_replayLabel.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height;
-    CGFloat topMargin = (self.bounds.size.height - topLabelHeight - 24 - addNewGeneLabelHeight - 20 - replayLabelHeight) / 2;
+    CGFloat addNewGeneTextViewHeight = [MLGMStringUtil sizeOfText:_addNewGeneTextView.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
+    CGFloat replayTextViewHeight = [MLGMStringUtil sizeOfText:_replayTextView.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
+    CGFloat topMargin = (self.bounds.size.height - topLabelHeight - 24 - addNewGeneTextViewHeight - 20 - replayTextViewHeight) / 2;
     
     NSDictionary *metrics = @{@"margin":@(topMargin),
                               @"h1":@(topLabelHeight),
-                              @"h2":@(addNewGeneLabelHeight),
-                              @"h3":@(replayLabelHeight)};
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[_topLabel(h1)]-24-[_addNewGeneLabel(h2)]-20-[_replayLabel(h3)]" options:NSLayoutFormatAlignAllCenterX | NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
+                              @"h2":@(addNewGeneTextViewHeight),
+                              @"h3":@(replayTextViewHeight)};
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[_topLabel(h1)]-24-[_addNewGeneTextView(h2)]-20-[_replayTextView(h3)]" options:NSLayoutFormatAlignAllCenterX | NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.bounds.size.width - 20 * 2]];
     
     [super updateConstraints];
 }
 
-#pragma mark - Actions
-- (void)onTappedAddNewGeneLabel {
-    if (_addNewGeneAction) {
-        _addNewGeneAction();
-    }
-}
-
-- (void)onTappedReplayLabel {
-    if (_replayAction) {
-        _replayAction();
+#pragma mark - CCHLinkTextViewDelegate
+- (void)linkTextView:(CCHLinkTextView *)linkTextView didTapLinkWithValue:(id)value {
+    if ([(NSString *)value isEqualToString:kAddNewGenesLinkTag]) {
+        BLOCK_SAFE_RUN(_addNewGeneAction);
+    } else if ([(NSString *)value isEqualToString:kReplayRecommendationListLinkTag]) {
+        BLOCK_SAFE_RUN(_replayAction);
     }
 }
 

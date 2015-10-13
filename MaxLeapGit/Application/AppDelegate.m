@@ -11,18 +11,15 @@
 #import "MLGMLoginViewController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
-#import "MLGMMyPageViewController.h"
+#import "MLGMUserPageViewController.h"
 #import "MLGMNavigationController.h"
-
-@interface AppDelegate () <UITabBarControllerDelegate>
-@property (nonatomic, assign) NSUInteger selectedControllerIndex;
-@end
+#import "MLGMTabBarController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self configureGlobalAppearance];
-    [self configureLeapCloud];
+//    [self configureGlobalAppearance];
+	[self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureCocoaLumberjack];
     [self configureFlurry];
@@ -94,41 +91,34 @@
     [Flurry startSession:CONFIGURE(@"3cce3f30d1c88bef1cb54f4caa09abeb64863112")];
 }
 
-#pragma mark - UITabBarControllerDelegate
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    UIViewController *recommendController = self.tabBarController.viewControllers[1];
-    if (viewController == recommendController) {
-        NSUInteger currentlySelectedIndex = tabBarController.selectedIndex;
-        UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
-        UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
-        navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
-        [tabBarController presentViewController:navRecommend animated:YES completion:^{
-            [tabBarController setSelectedIndex:currentlySelectedIndex];
-        }];
-        return NO;
-    }
-    
-    return YES;
-}
-
 #pragma mark Getter Setter Method
 - (UITabBarController *)tabBarController {
     if (!_tabBarController) {
-        _tabBarController = [[UITabBarController alloc] init];
+        MLGMTabBarController *tabController = [[MLGMTabBarController alloc] init];
+        __weak typeof(self) wSelf = self;
+        tabController.centralButtonAction = ^{
+            UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
+            UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
+            navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
+            [wSelf.tabBarController presentViewController:navRecommend animated:YES completion:nil];
+        };
+  
         UIViewController *vc1 = [[MLGMTimeLineViewController alloc] init];
         UINavigationController *nav1 = [[MLGMNavigationController alloc] initWithRootViewController:vc1];
         nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
+        [nav1.tabBarItem setImage:ImageNamed(@"timeline_icon_normal")];
+        [nav1.tabBarItem setSelectedImage:ImageNamed(@"timeline_icon_selected")];
         
-        UIViewController *vc2 = [[MLGMTimeLineViewController alloc] init];
-        UINavigationController *nav2 = [[MLGMNavigationController alloc] initWithRootViewController:vc2];
-        vc2.title = NSLocalizedString(@"TimeLine", @"");
-        nav2.title = NSLocalizedString(@"Recommend", @"");
+        UIViewController *vc2 = [[UIViewController alloc] init];
         
-        UIViewController *vc3 = [[MLGMMyPageViewController alloc] init];
-        vc3.title = NSLocalizedString(@"Mine", @"");
+        UIViewController *vc3 = [[MLGMUserPageViewController alloc] init];
+        UINavigationController *nav3 = [[MLGMNavigationController alloc] initWithRootViewController:vc3];
+        nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
+        [vc3.tabBarItem setImage:ImageNamed(@"mine_icon_normal")];
+        [vc3.tabBarItem setSelectedImage:ImageNamed(@"mine_icon_selected")];
         
-        _tabBarController.viewControllers = @[nav1, nav2, vc3];
-        _tabBarController.delegate = self;
+        _tabBarController = tabController;
+        _tabBarController.viewControllers = @[nav1, vc2, nav3];
     }
     
     return _tabBarController;
