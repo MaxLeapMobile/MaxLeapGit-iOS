@@ -3,7 +3,7 @@
 //  MaxLeapGitTests
 //
 //  Created by Jun Xia on 15/9/22.
-//  Copyright (c) 2015年 MaxLeap. All rights reserved.
+//  Copyright (c) 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

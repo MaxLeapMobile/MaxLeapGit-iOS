@@ -106,3 +106,6 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kMaxLeap_Application_ID CONFIGURE(@"MaxLeap_Application_ID")
 #define kMaxLeap_Client_Key CONFIGURE(@"MaxLeap_Client_Key")
 
+
+#define ThemeNavigationBarColor     [UIColor colorWithRed:93/255.0 green:93/255.0 blue:93/255.0 alpha:1]
+#define BottomToolBarColor          [UIColor colorWithRed:0 green:118/255.0 blue:1 alpha:1]

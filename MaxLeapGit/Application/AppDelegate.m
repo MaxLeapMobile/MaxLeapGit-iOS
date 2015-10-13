@@ -3,15 +3,18 @@
 //  MaxLeapGit
 //
 //  Created by Jun Xia on 15/9/22.
-//  Copyright (c) 2015年 MaxLeap. All rights reserved.
+//  Copyright (c) 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "DDFileLogger.h"
 #import "MLGMLoginViewController.h"
+#import "MLGMTimeLineViewController.h"
+#import "MLGMRecommendViewController.h"
+#import "MLGMMyPageViewController.h"
+#import "MLGMNavigationController.h"
 
-@interface AppDelegate ()
-
+@interface AppDelegate () <UITabBarControllerDelegate>
+@property (nonatomic, assign) NSUInteger selectedControllerIndex;
 @end
 
 @implementation AppDelegate
@@ -24,10 +27,8 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = UIColorFromRGB(0xffffff);
+    self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
-    
-    MLGMLoginViewController * loginVC = [[MLGMLoginViewController alloc] init];
-    self.window.rootViewController = loginVC;
 
     return YES;
 }
@@ -43,7 +44,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
 #pragma Private Method
-
 - (void)configureGlobalAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [UITabBarItem.appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xbcbcbc),
@@ -85,7 +85,47 @@
 
 - (void)configureFlurry {
     [Flurry setAppVersion:kAppVersion];
-    [Flurry startSession:CONFIGURE(@"FlurryAPIKey")];
+    [Flurry startSession:CONFIGURE(@"3cce3f30d1c88bef1cb54f4caa09abeb64863112")];
+}
+
+#pragma mark - UITabBarControllerDelegate
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    UIViewController *recommendController = self.tabBarController.viewControllers[1];
+    if (viewController == recommendController) {
+        NSUInteger currentlySelectedIndex = tabBarController.selectedIndex;
+        UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
+        UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
+        navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
+        [tabBarController presentViewController:navRecommend animated:YES completion:^{
+            [tabBarController setSelectedIndex:currentlySelectedIndex];
+        }];
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark Getter Setter Method
+- (UITabBarController *)tabBarController {
+    if (!_tabBarController) {
+        _tabBarController = [[UITabBarController alloc] init];
+        UIViewController *vc1 = [[MLGMTimeLineViewController alloc] init];
+        UINavigationController *nav1 = [[MLGMNavigationController alloc] initWithRootViewController:vc1];
+        nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
+        
+        UIViewController *vc2 = [[MLGMTimeLineViewController alloc] init];
+        UINavigationController *nav2 = [[MLGMNavigationController alloc] initWithRootViewController:vc2];
+        vc2.title = NSLocalizedString(@"TimeLine", @"");
+        nav2.title = NSLocalizedString(@"Recommend", @"");
+        
+        UIViewController *vc3 = [[MLGMMyPageViewController alloc] init];
+        vc3.title = NSLocalizedString(@"Mine", @"");
+        
+        _tabBarController.viewControllers = @[nav1, nav2, vc3];
+        _tabBarController.delegate = self;
+    }
+    
+    return _tabBarController;
 }
 
 @end
