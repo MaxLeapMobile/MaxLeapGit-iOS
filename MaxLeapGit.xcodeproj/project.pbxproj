@@ -49,23 +49,23 @@
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E101BCCE50300140E78 /* MLGMFollowUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DEB1BCCE50300140E78 /* MLGMFollowUserCell.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E121BCCE50300140E78 /* MLGMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E131BCCE50300140E78 /* MLGMOrganizationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E141BCCE50300140E78 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF31BCCE50300140E78 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E151BCCE50300140E78 /* MLGMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E161BCCE50300140E78 /* MLGMRepoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF71BCCE50300140E78 /* MLGMRepoCell.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF91BCCE50300140E78 /* MLGMRepoDetailController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E181BCCE50300140E78 /* MLGMReposController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFB1BCCE50300140E78 /* MLGMReposController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E191BCCE50300140E78 /* MLGMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFD1BCCE50300140E78 /* MLGMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFF1BCCE50300140E78 /* MLGMSortViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E1C1BCCE50300140E78 /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E031BCCE50300140E78 /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1D1BCCE50300140E78 /* MLGMTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E051BCCE50300140E78 /* MLGMTimeLineViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E1E1BCCE50300140E78 /* MLGMUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E071BCCE50300140E78 /* MLGMUserCell.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E1F1BCCE50300140E78 /* MLGMUserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E091BCCE50300140E78 /* MLGMUserDetailView.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E201BCCE50300140E78 /* MLGMUserPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E0B1BCCE50300140E78 /* MLGMUserPageViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E331BCCF80E00140E78 /* MLGMFollowUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E281BCCF80E00140E78 /* MLGMFollowUserCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E341BCCF80E00140E78 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E2A1BCCF80E00140E78 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E351BCCF80E00140E78 /* MLGMRepoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E2C1BCCF80E00140E78 /* MLGMRepoCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E361BCCF80E00140E78 /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E2E1BCCF80E00140E78 /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E371BCCF80E00140E78 /* MLGMUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E301BCCF80E00140E78 /* MLGMUserCell.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E381BCCF80E00140E78 /* MLGMUserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E321BCCF80E00140E78 /* MLGMUserDetailView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,20 +181,14 @@
 		E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAddNewGeneViewController.m; sourceTree = "<group>"; };
 		E3AB6DE81BCCE50300140E78 /* MLGMFollowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowController.h; sourceTree = "<group>"; };
 		E3AB6DE91BCCE50300140E78 /* MLGMFollowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMFollowController.m; sourceTree = "<group>"; };
-		E3AB6DEA1BCCE50300140E78 /* MLGMFollowUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMFollowUserCell.h; path = ../ViewControllers/MLGMFollowUserCell.h; sourceTree = "<group>"; };
-		E3AB6DEB1BCCE50300140E78 /* MLGMFollowUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMFollowUserCell.m; path = ../ViewControllers/MLGMFollowUserCell.m; sourceTree = "<group>"; };
 		E3AB6DEC1BCCE50300140E78 /* MLGMGenesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMGenesViewController.h; sourceTree = "<group>"; };
 		E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMGenesViewController.m; sourceTree = "<group>"; };
 		E3AB6DEE1BCCE50300140E78 /* MLGMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMNavigationController.h; sourceTree = "<group>"; };
 		E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMNavigationController.m; sourceTree = "<group>"; };
 		E3AB6DF01BCCE50300140E78 /* MLGMOrganizationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMOrganizationsController.h; sourceTree = "<group>"; };
 		E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMOrganizationsController.m; sourceTree = "<group>"; };
-		E3AB6DF21BCCE50300140E78 /* MLGMRecommendEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMRecommendEmptyView.h; path = ../ViewControllers/MLGMRecommendEmptyView.h; sourceTree = "<group>"; };
-		E3AB6DF31BCCE50300140E78 /* MLGMRecommendEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMRecommendEmptyView.m; path = ../ViewControllers/MLGMRecommendEmptyView.m; sourceTree = "<group>"; };
 		E3AB6DF41BCCE50300140E78 /* MLGMRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendViewController.h; sourceTree = "<group>"; };
 		E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendViewController.m; sourceTree = "<group>"; };
-		E3AB6DF61BCCE50300140E78 /* MLGMRepoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMRepoCell.h; path = ../ViewControllers/MLGMRepoCell.h; sourceTree = "<group>"; };
-		E3AB6DF71BCCE50300140E78 /* MLGMRepoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMRepoCell.m; path = ../ViewControllers/MLGMRepoCell.m; sourceTree = "<group>"; };
 		E3AB6DF81BCCE50300140E78 /* MLGMRepoDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepoDetailController.h; sourceTree = "<group>"; };
 		E3AB6DF91BCCE50300140E78 /* MLGMRepoDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoDetailController.m; sourceTree = "<group>"; };
 		E3AB6DFA1BCCE50300140E78 /* MLGMReposController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMReposController.h; sourceTree = "<group>"; };
@@ -205,16 +199,22 @@
 		E3AB6DFF1BCCE50300140E78 /* MLGMSortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSortViewController.m; sourceTree = "<group>"; };
 		E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTabBarController.h; sourceTree = "<group>"; };
 		E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTabBarController.m; sourceTree = "<group>"; };
-		E3AB6E021BCCE50300140E78 /* MLGMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMTimeLineCell.h; path = ../ViewControllers/MLGMTimeLineCell.h; sourceTree = "<group>"; };
-		E3AB6E031BCCE50300140E78 /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMTimeLineCell.m; path = ../ViewControllers/MLGMTimeLineCell.m; sourceTree = "<group>"; };
 		E3AB6E041BCCE50300140E78 /* MLGMTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineViewController.h; sourceTree = "<group>"; };
 		E3AB6E051BCCE50300140E78 /* MLGMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineViewController.m; sourceTree = "<group>"; };
-		E3AB6E061BCCE50300140E78 /* MLGMUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMUserCell.h; path = ../ViewControllers/MLGMUserCell.h; sourceTree = "<group>"; };
-		E3AB6E071BCCE50300140E78 /* MLGMUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMUserCell.m; path = ../ViewControllers/MLGMUserCell.m; sourceTree = "<group>"; };
-		E3AB6E081BCCE50300140E78 /* MLGMUserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGMUserDetailView.h; path = ../ViewControllers/MLGMUserDetailView.h; sourceTree = "<group>"; };
-		E3AB6E091BCCE50300140E78 /* MLGMUserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGMUserDetailView.m; path = ../ViewControllers/MLGMUserDetailView.m; sourceTree = "<group>"; };
 		E3AB6E0A1BCCE50300140E78 /* MLGMUserPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMUserPageViewController.h; sourceTree = "<group>"; };
 		E3AB6E0B1BCCE50300140E78 /* MLGMUserPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMUserPageViewController.m; sourceTree = "<group>"; };
+		E3AB6E271BCCF80E00140E78 /* MLGMFollowUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowUserCell.h; sourceTree = "<group>"; };
+		E3AB6E281BCCF80E00140E78 /* MLGMFollowUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMFollowUserCell.m; sourceTree = "<group>"; };
+		E3AB6E291BCCF80E00140E78 /* MLGMRecommendEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendEmptyView.h; sourceTree = "<group>"; };
+		E3AB6E2A1BCCF80E00140E78 /* MLGMRecommendEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendEmptyView.m; sourceTree = "<group>"; };
+		E3AB6E2B1BCCF80E00140E78 /* MLGMRepoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepoCell.h; sourceTree = "<group>"; };
+		E3AB6E2C1BCCF80E00140E78 /* MLGMRepoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoCell.m; sourceTree = "<group>"; };
+		E3AB6E2D1BCCF80E00140E78 /* MLGMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineCell.h; sourceTree = "<group>"; };
+		E3AB6E2E1BCCF80E00140E78 /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineCell.m; sourceTree = "<group>"; };
+		E3AB6E2F1BCCF80E00140E78 /* MLGMUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMUserCell.h; sourceTree = "<group>"; };
+		E3AB6E301BCCF80E00140E78 /* MLGMUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMUserCell.m; sourceTree = "<group>"; };
+		E3AB6E311BCCF80E00140E78 /* MLGMUserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMUserDetailView.h; sourceTree = "<group>"; };
+		E3AB6E321BCCF80E00140E78 /* MLGMUserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMUserDetailView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -501,18 +501,18 @@
 		B43F3FB91BB10F570036ECF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E3AB6DEA1BCCE50300140E78 /* MLGMFollowUserCell.h */,
-				E3AB6DEB1BCCE50300140E78 /* MLGMFollowUserCell.m */,
-				E3AB6DF21BCCE50300140E78 /* MLGMRecommendEmptyView.h */,
-				E3AB6DF31BCCE50300140E78 /* MLGMRecommendEmptyView.m */,
-				E3AB6DF61BCCE50300140E78 /* MLGMRepoCell.h */,
-				E3AB6DF71BCCE50300140E78 /* MLGMRepoCell.m */,
-				E3AB6E021BCCE50300140E78 /* MLGMTimeLineCell.h */,
-				E3AB6E031BCCE50300140E78 /* MLGMTimeLineCell.m */,
-				E3AB6E061BCCE50300140E78 /* MLGMUserCell.h */,
-				E3AB6E071BCCE50300140E78 /* MLGMUserCell.m */,
-				E3AB6E081BCCE50300140E78 /* MLGMUserDetailView.h */,
-				E3AB6E091BCCE50300140E78 /* MLGMUserDetailView.m */,
+				E3AB6E271BCCF80E00140E78 /* MLGMFollowUserCell.h */,
+				E3AB6E281BCCF80E00140E78 /* MLGMFollowUserCell.m */,
+				E3AB6E291BCCF80E00140E78 /* MLGMRecommendEmptyView.h */,
+				E3AB6E2A1BCCF80E00140E78 /* MLGMRecommendEmptyView.m */,
+				E3AB6E2B1BCCF80E00140E78 /* MLGMRepoCell.h */,
+				E3AB6E2C1BCCF80E00140E78 /* MLGMRepoCell.m */,
+				E3AB6E2D1BCCF80E00140E78 /* MLGMTimeLineCell.h */,
+				E3AB6E2E1BCCF80E00140E78 /* MLGMTimeLineCell.m */,
+				E3AB6E2F1BCCF80E00140E78 /* MLGMUserCell.h */,
+				E3AB6E301BCCF80E00140E78 /* MLGMUserCell.m */,
+				E3AB6E311BCCF80E00140E78 /* MLGMUserDetailView.h */,
+				E3AB6E321BCCF80E00140E78 /* MLGMUserDetailView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -769,28 +769,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3AB6E0F1BCCE50300140E78 /* MLGMFollowController.m in Sources */,
+				E3AB6E361BCCF80E00140E78 /* MLGMTimeLineCell.m in Sources */,
 				E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */,
 				B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */,
 				B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */,
 				B408C3C61BCB5EE80018634D /* MLGMAccount.m in Sources */,
 				E3AB6E151BCCE50300140E78 /* MLGMRecommendViewController.m in Sources */,
-				E3AB6E101BCCE50300140E78 /* MLGMFollowUserCell.m in Sources */,
 				B408C3C81BCB5EE80018634D /* MLGMGene.m in Sources */,
 				B44204FF1BC79BF5007F28CA /* NSDictionary+Extension.m in Sources */,
 				B42264E61BCB8CF500CD5634 /* MLGMEvent.m in Sources */,
 				E3AB6E191BCCE50300140E78 /* MLGMSearchViewController.m in Sources */,
-				E3AB6E1C1BCCE50300140E78 /* MLGMTimeLineCell.m in Sources */,
 				B43F3FBF1BB125D80036ECF6 /* MLGMLoginViewController.m in Sources */,
 				B42264E51BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m in Sources */,
-				E3AB6E1F1BCCE50300140E78 /* MLGMUserDetailView.m in Sources */,
+				E3AB6E341BCCF80E00140E78 /* MLGMRecommendEmptyView.m in Sources */,
 				B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */,
+				E3AB6E331BCCF80E00140E78 /* MLGMFollowUserCell.m in Sources */,
 				B4653D661BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m in Sources */,
+				E3AB6E381BCCF80E00140E78 /* MLGMUserDetailView.m in Sources */,
 				E3AB6E201BCCE50300140E78 /* MLGMUserPageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
 				B423C36A1BCCBC340087CE3B /* MLGMStringUtil.m in Sources */,
 				B4653D671BCBF58400D6F82B /* MLGMRepo.m in Sources */,
 				E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */,
 				B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */,
+				E3AB6E351BCCF80E00140E78 /* MLGMRepoCell.m in Sources */,
 				B44ED8531BC8C979003443B9 /* NSBundle+Extension.m in Sources */,
 				E3AB6E1D1BCCE50300140E78 /* MLGMTimeLineViewController.m in Sources */,
 				B408C3C51BCB5EE80018634D /* MLGMAccount+CoreDataProperties.m in Sources */,
@@ -799,15 +801,13 @@
 				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
 				E3AB6E121BCCE50300140E78 /* MLGMNavigationController.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
+				E3AB6E371BCCF80E00140E78 /* MLGMUserCell.m in Sources */,
 				B408C3C71BCB5EE80018634D /* MLGMGene+CoreDataProperties.m in Sources */,
 				E3AB6E181BCCE50300140E78 /* MLGMReposController.m in Sources */,
 				B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */,
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsController.m in Sources */,
-				E3AB6E1E1BCCE50300140E78 /* MLGMUserCell.m in Sources */,
-				E3AB6E161BCCE50300140E78 /* MLGMRepoCell.m in Sources */,
 				E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */,
 				B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */,
-				E3AB6E141BCCE50300140E78 /* MLGMRecommendEmptyView.m in Sources */,
 				E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */,
 				E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */,
 				B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */,

@@ -17,7 +17,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    [self configureGlobalAppearance];
+    [self configureGlobalAppearance];
     [self configureMagicalRecord];
     [self configureCocoaLumberjack];
     [self configureFlurry];
