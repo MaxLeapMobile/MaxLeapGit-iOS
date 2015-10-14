@@ -14,8 +14,8 @@
 #import "NSDate+TimeAgo.h"
 #import "UITableViewCell+Extension.h"
 
-#define kTextDefaultColor           UIColorWithRBGA(113, 113, 117, 1)
-#define kTextHighlightedColor       UIColorWithRBGA(0, 118, 255, 1)
+#define kTextDefaultColor           UIColorWithRGBA(113, 113, 117, 1)
+#define kTextHighlightedColor       UIColorWithRGBA(0, 118, 255, 1)
 
 #define kUserNameLinkTag        @"userNameLink"
 #define kSourceRepoLinkTag      @"sourceRepoLink"   

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLGMWebViewController.h"
 
-@interface MLGMRepoDetailController : UIViewController
+@interface MLGMRepoDetailController : MLGMWebViewController
 @property (nonatomic, strong) NSString *repoName;
 @end

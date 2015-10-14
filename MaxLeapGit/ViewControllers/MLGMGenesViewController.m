@@ -39,6 +39,7 @@
     btn.backgroundColor = BottomToolBarColor;
     [btn setTitle:NSLocalizedString(@"Add new gene", @"") forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:17];
     [btn addTarget:self action:@selector(onClickedAddNewGeneButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
 }

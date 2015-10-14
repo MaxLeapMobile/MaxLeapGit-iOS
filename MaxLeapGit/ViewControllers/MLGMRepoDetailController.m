@@ -15,7 +15,7 @@
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount
 
 @interface MLGMRepoDetailController ()
-@property (nonatomic, strong) WKWebView *webView;
+//@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIButton *starButton;
 @property (nonatomic, strong) UIButton *forkButton;
 @end
@@ -24,24 +24,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	 self.title = self.repoName;
     // Do any additional setup after loading the view.
-   
-    self.title = self.repoName;
     
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
-    [self configureWebView];
     [self configureToolbarView];
-}
-
-- (void)configureWebView {
-    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44) configuration:webViewConfiguration];
-    [self.view addSubview:self.webView];
-   
-    NSString *repoHtml = [NSString stringWithFormat:@"%@%@", @"https://github.com/", self.repoName];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:repoHtml]];
-    [self.webView loadRequest:request];
 }
 
 - (void)configureToolbarView {

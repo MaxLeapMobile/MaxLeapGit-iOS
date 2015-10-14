@@ -43,8 +43,13 @@
     [dismissButton setImage:ImageNamed(@"back_arrow_selected") forState:UIControlStateHighlighted];
     [dismissButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:dismissButton];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)];
+   
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [searchButton setImage:ImageNamed(@"search_icon_normal") forState:UIControlStateNormal];
+    [searchButton setImage:ImageNamed(@"search_icon_selected") forState:UIControlStateHighlighted];
+    searchButton.frame = CGRectMake(0, 0, 18, 18);
+    [searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     
     [self configureWebView];
     [self configureToolbarView];
@@ -67,6 +72,12 @@
     UIView *toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44)];
     toolbarView.backgroundColor = BottomToolBarColor;
     [self.view addSubview:toolbarView];
+   
+    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
+        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
+        separatorLine.backgroundColor = [UIColor whiteColor];
+        [toolbarView addSubview:separatorLine];
+    }
     
     _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
     [toolbarView addSubview:_starButton];
@@ -76,19 +87,15 @@
     
     _skipButton = [self createButtonAtIndex:2 withTitle:NSLocalizedString(@"Skip", @"") action:@selector(onClickedSkipButton)];
     [toolbarView addSubview:_skipButton];
-    
-    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
-        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
-        separatorLine.backgroundColor = [UIColor whiteColor];
-        [toolbarView addSubview:separatorLine];
-    }
 }
 
 - (UIButton *)createButtonAtIndex:(NSUInteger)index withTitle:(NSString *)title action:(SEL)action {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.frame = CGRectMake((kToolBarButtonWidth + kVerticalSeparatorLineWidth) * index, 0, kToolBarButtonWidth, 44);
+    button.frame = CGRectMake((kToolBarButtonWidth + kVerticalSeparatorLineWidth) * index - 1, 0, kToolBarButtonWidth + 2, 44);
     [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:17];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageWithColor:UIColorWithRGBA(106, 169, 255, 1)] forState:UIControlStateDisabled];
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;

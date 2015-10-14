@@ -9,5 +9,5 @@
 #import "MLGMUserCell.h"
 
 @interface MLGMFollowUserCell : MLGMUserCell
-
+@property (nonatomic, copy) dispatch_block_t followAction;
 @end

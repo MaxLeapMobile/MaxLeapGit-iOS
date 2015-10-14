@@ -44,10 +44,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.textLabel.font = [UIFont systemFontOfSize:17];
     }
     cell.textLabel.text = _sortMethods[indexPath.row];
     if ([cell.textLabel.text isEqualToString:_selectedMethod]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.textLabel.textColor = UIColorWithRGBA(0, 118, 255, 1);
     }
     return cell;
 }

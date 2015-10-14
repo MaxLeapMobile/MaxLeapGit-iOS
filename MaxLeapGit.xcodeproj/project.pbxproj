@@ -41,7 +41,6 @@
 		B4429FC91BCCF82200F8B108 /* MLGMFollowUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FBE1BCCF82200F8B108 /* MLGMFollowUserCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4429FCA1BCCF82200F8B108 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC01BCCF82200F8B108 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
 		B4429FCB1BCCF82200F8B108 /* MLGMRepoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC21BCCF82200F8B108 /* MLGMRepoCell.m */; settings = {ASSET_TAGS = (); }; };
-		B4429FCC1BCCF82200F8B108 /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC41BCCF82200F8B108 /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4429FCD1BCCF82200F8B108 /* MLGMUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC61BCCF82200F8B108 /* MLGMUserCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4429FCE1BCCF82200F8B108 /* MLGMUserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC81BCCF82200F8B108 /* MLGMUserDetailView.m */; settings = {ASSET_TAGS = (); }; };
 		B44ED8531BC8C979003443B9 /* NSBundle+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ED8521BC8C979003443B9 /* NSBundle+Extension.m */; settings = {ASSET_TAGS = (); }; };
@@ -50,6 +49,8 @@
 		B4653D671BCBF58400D6F82B /* MLGMRepo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4653D651BCBF58400D6F82B /* MLGMRepo.m */; settings = {ASSET_TAGS = (); }; };
 		B4AF02A11BCD1131007525FA /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AF02A01BCD1131007525FA /* NSDate+TimeAgo.m */; settings = {ASSET_TAGS = (); }; };
 		B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */; settings = {ASSET_TAGS = (); }; };
+		B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
+		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
@@ -169,8 +170,6 @@
 		B4429FC01BCCF82200F8B108 /* MLGMRecommendEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendEmptyView.m; sourceTree = "<group>"; };
 		B4429FC11BCCF82200F8B108 /* MLGMRepoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepoCell.h; sourceTree = "<group>"; };
 		B4429FC21BCCF82200F8B108 /* MLGMRepoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoCell.m; sourceTree = "<group>"; };
-		B4429FC31BCCF82200F8B108 /* MLGMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineCell.h; sourceTree = "<group>"; };
-		B4429FC41BCCF82200F8B108 /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineCell.m; sourceTree = "<group>"; };
 		B4429FC51BCCF82200F8B108 /* MLGMUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMUserCell.h; sourceTree = "<group>"; };
 		B4429FC61BCCF82200F8B108 /* MLGMUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMUserCell.m; sourceTree = "<group>"; };
 		B4429FC71BCCF82200F8B108 /* MLGMUserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMUserDetailView.h; sourceTree = "<group>"; };
@@ -186,6 +185,10 @@
 		B4AF02A01BCD1131007525FA /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
 		B4C044CC1BCE060900DBBD6D /* UITableViewCell+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Extension.h"; sourceTree = "<group>"; };
 		B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Extension.m"; sourceTree = "<group>"; };
+		B4C044CF1BCE320A00DBBD6D /* MLGMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineCell.h; sourceTree = "<group>"; };
+		B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineCell.m; sourceTree = "<group>"; };
+		B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebViewController.h; sourceTree = "<group>"; };
+		B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebViewController.m; sourceTree = "<group>"; };
 		B4D2492F1BC7707900A719E6 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		B4E69C531BC8B875008993A7 /* MLGMWebService+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMWebService+Convenience.h"; sourceTree = "<group>"; };
@@ -493,6 +496,8 @@
 		B43F3FB81BB10F570036ECF6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */,
+				B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */,
 				E3AB6DEE1BCCE50300140E78 /* MLGMNavigationController.h */,
 				E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */,
 				E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */,
@@ -509,8 +514,8 @@
 		B43F3FB91BB10F570036ECF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B4429FC31BCCF82200F8B108 /* MLGMTimeLineCell.h */,
-				B4429FC41BCCF82200F8B108 /* MLGMTimeLineCell.m */,
+				B4C044CF1BCE320A00DBBD6D /* MLGMTimeLineCell.h */,
+				B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */,
 				B4429FBD1BCCF82200F8B108 /* MLGMFollowUserCell.h */,
 				B4429FBE1BCCF82200F8B108 /* MLGMFollowUserCell.m */,
 				B4429FBF1BCCF82200F8B108 /* MLGMRecommendEmptyView.h */,
@@ -779,7 +784,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3AB6E0F1BCCE50300140E78 /* MLGMFollowController.m in Sources */,
-				B4429FCC1BCCF82200F8B108 /* MLGMTimeLineCell.m in Sources */,
 				E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */,
 				B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */,
 				B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */,
@@ -796,6 +800,7 @@
 				B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */,
 				B4429FC91BCCF82200F8B108 /* MLGMFollowUserCell.m in Sources */,
 				B4653D661BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m in Sources */,
+				B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */,
 				B4429FCE1BCCF82200F8B108 /* MLGMUserDetailView.m in Sources */,
 				E3AB6E201BCCE50300140E78 /* MLGMUserPageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
@@ -813,6 +818,7 @@
 				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
 				E3AB6E121BCCE50300140E78 /* MLGMNavigationController.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
+				B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */,
 				B4429FCD1BCCF82200F8B108 /* MLGMUserCell.m in Sources */,
 				B408C3C71BCB5EE80018634D /* MLGMGene+CoreDataProperties.m in Sources */,
 				E3AB6E181BCCE50300140E78 /* MLGMReposController.m in Sources */,

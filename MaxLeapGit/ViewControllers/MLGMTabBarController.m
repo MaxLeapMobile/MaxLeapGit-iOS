@@ -7,14 +7,50 @@
 //
 
 #import "MLGMTabBarController.h"
-#import "MLGMAccount.h"
+#import "MLGMTimeLineViewController.h"
+#import "MLGMRecommendViewController.h"
+#import "MLGMUserPageViewController.h"
+#import "MLGMNavigationController.h"
 #import "MLGMLoginViewController.h"
 
-@interface MLGMTabBarController ()
+@interface MLGMTabBarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) UIButton *centralButton;
 @end
 
 @implementation MLGMTabBarController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+       
+        __weak typeof(self) wSelf = self;
+        self.centralButtonAction = ^{
+            UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
+            UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
+            navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
+            [wSelf presentViewController:navRecommend animated:YES completion:nil];
+        };
+        
+        UIViewController *vc1 = [[MLGMTimeLineViewController alloc] init];
+        UINavigationController *nav1 = [[MLGMNavigationController alloc] initWithRootViewController:vc1];
+        nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
+        [nav1.tabBarItem setImage:ImageNamed(@"timeline_icon_normal")];
+        [nav1.tabBarItem setSelectedImage:ImageNamed(@"timeline_icon_selected")];
+        
+        UIViewController *vc2 = [[UIViewController alloc] init];
+        
+        UIViewController *vc3 = [[MLGMUserPageViewController alloc] init];
+        UINavigationController *nav3 = [[MLGMNavigationController alloc] initWithRootViewController:vc3];
+        nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
+        [vc3.tabBarItem setImage:ImageNamed(@"mine_icon_normal")];
+        [vc3.tabBarItem setSelectedImage:ImageNamed(@"mine_icon_selected")];
+        
+        self.viewControllers = @[nav1, vc2, nav3];
+    }
+    return self;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,6 +87,16 @@
     [self presentLoginVCIfNeeded];
     
 //    BLOCK_SAFE_RUN(_centralButtonAction);
+}
+
+#pragma mark - UITabBarControllerDelegate
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    UIViewController *centralViewController = self.viewControllers[1];
+    if (centralViewController == viewController) {
+        return NO;
+    }
+    return YES;
+
 }
 
 - (void)presentLoginVCIfNeeded {

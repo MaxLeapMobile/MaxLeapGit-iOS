@@ -14,14 +14,14 @@
 
 @implementation MLGMNavigationController
 
-- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
-    self = [super initWithRootViewController:rootViewController];
-    if (self) {
-        self.navigationBar.barTintColor = ThemeNavigationBarColor;
-        self.navigationBar.tintColor = [UIColor whiteColor];
-        self.navigationBar.translucent = NO;
-    }
-    return self;
-}
+//- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
+//    self = [super initWithRootViewController:rootViewController];
+//    if (self) {
+//        self.navigationBar.barTintColor = ThemeNavigationBarColor;
+//        self.navigationBar.tintColor = [UIColor whiteColor];
+//        self.navigationBar.translucent = NO;
+//    }
+//    return self;
+//}
 
 @end

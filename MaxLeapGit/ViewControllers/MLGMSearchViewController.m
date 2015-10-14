@@ -13,6 +13,8 @@
 #import "MLGMSortViewController.h"
 #import "MLGMRepoDetailController.h"
 
+#define kRepoAndUserButtonWidth     77
+
 @interface MLGMSearchViewController () <UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -75,7 +77,7 @@
 }
 
 - (void)configureTitleView {
-    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
     _titleView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     _titleView.backgroundColor = ThemeNavigationBarColor;
     [self.view addSubview:_titleView];
@@ -83,6 +85,7 @@
     _repoButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _repoButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_repoButton setTitle:NSLocalizedString(@"Repo", @"") forState:UIControlStateNormal];
+    _repoButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [_repoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_repoButton addTarget:self action:@selector(onClickedRepoButton) forControlEvents:UIControlEventTouchUpInside];
     [_titleView addSubview:_repoButton];
@@ -90,6 +93,7 @@
     _userButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _userButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_userButton setTitle:NSLocalizedString(@"User", @"") forState:UIControlStateNormal];
+    _userButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [_userButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_userButton addTarget:self action:@selector(onClickedUserButton) forControlEvents:UIControlEventTouchUpInside];
     [_titleView addSubview:_userButton];
@@ -99,10 +103,18 @@
     _separatorLine.backgroundColor = [UIColor whiteColor];
     [_titleView addSubview:_separatorLine];
     
-    _sortButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _sortButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _sortButton.frame = CGRectMake(self.view.bounds.size.width - 68 - 10, 11, 68, 18);
     _sortButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_sortButton setTitle:NSLocalizedString(@"Sort by", @"") forState:UIControlStateNormal];
+    [_sortButton setTitle:@"Sort by" forState:UIControlStateNormal];
+    _sortButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [_sortButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_sortButton setTitleColor:UIColorWithRGBA(177, 178, 177, 1) forState:UIControlStateHighlighted];
+    [_sortButton setImage:ImageNamed(@"dropdown_arrow_normal") forState:UIControlStateNormal];
+    [_sortButton setImage:ImageNamed(@"dropdown_arrow_selected") forState:UIControlStateHighlighted];
+    [_sortButton layoutIfNeeded];
+    _sortButton.titleEdgeInsets = UIEdgeInsetsMake(0, - _sortButton.imageView.frame.size.width * 2 - 8, 0, 0);
+    _sortButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, - _sortButton.titleLabel.frame.size.width * 2 - 8);
     [_sortButton addTarget:self action:@selector(onClickedSortButton) forControlEvents:UIControlEventTouchUpInside];
     [_titleView addSubview:_sortButton];
     
@@ -111,8 +123,12 @@
 
 - (void)updateTitleViewConstraints {
     NSDictionary *views = NSDictionaryOfVariableBindings(_repoButton, _userButton, _sortButton, _separatorLine);
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_repoButton(100)][_userButton(100)][_separatorLine(2)][_sortButton]-10-|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:views]];
+    NSDictionary *metrics = @{@"buttonWidth":@(kRepoAndUserButtonWidth)};
+    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_repoButton(buttonWidth)][_userButton(buttonWidth)]" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:metrics views:views]];
+    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_separatorLine(1)]-10-[_sortButton(68)]-10-|" options:0 metrics:nil views:views]];
     [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_repoButton]|" options:0 metrics:nil views:views]];
+    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-11-[_sortButton]-11-|" options:0 metrics:nil views:views]];
+    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[_separatorLine]-14-|" options:0 metrics:nil views:views]];
 }
 
 - (void)configureContentView {
@@ -124,11 +140,13 @@
     _contentView.delegate = self;
     [self.view addSubview:_contentView];
     
-    _repoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, _contentView.bounds.size.width, _contentView.bounds.size.height)];
+    _repoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, _contentView.bounds.size.width, _contentView.bounds.size.height - 64)];
     _repoTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _repoTableView.dataSource = self;
     _repoTableView.delegate = self;
     _repoTableView.tableFooterView = [[UIView alloc] init];
+    _repoTableView.rowHeight = UITableViewAutomaticDimension;
+    _repoTableView.estimatedRowHeight = 105;
     [_contentView addSubview:_repoTableView];
     
     _userTableView = [[UITableView alloc]initWithFrame:CGRectMake(_contentView.bounds.size.width, 0, _contentView.bounds.size.width, _contentView.bounds.size.height)];
@@ -139,7 +157,7 @@
     [_contentView addSubview:_userTableView];
     
     //content indicator
-    _scrollIndicator = [[UIView alloc] initWithFrame:CGRectMake(30, originY - 2, 50, 2)];
+    _scrollIndicator = [[UIView alloc] initWithFrame:CGRectMake(10, originY - 2, kRepoAndUserButtonWidth - 20, 2)];
     _scrollIndicator.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_scrollIndicator];
 }
@@ -176,7 +194,7 @@
 #pragma mark - UITableView Data Source & Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _repoTableView) {
-        return 100;
+        return UITableViewAutomaticDimension;
     } else {
         return 60;
     }
@@ -220,8 +238,8 @@
     [self setSearchTargetIsUser:searchTargetIsUser];
     
     //update scrollIndicator position
-    CGFloat indicatorOriginX = _searchTargetIsUser ? 30 + 100 : 30;
-    _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, 50, 2);
+    CGFloat indicatorOriginX = _searchTargetIsUser ? 10 + kRepoAndUserButtonWidth : 10;
+    _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, kRepoAndUserButtonWidth - 10 * 2, 2);
     CGFloat scrollViewOffsetX = _searchTargetIsUser ? self.view.bounds.size.width : 0;
     _contentView.contentOffset = CGPointMake(scrollViewOffsetX, 0);
 }

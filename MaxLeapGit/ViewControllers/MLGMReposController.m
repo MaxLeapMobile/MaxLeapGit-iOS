@@ -36,7 +36,10 @@
     [super viewDidLoad];
 
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    
     self.tableView.tableFooterView = [[UIView alloc] init];
+     self.tableView.rowHeight = UITableViewAutomaticDimension;
+     self.tableView.estimatedRowHeight = 105;
     
     [self loadData];
     [self configureUI];
@@ -61,7 +64,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 90;
+    return UITableViewAutomaticDimension;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,6 +80,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     MLGMRepoDetailController *repoDetailVC = [[MLGMRepoDetailController alloc] init];
+    repoDetailVC.url = @"https://github.com/AFNetworking/AFNetworking";
     [self.navigationController pushViewController:repoDetailVC animated:YES];
 }
 

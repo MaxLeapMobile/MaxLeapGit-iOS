@@ -18,6 +18,7 @@
 
 @interface MLGMUserPageViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) BOOL isMyPage;
 @end
 
 @implementation MLGMUserPageViewController
@@ -44,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+   
     [self configureUI];
 }
 
@@ -79,7 +80,7 @@
         UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [searchButton setImage:ImageNamed(@"search_icon_normal") forState:UIControlStateNormal];
         [searchButton setImage:ImageNamed(@"search_icon_selected") forState:UIControlStateHighlighted];
-        searchButton.frame = CGRectMake(self.view.bounds.size.width - 27, 34, 18, 18);
+        searchButton.frame = CGRectMake(self.view.bounds.size.width - 30, 33, 18, 18);
         [searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:searchButton];
     } else {
@@ -87,6 +88,7 @@
         [followButton setTitle:NSLocalizedString(@"Unfollow", @"") forState:UIControlStateNormal];
         followButton.frame = CGRectMake(self.view.bounds.size.width - 100, 33, 92, 20);
         followButton.titleLabel.textAlignment = NSTextAlignmentRight;
+        followButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.view addSubview:followButton];
         
