@@ -78,6 +78,8 @@
 #pragma mark- Override Parent Method
 - (void)updateViewConstraints {
     if (!self.isSetupConstraints) {
+        
+        
         [self.logoImageView pinToSuperviewEdges:JRTViewPinTopEdge inset:136.0f];
         [self.logoImageView centerInContainerOnAxis:NSLayoutAttributeCenterX];
         [self.logoImageView constrainToSize:CGSizeMake(100, 100)];

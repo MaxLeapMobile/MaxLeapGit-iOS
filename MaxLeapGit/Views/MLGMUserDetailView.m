@@ -8,6 +8,7 @@
 
 #import "MLGMUserDetailView.h"
 
+#define kHeaderViewHeight                      194
 #define kIconWidthAndHeight                    54
 
 //buttonView
@@ -15,8 +16,8 @@
 #define kHeaderViewButtonCount                 4
 #define kHeaderViewButtonWidth                 (self.bounds.size.width - kVerticalSeparatorLineWidth) / kHeaderViewButtonCount
 
-#define kButtonViewHeight                      60
-#define kButtonViewSeparatorLineHeight         40
+#define kButtonViewHeight                      54
+#define kButtonViewSeparatorLineHeight         12
 
 @interface MLGMUserDetailView ()
 @property (nonatomic, strong) UIImageView *icon;
@@ -39,24 +40,32 @@
 
 - (void)configureUI {
     _icon = [[UIImageView alloc] initWithFrame:CGRectMake((self.bounds.size.width - kIconWidthAndHeight)/2, 33, kIconWidthAndHeight, kIconWidthAndHeight)];
+    _icon.layer.cornerRadius = kIconWidthAndHeight / 2;
+    _icon.clipsToBounds = YES;
     _icon.backgroundColor = [UIColor whiteColor];
     [self addSubview:_icon];
     
-    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 33 + kIconWidthAndHeight + 6, self.bounds.size.width, 20)];
+    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30 + kIconWidthAndHeight + 8, self.bounds.size.width, 20)];
     _nameLabel.text = @"Name";
+    _nameLabel.font = [UIFont systemFontOfSize:17];
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     _nameLabel.textColor = [UIColor whiteColor];
     [self addSubview:_nameLabel];
     
-    _loginNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 33 + kIconWidthAndHeight + 26, self.bounds.size.width, 20)];
+    _loginNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30 + kIconWidthAndHeight + 30, self.bounds.size.width, 18)];
     _loginNameLabel.text = @"LoginName";
+    _loginNameLabel.font = [UIFont systemFontOfSize:15];
     _loginNameLabel.textAlignment = NSTextAlignmentCenter;
-    _loginNameLabel.textColor = [UIColor whiteColor];
+    _loginNameLabel.textColor = UIColorFromRGB(0x808080);
     [self addSubview:_loginNameLabel];
-    
+
+    [self configureButtonView];
+}
+
+- (void)configureButtonView {
     //configure buttonView on headerView
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - kButtonViewHeight, self.bounds.size.width, kButtonViewHeight)];
-    buttonView.backgroundColor = [UIColor colorWithRed:52/255.0 green:52/255.0 blue:52/255.0 alpha:1];
+    buttonView.backgroundColor = ThemeNavigationBarColor;
     [self addSubview:buttonView];
     
     UIButton *followersButton = [self createButtonAtIndex:0 withTitle:@"24\nFollowers" action:@selector(onClickedFollowersButton)];

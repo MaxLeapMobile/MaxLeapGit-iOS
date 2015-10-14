@@ -9,6 +9,7 @@
 #import "MLGMOrganizationsController.h"
 #import "MLGMUserCell.h"
 #import "MLGMTabBarController.h"
+#import "MLGMWebViewController.h"
 
 @interface MLGMOrganizationsController ()
 
@@ -46,6 +47,14 @@
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    MLGMWebViewController *vc = [[MLGMWebViewController alloc] init];
+    vc.url = @"https://github.com/dailymotion";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

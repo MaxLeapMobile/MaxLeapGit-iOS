@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLGMWebViewController.h"
 
-@interface MLGMRepoDetailController : UIViewController
-@property (nonatomic, strong) NSString *url;
+@interface MLGMRepoDetailController : MLGMWebViewController
 @end

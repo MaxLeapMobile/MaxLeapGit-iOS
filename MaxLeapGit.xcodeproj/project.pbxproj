@@ -47,6 +47,7 @@
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E3974C621BCE26A40042AB7F /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C611BCE26A40042AB7F /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -177,6 +178,8 @@
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
 		B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMError.m; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E3974C601BCE26A40042AB7F /* MLGMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebViewController.h; sourceTree = "<group>"; };
+		E3974C611BCE26A40042AB7F /* MLGMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebViewController.m; sourceTree = "<group>"; };
 		E3AB6DE61BCCE50300140E78 /* MLGMAddNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMAddNewGeneViewController.h; sourceTree = "<group>"; };
 		E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAddNewGeneViewController.m; sourceTree = "<group>"; };
 		E3AB6DE81BCCE50300140E78 /* MLGMFollowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowController.h; sourceTree = "<group>"; };
@@ -494,6 +497,8 @@
 				E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */,
 				E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */,
 				E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */,
+				E3974C601BCE26A40042AB7F /* MLGMWebViewController.h */,
+				E3974C611BCE26A40042AB7F /* MLGMWebViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -810,6 +815,7 @@
 				B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */,
 				E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */,
 				E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */,
+				E3974C621BCE26A40042AB7F /* MLGMWebViewController.m in Sources */,
 				B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */,
 				B408C3D31BCB64720018634D /* MLGMUserProfile+CoreDataProperties.m in Sources */,
 				B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */,

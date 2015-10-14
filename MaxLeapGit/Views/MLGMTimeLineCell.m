@@ -11,8 +11,8 @@
 #import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import "MLGMRepoDetailController.h"
 
-#define kTextDefaultColor           UIColorWithRBGA(113, 113, 117, 1)
-#define kTextHighlightedColor       UIColorWithRBGA(0, 118, 255, 1)
+#define kTextDefaultColor           UIColorWithRGBA(113, 113, 117, 1)
+#define kTextHighlightedColor       UIColorWithRGBA(0, 118, 255, 1)
 
 #define kUserNameLinkTag        @"userNameLink"
 #define kSourceRepoLinkTag      @"sourceRepoLink"   
@@ -50,6 +50,8 @@
     _textView = [[CCHLinkTextView alloc] init];
     _textView.translatesAutoresizingMaskIntoConstraints = NO;
     _textView.linkDelegate = self;
+    _textView.font = [UIFont systemFontOfSize:12];
+    _textView.textColor = kTextDefaultColor;
     [self.contentView addSubview:_textView];
  
     _updateTimeLabel = [[UILabel alloc] init];

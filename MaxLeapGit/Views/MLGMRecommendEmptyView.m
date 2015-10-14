@@ -12,7 +12,9 @@
 #import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 
 #define kTextFont               [UIFont systemFontOfSize:16]
-#define kHightlightedTextColor  [UIColor blueColor]
+
+#define kDefaultTextColor       UIColorFromRGB(0x808080)
+#define kHightlightedTextColor  UIColorFromRGB(0x0076FF)
 
 #define kAddNewGenesLinkTag                 @"addNewGenesLink"
 #define kReplayRecommendationListLinkTag    @"replayRecommendationList"
@@ -68,27 +70,15 @@
 
 - (NSAttributedString *)attributedStringForaddNewGeneTextView {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Add new genes",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kAddNewGenesLinkTag}];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" to find more repos worth recommending",@"") attributes:@{NSFontAttributeName : kTextFont}]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" to find more repos worth recommending",@"") attributes:@{NSFontAttributeName : kTextFont, NSForegroundColorAttributeName : kDefaultTextColor}]];
     return string;
 }
 
 - (NSAttributedString *)attributedStringForreplayTextView {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Or you can ",@"") attributes:@{NSFontAttributeName : kTextFont}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Or you can ",@"") attributes:@{NSFontAttributeName : kTextFont, NSForegroundColorAttributeName : kDefaultTextColor}];
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kReplayRecommendationListLinkTag}]];
     return string;
 }
-
-//- (UILabel *)createLabelWithAction:(SEL)action {
-//    UILabel *label = [[UILabel alloc] init];
-//    label.translatesAutoresizingMaskIntoConstraints = NO;
-//    label.numberOfLines = 0;
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.userInteractionEnabled = YES;
-//    
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:action];
-//    [label addGestureRecognizer:tap];
-//    return label;
-//}
 
 - (void)updateConstraints {
     [self removeConstraints:self.constraints];

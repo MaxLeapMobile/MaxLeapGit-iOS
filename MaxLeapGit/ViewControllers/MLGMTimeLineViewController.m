@@ -14,8 +14,7 @@
 #import "MLGMTabBarController.h"
 #import "MLGMUserPageViewController.h"
 
-@interface MLGMTimeLineViewController ()
-
+@interface MLGMTimeLineViewController () 
 @end
 
 @implementation MLGMTimeLineViewController
@@ -28,8 +27,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)];
+   
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [searchButton setImage:ImageNamed(@"search_icon_normal") forState:UIControlStateNormal];
+    [searchButton setImage:ImageNamed(@"search_icon_selected") forState:UIControlStateHighlighted];
+    searchButton.frame = CGRectMake(0, 0, 18, 18);
+    [searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
 }
 
 - (void)search {

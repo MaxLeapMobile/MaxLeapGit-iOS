@@ -36,6 +36,20 @@
     [super viewDidLoad];
   
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:ImageNamed(@"back_arrow_left_normal") forState:UIControlStateNormal];
+    [backButton setImage:ImageNamed(@"back_arrow_left_selected") forState:UIControlStateHighlighted];
+    backButton.frame = CGRectMake(0, 0, 13 + 6 + 40, 22);
+    [backButton setTitle:NSLocalizedString(@"Back", @"") forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:17];
+    [backButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -6)];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor colorWithRed:12/255.0 green:91/255.0 blue:254/255.0 alpha:1] forState:UIControlStateHighlighted];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     [self loadData];
@@ -54,9 +68,9 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Actions
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -65,15 +79,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 63;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    MLGMFollowUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[MLGMFollowUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    
+    cell.followAction = ^{
+        
+    };
     return cell;
 }
 

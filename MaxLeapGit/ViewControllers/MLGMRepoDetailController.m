@@ -15,7 +15,7 @@
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount
 
 @interface MLGMRepoDetailController ()
-@property (nonatomic, strong) WKWebView *webView;
+//@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIButton *starButton;
 @property (nonatomic, strong) UIButton *forkButton;
 @end
@@ -25,28 +25,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
-    if (_url.length) {
-        NSArray *array = [_url componentsSeparatedByString:@"/"];
-        self.title = [array lastObject];
-    }
     
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
-    [self configureWebView];
     [self configureToolbarView];
-}
-
-- (void)configureWebView {
-    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44) configuration:webViewConfiguration];
-    [self.view addSubview:self.webView];
-   
-    if (!_url) {
-        _url = @"https://github.com/AFNetworking/AFNetworking";
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
-    [self.webView loadRequest:request];
 }
 
 - (void)configureToolbarView {
@@ -83,15 +65,5 @@
 - (void)onClickedForkButton {
     
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
