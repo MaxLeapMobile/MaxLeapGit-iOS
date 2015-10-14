@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMTimeLineViewController : UITableViewController
+@interface MLGMTimeLineViewController : UIViewController
 
 @end

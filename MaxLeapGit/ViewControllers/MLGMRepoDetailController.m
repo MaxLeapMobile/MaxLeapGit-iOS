@@ -26,10 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
    
-    if (_url.length) {
-        NSArray *array = [_url componentsSeparatedByString:@"/"];
-        self.title = [array lastObject];
-    }
+    self.title = self.repoName;
     
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
@@ -42,10 +39,8 @@
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44) configuration:webViewConfiguration];
     [self.view addSubview:self.webView];
    
-    if (!_url) {
-        _url = @"https://github.com/AFNetworking/AFNetworking";
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
+    NSString *repoHtml = [NSString stringWithFormat:@"%@%@", @"https://github.com/", self.repoName];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:repoHtml]];
     [self.webView loadRequest:request];
 }
 
@@ -83,15 +78,5 @@
 - (void)onClickedForkButton {
     
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

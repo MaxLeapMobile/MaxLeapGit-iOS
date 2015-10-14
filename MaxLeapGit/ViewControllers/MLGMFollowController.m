@@ -81,7 +81,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     MLGMUserPageViewController *userPageVC = [[MLGMUserPageViewController alloc] init];
-    userPageVC.isMyPage = NO;
+    userPageVC.userName = @"xdre";
     [self.navigationController pushViewController:userPageVC animated:YES];
 }
 

@@ -227,7 +227,7 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, error);
             if (error.code == MLGMErrorTypeServerDataFormateError) {
                 DDLogError(@"/user/%@/orgs api data format invalid:%@", userName, error.description);
             }

@@ -42,7 +42,7 @@ NSString* const MLGMErrorDomain = @"MFLMErrorDomain";
                 break;
             default:
                 break;
-        }
+        }        
         error = [NSError errorWithDomain:MLGMErrorDomain code:errorType userInfo:@{NSLocalizedDescriptionKey:SAFE_STRING(message)}];
     }
     

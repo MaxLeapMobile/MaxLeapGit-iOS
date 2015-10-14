@@ -63,13 +63,18 @@
         return;
     }
     
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        MLGMAccount *account = [MLGMAccount MR_findFirstOrCreateByAttribute:@"accessToken" withValue:accessToken inContext:localContext];
-        account.isOnline = @(YES);
-        account.accessToken = accessToken;
-    } completion:^(BOOL contextDidSave, NSError *error) {
-        if (error && !contextDidSave) {
-            DDLogError(@"save accessToken failure:%@", error.localizedDescription);
+    MLGMAccount *account = [MLGMAccount MR_findFirstOrCreateByAttribute:@"accessToken" withValue:accessToken];
+    account.isOnline = @(YES);
+    account.accessToken = accessToken;
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging in", nil)];
+    [[MLGMWebService sharedInstance] updateAccountProfileCompletion:^(MLGMAccount *account, NSError *error) {
+        [SVProgressHUD dismiss];
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:@"Error"];
+        } else {
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
 }

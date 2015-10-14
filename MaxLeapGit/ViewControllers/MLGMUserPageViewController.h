@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLGMActorProfile.h"
 
 @interface MLGMUserPageViewController : UIViewController
-@property (nonatomic, assign) BOOL isMyPage;
+@property (nonatomic, strong) NSString *userName;
 @end

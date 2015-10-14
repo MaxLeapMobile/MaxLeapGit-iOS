@@ -27,6 +27,13 @@
 #import "NSDictionary+Extension.h"
 #import "NSBundle+Extension.h"
 #import "MLGMError.h"
+
+#import "MLGMWebService.h"
+#import "MLGMAccount.h"
+#import "MLGMActorProfile.h"
+#import "MLGMGene.h"
+#import "MLGMEvent.h"
+
 #endif
 
 #ifdef DEBUG
@@ -107,8 +114,9 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kMaxLeap_REST_API_Key CONFIGURE(@"MaxLeap_REST_API_Key")
 
 #define kPixelWidth (1.0 / [UIScreen mainScreen].scale)
-
 #define UIColorWithRBGA(r, g, b, a)   [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
-
 #define ThemeNavigationBarColor     [UIColor colorWithRed:93/255.0 green:93/255.0 blue:93/255.0 alpha:1]
 #define BottomToolBarColor          [UIColor colorWithRed:0 green:118/255.0 blue:1 alpha:1]
+
+#define kOnlineAccount [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)]
+#define kOnlineUserName kOnlineAccount.actorProfile.loginName
