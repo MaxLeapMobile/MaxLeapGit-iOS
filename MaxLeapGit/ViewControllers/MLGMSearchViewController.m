@@ -12,21 +12,20 @@
 #import "WYPopoverController.h"
 #import "MLGMSortViewController.h"
 #import "MLGMRepoDetailController.h"
+#import "MLGMSearchPageTitleView.h"
 
 #define kRepoAndUserButtonWidth     77
 
-@interface MLGMSearchViewController () <UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
+@interface MLGMSearchViewController () <UISearchControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 
-@property (nonatomic, strong) UIView *titleView;
-@property (nonatomic, strong) UIButton *repoButton;
-@property (nonatomic, strong) UIButton *userButton;
-@property (nonatomic, strong) UIView *separatorLine;
-@property (nonatomic, strong) UIButton *sortButton;
+@property (nonatomic, strong) MLGMSearchPageTitleView *titleView;
 
 @property (nonatomic, strong) UIScrollView *contentView;
 @property (nonatomic, strong) UITableView *repoTableView;
 @property (nonatomic, strong) UITableView *userTableView;
+
+@property (nonatomic, strong) UILabel *emptyView;
 
 @property (nonatomic, strong) UIView *scrollIndicator;
 
@@ -43,6 +42,9 @@
 
 @implementation MLGMSearchViewController
 
+#pragma mark - init Method
+
+#pragma mark- View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -54,18 +56,13 @@
     [self configureUI];
 }
 
-- (void)setSearchTargetIsUser:(BOOL)searchTargetIsUser {
-    if (_searchTargetIsUser != searchTargetIsUser) {
-        _searchTargetIsUser = searchTargetIsUser;
-        _sortMethod = nil;
-    }
-}
 
 #pragma mark - SubView Configuration
 - (void)configureUI {
     [self configureSearchController];
     [self configureTitleView];
     [self configureContentView];
+    [self configureEmptyView];
 }
 
 - (void)configureSearchController {
@@ -73,62 +70,26 @@
     _searchController.hidesNavigationBarDuringPresentation = NO;
     _searchController.dimsBackgroundDuringPresentation = NO;
     _searchController.delegate = self;
+    _searchController.searchBar.delegate = self;
     self.navigationItem.titleView = _searchController.searchBar;
 }
 
 - (void)configureTitleView {
-    _titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
+    _titleView = [[MLGMSearchPageTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
+    __weak typeof(self) wSelf = self;
+    _titleView.repoButtonAction = ^{
+        [wSelf onClickedRepoButton];
+    };
+    _titleView.userButtonAction = ^{
+        [wSelf onClickedUserButton];
+    };
+    _titleView.sortOrderAction = ^{
+        [wSelf onClickedSortButton];
+    };
+    
     _titleView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     _titleView.backgroundColor = ThemeNavigationBarColor;
     [self.view addSubview:_titleView];
-    
-    _repoButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _repoButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_repoButton setTitle:NSLocalizedString(@"Repo", @"") forState:UIControlStateNormal];
-    _repoButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [_repoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_repoButton addTarget:self action:@selector(onClickedRepoButton) forControlEvents:UIControlEventTouchUpInside];
-    [_titleView addSubview:_repoButton];
-    
-    _userButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _userButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_userButton setTitle:NSLocalizedString(@"User", @"") forState:UIControlStateNormal];
-    _userButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [_userButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_userButton addTarget:self action:@selector(onClickedUserButton) forControlEvents:UIControlEventTouchUpInside];
-    [_titleView addSubview:_userButton];
-    
-    _separatorLine = [[UIView alloc] init];
-    _separatorLine.translatesAutoresizingMaskIntoConstraints = NO;
-    _separatorLine.backgroundColor = [UIColor whiteColor];
-    [_titleView addSubview:_separatorLine];
-    
-    _sortButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _sortButton.frame = CGRectMake(self.view.bounds.size.width - 68 - 10, 11, 68, 18);
-    _sortButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_sortButton setTitle:@"Sort by" forState:UIControlStateNormal];
-    _sortButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [_sortButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_sortButton setTitleColor:UIColorWithRGBA(177, 178, 177, 1) forState:UIControlStateHighlighted];
-    [_sortButton setImage:ImageNamed(@"dropdown_arrow_normal") forState:UIControlStateNormal];
-    [_sortButton setImage:ImageNamed(@"dropdown_arrow_selected") forState:UIControlStateHighlighted];
-    [_sortButton layoutIfNeeded];
-    _sortButton.titleEdgeInsets = UIEdgeInsetsMake(0, - _sortButton.imageView.frame.size.width * 2 - 8, 0, 0);
-    _sortButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, - _sortButton.titleLabel.frame.size.width * 2 - 8);
-    [_sortButton addTarget:self action:@selector(onClickedSortButton) forControlEvents:UIControlEventTouchUpInside];
-    [_titleView addSubview:_sortButton];
-    
-    [self updateTitleViewConstraints];
-}
-
-- (void)updateTitleViewConstraints {
-    NSDictionary *views = NSDictionaryOfVariableBindings(_repoButton, _userButton, _sortButton, _separatorLine);
-    NSDictionary *metrics = @{@"buttonWidth":@(kRepoAndUserButtonWidth)};
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_repoButton(buttonWidth)][_userButton(buttonWidth)]" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:metrics views:views]];
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_separatorLine(1)]-10-[_sortButton(68)]-10-|" options:0 metrics:nil views:views]];
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_repoButton]|" options:0 metrics:nil views:views]];
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-11-[_sortButton]-11-|" options:0 metrics:nil views:views]];
-    [_titleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[_separatorLine]-14-|" options:0 metrics:nil views:views]];
 }
 
 - (void)configureContentView {
@@ -162,6 +123,15 @@
     [self.view addSubview:_scrollIndicator];
 }
 
+- (void)configureEmptyView {
+    _emptyView = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, self.view.bounds.size.width, self.view.bounds.size.height - 104)];
+    _emptyView.text = NSLocalizedString(@"No Results", @"");
+    _emptyView.textColor = UIColorFromRGB(0xBFBFBF);
+    _emptyView.font = [UIFont systemFontOfSize:27];
+    _emptyView.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_emptyView];
+}
+
 #pragma mark - Actions
 - (void)cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -186,9 +156,22 @@
     [self updateContentViewWithSearchTargetStatus:YES];
 }
 
+
+#pragma mark- Delegate，DataSource, Callback Method
+
 #pragma mark - UISearchController Delegate
 - (void)didPresentSearchController:(UISearchController *)searchController {
     _searchController.searchBar.showsCancelButton = NO;
+}
+
+#pragma mark - UISearchBar Delegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    //search and reload data
+    //temp
+    _repos = @[@"1"];
+    _users = @[@"1"];
+    
+    [self requestDataAndReloadTableView];
 }
 
 #pragma mark - UITableView Data Source & Delegate
@@ -201,8 +184,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //temp
-    return 5;
+    if (tableView == _repoTableView) {
+        return _repos.count;
+    } else {
+        return _users.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -256,7 +242,29 @@
     [_popover dismissPopoverAnimated:YES];
     
     //search and reload data
-  
+    [self requestDataAndReloadTableView];
 }
+
+#pragma mark- Private Method
+- (void)requestDataAndReloadTableView {
+    if ((_repos.count == 0 && !_searchTargetIsUser) || (_users.count == 0 && _searchTargetIsUser)) {
+        _emptyView.hidden = NO;
+    } else {
+        _emptyView.hidden = YES;
+    }
+    
+    [_repoTableView reloadData];
+    [_userTableView reloadData];
+}
+
+#pragma mark- Getter Setter
+- (void)setSearchTargetIsUser:(BOOL)searchTargetIsUser {
+    if (_searchTargetIsUser != searchTargetIsUser) {
+        _searchTargetIsUser = searchTargetIsUser;
+        _sortMethod = nil;
+    }
+}
+
+#pragma mark- Helper Method
 
 @end

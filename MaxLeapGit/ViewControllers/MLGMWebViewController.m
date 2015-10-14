@@ -58,7 +58,9 @@
     //observe loading progress
     [_webView addObserver:self forKeyPath:kWebViewLoadingStatusKey options:NSKeyValueObservingOptionNew context:nil];
     [_webView addObserver:self forKeyPath:kWebViewLoadingProgressKey options:NSKeyValueObservingOptionNew context:nil];
-    
+   
+    //temp
+    _url = @"https://github.com/AFNetworking/AFNetworking";
     if (_url.length) {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
         [self.webView loadRequest:request];

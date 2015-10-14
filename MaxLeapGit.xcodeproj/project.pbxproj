@@ -56,6 +56,7 @@
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -198,6 +199,8 @@
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
 		B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMError.m; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchPageTitleView.h; sourceTree = "<group>"; };
+		E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSearchPageTitleView.m; sourceTree = "<group>"; };
 		E3AB6DE61BCCE50300140E78 /* MLGMAddNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMAddNewGeneViewController.h; sourceTree = "<group>"; };
 		E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAddNewGeneViewController.m; sourceTree = "<group>"; };
 		E3AB6DE81BCCE50300140E78 /* MLGMFollowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowController.h; sourceTree = "<group>"; };
@@ -520,6 +523,8 @@
 				B4429FBE1BCCF82200F8B108 /* MLGMFollowUserCell.m */,
 				B4429FBF1BCCF82200F8B108 /* MLGMRecommendEmptyView.h */,
 				B4429FC01BCCF82200F8B108 /* MLGMRecommendEmptyView.m */,
+				E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */,
+				E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */,
 				B4429FC11BCCF82200F8B108 /* MLGMRepoCell.h */,
 				B4429FC21BCCF82200F8B108 /* MLGMRepoCell.m */,
 				B4429FC51BCCF82200F8B108 /* MLGMUserCell.h */,
@@ -810,6 +815,7 @@
 				B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */,
 				B4429FCB1BCCF82200F8B108 /* MLGMRepoCell.m in Sources */,
 				B44ED8531BC8C979003443B9 /* NSBundle+Extension.m in Sources */,
+				E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */,
 				E3AB6E1D1BCCE50300140E78 /* MLGMTimeLineViewController.m in Sources */,
 				B408C3C51BCB5EE80018634D /* MLGMAccount+CoreDataProperties.m in Sources */,
 				B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */,

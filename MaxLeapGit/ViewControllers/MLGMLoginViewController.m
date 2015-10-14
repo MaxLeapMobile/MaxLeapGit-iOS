@@ -83,16 +83,17 @@
 - (void)updateViewConstraints {
     if (!self.isSetupConstraints) {
         
+        CGFloat topMargin = (self.view.bounds.size.height - 100 - 50 - 40 - 50 - 29) / 2;
         
-        [self.logoImageView pinToSuperviewEdges:JRTViewPinTopEdge inset:136.0f];
+        [self.logoImageView pinToSuperviewEdges:JRTViewPinTopEdge inset:topMargin];
         [self.logoImageView centerInContainerOnAxis:NSLayoutAttributeCenterX];
         [self.logoImageView constrainToSize:CGSizeMake(100, 100)];
         
         [self.tipsLabel pinAttribute:NSLayoutAttributeTop toAttribute:NSLayoutAttributeBottom ofItem:self.logoImageView withConstant:50];
-        [self.tipsLabel pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:68];
+        [self.tipsLabel pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:(self.view.bounds.size.width - 225) / 2];
         
-        [self.loginButton pinToSuperviewEdges:JRTViewPinBottomEdge inset:160];
-        [self.loginButton pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:68];
+        [self.loginButton pinAttribute:NSLayoutAttributeTop toAttribute:NSLayoutAttributeBottom ofItem:self.tipsLabel withConstant:50];
+        [self.loginButton pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:(self.view.bounds.size.width - 198) / 2];
         
         self.isSetupConstraints = YES;
     }
@@ -116,8 +117,9 @@
         _tipsLabel = [UILabel autoLayoutView];
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.numberOfLines = 0;
+        _tipsLabel.font = [UIFont systemFontOfSize:17];
+        _tipsLabel.textColor = UIColorFromRGB(0x808080);
         _tipsLabel.text = NSLocalizedString(@"GitMaster needs permission to access your account", nil);
-        _tipsLabel.textColor = UIColorFromRGB(0x000000);
     }
     
     return _tipsLabel;
@@ -128,8 +130,9 @@
         _loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _loginButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_loginButton setTitle:NSLocalizedString(@"Sign in with github", nil) forState:UIControlStateNormal];
+        _loginButton.titleLabel.font = [UIFont systemFontOfSize:24];
         [_loginButton addTarget:self action:@selector(loginButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [_loginButton setTitleColor:UIColorFromRGB(0x0000ff) forState:UIControlStateNormal];
+        [_loginButton setTitleColor:UIColorFromRGB(0x0076FF) forState:UIControlStateNormal];
     }
     
     return _loginButton;

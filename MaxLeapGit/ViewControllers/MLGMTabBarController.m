@@ -72,7 +72,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self presentLoginVCIfNeeded];
+//    [self presentLoginVCIfNeeded];
 }
 
 - (void)setTabBarHidden:(BOOL)hidden {
@@ -84,9 +84,9 @@
 - (void)onClickedCentralButton {
     kOnlineAccount.isOnline = @NO;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    [self presentLoginVCIfNeeded];
+//    [self presentLoginVCIfNeeded];
     
-//    BLOCK_SAFE_RUN(_centralButtonAction);
+    BLOCK_SAFE_RUN(_centralButtonAction);
 }
 
 #pragma mark - UITabBarControllerDelegate
