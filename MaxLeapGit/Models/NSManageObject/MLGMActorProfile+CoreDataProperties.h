@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *publicRepos;
 @property (nullable, nonatomic, retain) NSNumber *organizations;
 @property (nullable, nonatomic, retain) NSNumber *starts;
-@property (nullable, nonatomic, retain) NSNumber *isFollow;
 @property (nullable, nonatomic, retain) NSDate *updatedAt;
 @property (nullable, nonatomic, retain) NSString *introduction;
 @property (nullable, nonatomic, retain) NSSet<MLGMGene *> *genes;

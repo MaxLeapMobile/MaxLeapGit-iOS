@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSInteger, MLGMErrorType) {
     MLGMErrorTypeDefault,
-    MLGMErrorTypeServerNotReturnDesiredData,
+    MLGMErrorTypeServerNotReturnDesiredData = 1000,
     MLGMErrorTypeServerDataFormateError,
     MLGMErrorTypeServerDataNil,
     MLGMErrorTypeServerResponseError,

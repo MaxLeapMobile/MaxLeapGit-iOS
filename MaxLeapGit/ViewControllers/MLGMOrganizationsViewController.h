@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMOrganizationsController : UITableViewController
+@interface MLGMOrganizationsViewController : UITableViewController
 
 @end

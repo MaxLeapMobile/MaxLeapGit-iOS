@@ -10,5 +10,5 @@
 #import "MLGMWebViewController.h"
 
 @interface MLGMRepoDetailController : MLGMWebViewController
-@property (nonatomic, strong) NSString *repoName;
+@property (nonatomic, copy) NSString *repoName;
 @end

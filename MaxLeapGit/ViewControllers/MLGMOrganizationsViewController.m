@@ -6,16 +6,16 @@
 //  Copyright © 2015年 iLegendsoft. All rights reserved.
 //
 
-#import "MLGMOrganizationsController.h"
-#import "MLGMUserCell.h"
+#import "MLGMOrganizationsViewController.h"
+#import "MLGMFollowCell.h"
 #import "MLGMTabBarController.h"
 #import "MLGMWebViewController.h"
 
-@interface MLGMOrganizationsController ()
+@interface MLGMOrganizationsViewController ()
 
 @end
 
-@implementation MLGMOrganizationsController
+@implementation MLGMOrganizationsViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -43,7 +43,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[MLGMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[MLGMFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
     return cell;

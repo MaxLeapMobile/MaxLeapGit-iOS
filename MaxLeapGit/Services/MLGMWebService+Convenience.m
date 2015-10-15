@@ -11,6 +11,8 @@
 #import "MLGMAccount.h"
 #import "MLGMAccount+CoreDataProperties.h"
 
+#define KNewworkDebug 0
+
 #define kTimeOutInvervalForRequest 30
 
 static NSString *const kGitHubBaseName = @"https://api.github.com";
@@ -69,6 +71,7 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     request.timeoutInterval = kTimeOutInvervalForRequest;
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"0" forHTTPHeaderField:@"Content-Length"];
     
     NSString *accessToken = [self accessToken];
     if (accessToken.length > 0) {
@@ -109,7 +112,13 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     
     NSURLSessionDataTask *sessionTask = [session dataTaskWithRequest:request completionHandler:^(NSData *receiveData, NSURLResponse *response, NSError *error) {
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-
+        
+        if (KNewworkDebug) {
+            DDLogInfo(@"--------requestURL:%@", request.URL.absoluteString);
+            NSString *responseContent = [[NSString alloc] initWithData:receiveData encoding:NSUTF8StringEncoding];
+            DDLogInfo(@"%@", responseContent);
+        }
+        
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, statusCode, nil, error);
             return;
@@ -156,7 +165,8 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
         BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
         if (!valid) {
             NSString *receiveDataString = [[NSString alloc] initWithData:receiveData encoding:NSUTF8StringEncoding];
-            error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:receiveDataString];
+            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", receiveDataString];
+            error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, statusCode, nil, error);
             return;
         }

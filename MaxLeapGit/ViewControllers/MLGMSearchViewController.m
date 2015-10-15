@@ -8,7 +8,7 @@
 
 #import "MLGMSearchViewController.h"
 #import "MLGMRepoCell.h"
-#import "MLGMUserCell.h"
+#import "MLGMFollowCell.h"
 #import "WYPopoverController.h"
 #import "MLGMSortViewController.h"
 #import "MLGMRepoDetailController.h"
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) WYPopoverController *popover;
 
 @property (nonatomic, assign) BOOL searchTargetIsUser;
-@property (nonatomic, strong) NSString *sortMethod;
+@property (nonatomic, copy) NSString *sortMethod;
 
 //results
 @property (nonatomic, strong) NSArray *repos;
@@ -212,7 +212,7 @@
         if (tableView == _repoTableView) {
             cell = [[MLGMRepoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         } else {
-            cell = [[MLGMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            cell = [[MLGMFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         }
     }
     return cell;

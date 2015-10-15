@@ -11,7 +11,7 @@
 @interface MLGMSortViewController ()
 @property (nonatomic, strong) NSArray *sortMethods;
 
-@property (nonatomic, strong) NSString *selectedMethod;
+@property (nonatomic, copy) NSString *selectedMethod;
 @end
 
 @implementation MLGMSortViewController

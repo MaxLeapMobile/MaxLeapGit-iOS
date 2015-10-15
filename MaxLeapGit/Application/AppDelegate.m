@@ -11,7 +11,7 @@
 #import "MLGMLoginViewController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
-#import "MLGMUserPageViewController.h"
+#import "MLGMHomePageViewController.h"
 #import "MLGMNavigationController.h"
 #import "MLGMTabBarController.h"
 
@@ -19,6 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureGlobalAppearance];
+    [self configureGlobalSystemState];
 	[self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureCocoaLumberjack];
@@ -67,11 +68,18 @@
     [[UINavigationBar appearance] setShadowImage:barLineImage];
 }
 
+- (void)configureGlobalSystemState {
+
+}
+
 - (void)configureLeapCloud {
     [ILSLeapCloud setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key];
 }
 
 - (void)configureMagicalRecord {
+#ifdef DEBUG
+    [MagicalRecord setLoggingLevel:MagicalRecordLoggingLevelWarn];
+#endif
     [MagicalRecord setupCoreDataStack];
 }
 

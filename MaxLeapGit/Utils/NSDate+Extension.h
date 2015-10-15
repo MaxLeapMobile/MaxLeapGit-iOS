@@ -1,4 +1,4 @@
-@interface NSDate (TimeAgo)
+@interface NSDate (Extension)
 - (NSString *) timeAgoSimple;
 - (NSString *) timeAgo;
 - (NSString *) timeAgoWithLimit:(NSTimeInterval)limit;
@@ -13,5 +13,6 @@
 // when more precision is needed (= less than 6 hours ago) it returns the same output as dateTimeAgo
 - (NSString *)dateTimeUntilNow;
 
+- (NSString *)humanDateString;
 @end
 
