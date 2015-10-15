@@ -8,24 +8,21 @@
 
 #import "MLGMSortViewController.h"
 
+#define kRepoSortMethods       @[@"Best match (Default)", @"Most stars", @"Most forks", @"Recently updated"]
+#define kUserSortMethods       @[@"Best match (Default)", @"Followers", @"Repositories", @"Joined"]
+
 @interface MLGMSortViewController ()
 @property (nonatomic, strong) NSArray *sortMethods;
-
-@property (nonatomic, strong) NSString *selectedMethod;
+@property (nonatomic, assign) NSUInteger selectedIndex;
 @end
 
 @implementation MLGMSortViewController
-- (instancetype)initWithSortGroupType:(MLGMSortGroupType)type selectedSortMethod:(NSString *)selectedMethod {
+- (instancetype)initWithGroupType:(MLGMSortGroupType)type selectedIndex:(NSUInteger)index {
     self = [super init];
     if (self) {
-
-        if (type == MLGMSortGroupTypeRepo) {
-            _sortMethods = @[@"Best match (Default)", @"Most stars", @"Most forks", @"Recently updated"];
-        } else {
-            _sortMethods = @[@"Best match (Default)", @"Followers", @"Repositories", @"Joined"];
-        }
-        
-        _selectedMethod = selectedMethod.length ? selectedMethod : [_sortMethods firstObject];
+       
+        _sortMethods = type == MLGMSortGroupTypeRepo ? kRepoSortMethods : kUserSortMethods;
+        _selectedIndex = index;
     }
     return self;
 }
@@ -47,7 +44,7 @@
         cell.textLabel.font = [UIFont systemFontOfSize:17];
     }
     cell.textLabel.text = _sortMethods[indexPath.row];
-    if ([cell.textLabel.text isEqualToString:_selectedMethod]) {
+    if (indexPath.row == _selectedIndex) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         cell.textLabel.textColor = UIColorWithRGBA(0, 118, 255, 1);
     }
@@ -56,9 +53,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _selectedIndex = indexPath.row;
     
     if (self.delegate) {
-        [self.delegate sortViewControllerDidSelectSortMethod:_sortMethods[indexPath.row]];
+        [self.delegate sortViewControllerDidSelectRowAtIndex:_selectedIndex];
     }
 }
 

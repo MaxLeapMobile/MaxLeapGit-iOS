@@ -14,7 +14,7 @@
     self.author = [object valueForKeyPath:@"owner.login"];
     self.avatarUrl = [object valueForKeyPath:@"owner.avatar_url"];
     self.htmlPageUrl = [object valueForKeyPath:@"html_url"];
-    self.introduction = [object valueForKeyPath:@"description"];
+    self.introduction = NULL_TO_NIL([object valueForKeyPath:@"description"]);
     self.isFork = [object valueForKeyPath:@"fork"];
     self.name = [object valueForKeyPath:@"full_name"];
 }

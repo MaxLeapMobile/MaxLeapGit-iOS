@@ -10,7 +10,7 @@
 
 @protocol MLGMSortViewControllerDelegate <NSObject>
 
-- (void)sortViewControllerDidSelectSortMethod:(NSString *)sortMethod;
+- (void)sortViewControllerDidSelectRowAtIndex:(NSUInteger)index;
 
 @end
 
@@ -22,6 +22,5 @@ typedef enum : NSUInteger {
 @interface MLGMSortViewController : UITableViewController
 @property (nonatomic, weak) id<MLGMSortViewControllerDelegate> delegate;
 
-- (instancetype)initWithSortGroupType:(MLGMSortGroupType)type selectedSortMethod:(NSString *)selectedMethod;
-
+- (instancetype)initWithGroupType:(MLGMSortGroupType)type selectedIndex:(NSUInteger)index;
 @end

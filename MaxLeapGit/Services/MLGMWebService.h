@@ -14,6 +14,21 @@
 @class MLGMEvent;
 @class MLGMRepo;
 
+//repo的搜索排序支持 Best match(默认), Most stars, Most forks, Recently updated.
+typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
+    MLGMSearchRepoSortTypeDefault = 0,
+    MLGMSearchRepoSortTypeStars = 1,
+    MLGMSearchRepoSortTypeForks = 2,
+    MLGMSearchRepoSortTypeRecentlyUpdated = 3
+};
+
+//user的搜索排序支持 Best match(默认), followers, repositories, joined.
+typedef NS_ENUM(NSUInteger, MLGMSearchUserSortType) {
+    MLGMSearchUserSortTypeDefault = 0,
+    MLGMSearchUserSortTypeFollowers = 1,
+    MLGMSearchUserSortTypeRepos = 2,
+    MLGMSearchUserSortTypeJoined = 3
+};
 
 static NSUInteger const kPerPage = 30;
 
@@ -107,14 +122,14 @@ static NSUInteger const kPerPage = 30;
 - (void)forkRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
 
 /**
- * 搜索开源项目
+ * 搜索开源项目, 搜索排序支持 Best match(默认), Most stars, Most forks, Recently updated
  */
-- (void)searchByRepoName:(NSString *)repoName descending:(BOOL)descending completion:(void(^)())completion;
+- (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
 
 /**
- * 搜索用户
+ * 搜索开源项目, 搜索排序支持 Best match(默认), Most stars, Most forks, Recently updated
  */
-- (void)searchByUserName:(NSString *)userName completion:(void(^)())completion;
+- (void)searchByUserName:(NSString *)repoName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion;
 
 /**
  * 保存用户的基因

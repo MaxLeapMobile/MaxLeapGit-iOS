@@ -57,8 +57,9 @@
 
 - (void)configureTableView {
     [self.tableView registerClass:[MLGMTimeLineCell class] forCellReuseIdentifier:@"Cell"];
-//    self.tableView.rowHeight = UITableViewAutomaticDimension;
-//    self.tableView.estimatedRowHeight = 80.0;
+    self.tableView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 49);
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 80.0;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc] init];
@@ -68,7 +69,8 @@
     [self.tableView addPullToRefreshWithActionHandler:^{
         weakSelf.tableView.showsInfiniteScrolling = NO;
         page = 1;
-        [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
+        //TODO: ... "rs" -> kOnlineAccount.actorProfile.loginName
+        [[MLGMWebService sharedInstance] timeLineForUserName:@"rs"
                                                     fromPage:page
                                                   completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
                                                       execute_after_main_queue(0.2, ^{
@@ -99,7 +101,7 @@
                                                       } else {
                                                           [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
                                                       }
-                                                  }];
+                                                  }];  
     }];
 
     [self.view addSubview:self.tableView];
@@ -123,7 +125,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    return UITableViewAutomaticDimension;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

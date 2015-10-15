@@ -13,6 +13,9 @@
 #import "MLGMSortViewController.h"
 #import "MLGMRepoDetailController.h"
 #import "MLGMSearchPageTitleView.h"
+#import "MLGMWebService.h"
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import "MLGMUserPageViewController.h"
 
 #define kRepoAndUserButtonWidth     77
 
@@ -32,11 +35,12 @@
 @property (nonatomic, strong) WYPopoverController *popover;
 
 @property (nonatomic, assign) BOOL searchTargetIsUser;
-@property (nonatomic, strong) NSString *sortMethod;
-
+@property (nonatomic, strong) NSString *searchText;
 //results
-@property (nonatomic, strong) NSArray *repos;
-@property (nonatomic, strong) NSArray *users;
+@property (nonatomic, strong) NSMutableArray *repos;
+@property (nonatomic, assign) MLGMSearchRepoSortType repoSortType;
+@property (nonatomic, strong) NSMutableArray *users;
+@property (nonatomic, assign) MLGMSearchUserSortType userSortType;
 
 @end
 
@@ -56,13 +60,12 @@
     [self configureUI];
 }
 
-
 #pragma mark - SubView Configuration
 - (void)configureUI {
     [self configureSearchController];
     [self configureTitleView];
     [self configureContentView];
-    [self configureEmptyView];
+    [self configureScrollIndicator];
 }
 
 - (void)configureSearchController {
@@ -93,15 +96,14 @@
 }
 
 - (void)configureContentView {
-    CGFloat originY = _titleView.bounds.origin.y + _titleView.bounds.size.height;
-    _contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, originY, self.view.bounds.size.width, self.view.bounds.size.height - originY)];
+    _contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, self.view.bounds.size.width, self.view.bounds.size.height - 40 - 64)];
     _contentView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, _contentView.bounds.size.height);
     _contentView.showsHorizontalScrollIndicator = YES;
     _contentView.pagingEnabled = YES;
     _contentView.delegate = self;
     [self.view addSubview:_contentView];
     
-    _repoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, _contentView.bounds.size.width, _contentView.bounds.size.height - 64)];
+    _repoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, _contentView.bounds.size.width, _contentView.bounds.size.height)];
     _repoTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _repoTableView.dataSource = self;
     _repoTableView.delegate = self;
@@ -109,7 +111,7 @@
     _repoTableView.rowHeight = UITableViewAutomaticDimension;
     _repoTableView.estimatedRowHeight = 105;
     [_contentView addSubview:_repoTableView];
-    
+
     _userTableView = [[UITableView alloc]initWithFrame:CGRectMake(_contentView.bounds.size.width, 0, _contentView.bounds.size.width, _contentView.bounds.size.height)];
     _userTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _userTableView.dataSource = self;
@@ -117,19 +119,52 @@
     _userTableView.tableFooterView = [[UIView alloc] init];
     [_contentView addSubview:_userTableView];
     
-    //content indicator
-    _scrollIndicator = [[UIView alloc] initWithFrame:CGRectMake(10, originY - 2, kRepoAndUserButtonWidth - 20, 2)];
-    _scrollIndicator.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_scrollIndicator];
-}
-
-- (void)configureEmptyView {
-    _emptyView = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, self.view.bounds.size.width, self.view.bounds.size.height - 104)];
+    __weak typeof(self) wSelf = self;
+    __block NSUInteger repoPage = 1;
+    [_repoTableView addInfiniteScrollingWithActionHandler:^{
+        [[MLGMWebService sharedInstance] searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+            [wSelf.repoTableView.infiniteScrollingView stopAnimating];
+            wSelf.repoTableView.showsInfiniteScrolling = !isReachEnd;
+            if (!error) {
+                repoPage++;
+                [wSelf.repos addObjectsFromArray:repos];
+                [wSelf.repoTableView reloadData];
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", @"")];
+            }
+        }];
+    }];
+    
+    __block NSUInteger userPage = 1;
+    [_userTableView addInfiniteScrollingWithActionHandler:^{
+        [[MLGMWebService sharedInstance] searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+            [wSelf.userTableView.infiniteScrollingView stopAnimating];
+            wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
+            if (!error) {
+                userPage++;
+                [wSelf.users addObjectsFromArray:repos];
+                [wSelf.userTableView reloadData];
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", @"")];
+            }
+        }];
+    }];
+    
+    _emptyView = [[UILabel alloc] initWithFrame:_contentView.bounds];
+    _emptyView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _emptyView.text = NSLocalizedString(@"No Results", @"");
     _emptyView.textColor = UIColorFromRGB(0xBFBFBF);
     _emptyView.font = [UIFont systemFontOfSize:27];
     _emptyView.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:_emptyView];
+    [_contentView addSubview:_emptyView];
+    [self showEmptyViewIfNeeded];
+}
+
+- (void)configureScrollIndicator {
+    CGFloat originY = _titleView.bounds.origin.y + _titleView.bounds.size.height;
+    _scrollIndicator = [[UIView alloc] initWithFrame:CGRectMake(10, originY - 2, kRepoAndUserButtonWidth - 20, 2)];
+    _scrollIndicator.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_scrollIndicator];
 }
 
 #pragma mark - Actions
@@ -139,7 +174,8 @@
 
 - (void)onClickedSortButton {
     MLGMSortGroupType sortGroupType = _searchTargetIsUser ? MLGMSortGroupTypeUser : MLGMSortGroupTypeRepo;
-    MLGMSortViewController *vc = [[MLGMSortViewController alloc] initWithSortGroupType:sortGroupType selectedSortMethod:_sortMethod];
+    NSUInteger currentSortTypeIndex = _searchTargetIsUser ? _userSortType : _repoSortType;
+    MLGMSortViewController *vc = [[MLGMSortViewController alloc] initWithGroupType:sortGroupType selectedIndex:currentSortTypeIndex];
     vc.preferredContentSize = CGSizeMake(250, 44 * 4);
     vc.delegate = self;
     
@@ -149,13 +185,20 @@
 }
 
 - (void)onClickedRepoButton {
-    [self updateContentViewWithSearchTargetStatus:NO];
+    if (_searchTargetIsUser) {
+        _searchTargetIsUser = NO;
+        [self scrollToTableViewWithCurrentSearchGroup];
+        [self searchDataAndReloadTableView];
+    }
 }
 
 - (void)onClickedUserButton {
-    [self updateContentViewWithSearchTargetStatus:YES];
+    if (!_searchTargetIsUser) {
+        _searchTargetIsUser = YES;
+        [self scrollToTableViewWithCurrentSearchGroup];
+        [self searchDataAndReloadTableView];
+    }
 }
-
 
 #pragma mark- Delegate，DataSource, Callback Method
 
@@ -166,12 +209,11 @@
 
 #pragma mark - UISearchBar Delegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    //search and reload data
-    //temp
-    _repos = @[@"1"];
-    _users = @[@"1"];
-    
-    [self requestDataAndReloadTableView];
+    [self searchDataAndReloadTableView];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    _searchText = searchText;
 }
 
 #pragma mark - UITableView Data Source & Delegate
@@ -194,40 +236,52 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *reuseIdentifier = (tableView == _repoTableView) ? @"repoCell" : @"userCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell) {
-        if (tableView == _repoTableView) {
+    if (tableView == _repoTableView) {
+        if (!cell) {
             cell = [[MLGMRepoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-        } else {
+        }
+        if (indexPath.row < _repos.count) {
+            MLGMRepo *repo = _repos[indexPath.row];
+            MLGMRepoCell *repoCell = (MLGMRepoCell *)cell;
+            [repoCell updateData:repo];
+        }
+    } else {
+        if (!cell) {
             cell = [[MLGMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         }
+        if (indexPath.row < _users.count) {
+            MLGMActorProfile *actorProfile = _users[indexPath.row];
+            MLGMUserCell *userCell = (MLGMUserCell *)cell;
+            [userCell updateData:actorProfile];
+        }
     }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == _repoTableView) {
-        UIViewController *vc = [[MLGMRepoDetailController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        UIViewController *repoVC = [[MLGMRepoDetailController alloc] init];
+        [self.navigationController pushViewController:repoVC animated:YES];
+    } else {
+        UIViewController *userVC = [[MLGMUserPageViewController alloc] init];
+        [self.navigationController pushViewController:userVC animated:YES];
     }
 }
 
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == _contentView) {
-        BOOL searchTargetIsUser = _contentView.contentOffset.x == self.view.bounds.size.width;
-        [self updateContentViewWithSearchTargetStatus:searchTargetIsUser];
+        BOOL currentTargetIsUser = _contentView.contentOffset.x == self.view.bounds.size.width;
+        if (currentTargetIsUser != _searchTargetIsUser) {
+            _searchTargetIsUser = currentTargetIsUser;
+            [self scrollToTableViewWithCurrentSearchGroup];
+            if (_searchText.length) {
+                [self searchDataAndReloadTableView];
+            }
+        }
     }
-}
-
-- (void)updateContentViewWithSearchTargetStatus:(BOOL)searchTargetIsUser {
-    [self setSearchTargetIsUser:searchTargetIsUser];
-    
-    //update scrollIndicator position
-    CGFloat indicatorOriginX = _searchTargetIsUser ? 10 + kRepoAndUserButtonWidth : 10;
-    _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, kRepoAndUserButtonWidth - 10 * 2, 2);
-    CGFloat scrollViewOffsetX = _searchTargetIsUser ? self.view.bounds.size.width : 0;
-    _contentView.contentOffset = CGPointMake(scrollViewOffsetX, 0);
 }
 
 #pragma mark - WYPopoverController Delegate
@@ -237,33 +291,80 @@
 }
 
 #pragma mark - MLGMSortViewController Delegate
-- (void)sortViewControllerDidSelectSortMethod:(NSString *)sortMethod {
-    _sortMethod = sortMethod;
+- (void)sortViewControllerDidSelectRowAtIndex:(NSUInteger)index {
+    if (!_searchTargetIsUser) {
+        if (_repoSortType != (MLGMSearchRepoSortType)index) {
+            _repoSortType = (MLGMSearchRepoSortType)index;
+            [self searchDataAndReloadTableView];
+        }
+    } else {
+        if (_userSortType != (MLGMSearchUserSortType)index) {
+            _userSortType = (MLGMSearchUserSortType)index;
+            [self searchDataAndReloadTableView];
+        }
+    }
     [_popover dismissPopoverAnimated:YES];
-    
-    //search and reload data
-    [self requestDataAndReloadTableView];
 }
 
 #pragma mark- Private Method
-- (void)requestDataAndReloadTableView {
-    if ((_repos.count == 0 && !_searchTargetIsUser) || (_users.count == 0 && _searchTargetIsUser)) {
+- (void)searchDataAndReloadTableView {
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    _emptyView.hidden = YES;
+
+    NSLog(@"searchtext = %@", _searchText);
+    if (!_searchTargetIsUser) {
+        if (!_repos) {
+            _repos = [NSMutableArray array];
+        }
+        __weak typeof(self) wSelf = self;
+        [[MLGMWebService sharedInstance] searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isEnd, NSError *error) {
+            [SVProgressHUD dismiss];
+ 
+            NSLog(@"repos = %@", repos);
+            [wSelf.repos removeAllObjects];
+            [wSelf.repos addObjectsFromArray:repos];
+            [wSelf showEmptyViewIfNeeded];
+            [wSelf.repoTableView reloadData];
+        }];
+    } else {
+        if (!_users) {
+            _users = [NSMutableArray array];
+        }
+        __weak typeof(self) wSelf = self;
+        [[MLGMWebService sharedInstance] searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
+            [SVProgressHUD dismiss];
+            
+            NSLog(@"repos = %@", users);
+            [wSelf.users removeAllObjects];
+            [wSelf.users addObjectsFromArray:users];
+            [wSelf showEmptyViewIfNeeded];
+            [wSelf.userTableView reloadData];
+       }];
+    }
+}
+
+- (void)scrollToTableViewWithCurrentSearchGroup {
+    //update scrollIndicator position
+    CGFloat indicatorOriginX = _searchTargetIsUser ? 10 + kRepoAndUserButtonWidth : 10;
+    _scrollIndicator.frame = CGRectMake(indicatorOriginX, _titleView.bounds.origin.y + _titleView.bounds.size.height - 2, kRepoAndUserButtonWidth - 10 * 2, 2);
+    CGFloat scrollViewOffsetX = _searchTargetIsUser ? self.view.bounds.size.width : 0;
+    _contentView.contentOffset = CGPointMake(scrollViewOffsetX, 0);
+    
+    [self showEmptyViewIfNeeded];
+}
+
+- (void)showEmptyViewIfNeeded {
+    if ((_searchTargetIsUser && _users.count == 0) || (!_searchTargetIsUser && _repos.count == 0)) {
+        CGFloat originX = _searchTargetIsUser ? _contentView.bounds.size.width : 0;
+        _emptyView.frame = CGRectMake(originX, 0, _contentView.bounds.size.width, _contentView.bounds.size.height);
         _emptyView.hidden = NO;
     } else {
         _emptyView.hidden = YES;
     }
-    
-    [_repoTableView reloadData];
-    [_userTableView reloadData];
 }
 
 #pragma mark- Getter Setter
-- (void)setSearchTargetIsUser:(BOOL)searchTargetIsUser {
-    if (_searchTargetIsUser != searchTargetIsUser) {
-        _searchTargetIsUser = searchTargetIsUser;
-        _sortMethod = nil;
-    }
-}
+
 
 #pragma mark- Helper Method
 

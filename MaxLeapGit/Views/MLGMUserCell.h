@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class MLGMActorProfile;
 @interface MLGMUserCell : UITableViewCell
-
+- (void)updateData:(MLGMActorProfile *)actorProfile;
 @end

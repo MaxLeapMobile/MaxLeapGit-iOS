@@ -7,6 +7,7 @@
 //
 
 #import "MLGMUserCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface MLGMUserCell ()
 @property (nonatomic, strong) UIImageView *icon;
@@ -29,6 +30,7 @@
     _icon = [[UIImageView alloc] init];
     _icon.translatesAutoresizingMaskIntoConstraints = NO;
     _icon.layer.cornerRadius = 20;
+    _icon.clipsToBounds = YES;
     [self.contentView addSubview:_icon];
     
     _nameLabel = [[UILabel alloc] init];
@@ -42,16 +44,15 @@
     _updateTimeLabel.textColor = UIColorFromRGB(0xBFBFBF);
     [self.contentView addSubview:_updateTimeLabel];
     
-    [self updateData];
     [self updateConstraintsIfNeeded];
 }
 
-- (void)updateData {
-    _icon.backgroundColor = [UIColor lightGrayColor];
-    
-    _nameLabel.text = @"Name";
-    _updateTimeLabel.text = @"Last Updated at: 13:24";
-}
+//- (void)updateData {
+//    _icon.backgroundColor = [UIColor lightGrayColor];
+//    
+//    _nameLabel.text = @"Name";
+//    _updateTimeLabel.text = @"Last Updated at: 13:24";
+//}
 
 - (void)updateConstraints {
     if (!_didSetUpConstraints) {
@@ -65,9 +66,25 @@
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[_icon(40)]-8-[_updateTimeLabel]-8-|" options:0 metrics:nil views:views]];
         
         _didSetUpConstraints = YES;
-        
-        [super updateConstraints];
     }
+    [super updateConstraints];
+}
+
+#pragma mark - Public Methods
+- (void)updateData:(MLGMActorProfile *)actorProfile {
+    [_icon sd_setImageWithURL:[NSURL URLWithString:actorProfile.avatarUrl]];
+    _nameLabel.text = actorProfile.loginName;
+    _updateTimeLabel.text = @"Last Updated at: 13:24";
+    
+//    [_icon sd_setImageWithURL:[NSURL URLWithString:repo.avatarUrl]];
+//    
+//    NSArray *subStrings = [repo.name componentsSeparatedByString:@"/"];
+//    _titleLabel.text = [subStrings lastObject];
+//    _descriptionLabel.text = repo.introduction;
+//    _ownerLabel.text = [NSString stringWithFormat:@"Built by %@", repo.author];
+//    
+    _didSetUpConstraints = NO;
+    [self updateConstraints];
 }
 
 @end

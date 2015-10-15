@@ -13,6 +13,7 @@
 #import "MLGMRepoDetailController.h"
 #import "NSDate+TimeAgo.h"
 #import "UITableViewCell+Extension.h"
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
 #define kTextDefaultColor           UIColorWithRGBA(113, 113, 117, 1)
 #define kTextHighlightedColor       UIColorWithRGBA(0, 118, 255, 1)
@@ -21,9 +22,9 @@
 #define kSourceRepoLinkTag      @"sourceRepoLink"   
 #define kforkedResultLinkTag    @"forkedResultLink"
 
-@interface MLGMTimeLineCell () <CCHLinkTextViewDelegate>
+@interface MLGMTimeLineCell () <CCHLinkTextViewDelegate, TTTAttributedLabelDelegate>
 @property (nonatomic, strong) UIImageView *avatarImageView;
-@property (nonatomic, strong) CCHLinkTextView *contentLinkTextView;
+@property (nonatomic, strong) TTTAttributedLabel *contentLinkLabel;
 @property (nonatomic, strong) UILabel *updateTimeLabel;
 @property (nonatomic, strong) MLGMEvent *event;
 @property (nonatomic, assign) BOOL didSetUpConstraints;
@@ -41,10 +42,13 @@
         _avatarImageView.layer.borderColor = [UIColor grayColor].CGColor;
         [self.contentView addSubview:_avatarImageView];
         
-        _contentLinkTextView = [[CCHLinkTextView alloc] init];
-        _contentLinkTextView.translatesAutoresizingMaskIntoConstraints = NO;
-        _contentLinkTextView.linkDelegate = self;
-        [self.contentView addSubview:_contentLinkTextView];
+        _contentLinkLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        _contentLinkLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _contentLinkLabel.numberOfLines = 0;
+        _contentLinkLabel.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor,
+                                                NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+        _contentLinkLabel.delegate = self;
+        [self.contentView addSubview:_contentLinkLabel];
         
         _updateTimeLabel = [[UILabel alloc] init];
         _updateTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -62,11 +66,11 @@
 #pragma mark- Override Parent Methods
 - (void)updateConstraints {
     if (!_didSetUpConstraints) {
-        NSDictionary *views = NSDictionaryOfVariableBindings(_avatarImageView, _contentLinkTextView, _updateTimeLabel);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_avatarImageView, _contentLinkLabel, _updateTimeLabel);
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_avatarImageView(32)]" options:0 metrics:nil views:views]];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_contentLinkTextView]-10-[_updateTimeLabel]-10-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_avatarImageView(32)]-10-[_contentLinkTextView]-10-|" options:0 metrics:nil views:views]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_contentLinkLabel]-10-[_updateTimeLabel]-10-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_avatarImageView(32)]-10-[_contentLinkLabel]-10-|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_avatarImageView(32)]-10-[_updateTimeLabel]-10-|" options:0 metrics:nil views:views]];
         
         _didSetUpConstraints = YES;
@@ -110,7 +114,16 @@
         [eventAttributedString appendAttributedString:sourceRepo];
     }
     
-    self.contentLinkTextView.attributedText = eventAttributedString;
+    self.contentLinkLabel.text = eventAttributedString;
+    NSRange userNameRange = [self.contentLinkLabel.text rangeOfString:self.event.actorName];
+    [self.contentLinkLabel addLinkToURL:[NSURL URLWithString:kUserNameLinkTag] withRange:userNameRange];
+    NSRange sourceRepoRange = [self.contentLinkLabel.text rangeOfString:self.event.sourceRepoName];
+    [self.contentLinkLabel addLinkToURL:[NSURL URLWithString:kSourceRepoLinkTag] withRange:sourceRepoRange];
+    if ([event.type isEqualToString:@"ForkEvent"]) {
+        NSRange targetRepoRange = [self.contentLinkLabel.text rangeOfString:self.event.targetRepoName];
+        [self.contentLinkLabel addLinkToURL:[NSURL URLWithString:kforkedResultLinkTag] withRange:targetRepoRange];
+    }
+    
     _updateTimeLabel.text = [event.createdAt description];
 }
 
@@ -124,6 +137,18 @@
     } else if ([(NSString *)value isEqualToString:kSourceRepoLinkTag]) {
         BLOCK_SAFE_ASY_RUN_MainQueue(self.tapSourceRepoAction, self.event.sourceRepoName);
     } else if ([(NSString *)value isEqualToString:kforkedResultLinkTag]) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapForkRepoAction, self.event.targetRepoName);
+    }
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    NSLog(@"did select urlString: %@", url.absoluteString);
+    if ([url.absoluteString isEqualToString:kUserNameLinkTag]) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapUserAction, self.event.actorName);
+    } else if ([url.absoluteString isEqualToString:kSourceRepoLinkTag]) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapSourceRepoAction, self.event.sourceRepoName);
+    } else if ([url.absoluteString isEqualToString:kforkedResultLinkTag]) {
         BLOCK_SAFE_ASY_RUN_MainQueue(self.tapForkRepoAction, self.event.targetRepoName);
     }
 }

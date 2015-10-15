@@ -442,4 +442,82 @@ static NSArray *supportEvent() {
     }];
 }
 
+#pragma mark - Search
+- (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
+    if (repoName.length == 0) {
+        return;
+    }
+    NSString *sortString = [self repoSortMethodForType:sortType];
+    NSString *endPoint = @"/search/repositories";
+    NSDictionary *parameters = @{@"q":repoName,@"sort":sortString, @"page" : @(page), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
+    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        if (error) {
+            return;
+        }
+        
+        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
+            NSArray *items = responseData[@"items"];
+            NSMutableArray *repoMOCs = [NSMutableArray new];
+            [items enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                MLGMRepo *oneRepoMOC = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+                [oneRepoMOC fillObject:oneRepoDic];
+                [repoMOCs addObject:oneRepoMOC];
+            }];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOCs copy], [repoMOCs count] < kPerPage, nil);
+        }
+    }];
+}
+
+- (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
+    if (userName.length == 0) {
+        return;
+    }
+    NSString *sortString = [self userSortMethodForType:sortType];
+    NSString *endPoint = @"/search/users";
+    NSDictionary *parameters = @{@"q":userName, @"sort":sortString, @"page" : @(1), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
+    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        if (error) {
+            return;
+        }
+        
+        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
+            NSArray *items = responseData[@"items"];
+            NSMutableArray *userMOCs = [NSMutableArray new];
+            [items enumerateObjectsUsingBlock:^(NSDictionary *oneUserDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                MLGMActorProfile *oneUserMOC = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
+                [oneUserMOC fillProfile:oneUserDic];
+                [userMOCs addObject:oneUserMOC];
+            }];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOCs copy], [userMOCs count] < kPerPage, nil);
+        }
+    }];
+}
+
+//sort=stars, forks, or updated. Default: results are sorted by best match
+- (NSString *)repoSortMethodForType:(MLGMSearchRepoSortType)type {
+    NSString *sortMethodName = nil;
+    switch (type) {
+        case MLGMSearchRepoSortTypeStars: sortMethodName = @"stars"; break;
+        case MLGMSearchRepoSortTypeForks: sortMethodName = @"forks"; break;
+        case MLGMSearchRepoSortTypeRecentlyUpdated: sortMethodName = @"updated"; break;
+        default: sortMethodName = @""; break;
+    }
+    return sortMethodName;
+}
+
+//sort = followers, repositories, or joined. Default: results are sorted by best
+//match.
+- (NSString *)userSortMethodForType:(MLGMSearchUserSortType)type {
+    NSString *sortMethodName = nil;
+    switch (type) {
+        case MLGMSearchUserSortTypeFollowers: sortMethodName = @"followers"; break;
+        case MLGMSearchUserSortTypeRepos: sortMethodName = @"repositories"; break;
+        case MLGMSearchUserSortTypeJoined: sortMethodName = @"joined"; break;
+        default: sortMethodName = @""; break;
+    }
+    return sortMethodName;
+}
+
 @end

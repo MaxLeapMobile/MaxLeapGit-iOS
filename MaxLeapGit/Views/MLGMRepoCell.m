@@ -7,6 +7,8 @@
 //
 
 #import "MLGMRepoCell.h"
+#import "MLGMRepo.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface MLGMRepoCell ()
 @property (nonatomic, strong) UIImageView *icon;
@@ -31,6 +33,7 @@
     _icon = [[UIImageView alloc] init];
     _icon.translatesAutoresizingMaskIntoConstraints = NO;
     _icon.layer.cornerRadius = 20;
+    _icon.clipsToBounds = YES;
     [self.contentView addSubview:_icon];
    
     _titleLabel = [[UILabel alloc] init];
@@ -51,27 +54,7 @@
     _ownerLabel.textColor = UIColorFromRGB(0xBFBFBF);
     [self.contentView addSubview:_ownerLabel];
     
-    [self updateData];
     [self updateConstraintsIfNeeded];
-}
-
-static NSUInteger tag = 0;
-
-- (void)updateData {
-    _icon.layer.borderWidth = 1;
-    _icon.layer.borderColor = [UIColor grayColor].CGColor;//temp
-   
-    _titleLabel.text = @"GitMaster";
-    _descriptionLabel.text = @"GitMaster is *** **************************************************************";
-    _ownerLabel.text = @"Built by **";
-   
-    if (tag == 1) {
-        _descriptionLabel.text = [_descriptionLabel.text stringByAppendingString:_descriptionLabel.text];
-    } else if (tag == 2) {
-        _descriptionLabel.text = [_descriptionLabel.text stringByAppendingFormat:@"%@\n%@",_descriptionLabel.text, _descriptionLabel.text];
-    }
-    
-    tag++;
 }
 
 - (void)updateConstraints {
@@ -90,6 +73,19 @@ static NSUInteger tag = 0;
     }
     
     [super updateConstraints];
+}
+
+#pragma mark - Public Methods
+- (void)updateData:(MLGMRepo *)repo {
+    [_icon sd_setImageWithURL:[NSURL URLWithString:repo.avatarUrl]];
+    
+    NSArray *subStrings = [repo.name componentsSeparatedByString:@"/"];
+    _titleLabel.text = [subStrings lastObject];
+    _descriptionLabel.text = repo.introduction;
+    _ownerLabel.text = [NSString stringWithFormat:@"Built by %@", repo.author];
+
+    _didSetUpConstraints = NO;
+    [self updateConstraints];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class MLGMRepo;
 @interface MLGMRepoCell : UITableViewCell
-
+- (void)updateData:(MLGMRepo *)repo;
 @end
