@@ -10,5 +10,5 @@
 
 @class MLGMRepo;
 @interface MLGMRepoCell : UITableViewCell
-- (void)updateData:(MLGMRepo *)repo;
+- (void)configureCell:(MLGMRepo *)repo;
 @end

@@ -109,7 +109,12 @@ static NSUInteger const kPerPage = 30;
 /**
  * 指定用户stars或fork的项目
  */
-- (void)reposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion;
+- (void)staredReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion;
+
+/**
+ * 指定用户拥有的public repos
+ */
+- (void)publicRepoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion;
 
 /**
  * star项目

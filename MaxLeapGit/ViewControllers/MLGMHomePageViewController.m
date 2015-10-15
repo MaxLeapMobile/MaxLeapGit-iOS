@@ -13,7 +13,7 @@
 #import "MLGMGenesViewController.h"
 #import "MLGMNavigationController.h"
 #import "MLGMFollowViewController.h"
-#import "MLGMReposController.h"
+#import "MLGMReposViewController.h"
 #import "MLGMOrganizationsViewController.h"
 #import "MLGMTabBarController.h"
 #import "UIView+CustomBorder.h"
@@ -237,12 +237,16 @@
         };
         
         userProfileCell.reposButtonAction = ^{
-            MLGMReposController *reposVC = [[MLGMReposController alloc] initWithType:MLGMReposControllerTypeRepos];
+            MLGMReposViewController *reposVC = [MLGMReposViewController new];
+            reposVC.ownerName = self.ownerName;
+            reposVC.type = MLGMReposControllerTypeRepos;
             [weakSelf.navigationController pushViewController:reposVC animated:YES];
         };
         
         userProfileCell.starsButtonAction = ^{
-            MLGMReposController *starVC = [[MLGMReposController alloc] initWithType:MLGMReposControllerTypeStars];
+            MLGMReposViewController *starVC = [MLGMReposViewController new];
+            starVC.ownerName = self.ownerName;
+            starVC.type = MLGMReposControllerTypeStars;
             [weakSelf.navigationController pushViewController:starVC animated:YES];
         };
         

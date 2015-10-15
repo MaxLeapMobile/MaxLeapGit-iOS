@@ -33,6 +33,7 @@
 #import "MLGMActorProfile.h"
 #import "MLGMGene.h"
 #import "MLGMEvent.h"
+#import "MLGMRepo.h"
 #import "MLGMFollowRelation.h"
 #endif
 

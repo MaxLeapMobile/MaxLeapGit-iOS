@@ -14,6 +14,7 @@ typedef enum : NSUInteger {
     MLGMReposControllerTypeStars,
 } MLGMReposControllerType;
 
-@interface MLGMReposController : UITableViewController
-- (instancetype)initWithType:(MLGMReposControllerType)type;
+@interface MLGMReposViewController : UIViewController
+@property (nonatomic, copy) NSString *ownerName;
+@property (nonatomic, assign) MLGMReposControllerType type;
 @end

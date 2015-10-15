@@ -366,13 +366,35 @@ static NSArray *supportEvent() {
     }];
 }
 
-- (void)reposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
+- (void)staredReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/starred", userName];
-    NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(kPerPage)};
+    NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/starred api error:%@", userName, error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
+            return;
+        }
+        
+        NSMutableArray *repoMOCs = [NSMutableArray new];
+        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            MLGMRepo *oneRepoMOC = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+            [oneRepoMOC fillObject:oneRepoDic];
+            [repoMOCs addObject:oneRepoMOC];
+        }];
+        
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOCs copy], [repoMOCs count] < kPerPage, nil);
+    }];
+}
+
+- (void)publicRepoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
+    NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", userName];
+    NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
+    [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+        if (error) {
+            DDLogError(@"access /users/%@/repos api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
             return;
         }

@@ -68,7 +68,7 @@
 		E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E151BCCE50300140E78 /* MLGMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF91BCCE50300140E78 /* MLGMRepoDetailController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E181BCCE50300140E78 /* MLGMReposController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFB1BCCE50300140E78 /* MLGMReposController.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E181BCCE50300140E78 /* MLGMReposViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E191BCCE50300140E78 /* MLGMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFD1BCCE50300140E78 /* MLGMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFF1BCCE50300140E78 /* MLGMSortViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */; settings = {ASSET_TAGS = (); }; };
@@ -227,8 +227,8 @@
 		E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRecommendViewController.m; sourceTree = "<group>"; };
 		E3AB6DF81BCCE50300140E78 /* MLGMRepoDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepoDetailController.h; sourceTree = "<group>"; };
 		E3AB6DF91BCCE50300140E78 /* MLGMRepoDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepoDetailController.m; sourceTree = "<group>"; };
-		E3AB6DFA1BCCE50300140E78 /* MLGMReposController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMReposController.h; sourceTree = "<group>"; };
-		E3AB6DFB1BCCE50300140E78 /* MLGMReposController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMReposController.m; sourceTree = "<group>"; };
+		E3AB6DFA1BCCE50300140E78 /* MLGMReposViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMReposViewController.h; sourceTree = "<group>"; };
+		E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMReposViewController.m; sourceTree = "<group>"; };
 		E3AB6DFC1BCCE50300140E78 /* MLGMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchViewController.h; sourceTree = "<group>"; };
 		E3AB6DFD1BCCE50300140E78 /* MLGMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSearchViewController.m; sourceTree = "<group>"; };
 		E3AB6DFE1BCCE50300140E78 /* MLGMSortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSortViewController.h; sourceTree = "<group>"; };
@@ -616,8 +616,8 @@
 				E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */,
 				E3AB6DE61BCCE50300140E78 /* MLGMAddNewGeneViewController.h */,
 				E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */,
-				E3AB6DFA1BCCE50300140E78 /* MLGMReposController.h */,
-				E3AB6DFB1BCCE50300140E78 /* MLGMReposController.m */,
+				E3AB6DFA1BCCE50300140E78 /* MLGMReposViewController.h */,
+				E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */,
 				E3AB6DF01BCCE50300140E78 /* MLGMOrganizationsViewController.h */,
 				E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */,
 			);
@@ -847,7 +847,7 @@
 				B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */,
 				B4429FCD1BCCF82200F8B108 /* MLGMFollowCell.m in Sources */,
 				B408C3C71BCB5EE80018634D /* MLGMGene+CoreDataProperties.m in Sources */,
-				E3AB6E181BCCE50300140E78 /* MLGMReposController.m in Sources */,
+				E3AB6E181BCCE50300140E78 /* MLGMReposViewController.m in Sources */,
 				B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */,
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */,
 				E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */,

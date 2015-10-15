@@ -199,19 +199,19 @@
     }
 }
 
-- (void)onClickedFollowersButton {
+- (void)followersButtonPressed:(id)sender {
     BLOCK_SAFE_RUN(_followersButtonAction);
 }
 
-- (void)onClickedFollowingButton {
+- (void)followingButtonPressed:(id)sender {
     BLOCK_SAFE_RUN(_followingButtonAction);
 }
 
-- (void)onClickedReposButton {
+- (void)reposButtonPressed:(id)sender {
     BLOCK_SAFE_RUN(_reposButtonAction);
 }
 
-- (void)onClickedStarsButton {
+- (void)starButtonPressed:(id)sender {
     BLOCK_SAFE_RUN(_starsButtonAction);
 }
 
@@ -271,7 +271,7 @@
         _followersButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _followersButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_followersButton setBackgroundColor:[UIColor clearColor]];
-        [_followersButton addTarget:self action:@selector(onClickedFollowersButton) forControlEvents:UIControlEventTouchUpInside];
+        [_followersButton addTarget:self action:@selector(followersButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _followersButton;
@@ -282,7 +282,7 @@
         _followingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _followingButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_followingButton setBackgroundColor:[UIColor clearColor]];
-        [_followingButton addTarget:self action:@selector(onClickedFollowingButton) forControlEvents:UIControlEventTouchUpInside];
+        [_followingButton addTarget:self action:@selector(followingButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _followingButton;
@@ -293,7 +293,7 @@
         _reposButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _reposButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_reposButton setBackgroundColor:[UIColor clearColor]];
-        [_reposButton addTarget:self action:@selector(onClickedReposButton) forControlEvents:UIControlEventTouchUpInside];
+        [_reposButton addTarget:self action:@selector(reposButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _reposButton;
@@ -304,7 +304,7 @@
         _starsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _starsButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_starsButton setBackgroundColor:[UIColor clearColor]];
-        [_starsButton addTarget:self action:@selector(onClickedReposButton) forControlEvents:UIControlEventTouchUpInside];
+        [_starsButton addTarget:self action:@selector(starButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _starsButton;

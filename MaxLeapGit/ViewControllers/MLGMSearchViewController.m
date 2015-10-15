@@ -243,7 +243,7 @@
         if (indexPath.row < _repos.count) {
             MLGMRepo *repo = _repos[indexPath.row];
             MLGMRepoCell *repoCell = (MLGMRepoCell *)cell;
-            [repoCell updateData:repo];
+            [repoCell configureCell:repo];
         }
     } else {
         if (!cell) {
