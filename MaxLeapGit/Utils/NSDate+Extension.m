@@ -1,4 +1,4 @@
-#import "NSDate+TimeAgo.h"
+#import "NSDate+Extension.h"
 
 @interface NSDate()
 -(NSString *)getLocaleFormatUnderscoresWithValue:(double)value;
@@ -11,7 +11,7 @@
 
 @end
 
-@implementation NSDate (TimeAgo)
+@implementation NSDate (Extension)
 
 #ifndef NSDateTimeAgoLocalizedStrings
 #define NSDateTimeAgoLocalizedStrings(key) \
@@ -378,5 +378,18 @@ NSLocalizedStringFromTableInBundle(key, @"NSDateTimeAgo", [NSBundle bundleWithPa
 }
 
 #pragma clang diagnostic pop
+
+- (NSString *)humanDateString {
+    static NSDateFormatter *dateFormatter;
+    if (!dateFormatter) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
+        dateFormatter.timeZone = [NSTimeZone localTimeZone];
+    }
+    
+    NSString *dateString = [dateFormatter stringFromDate: self];
+    
+    return dateString;
+}
 
 @end

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MLGMActorProfile.h"
 
-@interface MLGMUserPageViewController : UIViewController
-@property (nonatomic, strong) NSString *userName;
+@interface MLGMHomePageViewController : UIViewController
+@property (nonatomic, copy) NSString *ownerName;
 @end

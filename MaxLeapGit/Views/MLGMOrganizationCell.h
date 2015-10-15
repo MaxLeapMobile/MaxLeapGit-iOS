@@ -1,5 +1,5 @@
 //
-//  GMUserCell.h
+//  MLGMOrganizationCell.h
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class MLGMActorProfile;
-@interface MLGMUserCell : UITableViewCell
-- (void)updateData:(MLGMActorProfile *)actorProfile;
+@interface MLGMOrganizationCell : UITableViewCell
+- (void)configureCell:(MLGMActorProfile *)actorProfile;
 @end

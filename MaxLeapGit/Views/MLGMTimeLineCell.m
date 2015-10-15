@@ -11,7 +11,7 @@
 #import <CCHLinkTextView/CCHLinkTextView.h>
 #import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import "MLGMRepoDetailController.h"
-#import "NSDate+TimeAgo.h"
+#import "NSDate+Extension.h"
 #import "UITableViewCell+Extension.h"
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 

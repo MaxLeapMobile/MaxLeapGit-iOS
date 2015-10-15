@@ -33,13 +33,13 @@
 #import "MLGMActorProfile.h"
 #import "MLGMGene.h"
 #import "MLGMEvent.h"
-
+#import "MLGMFollowRelation.h"
 #endif
 
 #ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = DDLogLevelInfo;
 #else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
+static const int ddLogLevel = DDLogLevelError;
 #endif
 
 #define DEFINE_SHARED_INSTANCE_USING_BLOCK(block) \
@@ -120,5 +120,5 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)
 
 #define kOnlineAccount [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)]
+#define kOnlineAccountProfile kOnlineAccount.actorProfile
 #define kOnlineUserName kOnlineAccount.actorProfile.loginName
-

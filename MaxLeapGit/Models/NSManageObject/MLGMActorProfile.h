@@ -22,4 +22,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "MLGMUserProfile+CoreDataProperties.h"
+#import "MLGMActorProfile+CoreDataProperties.h"

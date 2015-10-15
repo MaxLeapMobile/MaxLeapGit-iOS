@@ -9,12 +9,15 @@
 #import "MLGMTabBarController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
-#import "MLGMUserPageViewController.h"
+#import "MLGMHomePageViewController.h"
 #import "MLGMNavigationController.h"
 #import "MLGMLoginViewController.h"
 
 @interface MLGMTabBarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) UIButton *centralButton;
+@property (nonatomic, strong) UINavigationController *firstNav;
+@property (nonatomic, strong) UIViewController *secondVC;
+@property (nonatomic, strong) UINavigationController *thirdNav;
 @end
 
 @implementation MLGMTabBarController
@@ -31,32 +34,23 @@
             navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
             [wSelf presentViewController:navRecommend animated:YES completion:nil];
         };
-        
-        UIViewController *vc1 = [[MLGMTimeLineViewController alloc] init];
-        UINavigationController *nav1 = [[MLGMNavigationController alloc] initWithRootViewController:vc1];
-        nav1.title = vc1.title = NSLocalizedString(@"TimeLine", @"");
-        [nav1.tabBarItem setImage:ImageNamed(@"timeline_icon_normal")];
-        [nav1.tabBarItem setSelectedImage:ImageNamed(@"timeline_icon_selected")];
-        
-        UIViewController *vc2 = [[UIViewController alloc] init];
-        
-        UIViewController *vc3 = [[MLGMUserPageViewController alloc] init];
-        UINavigationController *nav3 = [[MLGMNavigationController alloc] initWithRootViewController:vc3];
-        nav3.title = vc3.title = NSLocalizedString(@"Mine", @"");
-        [vc3.tabBarItem setImage:ImageNamed(@"mine_icon_normal")];
-        [vc3.tabBarItem setSelectedImage:ImageNamed(@"mine_icon_selected")];
-        
-        self.viewControllers = @[nav1, vc2, nav3];
+        self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
     }
+    
     return self;
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-   
     [self configureUI];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self presentLoginVCIfNeeded];
+    MLGMHomePageViewController *userPage = (MLGMHomePageViewController *)self.thirdNav.topViewController;
+    userPage.ownerName = kOnlineUserName;
 }
 
 - (void)configureUI {
@@ -68,11 +62,6 @@
     [_centralButton addTarget:self action:@selector(onClickedCentralButton) forControlEvents:UIControlEventTouchUpInside];
     _centralButton.tag = 1001;
     [self.view addSubview:_centralButton];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-//    [self presentLoginVCIfNeeded];
 }
 
 - (void)setTabBarHidden:(BOOL)hidden {
@@ -96,7 +85,6 @@
         return NO;
     }
     return YES;
-
 }
 
 - (void)presentLoginVCIfNeeded {
@@ -104,6 +92,40 @@
         MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
         [self presentViewController:loginVC animated:NO completion:nil];
     }
+}
+
+- (UINavigationController *)firstNav {
+    if (!_firstNav) {
+        UIViewController *firstVC = [[MLGMTimeLineViewController alloc] init];
+        _firstNav = [[MLGMNavigationController alloc] initWithRootViewController:firstVC];
+        _firstNav.navigationBar.barStyle = UIBarStyleBlack;
+        _firstNav.title = firstVC.title = NSLocalizedString(@"TimeLine", @"");
+        [_firstNav.tabBarItem setImage:ImageNamed(@"timeline_icon_normal")];
+        [_firstNav.tabBarItem setSelectedImage:ImageNamed(@"timeline_icon_selected")];
+    }
+    
+    return _firstNav;
+}
+
+- (UIViewController *)secondVC {
+    if (!_secondVC) {
+        _secondVC = [[UIViewController alloc] init];
+    }
+    
+    return _secondVC;
+}
+
+- (UINavigationController *)thirdNav {
+    if (!_thirdNav) {
+        MLGMHomePageViewController *thirdVC = [[MLGMHomePageViewController alloc] init];
+        _thirdNav = [[MLGMNavigationController alloc] initWithRootViewController:thirdVC];
+        _thirdNav.navigationBar.barStyle = UIBarStyleBlack;
+        _thirdNav.title = thirdVC.title = NSLocalizedString(@"Mine", @"");
+        [_thirdNav.tabBarItem setImage:ImageNamed(@"mine_icon_normal")];
+        [_thirdNav.tabBarItem setSelectedImage:ImageNamed(@"mine_icon_selected")];
+    }
+    
+    return _thirdNav;
 }
 
 @end

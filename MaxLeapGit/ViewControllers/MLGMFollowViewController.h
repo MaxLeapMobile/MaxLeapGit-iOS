@@ -14,7 +14,7 @@ typedef enum : NSUInteger {
     MLGMFollowControllerTypeFollowing,
 } MLGMFollowControllerType;
 
-//followers; following
-@interface MLGMFollowController : UITableViewController
-- (instancetype)initWithType:(MLGMFollowControllerType)type;
+@interface MLGMFollowViewController : UIViewController
+@property (nonatomic, copy) NSString *ownerName;
+@property (nonatomic, assign) MLGMFollowControllerType type;
 @end

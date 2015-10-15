@@ -68,10 +68,8 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
     [self startRquest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user api error:%@", error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) { // record to hockeyapp
-                DDLogError(@"/user api data format invalid:%@", error.description);
-            }
             return;
         }
         
@@ -86,7 +84,7 @@ static NSArray *supportEvent() {
             [userProfileMOC fillProfile:responseObject];
         } completion:^(BOOL contextDidSave, NSError *error) {
             if (error) {
-                DDLogError(@"/user api data save core data error:%@", error.description);
+                DDLogError(@"/user api data save core data error:%@", error.localizedDescription);
             }
             
             MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
@@ -100,10 +98,8 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /users/%@ api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/users/%@ api data format invalid:%@", userName, error.description);
-            }
             return;
         }
         
@@ -112,7 +108,7 @@ static NSArray *supportEvent() {
             [userProfile fillProfile:responseObject];
         } completion:^(BOOL contextDidSave, NSError *error) {
             if (error) {
-                DDLogError(@"/users/%@ api data format invalid:%@", userName, error.description);
+                DDLogError(@"access /users/%@ api error:%@", userName, error.localizedDescription);
             }
             
             MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName];
@@ -127,10 +123,8 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/orgs api data format invalid:%@", userName, error.description);
-            }
             return;
         }
         
@@ -151,15 +145,13 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user/%@/orgs api error:%@",userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, 0, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/orgs api data format invalid:%@",userName, error.description);
-            }
             return;
         }
         
         int orgCount = totalPageInHeadField(responHeaderFields);
- 
+        
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
             userProfile.organizations = @(orgCount);
@@ -176,9 +168,7 @@ static NSArray *supportEvent() {
     [self startRquest:request patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSDictionary *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, orgName, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"orgs/%@/ api data format invalid:%@", orgName, error.description);
-            }
+            DDLogError(@"access orgs/%@/ api error:%@", orgName, error.localizedDescription);
             return;
         }
         
@@ -187,7 +177,7 @@ static NSArray *supportEvent() {
             [orgProfileMOC fillProfile:responseObject];
         } completion:^(BOOL contextDidSave, NSError *error) {
             if (error) {
-                DDLogError(@"/orgs/%@ api data format invalid:%@", orgName, error.description);
+                DDLogError(@"access /orgs/%@ api error:%@", orgName, error.localizedDescription);
             }
             
             MLGMActorProfile *orgProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:orgName];
@@ -203,9 +193,7 @@ static NSArray *supportEvent() {
     [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, 0, userName, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/starred api data format invalid:%@", userName, error.description);
-            }
+            DDLogError(@"access /user/%@/starred api error:%@", userName, error.localizedDescription);
             return;
         }
         
@@ -228,9 +216,7 @@ static NSArray *supportEvent() {
     [self startRquest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/orgs api data format invalid:%@", userName, error.description);
-            }
+            DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
             return;
         }
         
@@ -252,15 +238,27 @@ static NSArray *supportEvent() {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/following/%@", sourceUserName, targetUserName];
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:sourceUserName inContext:self.defaultContext];
+        
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", sourceUserName, targetUserName];
+        MLGMFollowRelation *followRecord = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!followRecord) {
+            followRecord = [MLGMFollowRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
         if (statusCode == 204) {
-            userProfile.isFollow = @(YES);
+            followRecord.isFollow = @(YES);
+            followRecord.sourceLoginName = sourceUserName;
+            followRecord.targetLoginName = targetUserName;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, targetUserName, nil);
         } else if (statusCode == 404){
-            userProfile.isFollow = @(NO);
+            followRecord.isFollow = @(NO);
+            followRecord.sourceLoginName = sourceUserName;
+            followRecord.targetLoginName = targetUserName;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, targetUserName, nil);
         } else {
-           BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, targetUserName, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, targetUserName, error);
         }
     }];
 }
@@ -269,9 +267,18 @@ static NSArray *supportEvent() {
     NSString *endPoint = [NSString stringWithFormat:@"/user/following/%@", targetUserName];
     NSURLRequest *urlRequest = [self putRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:targetUserName inContext:self.defaultContext];
+        
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetUserName];
+        MLGMFollowRelation *followRecord = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!followRecord) {
+            followRecord = [MLGMFollowRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
         if (statusCode == 204) {
-            userProfile.isFollow = @(YES);
+            followRecord.isFollow = @(YES);
+            followRecord.sourceLoginName = kOnlineUserName;
+            followRecord.targetLoginName = targetUserName;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, targetUserName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, targetUserName, nil);
@@ -283,9 +290,16 @@ static NSArray *supportEvent() {
     NSString *endPoint = [NSString stringWithFormat:@"/user/following/%@", targetUserName];
     NSURLRequest *urlRequest = [self deleteRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:targetUserName inContext:self.defaultContext];
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetUserName];
+        MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!followRelation) {
+            followRelation = [MLGMFollowRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
         if (statusCode == 204) {
-            userProfile.isFollow = @(NO);
+            followRelation.isFollow = @(NO);
+            followRelation.sourceLoginName = kOnlineUserName;
+            followRelation.targetLoginName = targetUserName;
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, targetUserName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, targetUserName, nil);
@@ -299,20 +313,20 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
+            
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/orgs api data format invalid:%@", userName, error.description);
-            }
             return;
         }
         
-        NSMutableArray *userMOCs = [NSMutableArray new];
-        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneUserDic, NSUInteger idx, BOOL * stop) {
-            MLGMActorProfile *oneUserMOC = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
-            [oneUserMOC fillFollow:oneUserDic];
+        NSMutableArray *followMOCs = [NSMutableArray new];
+        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneFollowDic, NSUInteger idx, BOOL * stop) {
+            MLGMActorProfile *oneFollowMOC = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
+            [oneFollowMOC fillFollow:oneFollowDic];
+            [followMOCs addObject:oneFollowMOC];
         }];
         
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOCs copy], [responseObject count] < kPerPage, nil);
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [followMOCs copy], [responseObject count] < kPerPage, nil);
     }];
 }
 
@@ -322,10 +336,8 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user/%@/received_events api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/received_events api data format invalid:%@", userName, error.description);
-            }
             return;
         }
         
@@ -360,10 +372,8 @@ static NSArray *supportEvent() {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
+            DDLogError(@"access /user/%@/starred api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
-            if (error.code == MLGMErrorTypeServerDataFormateError) {
-                DDLogError(@"/user/%@/starred api data format invalid:%@", userName, error.description);
-            }
             return;
         }
         
@@ -423,7 +433,7 @@ static NSArray *supportEvent() {
     
     NSNumber *loginName = account.actorProfile.loginName;
     LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
-                                            dictionary:@{@"language":gene.language, @"skill": gene.skill, @"userName" : @"xdream86"}];
+                                          dictionary:@{@"language":gene.language, @"skill": gene.skill, @"userName" : @"xdream86"}];
     [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"%d", succeeded);
     }];

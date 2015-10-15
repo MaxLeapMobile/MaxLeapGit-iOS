@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMUserDetailView : UIView
+@interface MLGMHomePageHeaderCell : UITableViewCell
 @property (nonatomic, copy) dispatch_block_t followersButtonAction;
 @property (nonatomic, copy) dispatch_block_t followingButtonAction;
 @property (nonatomic, copy) dispatch_block_t reposButtonAction;
 @property (nonatomic, copy) dispatch_block_t starsButtonAction;
+
+- (void)configureView:(MLGMActorProfile *)actorProfile;
 @end

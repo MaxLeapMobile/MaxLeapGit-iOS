@@ -7,13 +7,13 @@
 //
 
 #import "MLGMTimeLineViewController.h"
+#import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MLGMTimeLineCell.h"
 #import "MLGMSearchViewController.h"
 #import "MLGMNavigationController.h"
 #import "MLGMRepoDetailController.h"
 #import "MLGMTabBarController.h"
-#import "MLGMUserPageViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
+#import "MLGMHomePageViewController.h"
 
 @interface MLGMTimeLineViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *results;
@@ -31,8 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configureNavigationBar];
-    [self configureTableView];
+    [self configureSubViews];
     [self updateViewConstraints];
 }
 
@@ -51,60 +50,9 @@
 }
 
 #pragma mark- SubViews Configuration
-- (void)configureNavigationBar {
-    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
-}
-
-- (void)configureTableView {
-    [self.tableView registerClass:[MLGMTimeLineCell class] forCellReuseIdentifier:@"Cell"];
-    self.tableView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 49);
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 80.0;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.tableFooterView = [[UIView alloc] init];
-
-    __weak typeof(self) weakSelf = self;
-    __block int page = 1;
-    [self.tableView addPullToRefreshWithActionHandler:^{
-        weakSelf.tableView.showsInfiniteScrolling = NO;
-        page = 1;
-        //TODO: ... "rs" -> kOnlineAccount.actorProfile.loginName
-        [[MLGMWebService sharedInstance] timeLineForUserName:@"rs"
-                                                    fromPage:page
-                                                  completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
-                                                      execute_after_main_queue(0.2, ^{
-                                                          [weakSelf.tableView.pullToRefreshView stopAnimating];
-                                                      });
-                                                      weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
-                                                      
-                                                      if (!error) {
-                                                          [weakSelf.results removeAllObjects];
-                                                          [weakSelf.results addObjectsFromArray:events];
-                                                          [weakSelf.tableView reloadData];
-                                                      } else {
-                                                          [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
-                                                      }
-                                                  }];
-    }];
-    
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
-                                                    fromPage:page + 1
-                                                  completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
-                                                      [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                                                      weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
-                                                      if (!error) {
-                                                          page++;
-                                                          [weakSelf.results addObjectsFromArray:events];
-                                                          [weakSelf.tableView reloadData];
-                                                      } else {
-                                                          [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
-                                                      }
-                                                  }];  
-    }];
-
+- (void)configureSubViews {
     [self.view addSubview:self.tableView];
+    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
 }
 
 #pragma mark- Actions
@@ -130,10 +78,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MLGMTimeLineCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.tapUserAction = ^(NSString *userName){
-        MLGMUserPageViewController *vcUser = [[MLGMUserPageViewController alloc] init];
-        vcUser.userName = userName;
+        MLGMHomePageViewController *vcUser = [[MLGMHomePageViewController alloc] init];
+        vcUser.ownerName = userName;
         [self.navigationController pushViewController:vcUser animated:YES];
     };
     
@@ -155,6 +104,9 @@
 }
 
 #pragma mark- Override Parent Methods
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)updateViewConstraints {
     if (!_didSetupConstraints) {
@@ -169,6 +121,54 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [UITableView autoLayoutView];
+        [_tableView registerClass:[MLGMTimeLineCell class] forCellReuseIdentifier:@"Cell"];
+        UIEdgeInsets adjustForTabbarInsets = (UIEdgeInsets){0, 0, CGRectGetHeight(self.tabBarController.tabBar.frame), 0};
+        _tableView.contentInset = adjustForTabbarInsets;
+        _tableView.scrollIndicatorInsets = adjustForTabbarInsets;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    	self.tableView.estimatedRowHeight = 80.0;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc] init];
+        
+        __weak typeof(self) weakSelf = self;
+        __block int page = 1;
+        [weakSelf.tableView addPullToRefreshWithActionHandler:^{
+            self.tableView.showsInfiniteScrolling = NO;
+            page = 1;
+            [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
+                                                        fromPage:page
+                                                      completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
+                                                          execute_after_main_queue(0.2, ^{
+                                                              [weakSelf.tableView.pullToRefreshView stopAnimating];
+                                                          });
+                                                          weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                                                          
+                                                          if (!error) {
+                                                              [weakSelf.results removeAllObjects];
+                                                              [weakSelf.results addObjectsFromArray:events];
+                                                              [weakSelf.tableView reloadData];
+                                                          } else {
+                                                              [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
+                                                          }
+                                                      }];
+        }];
+        
+        [weakSelf.tableView addInfiniteScrollingWithActionHandler:^{
+            [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
+                                                        fromPage:page + 1
+                                                      completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
+                                                          [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                                          weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                                                          if (!error) {
+                                                              page++;
+                                                              [weakSelf.results addObjectsFromArray:events];
+                                                              [weakSelf.tableView reloadData];
+                                                          } else {
+                                                              [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
+                                                          }
+                                                      }];
+        }];
     }
     
     return _tableView;

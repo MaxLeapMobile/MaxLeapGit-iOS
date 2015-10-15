@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMWebViewController : UIViewController
-@property (nonatomic, strong) NSString *url;
+@property (nonatomic, copy) NSString *url;
 @end

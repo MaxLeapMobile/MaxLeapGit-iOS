@@ -9,7 +9,7 @@
 //  to delete and recreate this implementation file for your updated model.
 //
 
-#import "MLGMUserProfile+CoreDataProperties.h"
+#import "MLGMActorProfile+CoreDataProperties.h"
 
 @implementation MLGMActorProfile (CoreDataProperties)
 
@@ -30,7 +30,6 @@
 @dynamic organizations;
 @dynamic starts;
 @dynamic genes;
-@dynamic isFollow;
 @dynamic updatedAt;
 @dynamic introduction;
 

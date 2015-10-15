@@ -15,8 +15,8 @@
 @property (nonatomic, strong) NSDictionary *genesDict;
 @property (nonatomic, strong) NSArray *languages;
 
-@property (nonatomic, strong) NSString *selectedLanguage;
-@property (nonatomic, strong) NSString *selectedSkill;
+@property (nonatomic, copy) NSString *selectedLanguage;
+@property (nonatomic, copy) NSString *selectedSkill;
 
 @property(nonatomic, strong) UIView *pickerContainer;
 @property (nonatomic, strong) UIPickerView *pickerView;

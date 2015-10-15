@@ -8,14 +8,14 @@
 
 #import "MLGMSearchViewController.h"
 #import "MLGMRepoCell.h"
-#import "MLGMUserCell.h"
+#import "MLGMFollowCell.h"
 #import "WYPopoverController.h"
 #import "MLGMSortViewController.h"
 #import "MLGMRepoDetailController.h"
 #import "MLGMSearchPageTitleView.h"
 #import "MLGMWebService.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMUserPageViewController.h"
+#import "MLGMHomePageViewController.h"
 
 #define kRepoAndUserButtonWidth     77
 
@@ -247,12 +247,12 @@
         }
     } else {
         if (!cell) {
-            cell = [[MLGMUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            cell = [[MLGMFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         }
         if (indexPath.row < _users.count) {
             MLGMActorProfile *actorProfile = _users[indexPath.row];
-            MLGMUserCell *userCell = (MLGMUserCell *)cell;
-            [userCell updateData:actorProfile];
+            MLGMFollowCell *userCell = (MLGMFollowCell *)cell;
+//            [userCell updateData:actorProfile];
         }
     }
     
@@ -265,7 +265,7 @@
         UIViewController *repoVC = [[MLGMRepoDetailController alloc] init];
         [self.navigationController pushViewController:repoVC animated:YES];
     } else {
-        UIViewController *userVC = [[MLGMUserPageViewController alloc] init];
+        UIViewController *userVC = [[MLGMHomePageViewController alloc] init];
         [self.navigationController pushViewController:userVC animated:YES];
     }
 }
