@@ -10,7 +10,6 @@
 #import "MLGMAddNewGeneViewController.h"
 #import "MLGMAddNewGeneViewController.h"
 #import "MLGMTabBarController.h"
-#import "MLGMNavigationController.h"
 #import "MLGMWebService.h"
 
 @interface MLGMGenesViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -47,6 +46,12 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self transparentNavigationBar:NO];
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+}
+
 #pragma mark- SubView Configuration
 - (void)configureSubViews {
     [self.view addSubview:self.addNewGeneButton];
@@ -63,7 +68,7 @@
 
 - (void)presentAddNewGenePage {
     MLGMAddNewGeneViewController *addNewGeneVC = [[MLGMAddNewGeneViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:addNewGeneVC];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addNewGeneVC];
     [self presentViewController:nav animated:YES completion:nil];
 }
 

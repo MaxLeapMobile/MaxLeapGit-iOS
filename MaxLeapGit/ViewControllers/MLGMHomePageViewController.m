@@ -298,11 +298,11 @@
         cell.textLabel.text = @"Organization";
         if (self.userProfile.organizations) {
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizations];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
             cell.detailTextLabel.text = @"-";
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         return cell;
     }
@@ -316,7 +316,7 @@
     if (indexPath.section == 1) {
         MLGMGenesViewController *vcGenes = [[MLGMGenesViewController alloc] init];
         [self.navigationController pushViewController:vcGenes animated:YES];
-    } else if (indexPath.section == 3) {
+    } else if (indexPath.section == 3 && [self.userProfile.organizations integerValue] > 0) {
         UIViewController *vcOrganization = [[MLGMOrganizationsViewController alloc] init];
         [self.navigationController pushViewController:vcOrganization animated:YES];
     }
