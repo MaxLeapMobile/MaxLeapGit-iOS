@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <dict>
+            <key>Html</key>
+            <array>
+                <string>html5</string>
+                <string>bootstrap</string>
+            </array>
+        </dict>
+        <dict>
+            <key>Java</key>
+            <array>
+                <string>Android</string>
+                <string>spring</string>
+            </array>
+        </dict>
+        <dict>
+            <key>Javascript</key>
+            <array>
+                <string>angularjs</string>
+                <string>bootstrap</string>
+                <string>jquery</string>
+                <string>node</string>
+            </array>
+        </dict>
+        <dict>
+            <key>Objective-C</key>
+            <array>
+                <string>iOS</string>
+            </array>
+            
+        </dict>
+        <dict>
+            <key>PHP</key>
+            <array>
+                <string>Codeigniter</string>
+            </array>
+            
+        </dict>
+        <dict>
+            <key>Python</key>
+            <array>
+                <string>web framework</string>
+            </array>
+            
+        </dict>
+        <dict>
+            <key>Swift</key>
+            <array>
+                <string>iOS</string>
+            </array>
+            
+        </dict>
+        
+        <dict>
+            <key>C#</key>
+            <array>
+                <string>asp</string>
+                <string>xamarin</string>
+            </array>
+            
+        </dict>
+    </array>
+</plist>

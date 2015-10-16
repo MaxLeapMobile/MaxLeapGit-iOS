@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMAddNewGeneViewController : UITableViewController
+@interface MLGMAddNewGeneViewController : UIViewController
 
 @end

@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     if (_url.length) {
         NSArray *array = [_url componentsSeparatedByString:@"/"];
         self.title = [array lastObject];
@@ -65,8 +65,6 @@
     [_webView addObserver:self forKeyPath:kWebViewLoadingStatusKey options:NSKeyValueObservingOptionNew context:nil];
     [_webView addObserver:self forKeyPath:kWebViewLoadingProgressKey options:NSKeyValueObservingOptionNew context:nil];
     
-    //temp
-    _url = @"https://github.com/AFNetworking/AFNetworking";
     if (_url.length) {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
         [self.webView loadRequest:request];

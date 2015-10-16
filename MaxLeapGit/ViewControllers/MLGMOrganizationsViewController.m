@@ -11,6 +11,7 @@
 #import "MLGMFollowCell.h"
 #import "MLGMTabBarController.h"
 #import "MLGMWebViewController.h"
+#import "MLGMOrganizationCell.h"
 
 @interface MLGMOrganizationsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -27,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Organization", @"");
-    [self.view addSubview:self.tableView];
+    [self configureSubViews];
     [self updateViewConstraints];
 }
 
@@ -35,6 +36,7 @@
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [self.tableView triggerPullToRefresh];
 }
 
 #pragma mark- Override Parent Methods
@@ -48,6 +50,10 @@
 }
 
 #pragma mark- SubViews Configuration
+- (void)configureSubViews {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self.view addSubview:self.tableView];
+}
 
 #pragma mark- Actions
 
@@ -59,7 +65,7 @@
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return [self.results count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -67,20 +73,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[MLGMFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
+    MLGMOrganizationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MLGMOrganizationCell"];
+    [cell configureCell:self.results[indexPath.row]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    MLGMWebViewController *vc = [[MLGMWebViewController alloc] init];
-    vc.url = @"https://github.com/dailymotion";
-    [self.navigationController pushViewController:vc animated:YES];
+    MLGMActorProfile *actorProfile = self.results[indexPath.row];
+    MLGMWebViewController *webViewVC = [[MLGMWebViewController alloc] init];
+    webViewVC.url = [NSString stringWithFormat:@"https://github.com/%@", actorProfile.loginName];
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 #pragma mark- Getter Setter
@@ -90,13 +94,14 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.tableFooterView = [UIView new];
+        [_tableView registerClass:[MLGMOrganizationCell class] forCellReuseIdentifier:@"MLGMOrganizationCell"];
         
         __weak typeof(self) weakSelf = self;
         __block int page = 1;
         [self.tableView addPullToRefreshWithActionHandler:^{
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
-             [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.orgName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
+             [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
                 execute_after_main_queue(0.2, ^{
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
                 });
@@ -113,10 +118,10 @@
         }];
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
-            [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.orgName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
+            [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
                 weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
-                if (!error) {
+                if (!error && [orgMOCs count] > 0) {
                     page++;
                     [weakSelf.results addObjectsFromArray:orgMOCs];
                     [weakSelf.tableView reloadData];
@@ -127,6 +132,14 @@
         }];
     }
     return _tableView;
+}
+
+- (NSMutableArray *)results {
+    if (!_results) {
+        _results = [NSMutableArray new];
+    }
+    
+    return _results;
 }
 
 #pragma mark- Helper Method

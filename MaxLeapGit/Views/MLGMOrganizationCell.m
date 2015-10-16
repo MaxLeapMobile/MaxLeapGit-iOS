@@ -7,12 +7,15 @@
 //
 
 #import "MLGMOrganizationCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "NSDate+Extension.h"
 
 @interface MLGMOrganizationCell ()
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *updateTimeLabel;
 @property (nonatomic, assign) BOOL didSetUpConstraints;
+@property (nonatomic, strong) MLGMActorProfile *organizationProfile;
 @end
 
 @implementation MLGMOrganizationCell
@@ -61,7 +64,23 @@
 
 #pragma mark- Public Methods
 - (void)configureCell:(MLGMActorProfile *)actorProfile {
+    self.organizationProfile = actorProfile;
     
+    [self.avatarImageView sd_setImageWithURL:actorProfile.avatarUrl.toURL];
+    self.nameLabel.text = actorProfile.loginName;
+    
+    if (actorProfile.githubUpdatedAt) {
+        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdatedAt timeAgo]];
+        self.updateTimeLabel.text = updateAtString;
+    } else {
+        [[MLGMWebService sharedInstance] organizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
+            MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.organizationProfile.loginName];
+            if (latestProfile.githubUpdatedAt) {
+                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdatedAt timeAgo]];
+                self.updateTimeLabel.text = updateAtString;
+            }
+        }];
+    }
 }
 
 #pragma mark- Private Methods
@@ -74,6 +93,7 @@
         _avatarImageView = [[UIImageView alloc] init];
         _avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
         _avatarImageView.layer.cornerRadius = 20;
+        _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.backgroundColor = [UIColor lightGrayColor];
     }
     

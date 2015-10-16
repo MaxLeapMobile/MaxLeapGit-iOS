@@ -181,7 +181,7 @@ static NSArray *supportEvent() {
             }
             
             MLGMActorProfile *orgProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:orgName];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, orgProfile.updatedAt, orgName, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, orgProfile.githubUpdatedAt, orgName, error);
         }];
     }];
 }

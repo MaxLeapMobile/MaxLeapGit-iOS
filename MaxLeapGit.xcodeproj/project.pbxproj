@@ -60,6 +60,7 @@
 		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B4C82D241BD0A29D00BC6ADC /* MLGMStarRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D221BD0A29D00BC6ADC /* MLGMStarRelation.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */; settings = {ASSET_TAGS = (); }; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
@@ -215,6 +216,7 @@
 		B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMStarRelation+CoreDataProperties.m"; sourceTree = "<group>"; };
 		B4C82D211BD0A29D00BC6ADC /* MLGMStarRelation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMStarRelation.h; sourceTree = "<group>"; };
 		B4C82D221BD0A29D00BC6ADC /* MLGMStarRelation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMStarRelation.m; sourceTree = "<group>"; };
+		B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GeneInBuild.plist; sourceTree = "<group>"; };
 		B4D2492F1BC7707900A719E6 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		B4E69C531BC8B875008993A7 /* MLGMWebService+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMWebService+Convenience.h"; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				B40469591BC767CC00E1C5EB /* placehold@2x.png */,
 				B410BAB41BCA359C00E24AFE /* APIReadMe.md */,
+				B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */,
 				B410BAB81BCA36EC00E24AFE /* JSONPattern */,
 				B410BABA1BCA36EC00E24AFE /* JSONSample */,
 			);
@@ -758,6 +761,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B42265111BCBB15000CD5634 /* followerPattern.json in Resources */,
+				B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */,
 				B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */,
 				B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */,
 				B41B09EB1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle in Resources */,

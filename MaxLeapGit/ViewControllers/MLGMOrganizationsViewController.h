@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMOrganizationsViewController : UIViewController
-@property (nonatomic, copy) NSString *orgName;
+@property (nonatomic, copy) NSString *ownerName;
 @end

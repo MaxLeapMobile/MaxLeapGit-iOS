@@ -95,8 +95,21 @@
     [self updateFollowButtonTitleWithUserName:actorProfile.loginName];
     [[MLGMWebService sharedInstance] isUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         self.isAnimationRunning = NO;
-        [self updateFollowButtonTitleWithUserName:actorProfile.loginName];
+        [self updateFollowButtonTitleWithUserName:self.actorProfile.loginName];
     }];
+    
+    if (actorProfile.githubUpdatedAt) {
+        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdatedAt timeAgo]];
+        self.updateTimeLabel.text = updateAtString;
+    } else {
+        [[MLGMWebService sharedInstance] userProfileForUserName:actorProfile.loginName completion:^(MLGMActorProfile *userProfile, NSError *error) {
+            MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.actorProfile.loginName];
+            if (latestProfile.githubUpdatedAt) {
+                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdatedAt timeAgo]];
+                self.updateTimeLabel.text = updateAtString;
+            }
+        }];
+    }
 }
 
 #pragma mark- Private Methods

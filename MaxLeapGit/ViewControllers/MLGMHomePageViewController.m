@@ -28,7 +28,6 @@
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) NSLayoutConstraint *bgViewTopConstraints;
 @property (nonatomic, strong) NSLayoutConstraint *bgViewHeightConstraints;
-
 @end
 
 @implementation MLGMHomePageViewController
@@ -53,6 +52,10 @@
     [[MLGMWebService sharedInstance] userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
         [self.tableView reloadData];
         [[MLGMWebService sharedInstance] starCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
+            [self.tableView reloadData];
+        }];
+        
+        [[MLGMWebService sharedInstance] organizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
             [self.tableView reloadData];
         }];
     }];
@@ -157,24 +160,43 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    if ([self isLoginUserHomePage]) {
+        return 4;
+    } else {
+        return 3;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    }
-    
-    if (section == 1) {
-        return 1;
-    }
-    
-    if (section == 2) {
-        return 4;
-    }
-    
-    if (section == 3) {
-        return 1;
+    if ([self isLoginUserHomePage]) {
+        if (section == 0) {
+            return 1;
+        }
+        
+        if (section == 1) {
+            return 1;
+        }
+        
+        
+        if (section == 2) {
+            return 4;
+        }
+        
+        if (section == 3) {
+            return 1;
+        }
+    } else {
+        if (section == 0) {
+            return 1;
+        }
+        
+        if (section == 1) {
+            return 4;
+        }
+        
+        if (section == 2) {
+            return 1;
+        }
     }
     
     return 0;
@@ -193,132 +215,174 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (indexPath.section == 0) {
-        MLGMHomePageHeaderCell *userProfileCell = (MLGMHomePageHeaderCell *)cell;
-        __weak typeof(self) weakSelf = self;
+    if ([self isLoginUserHomePage]) {
+        if (indexPath.section == 0) {
+            cell = [self configureHeaderCell:(MLGMHomePageHeaderCell *)cell];
+        }
         
-        userProfileCell.followersButtonAction = ^{
-            MLGMFollowViewController *followerVC = [MLGMFollowViewController new];
-            followerVC.type = MLGMFollowControllerTypeFollowers;
-            followerVC.ownerName = self.userProfile.loginName;
-            [weakSelf.navigationController pushViewController:followerVC animated:YES];
-        };
+        if (indexPath.section == 1) {
+            cell = [self configureGeneCell:(MLGMHomePageCell *)cell];
+        }
         
-        userProfileCell.followingButtonAction = ^{
-            MLGMFollowViewController *followingerVC = [MLGMFollowViewController new];
-            followingerVC.type = MLGMFollowControllerTypeFollowing;
-            followingerVC.ownerName = self.userProfile.loginName;
-            [weakSelf.navigationController pushViewController:followingerVC animated:YES];
-        };
         
-        userProfileCell.reposButtonAction = ^{
-            MLGMReposViewController *reposVC = [MLGMReposViewController new];
-            reposVC.ownerName = self.ownerName;
-            reposVC.type = MLGMReposControllerTypeRepos;
-            [weakSelf.navigationController pushViewController:reposVC animated:YES];
-        };
+        if (indexPath.section == 2) {
+            cell = [self configureBaseInfoCell:(MLGMHomePageCell *)cell index:indexPath.row];
+        }
         
-        userProfileCell.starsButtonAction = ^{
-            MLGMReposViewController *starVC = [MLGMReposViewController new];
-            starVC.ownerName = self.ownerName;
-            starVC.type = MLGMReposControllerTypeStars;
-            [weakSelf.navigationController pushViewController:starVC animated:YES];
-        };
+        if (indexPath.section == 3) {
+            cell = [self configureOrganizationCell:(MLGMHomePageCell *)cell];
+        }
+    } else {
+        if (indexPath.section == 0) {
+            cell = [self configureHeaderCell:(MLGMHomePageHeaderCell *)cell];
+        }
         
-        [userProfileCell configureView:self.userProfile];
+        if (indexPath.section == 1) {
+            cell = [self configureBaseInfoCell:(MLGMHomePageCell *)cell index:indexPath.row];
+        }
         
-        return userProfileCell;
+        if (indexPath.section == 2) {
+            cell = [self configureOrganizationCell:(MLGMHomePageCell *)cell];
+        }
     }
     
-    if (indexPath.section == 1) {
-        cell.textLabel.text = @"Genes";
-        if  (self.userProfile.genes) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[self.userProfile.genes count]];
+    return cell;
+}
+
+- (MLGMHomePageHeaderCell *)configureHeaderCell:(MLGMHomePageHeaderCell *)userProfileCell {
+    __weak typeof(self) weakSelf = self;
+    
+    userProfileCell.followersButtonAction = ^{
+        MLGMFollowViewController *followerVC = [MLGMFollowViewController new];
+        followerVC.type = MLGMFollowControllerTypeFollowers;
+        followerVC.ownerName = self.userProfile.loginName;
+        [weakSelf.navigationController pushViewController:followerVC animated:YES];
+    };
+    
+    userProfileCell.followingButtonAction = ^{
+        MLGMFollowViewController *followingerVC = [MLGMFollowViewController new];
+        followingerVC.type = MLGMFollowControllerTypeFollowing;
+        followingerVC.ownerName = self.userProfile.loginName;
+        [weakSelf.navigationController pushViewController:followingerVC animated:YES];
+    };
+    
+    userProfileCell.reposButtonAction = ^{
+        MLGMReposViewController *reposVC = [MLGMReposViewController new];
+        reposVC.ownerName = self.ownerName;
+        reposVC.type = MLGMReposControllerTypeRepos;
+        [weakSelf.navigationController pushViewController:reposVC animated:YES];
+    };
+    
+    userProfileCell.starsButtonAction = ^{
+        MLGMReposViewController *starVC = [MLGMReposViewController new];
+        starVC.ownerName = self.ownerName;
+        starVC.type = MLGMReposControllerTypeStars;
+        [weakSelf.navigationController pushViewController:starVC animated:YES];
+    };
+    
+    [userProfileCell configureView:self.userProfile];
+    
+    return userProfileCell;
+}
+
+- (MLGMHomePageCell *)configureGeneCell:(MLGMHomePageCell *)geneCell {
+    geneCell.textLabel.text = @"Genes";
+    if  (self.userProfile.genes) {
+        geneCell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[self.userProfile.genes count]];
+    } else {
+        geneCell.detailTextLabel.text = @"-";
+    }
+    
+    geneCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return geneCell;
+}
+
+- (MLGMHomePageCell *)configureBaseInfoCell:(MLGMHomePageCell *)baseInfoCell index:(NSInteger)index {
+    if (index == 0) {
+        baseInfoCell.textLabel.text = @"Location";
+        if (self.userProfile.location) {
+            baseInfoCell.detailTextLabel.text = self.userProfile.location;
         } else {
-            cell.detailTextLabel.text = @"-";
+            baseInfoCell.detailTextLabel.text = @"-";
         }
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
+        [baseInfoCell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
     }
     
-    if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Location";
-            if (self.userProfile.location) {
-                cell.detailTextLabel.text = self.userProfile.location;
-            } else {
-                cell.detailTextLabel.text = @"-";
-            }
-            
-            [cell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
-            return cell;
-        }
-        
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Email";
-            if (self.userProfile.email) {
-                cell.detailTextLabel.text = self.userProfile.email;
-            } else {
-                cell.detailTextLabel.text = @"-";
-            }
-            
-            [cell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
-            return cell;
-        }
-        
-        if (indexPath.row == 2) {
-            cell.textLabel.text = @"Company";
-            if (self.userProfile.company) {
-                cell.detailTextLabel.text = self.userProfile.company;
-            } else {
-                cell.detailTextLabel.text = @"-";
-            }
-            
-            [cell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
-            return cell;
-        }
-        
-        if (indexPath.row == 3) {
-            cell.textLabel.text = @"Joined in";
-            if (self.userProfile.githubCreatedAt) {
-                NSString *humanDateString = [self.userProfile.githubCreatedAt humanDateString];
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", humanDateString];
-            } else {
-                cell.detailTextLabel.text = @"-";
-            }
-            
-            return cell;
-        }
-        
-        return cell;
-    }
-    
-    if (indexPath.section == 3) {
-        cell.textLabel.text = @"Organization";
-        if (self.userProfile.organizations) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizations];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (index == 1) {
+        baseInfoCell.textLabel.text = @"Email";
+        if (self.userProfile.email) {
+            baseInfoCell.detailTextLabel.text = self.userProfile.email;
         } else {
-            cell.detailTextLabel.text = @"-";
-            cell.accessoryType = UITableViewCellAccessoryNone;
+            baseInfoCell.detailTextLabel.text = @"-";
         }
         
-        return cell;
+        [baseInfoCell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
+        return baseInfoCell;
     }
     
-    return nil;
+    if (index == 2) {
+        baseInfoCell.textLabel.text = @"Company";
+        if (self.userProfile.company) {
+            baseInfoCell.detailTextLabel.text = self.userProfile.company;
+        } else {
+            baseInfoCell.detailTextLabel.text = @"-";
+        }
+        
+        [baseInfoCell addBottomBorderWithColor:UIColorFromRGB(0xefeff4) width:1];
+    }
+    
+    if (index == 3) {
+        baseInfoCell.textLabel.text = @"Joined in";
+        if (self.userProfile.githubCreatedAt) {
+            NSString *humanDateString = [self.userProfile.githubCreatedAt humanDateString];
+            baseInfoCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", humanDateString];
+        } else {
+            baseInfoCell.detailTextLabel.text = @"-";
+        }
+    }
+    
+    return baseInfoCell;
+}
+
+- (MLGMHomePageCell *)configureOrganizationCell:(MLGMHomePageCell *)organizationCell {
+    organizationCell.textLabel.text = @"Organization";
+    if (self.userProfile.organizations) {
+        organizationCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizations];
+        if (self.userProfile.organizations.integerValue > 0) {
+            organizationCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            organizationCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    } else {
+        organizationCell.detailTextLabel.text = @"-";
+        organizationCell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    return organizationCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 1) {
-        MLGMGenesViewController *vcGenes = [[MLGMGenesViewController alloc] init];
-        [self.navigationController pushViewController:vcGenes animated:YES];
-    } else if (indexPath.section == 3 && [self.userProfile.organizations integerValue] > 0) {
-        UIViewController *vcOrganization = [[MLGMOrganizationsViewController alloc] init];
-        [self.navigationController pushViewController:vcOrganization animated:YES];
+    if ([self isLoginUserHomePage]) {
+        if (indexPath.section == 1) {
+            MLGMGenesViewController *genesVC = [[MLGMGenesViewController alloc] init];
+            [self.navigationController pushViewController:genesVC animated:YES];
+        } else if (indexPath.section == 3 && [self.userProfile.organizations integerValue] > 0) {
+            UIViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
+            [self.navigationController pushViewController:orgnizationVC animated:YES];
+        }
+    } else {
+        if (indexPath.section == 1) {
+            MLGMGenesViewController *genesVC = [[MLGMGenesViewController alloc] init];
+            [self.navigationController pushViewController:genesVC animated:YES];
+        } else if (indexPath.section == 2 && [self.userProfile.organizations integerValue] > 0) {
+            MLGMOrganizationsViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
+            orgnizationVC.ownerName = self.ownerName;
+            [self.navigationController pushViewController:orgnizationVC animated:YES];
+        }
     }
 }
 

@@ -5,5 +5,5 @@
 @interface NSBundle (Extension)
 
 - (id)jsonFromResource:(NSString *)resource;
-
+- (id)plistObjectFromResource:(NSString *)resouce;
 @end
