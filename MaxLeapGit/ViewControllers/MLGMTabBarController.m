@@ -10,7 +10,6 @@
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
 #import "MLGMHomePageViewController.h"
-#import "MLGMNavigationController.h"
 #import "MLGMLoginViewController.h"
 
 @interface MLGMTabBarController () <UITabBarControllerDelegate>
@@ -26,11 +25,11 @@
 {
     self = [super init];
     if (self) {
-       
+        
         __weak typeof(self) wSelf = self;
         self.centralButtonAction = ^{
             UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
-            UINavigationController *navRecommend = [[MLGMNavigationController alloc] initWithRootViewController:vcRecommend];
+            UINavigationController *navRecommend = [[UINavigationController alloc] initWithRootViewController:vcRecommend];
             navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
             [wSelf presentViewController:navRecommend animated:YES completion:nil];
         };
@@ -74,7 +73,7 @@
 - (void)onClickedCentralButton {
     kOnlineAccount.isOnline = @NO;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-//    [self presentLoginVCIfNeeded];
+    //    [self presentLoginVCIfNeeded];
     
     BLOCK_SAFE_RUN(_centralButtonAction);
 }
@@ -98,7 +97,7 @@
 - (UINavigationController *)firstNav {
     if (!_firstNav) {
         UIViewController *firstVC = [[MLGMTimeLineViewController alloc] init];
-        _firstNav = [[MLGMNavigationController alloc] initWithRootViewController:firstVC];
+        _firstNav = [[UINavigationController alloc] initWithRootViewController:firstVC];
         _firstNav.navigationBar.barStyle = UIBarStyleBlack;
         _firstNav.title = firstVC.title = NSLocalizedString(@"TimeLine", @"");
         [_firstNav.tabBarItem setImage:ImageNamed(@"timeline_icon_normal")];
@@ -119,7 +118,7 @@
 - (UINavigationController *)thirdNav {
     if (!_thirdNav) {
         MLGMHomePageViewController *thirdVC = [[MLGMHomePageViewController alloc] init];
-        _thirdNav = [[MLGMNavigationController alloc] initWithRootViewController:thirdVC];
+        _thirdNav = [[UINavigationController alloc] initWithRootViewController:thirdVC];
         _thirdNav.navigationBar.barStyle = UIBarStyleBlack;
         _thirdNav.title = thirdVC.title = NSLocalizedString(@"Mine", @"");
         [_thirdNav.tabBarItem setImage:ImageNamed(@"mine_icon_normal")];

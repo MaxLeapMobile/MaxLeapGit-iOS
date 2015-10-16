@@ -26,9 +26,7 @@
     [super viewDidLoad];
 	 self.title = self.repoName;
     // Do any additional setup after loading the view.
-    
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
-    
     [self configureToolbarView];
 }
 

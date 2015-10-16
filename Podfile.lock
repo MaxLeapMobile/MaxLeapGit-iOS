@@ -46,7 +46,7 @@ DEPENDENCIES:
   - SDWebImage (~> 3.7.3)
   - SVProgressHUD (~> 1.1.3)
   - SVPullToRefresh (~> 0.4.1)
-  - TTTAttributedLabel
+  - TTTAttributedLabel (~> 1.13.4)
   - WYPopoverController (~> 0.2.0)
 
 SPEC CHECKSUMS:

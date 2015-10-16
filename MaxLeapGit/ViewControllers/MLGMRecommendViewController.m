@@ -8,7 +8,6 @@
 
 #import "MLGMRecommendViewController.h"
 #import "MLGMSearchViewController.h"
-#import "MLGMNavigationController.h"
 #import <WebKit/WebKit.h>
 #import "MLGMRecommendEmptyView.h"
 #import "MLGMAddNewGeneViewController.h"
@@ -106,7 +105,7 @@
 
 - (void)presentAddNewGenePage {
     MLGMAddNewGeneViewController *vcGenes = [[MLGMAddNewGeneViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcGenes];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
@@ -123,7 +122,7 @@
 
 - (void)search {
     MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcSearch];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
     [self presentViewController:nav animated:YES completion:nil];
 }
 

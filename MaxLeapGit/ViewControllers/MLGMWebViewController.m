@@ -45,6 +45,7 @@
         NSArray *array = [_url componentsSeparatedByString:@"/"];
         self.title = [array lastObject];
     }
+   
     
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     

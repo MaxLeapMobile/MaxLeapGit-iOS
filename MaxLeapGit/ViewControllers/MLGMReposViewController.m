@@ -26,15 +26,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self configureSubViews];
     [self updateViewConstraints];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [self transparentNavigationBar:NO];
     [self.tableView triggerPullToRefresh];
 }
 
@@ -50,6 +49,8 @@
 
 #pragma mark- SubViews Configuration
 - (void)configureSubViews {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
     if (_type == MLGMReposControllerTypeRepos) {
         self.title = NSLocalizedString(@"Repos", @"");
     }
