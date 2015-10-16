@@ -26,6 +26,9 @@
 		B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193491BC6BE6D0069483C /* libz.tbd */; };
 		B411934C1BC6BE7F0069483C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B411934B1BC6BE7F0069483C /* libsqlite3.tbd */; };
+		B41B09EB1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B41B09EA1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle */; settings = {ASSET_TAGS = (); }; };
+		B41B09EE1BCFF511008DE6F3 /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09ED1BCFF511008DE6F3 /* UIViewController+Extension.m */; settings = {ASSET_TAGS = (); }; };
+		B41B09F11BD00555008DE6F3 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09F01BD00555008DE6F3 /* UIBarButtonItem+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B42264E01BCB6E0B00CD5634 /* reposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B42264DF1BCB6E0B00CD5634 /* reposPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B42264E51BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B42264E21BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B42264E61BCB8CF500CD5634 /* MLGMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B42264E41BCB8CF500CD5634 /* MLGMEvent.m */; settings = {ASSET_TAGS = (); }; };
@@ -64,7 +67,6 @@
 		E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E121BCCE50300140E78 /* MLGMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E151BCCE50300140E78 /* MLGMRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF91BCCE50300140E78 /* MLGMRepoDetailController.m */; settings = {ASSET_TAGS = (); }; };
@@ -128,6 +130,11 @@
 		B410BAE11BCA851A00E24AFE /* staredRepo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = staredRepo.json; sourceTree = "<group>"; };
 		B41193491BC6BE6D0069483C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B411934B1BC6BE7F0069483C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B41B09EA1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		B41B09EC1BCFF511008DE6F3 /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
+		B41B09ED1BCFF511008DE6F3 /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
+		B41B09EF1BD00555008DE6F3 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
+		B41B09F01BD00555008DE6F3 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		B42264DF1BCB6E0B00CD5634 /* reposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reposPattern.json; sourceTree = "<group>"; };
 		B42264E11BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMEvent+CoreDataProperties.h"; sourceTree = "<group>"; };
 		B42264E21BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMEvent+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -219,8 +226,6 @@
 		E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMFollowViewController.m; sourceTree = "<group>"; };
 		E3AB6DEC1BCCE50300140E78 /* MLGMGenesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMGenesViewController.h; sourceTree = "<group>"; };
 		E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMGenesViewController.m; sourceTree = "<group>"; };
-		E3AB6DEE1BCCE50300140E78 /* MLGMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMNavigationController.h; sourceTree = "<group>"; };
-		E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMNavigationController.m; sourceTree = "<group>"; };
 		E3AB6DF01BCCE50300140E78 /* MLGMOrganizationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMOrganizationsViewController.h; sourceTree = "<group>"; };
 		E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMOrganizationsViewController.m; sourceTree = "<group>"; };
 		E3AB6DF41BCCE50300140E78 /* MLGMRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRecommendViewController.h; sourceTree = "<group>"; };
@@ -496,6 +501,8 @@
 				B423C3691BCCBC340087CE3B /* MLGMStringUtil.m */,
 				B404695B1BC7682E00E1C5EB /* UIView+FrameAccessor.h */,
 				B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */,
+				B41B09EF1BD00555008DE6F3 /* UIBarButtonItem+Extension.h */,
+				B41B09F01BD00555008DE6F3 /* UIBarButtonItem+Extension.m */,
 				B404695E1BC7684100E1C5EB /* UIView+AutoLayout.h */,
 				B404695F1BC7684100E1C5EB /* UIView+AutoLayout.m */,
 				B45E4DA61BCEA5E200B5C6BC /* UIView+CustomBorder.h */,
@@ -510,6 +517,9 @@
 				B44ED8521BC8C979003443B9 /* NSBundle+Extension.m */,
 				B4257C2F1BCF4A4300E35785 /* NSDate+Extension.h */,
 				B4257C301BCF4A4300E35785 /* NSDate+Extension.m */,
+				B41B09EA1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle */,
+				B41B09EC1BCFF511008DE6F3 /* UIViewController+Extension.h */,
+				B41B09ED1BCFF511008DE6F3 /* UIViewController+Extension.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -519,8 +529,6 @@
 			children = (
 				B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */,
 				B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */,
-				E3AB6DEE1BCCE50300140E78 /* MLGMNavigationController.h */,
-				E3AB6DEF1BCCE50300140E78 /* MLGMNavigationController.m */,
 				E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */,
 				E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */,
 				E3AB6E221BCCE80100140E78 /* Login */,
@@ -742,6 +750,7 @@
 				B42265111BCBB15000CD5634 /* followerPattern.json in Resources */,
 				B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */,
 				B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */,
+				B41B09EB1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle in Resources */,
 				B42264E01BCB6E0B00CD5634 /* reposPattern.json in Resources */,
 				B404695A1BC767CC00E1C5EB /* placehold@2x.png in Resources */,
 				B43F3F981BB10E180036ECF6 /* Images.xcassets in Resources */,
@@ -838,15 +847,16 @@
 				E3AB6E1D1BCCE50300140E78 /* MLGMTimeLineViewController.m in Sources */,
 				B408C3C51BCB5EE80018634D /* MLGMAccount+CoreDataProperties.m in Sources */,
 				B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */,
+				B41B09EE1BCFF511008DE6F3 /* UIViewController+Extension.m in Sources */,
 				B44205001BC79BF5007F28CA /* NSString+Extension.m in Sources */,
 				B45E4DA81BCEA5E200B5C6BC /* UIView+CustomBorder.m in Sources */,
 				B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */,
 				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
-				E3AB6E121BCCE50300140E78 /* MLGMNavigationController.m in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
 				B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */,
 				B4429FCD1BCCF82200F8B108 /* MLGMFollowCell.m in Sources */,
 				B408C3C71BCB5EE80018634D /* MLGMGene+CoreDataProperties.m in Sources */,
+				B41B09F11BD00555008DE6F3 /* UIBarButtonItem+Extension.m in Sources */,
 				E3AB6E181BCCE50300140E78 /* MLGMReposViewController.m in Sources */,
 				B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */,
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */,

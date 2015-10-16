@@ -11,8 +11,6 @@
 #import "MLGMLoginViewController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
-#import "MLGMHomePageViewController.h"
-#import "MLGMNavigationController.h"
 #import "MLGMTabBarController.h"
 
 @implementation AppDelegate
@@ -66,6 +64,7 @@
                                                 forState:UIControlStateNormal];
     [[UINavigationBar appearance] setBackgroundImage:barBGImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:barLineImage];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 - (void)configureGlobalSystemState {

@@ -36,25 +36,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _avatarImageView = [[UIImageView alloc] init];
-        _avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _avatarImageView.layer.borderWidth = 1;
-        _avatarImageView.layer.borderColor = [UIColor grayColor].CGColor;
-        [self.contentView addSubview:_avatarImageView];
-        
-        _contentLinkLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-        _contentLinkLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _contentLinkLabel.numberOfLines = 0;
-        _contentLinkLabel.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor,
-                                                NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
-        _contentLinkLabel.delegate = self;
-        [self.contentView addSubview:_contentLinkLabel];
-        
-        _updateTimeLabel = [[UILabel alloc] init];
-        _updateTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _updateTimeLabel.font = [UIFont systemFontOfSize:12];
-        _updateTimeLabel.textColor = kTextDefaultColor;
-        [self.contentView addSubview:_updateTimeLabel];
+        [self.contentView addSubview:self.avatarImageView];
+        [self.contentView addSubview:self.contentLinkLabel];
+        [self.contentView addSubview:self.updateTimeLabel];
         
         [self updateConstraintsIfNeeded];
     }
@@ -82,12 +66,15 @@
 #pragma mark- SubViews Configuration
 
 #pragma mark- Actions
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+    BLOCK_SAFE_ASY_RUN_MainQueue(self.tapUserAction, self.event.actorName);
+}
 
 #pragma mark- Public Methods
 - (void)configureCell:(MLGMEvent *)event {
     self.event = event;
     
-    [_avatarImageView sd_setImageWithURL:event.avatarUrl.toURL];
+    [self.avatarImageView sd_setImageWithURL:event.avatarUrl.toURL];
     
     NSMutableAttributedString *eventAttributedString = [NSMutableAttributedString new];
     
@@ -124,7 +111,7 @@
         [self.contentLinkLabel addLinkToURL:[NSURL URLWithString:kforkedResultLinkTag] withRange:targetRepoRange];
     }
     
-    _updateTimeLabel.text = [event.createdAt description];
+    self.updateTimeLabel.text = [event.createdAt timeAgo];
 }
 
 #pragma mark- Private Methods
@@ -154,7 +141,39 @@
 }
 
 #pragma mark- Getter Setter
+- (UIImageView *)avatarImageView {
+    if (!_avatarImageView) {
+        _avatarImageView = [UIImageView autoLayoutView];
+        _avatarImageView.layer.borderWidth = 1;
+        _avatarImageView.layer.borderColor = [UIColor grayColor].CGColor;
+        _avatarImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+        [_avatarImageView addGestureRecognizer:singleFingerTap];
+    }
+    
+    return _avatarImageView;
+}
 
+- (TTTAttributedLabel *)contentLinkLabel {
+    if (!_contentLinkLabel) {
+        _contentLinkLabel = [TTTAttributedLabel autoLayoutView];
+        _contentLinkLabel.numberOfLines = 0;
+        _contentLinkLabel.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+        _contentLinkLabel.delegate = self;
+    }
+    
+    return _contentLinkLabel;
+}
+
+- (UILabel *)updateTimeLabel {
+    if (!_updateTimeLabel) {
+        _updateTimeLabel = [UILabel autoLayoutView];
+        _updateTimeLabel.font = [UIFont systemFontOfSize:12];
+        _updateTimeLabel.textColor = kTextDefaultColor;
+    }
+    
+    return _updateTimeLabel;
+}
 #pragma mark- Helper Method
 
 #pragma mark Temporary Area

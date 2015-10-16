@@ -10,7 +10,6 @@
 #import "MLGMAddNewGeneViewController.h"
 #import "MLGMAddNewGeneViewController.h"
 #import "MLGMTabBarController.h"
-#import "MLGMNavigationController.h"
 
 @interface MLGMGenesViewController ()
 @property (nonatomic, strong) NSArray *myGenes;
@@ -20,17 +19,18 @@
 @implementation MLGMGenesViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = NSLocalizedString(@"Genes", @"");
     
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     _myGenes = @[@"iOS---Objective-c", @"Android---Java"];
-    
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
-    self.navigationController.navigationBarHidden = NO;
-    
     [self configureAddNewGeneButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self transparentNavigationBar:NO];
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
 }
 
 - (void)configureAddNewGeneButton {
@@ -88,7 +88,7 @@
 
 - (void)presentAddNewGenePage {
     MLGMAddNewGeneViewController *addNewGeneVC = [[MLGMAddNewGeneViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:addNewGeneVC];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addNewGeneVC];
     [self presentViewController:nav animated:YES completion:nil];
 }
 

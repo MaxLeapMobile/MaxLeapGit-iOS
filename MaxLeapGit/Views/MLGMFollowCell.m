@@ -90,7 +90,6 @@
     self.actorProfile = actorProfile;
     [self.avatarImageView sd_setImageWithURL:actorProfile.avatarUrl.toURL];
     self.nameLabel.text = actorProfile.nickName ?: actorProfile.loginName;
-    self.updateTimeLabel.text = [actorProfile.githubUpdatedAt humanDateString];
     
     self.isAnimationRunning = YES;
     [self updateFollowButtonTitleWithUserName:actorProfile.loginName];

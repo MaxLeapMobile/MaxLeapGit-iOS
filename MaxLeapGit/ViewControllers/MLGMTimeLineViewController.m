@@ -10,15 +10,14 @@
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MLGMTimeLineCell.h"
 #import "MLGMSearchViewController.h"
-#import "MLGMNavigationController.h"
 #import "MLGMRepoDetailController.h"
 #import "MLGMTabBarController.h"
 #import "MLGMHomePageViewController.h"
+#include "UIBarButtonItem+Extension.h"
 
 @interface MLGMTimeLineViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *results;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, assign) BOOL didInitLoaded;
 @property (nonatomic, assign) BOOL didSetupConstraints;
 @end
@@ -37,8 +36,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self transparentNavigationBar:NO];
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
-    [self.navigationController setNavigationBarHidden:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -52,13 +51,18 @@
 #pragma mark- SubViews Configuration
 - (void)configureSubViews {
     [self.view addSubview:self.tableView];
-    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem barButtonItemWithNormalImagenName:@"search_icon_normal"
+                                                                              selectedImageName:@"search_icon_selected"
+                                                                                         target:self
+                                                                                         action:@selector(searchButtonPressed:)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark- Actions
-- (void)search {
+- (void)searchButtonPressed:(id)sender {
     MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcSearch];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
@@ -180,16 +184,6 @@
     }
     
     return _results;
-}
-
-- (UIBarButtonItem *)rightBarButtonItem {
-    if (!_rightBarButtonItem) {
-        _rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                            target:self
-                                                                            action:@selector(search)];
-    }
-    
-    return _rightBarButtonItem;
 }
 
 #pragma mark- Helper Method

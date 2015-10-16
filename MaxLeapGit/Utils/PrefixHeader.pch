@@ -35,6 +35,7 @@
 #import "MLGMEvent.h"
 #import "MLGMRepo.h"
 #import "MLGMFollowRelation.h"
+#import "UIViewController+Extension.h"
 #endif
 
 #ifdef DEBUG

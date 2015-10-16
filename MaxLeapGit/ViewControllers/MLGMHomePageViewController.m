@@ -11,19 +11,16 @@
 #import "MLGMHomePageHeaderCell.h"
 #import "MLGMHomePageCell.h"
 #import "MLGMGenesViewController.h"
-#import "MLGMNavigationController.h"
 #import "MLGMFollowViewController.h"
 #import "MLGMReposViewController.h"
 #import "MLGMOrganizationsViewController.h"
 #import "MLGMTabBarController.h"
 #import "UIView+CustomBorder.h"
 #import "NSDate+Extension.h"
+#import "UIBarButtonItem+Extension.h"
 
 @interface MLGMHomePageViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIButton *searchButton;
-@property (nonatomic, strong) UIButton *followButton;
-@property (nonatomic, strong) UIButton *backButton;
 @property (nonatomic, assign) BOOL didSetupConstraints;
 @property (nonatomic, assign) BOOL isLoginUserHomePage;
 @property (nonatomic, strong) MLGMActorProfile *userProfile;
@@ -50,9 +47,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
-    [self.navigationController setNavigationBarHidden:YES];
+    [self transparentNavigationBar:YES];
     
     [[MLGMWebService sharedInstance] userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
         [self.tableView reloadData];
@@ -62,16 +58,9 @@
     }];
     
     [self updateFollowState];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [[MLGMWebService sharedInstance] isUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [self updateFollowState];
     }];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 #pragma mark- Override Parent Methods
@@ -82,20 +71,6 @@
         self.bgViewHeightConstraints = [self.bgView constrainToHeight:190];
         
         [self.tableView pinToSuperviewEdges:JRTViewPinAllEdges inset:0];
-        
-        if (self.isLoginUserHomePage) {
-            [self.searchButton constrainToSize:CGSizeMake(18, 18)];
-            [self.searchButton pinToSuperviewEdges:JRTViewPinRightEdge inset:30];
-            [self.searchButton pinToSuperviewEdges:JRTViewPinTopEdge inset:32];
-        } else {
-            [self.followButton pinToSuperviewEdges:JRTViewPinRightEdge inset:8];
-            [self.followButton pinToSuperviewEdges:JRTViewPinTopEdge inset:32];
-            [self.followButton constrainToSize:CGSizeMake(92, 20)];
-            
-            [self.backButton pinToSuperviewEdges:JRTViewPinLeftEdge inset:8];
-            [self.backButton pinToSuperviewEdges:JRTViewPinTopEdge inset:32];
-            [self.backButton constrainToSize:CGSizeMake(59, 22)];
-        }
         
         _didSetupConstraints = YES;
     }
@@ -111,11 +86,18 @@
 - (void)configureSubViews {
     [self.view addSubview:self.bgView];
     [self.view addSubview:self.tableView];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.titleView = [[UIView alloc] initWithFrame:CGRectZero];
     if (self.isLoginUserHomePage) {
-        [self.view addSubview:self.searchButton];
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem barButtonItemWithNormalImagenName:@"search_icon_normal"
+                                                                                  selectedImageName:@"search_icon_selected"
+                                                                                             target:self
+                                                                                             action:@selector(searchButtonPressed:)];
     } else {
-        [self.view addSubview:self.followButton];
-        [self.view addSubview:self.backButton];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(followButtonPressed:)];
     }
 }
 
@@ -124,28 +106,21 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, self.ownerName];
     MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
     if (followRelation.isFollow.boolValue) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         [[MLGMWebService sharedInstance] unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             [self updateFollowState];
         }];
     } else {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         [[MLGMWebService sharedInstance] followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             [self updateFollowState];
         }];
     }
 }
 
-- (void)search {
+- (void)searchButtonPressed:(id)sender {
     MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
-    UINavigationController *nav = [[MLGMNavigationController alloc] initWithRootViewController:vcSearch];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
-}
-
-- (void)back {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark- Public Methods
@@ -160,9 +135,9 @@
         }
         
         if (followRelation.isFollow.boolValue) {
-            [self.followButton setTitle:NSLocalizedString(@"Unfollow", nil) forState:UIControlStateNormal];
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Unfollow", nil)];
         } else {
-            [self.followButton setTitle:NSLocalizedString(@"Follow", nil) forState:UIControlStateNormal];
+            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Follow", nil)];
         }
     }
 }
@@ -379,50 +354,6 @@
     return _tableView;
 }
 
-- (UIButton *)searchButton {
-    if (!_searchButton) {
-        _searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _searchButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_searchButton setImage:ImageNamed(@"search_icon_normal") forState:UIControlStateNormal];
-        [_searchButton setImage:ImageNamed(@"search_icon_selected") forState:UIControlStateHighlighted];
-        [_searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return _searchButton;
-}
-
-- (UIButton *)followButton {
-    if (!_followButton) {
-        _followButton = [UIButton autoLayoutView];
-        _followButton.titleLabel.textAlignment = NSTextAlignmentRight;
-        _followButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [_followButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [_followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
-    
-    return _followButton;
-}
-
-- (UIButton *)backButton {
-    if (!_backButton) {
-        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _backButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_backButton setImage:ImageNamed(@"back_arrow_left_normal") forState:UIControlStateNormal];
-        [_backButton setImage:ImageNamed(@"back_arrow_left_selected") forState:UIControlStateHighlighted];
-        [_backButton setTitle:NSLocalizedString(@"Back", @"") forState:UIControlStateNormal];
-        _backButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [_backButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -6)];
-        [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_backButton setTitleColor:[UIColor colorWithRed:12/255.0 green:91/255.0 blue:254/255.0 alpha:1] forState:UIControlStateHighlighted];
-        [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return _backButton;
-}
-
-- (BOOL)isLoginUserHomePage {
-    return [kOnlineUserName isEqualToString:self.ownerName];
-}
 
 - (UIView *)headerView {
     if (!_headerView) {
@@ -446,6 +377,10 @@
 }
 
 #pragma mark- Helper Method
+- (BOOL)isLoginUserHomePage {
+    return [kOnlineUserName isEqualToString:self.ownerName];
+}
+
 #pragma mark Temporary Area
 
 @end

@@ -14,7 +14,6 @@
 #import "MLGMWebService.h"
 
 @interface MLGMFollowViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UIBarButtonItem *backButtomItem;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *results;
 @property (nonatomic, assign) BOOL didSetupConstraints;
@@ -28,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
     [self configureSubViews];
     [self updateViewConstraints];
@@ -36,7 +34,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    [self transparentNavigationBar:NO];
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self.tableView triggerPullToRefresh];
 }
 
@@ -53,7 +52,6 @@
 #pragma mark- SubViews Configuration
 - (void)configureSubViews {
     [self.view addSubview:self.tableView];
-    self.navigationItem.leftBarButtonItem = self.backButtomItem;
     
     if (_type == MLGMFollowControllerTypeFollowers) {
         self.title = NSLocalizedString(@"Followers", @"");
@@ -65,9 +63,6 @@
 }
 
 #pragma mark- Actions
-- (void)back {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 #pragma mark- Public Methods
 
@@ -84,27 +79,27 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    __weak MLGMFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MLGMFollowCell"];
-    
+    MLGMFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MLGMFollowCell"];
     __weak typeof(self) weakSelf = self;
+    __weak MLGMFollowCell *weakCell = cell;
     
     cell.followButtonPressedAction = ^(NSString *targetLoginName){
-        if (cell.isAnimationRunning) {
+        if (weakCell.isAnimationRunning) {
             return;
         }
         
-        [cell startLoadingAnimation];
+        [weakCell startLoadingAnimation];
         
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetLoginName];
         MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
         if (followRelation.isFollow.boolValue) {
             [[MLGMWebService sharedInstance] unfollowTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
-                [cell stopLoadingAnimation];
+                [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
         } else {
             [[MLGMWebService sharedInstance] followTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
-                [cell stopLoadingAnimation];                
+                [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
         }
@@ -117,29 +112,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MLGMHomePageViewController *userPageVC = [[MLGMHomePageViewController alloc] init];
-    userPageVC.ownerName = @"xdre";
+    MLGMActorProfile *userProfile = self.results[indexPath.row];
+    userPageVC.ownerName = userProfile.loginName;
     [self.navigationController pushViewController:userPageVC animated:YES];
 }
 
 #pragma mark- Getter Setter
-- (UIBarButtonItem *)backButtomItem {
-    if (!_backButtomItem) {
-        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setImage:ImageNamed(@"back_arrow_left_normal") forState:UIControlStateNormal];
-        [backButton setImage:ImageNamed(@"back_arrow_left_selected") forState:UIControlStateHighlighted];
-        backButton.frame = CGRectMake(0, 0, 13 + 6 + 40, 22);
-        [backButton setTitle:NSLocalizedString(@"Back", @"") forState:UIControlStateNormal];
-        backButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [backButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -6)];
-        [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor colorWithRed:12/255.0 green:91/255.0 blue:254/255.0 alpha:1] forState:UIControlStateHighlighted];
-        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        _backButtomItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    }
-    
-    return _backButtomItem;
-}
-
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [UITableView autoLayoutView];
@@ -153,7 +131,7 @@
         [self.tableView addPullToRefreshWithActionHandler:^{
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
-            if (self.type == MLGMFollowControllerTypeFollowers) {
+            if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
                 [[MLGMWebService sharedInstance] followerListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
@@ -170,7 +148,7 @@
                 }];
             }
             
-            if (self.type == MLGMFollowControllerTypeFollowing) {
+            if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
                 [[MLGMWebService sharedInstance] followingListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
@@ -190,7 +168,7 @@
         }];
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
-            if (self.type == MLGMFollowControllerTypeFollowers) {
+            if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
                 [[MLGMWebService sharedInstance] followerListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
@@ -204,7 +182,7 @@
                 }];
             }
             
-            if (self.type == MLGMFollowControllerTypeFollowing) {
+            if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
                 [[MLGMWebService sharedInstance] followingListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;

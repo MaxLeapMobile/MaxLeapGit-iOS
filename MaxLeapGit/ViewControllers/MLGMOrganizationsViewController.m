@@ -17,18 +17,20 @@
 
 @implementation MLGMOrganizationsViewController
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     self.title = NSLocalizedString(@"Organization", @"");
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self transparentNavigationBar:NO];
+    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
 }
 
 #pragma mark - Table view data source
