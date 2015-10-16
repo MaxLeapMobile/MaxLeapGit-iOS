@@ -7,6 +7,7 @@
   "name": "string",
   "fork": "bool",
   "html_url": "string",
-  "description?": "string"
+  "description?": "string",
+  "language?": "string"
   }
   ]

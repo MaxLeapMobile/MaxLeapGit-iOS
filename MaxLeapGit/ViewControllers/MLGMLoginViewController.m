@@ -74,7 +74,11 @@
         if (error) {
             [SVProgressHUD showErrorWithStatus:@"Error"];
         } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            
+            MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
+            [[MLGMWebService sharedInstance] fetchGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSArray *genes, NSError *error) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }
     }];
 }
