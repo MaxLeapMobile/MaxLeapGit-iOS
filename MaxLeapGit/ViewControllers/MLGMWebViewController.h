@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 @interface MLGMWebViewController : UIViewController
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, copy) NSString *url;
 @end
