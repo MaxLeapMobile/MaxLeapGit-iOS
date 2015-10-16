@@ -17,8 +17,6 @@
 @dynamic avatarUrl;
 @dynamic htmlPageUrl;
 @dynamic introduction;
-@dynamic isFork;
-@dynamic isStar;
 @dynamic name;
 
 @end

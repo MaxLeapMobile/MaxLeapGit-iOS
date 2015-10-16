@@ -58,6 +58,8 @@
 		B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D241BD0A29D00BC6ADC /* MLGMStarRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D221BD0A29D00BC6ADC /* MLGMStarRelation.m */; settings = {ASSET_TAGS = (); }; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
@@ -209,6 +211,10 @@
 		B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineCell.m; sourceTree = "<group>"; };
 		B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebViewController.h; sourceTree = "<group>"; };
 		B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebViewController.m; sourceTree = "<group>"; };
+		B4C82D1F1BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMStarRelation+CoreDataProperties.h"; sourceTree = "<group>"; };
+		B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMStarRelation+CoreDataProperties.m"; sourceTree = "<group>"; };
+		B4C82D211BD0A29D00BC6ADC /* MLGMStarRelation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMStarRelation.h; sourceTree = "<group>"; };
+		B4C82D221BD0A29D00BC6ADC /* MLGMStarRelation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMStarRelation.m; sourceTree = "<group>"; };
 		B4D2492F1BC7707900A719E6 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		B4E69C531BC8B875008993A7 /* MLGMWebService+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMWebService+Convenience.h"; sourceTree = "<group>"; };
@@ -338,6 +344,10 @@
 				B40C359B1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m */,
 				B40C359C1BCF86EF0081AB5B /* MLGMFollowRelation.h */,
 				B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */,
+				B4C82D1F1BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.h */,
+				B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */,
+				B4C82D211BD0A29D00BC6ADC /* MLGMStarRelation.h */,
+				B4C82D221BD0A29D00BC6ADC /* MLGMStarRelation.m */,
 			);
 			path = NSManageObject;
 			sourceTree = "<group>";
@@ -849,6 +859,7 @@
 				B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */,
 				B41B09EE1BCFF511008DE6F3 /* UIViewController+Extension.m in Sources */,
 				B44205001BC79BF5007F28CA /* NSString+Extension.m in Sources */,
+				B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */,
 				B45E4DA81BCEA5E200B5C6BC /* UIView+CustomBorder.m in Sources */,
 				B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */,
 				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
@@ -862,6 +873,7 @@
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */,
 				E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */,
 				B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */,
+				B4C82D241BD0A29D00BC6ADC /* MLGMStarRelation.m in Sources */,
 				B4257C2E1BCF447900E35785 /* MLGMHomePageCell.m in Sources */,
 				B4257C311BCF4A4300E35785 /* NSDate+Extension.m in Sources */,
 				E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */,

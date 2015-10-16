@@ -102,11 +102,6 @@ static NSUInteger const kPerPage = 30;
 - (void)followingListForUserName:(NSString *)username fromPage:(NSUInteger)page completion:(void(^)(NSArray *userProfiles, BOOL isRechEnd, NSError *error))completion;
 
 /**
- * 是否star了指定的项目,仓库名称的格式是owner/reponame
- */
-- (void)isStarRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion;
-
-/**
  * 指定用户stars或fork的项目
  */
 - (void)staredReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion;
@@ -117,9 +112,19 @@ static NSUInteger const kPerPage = 30;
 - (void)publicRepoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion;
 
 /**
+ * 是否star了指定的项目,仓库名称的格式是owner/reponame
+ */
+- (void)isStarRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion;
+
+/**
  * star项目
  */
 - (void)starRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
+
+/**
+ * unstar项目
+ */
+- (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
 
 /**
  * fork项目

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLGMOrganizationsViewController : UITableViewController
-
+@interface MLGMOrganizationsViewController : UIViewController
+@property (nonatomic, copy) NSString *orgName;
 @end

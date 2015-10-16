@@ -48,7 +48,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self presentLoginVCIfNeeded];
+    [self presentLoginVCIfNeeded];
     MLGMHomePageViewController *userPage = (MLGMHomePageViewController *)self.thirdNav.topViewController;
     userPage.ownerName = kOnlineUserName;
 }

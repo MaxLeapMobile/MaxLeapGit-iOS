@@ -352,20 +352,6 @@ static NSArray *supportEvent() {
     }];
 }
 
-- (void)isStarRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion {
-    NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        if (statusCode == 204) {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
-        } else if (statusCode == 404) {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
-        } else {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, error);
-        }
-    }];
-}
-
 - (void)staredReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/starred", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
@@ -410,13 +396,71 @@ static NSArray *supportEvent() {
     }];
 }
 
+- (void)isStarRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion {
+    NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
+    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!starRelation) {
+            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
+        if (statusCode == 204) {
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStar = @YES;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
+        } else if (statusCode == 404) {
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStar = @NO;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
+        } else {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, error);
+        }
+    }];
+}
+
 - (void)starRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
     NSURLRequest *urlRequest = [self putRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        MLGMRepo *repoProfile = [MLGMRepo MR_findFirstByAttribute:@"name" withValue:repoName inContext:self.defaultContext];
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!starRelation) {
+            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
         if (statusCode == 204) {
-            repoProfile.isStar = @(YES);
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStar = @YES;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
+        } else {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
+        }
+    }];
+}
+
+- (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion {
+    NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
+    NSURLRequest *urlRequest = [self deleteRequestWithEndPoint:endPoint parameters:nil];
+    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!starRelation) {
+            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
+        if (statusCode == 204) {
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStar = @NO;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
@@ -428,9 +472,7 @@ static NSArray *supportEvent() {
     NSString *endPoint = [NSString stringWithFormat:@"/repos/%@/forks", repoName];
     NSURLRequest *urlRequest = [self postRequestWithEndPoint:endPoint parameters:nil];
     [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        MLGMRepo *repoProfile = [MLGMRepo MR_findFirstByAttribute:@"name" withValue:repoName inContext:self.defaultContext];
         if (statusCode == 202) {
-            repoProfile.isFork = @(YES);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);

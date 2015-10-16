@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *avatarUrl;
 @property (nullable, nonatomic, retain) NSString *htmlPageUrl;
 @property (nullable, nonatomic, retain) NSString *introduction;
-@property (nullable, nonatomic, retain) NSNumber *isFork;
-@property (nullable, nonatomic, retain) NSNumber *isStar;
 @property (nullable, nonatomic, retain) NSString *name;
 
 @end

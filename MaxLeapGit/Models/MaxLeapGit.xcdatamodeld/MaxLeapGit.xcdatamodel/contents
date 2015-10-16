@@ -49,9 +49,12 @@
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="htmlPageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isFork" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isStar" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLGMStarRelation" representedClassName="MLGMStarRelation" syncable="YES">
+        <attribute name="isStar" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="MLGMAccount" positionX="0" positionY="0" width="128" height="90"/>
@@ -59,6 +62,7 @@
         <element name="MLGMEvent" positionX="0" positionY="0" width="128" height="135"/>
         <element name="MLGMFollowRelation" positionX="0" positionY="0" width="128" height="90"/>
         <element name="MLGMGene" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="MLGMStarRelation" positionX="9" positionY="153" width="128" height="90"/>
     </elements>
 </model>
