@@ -594,4 +594,41 @@ static NSArray *supportEvent() {
     return sortMethodName;
 }
 
+#pragma mark - Genes
+//Analyze user genes based on GitHub repos -- Default:analyze 30 repos
+- (void)analyzeGenesForUserName:(NSString *)userName completion:(void(^)(NSArray *genes, NSError *error))completion {
+    NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", userName];
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
+    [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObjects, NSError *error) {
+        if (error) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            return;
+        }
+        
+        NSMutableArray *genesMOCs = [NSMutableArray array];
+        NSMutableSet *genesSet = [NSMutableSet set];
+        [responseObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *language = oneRepoDic[@"language"];
+            NSDictionary *supportedGenesDict = kMLGMSupportedGenesDict;
+            [supportedGenesDict.allKeys enumerateObjectsUsingBlock:^(NSString *oneLanguage, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([language isKindOfClass:[NSString class]] && [[language lowercaseString] isEqualToString:[oneLanguage lowercaseString]]) {
+                    NSArray *skills = supportedGenesDict[oneLanguage];
+                    [skills enumerateObjectsUsingBlock:^(NSString *oneSkill, NSUInteger idx, BOOL * _Nonnull stop) {
+                        NSString *genePairString = [NSString stringWithFormat:@"%@---%@",oneLanguage,oneSkill];//remove duplicated items
+                        [genesSet addObject:genePairString];
+                    }];
+                }
+            }];
+        }];
+        [genesSet enumerateObjectsUsingBlock:^(NSString *genePairString, BOOL * _Nonnull stop) {
+            NSArray *components = [genePairString componentsSeparatedByString:@"---"];
+            NSDictionary *genePair = @{@"language":[components firstObject], @"skill":[components lastObject]};
+            MLGMGene *gene = [MLGMGene MR_createEntityInContext:self.scratchContext];
+            [gene fillObject:genePair];
+            [genesMOCs addObject:gene];
+        }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesMOCs copy], nil);
+    }];
+}
+
 @end

@@ -122,6 +122,8 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)
 
+#define kMLGMSupportedGenesDict     @{@"Html":@[@"html5",@"bootstrap"],@"Java":@[@"Android",@"spring"],@"Javascript":@[@"angularjs",@"bootstrap", @"jquery", @"node"],@"Objective-C":@[@"iOS"],@"PHP":@[@"Codeigniter"],@"Python":@[@"web framework"],@"Swift":@[@"iOS"],@"C#":@[@"asp", @"xamarin"]}
+
 #define kOnlineAccount [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)]
 #define kOnlineAccountProfile kOnlineAccount.actorProfile
 #define kOnlineUserName kOnlineAccount.actorProfile.loginName
