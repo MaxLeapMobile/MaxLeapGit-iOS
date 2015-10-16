@@ -40,7 +40,9 @@
     [self configureSubViews];
     
     __weak typeof(self) wSelf = self;
-    [[MLGMWebService sharedInstance] analyzeGenesForUserName:@"rs" completion:^(NSArray *genes, NSError *error){
+    MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
+    [[MLGMWebService sharedInstance] fetchGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSArray *genes, NSError *error) {
+        NSLog(@"fetch genes--- result = %@", genes);
         wSelf.genes = genes;
         [wSelf.tableView reloadData];
     }];

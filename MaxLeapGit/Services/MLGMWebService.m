@@ -595,18 +595,81 @@ static NSArray *supportEvent() {
 }
 
 #pragma mark - Genes
+- (void)fetchGenesForUserName:(NSString *)userName completion:(void(^)(NSArray *genes, NSError *error))completion {
+    [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<NSDictionary *> *maxLeapGenes, NSError *error) {
+
+        BOOL githubGenesInitializeded = NO;
+        if (githubGenesInitializeded) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [maxLeapGenes copy], nil);
+            
+        } else {
+            NSLog(@"maxLeapGenes = %@", maxLeapGenes);
+
+            __block NSSet *maxLeapGenesSet = maxLeapGenes;
+            [self analyzeGitHubGenesForUserName:userName completion:^(NSSet<NSDictionary *> *githubGenes, NSError *error) {
+                NSSet *mergedGenesSet = [maxLeapGenesSet setByAddingObjectsFromSet:githubGenes];
+                NSLog(@"gitHubGenes = %@", githubGenes);
+                NSLog(@"======= Final: genesDictSet = %@", mergedGenesSet);
+                
+                NSArray *genesArray = [self saveGenesToMagicalRecord:mergedGenesSet];
+                
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesArray copy], nil);
+            }];
+        }
+    }];
+}
+
+- (NSArray *)saveGenesToMagicalRecord:(NSSet<NSDictionary *> *)genesSet {
+    NSMutableArray *genesArray = [NSMutableArray array];
+    NSMutableSet *geneMOCs = [NSMutableSet set];
+    [genesSet enumerateObjectsUsingBlock:^(NSDictionary *genePair, BOOL * _Nonnull stop) {
+        MLGMGene *gene = [MLGMGene MR_createEntityInContext:self.defaultContext];
+        [gene fillObject:genePair];
+        [geneMOCs addObject:gene];
+        [genesArray addObject:gene];
+    }];
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES) inContext:self.defaultContext];
+        MLGMActorProfile *userProfileMOC = accountMOC.actorProfile;
+        [userProfileMOC addGenes:geneMOCs];
+        
+    } completion:^(BOOL contextDidSave, NSError *error) {
+        NSLog(@"contextDidSave = %d, error = %@", contextDidSave, error);
+    }];
+    
+    return [NSArray arrayWithArray:genesArray];
+}
+
+#pragma mark - Private Methods
+- (void)fetchGenesFromMaxLeapForUsername:(NSString *)userName completion:(void(^)(NSSet<NSDictionary *> *genes, NSError *error))completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userName = %@", userName];
+    LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicate];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableSet *genesSet = [NSMutableSet set];
+        [objects enumerateObjectsUsingBlock:^(LCObject *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *userName = [obj objectForKey:@"userName"];
+            NSString *language = [obj objectForKey:@"language"];
+            NSString *skill  = [obj objectForKey:@"skill"];
+            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName};
+            [genesSet addObject:genePair];
+        }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
+    }];
+}
+
 //Analyze user genes based on GitHub repos -- Default:analyze 30 repos
-- (void)analyzeGenesForUserName:(NSString *)userName completion:(void(^)(NSArray *genes, NSError *error))completion {
+- (void)analyzeGitHubGenesForUserName:(NSString *)userName completion:(void(^)(NSSet<NSDictionary *> *genes, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", userName];
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
+    NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObjects, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
             return;
         }
-        
-        NSMutableArray *genesMOCs = [NSMutableArray array];
-        NSMutableSet *genesSet = [NSMutableSet set];
+       
+        NSMutableSet *genesDictSet = [NSMutableSet set];
         [responseObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *language = oneRepoDic[@"language"];
             NSDictionary *supportedGenesDict = kMLGMSupportedGenesDict;
@@ -614,20 +677,35 @@ static NSArray *supportEvent() {
                 if ([language isKindOfClass:[NSString class]] && [[language lowercaseString] isEqualToString:[oneLanguage lowercaseString]]) {
                     NSArray *skills = supportedGenesDict[oneLanguage];
                     [skills enumerateObjectsUsingBlock:^(NSString *oneSkill, NSUInteger idx, BOOL * _Nonnull stop) {
-                        NSString *genePairString = [NSString stringWithFormat:@"%@---%@",oneLanguage,oneSkill];//remove duplicated items
-                        [genesSet addObject:genePairString];
+                        NSDictionary *genePair = @{@"language":oneLanguage, @"skill":oneSkill, @"userName":userName};
+                        [genesDictSet addObject:genePair];
                     }];
                 }
             }];
         }];
-        [genesSet enumerateObjectsUsingBlock:^(NSString *genePairString, BOOL * _Nonnull stop) {
-            NSArray *components = [genePairString componentsSeparatedByString:@"---"];
-            NSDictionary *genePair = @{@"language":[components firstObject], @"skill":[components lastObject]};
-            MLGMGene *gene = [MLGMGene MR_createEntityInContext:self.scratchContext];
-            [gene fillObject:genePair];
-            [genesMOCs addObject:gene];
-        }];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesMOCs copy], nil);
+
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesDictSet copy], nil);
+    }];
+}
+
+- (void)saveGenesToMaxLeap:(NSArray *)genes completion:(void(^)(BOOL success, NSError *error))completion {
+    MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
+    if (!account) {
+        NSError *error = [MLGMError errorWithCode:MLGMErrorTypeNoOnlineAccount message:nil];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
+    }
+    
+    NSMutableArray *lasObjs = [NSMutableArray array];
+    [genes enumerateObjectsUsingBlock:^(MLGMGene *gene, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *loginName = account.actorProfile.loginName;
+        LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
+                                              dictionary:@{@"language":gene.language, @"skill": gene.skill, @"userName" : loginName}];
+        [lasObjs addObject:lasObj];
+    }];
+    
+    [LCObject saveAllInBackground:lasObjs block:^(BOOL succeeded, NSError *error) {
+        NSLog(@"save to maxLeap: objs = %@, status = %d", lasObjs, succeeded);
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
     }];
 }
 
