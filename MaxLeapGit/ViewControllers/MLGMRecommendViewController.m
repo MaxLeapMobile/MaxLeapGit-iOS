@@ -19,7 +19,8 @@
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount
 
 @interface MLGMRecommendViewController () <WKNavigationDelegate>
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) NSString *repoName;//e.g. AFNetworking/AFNetworking
+
 @property (nonatomic, strong) UIView *emptyView;
 
 @property (nonatomic, strong) UIButton *starButton;
@@ -51,21 +52,7 @@
     [searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     
-    [self configureWebView];
     [self configureToolbarView];
-}
-
-- (void)configureWebView {
-    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44) configuration:webViewConfiguration];
-    _webView.navigationDelegate = self;
-    [self.view addSubview:_webView];
-    
-    NSString *requestURL = @"https://github.com/AFNetworking/AFNetworking";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
-    [_webView loadRequest:request];
-    
-    [SVProgressHUD show];
 }
 
 - (void)configureToolbarView {
@@ -103,12 +90,13 @@
 
 - (void)showEmptyView {
     if (!_emptyView) {
+        __weak typeof(self) wSelf = self;
         _emptyView = [[MLGMRecommendEmptyView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44)
                                                   addNewGeneAction:^{
-                                                      [self presentAddNewGenePage];
+                                                      [wSelf presentAddNewGenePage];
                                                   }
                                                       replayAction:^{
-                                                          [self replayRecommendationView];
+                                                          [wSelf replayRecommendationView];
                                                       }];
         _emptyView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view addSubview:_emptyView];
@@ -124,7 +112,7 @@
 
 - (void)replayRecommendationView {
     _emptyView.hidden = YES;
-    _webView.hidden = NO;
+    self.webView.hidden = NO;
 }
 
 #pragma mark - Actions
@@ -140,22 +128,29 @@
 }
 
 - (void)onClickedStarButton {
-    
+    [[MLGMWebService sharedInstance] starRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
+        if (success && !error) {
+            [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"Error"];
+        }
+    }];
 }
 
 - (void)onClickedForkButton {
-    
+    [[MLGMWebService sharedInstance] forkRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
+        if (success && !error) {
+            [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"Error"];
+        }
+    }];
 }
 
 - (void)onClickedSkipButton {
     //temp -- skip to show empty view
-    _webView.hidden = YES;
+    self.webView.hidden = YES;
     [self showEmptyView];
-}
-
-#pragma mark - WKNavigationDelegate 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [SVProgressHUD dismiss];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLGMWebViewController.h"
 
-@interface MLGMRecommendViewController : UIViewController
+@interface MLGMRecommendViewController : MLGMWebViewController
 @end

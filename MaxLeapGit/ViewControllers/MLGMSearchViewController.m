@@ -252,7 +252,7 @@
         if (indexPath.row < _users.count) {
             MLGMActorProfile *actorProfile = _users[indexPath.row];
             MLGMFollowCell *userCell = (MLGMFollowCell *)cell;
-//            [userCell updateData:actorProfile];
+            [userCell configureCell:actorProfile];
         }
     }
     

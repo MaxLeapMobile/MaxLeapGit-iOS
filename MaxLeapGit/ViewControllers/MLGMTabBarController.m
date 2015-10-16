@@ -35,6 +35,7 @@
             [wSelf presentViewController:navRecommend animated:YES completion:nil];
         };
         self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
+//        self.delegate = self;
     }
     
     return self;
@@ -48,7 +49,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self presentLoginVCIfNeeded];
+//    [self presentLoginVCIfNeeded];
     MLGMHomePageViewController *userPage = (MLGMHomePageViewController *)self.thirdNav.topViewController;
     userPage.ownerName = kOnlineUserName;
 }
