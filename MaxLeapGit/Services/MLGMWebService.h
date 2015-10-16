@@ -146,5 +146,10 @@ static NSUInteger const kPerPage = 30;
  */
 - (void)geneForUserName:(NSString *)userName completion:(void(^)())completion;
 
+/**
+ * 根据用户在GitHub上的repos信息，分析用户的genes
+ */
+- (void)analyzeGenesForUserName:(NSString *)userName completion:(void(^)(NSArray *genes, NSError *error))completion;
+
 @end
 

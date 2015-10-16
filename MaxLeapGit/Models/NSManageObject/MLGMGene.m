@@ -11,6 +11,9 @@
 
 @implementation MLGMGene
 
-// Insert code here to add functionality to your managed object subclass
+- (void)fillObject:(NSDictionary *)object {
+    self.language = [object valueForKeyPath:@"language"];
+    self.skill = [object valueForKeyPath:@"skill"];
+}
 
 @end
