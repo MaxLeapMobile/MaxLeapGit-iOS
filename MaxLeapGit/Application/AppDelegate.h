@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class MLGMTabBarController;
+@class MLGMCustomTabBarController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property(nonatomic,strong) MLGMTabBarController *tabBarController;
+@property(nonatomic,strong) MLGMCustomTabBarController *tabBarController;
 
 @end
 

@@ -11,7 +11,7 @@
 #import "MLGMLoginViewController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 
 @implementation AppDelegate
 
@@ -25,7 +25,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = UIColorFromRGB(0xffffff);
-    self.window.rootViewController = self.tabBarController = [[MLGMTabBarController alloc] init];
+    self.window.rootViewController = self.tabBarController = [[MLGMCustomTabBarController alloc] init];
     [self.window makeKeyAndVisible];
 
     return YES;

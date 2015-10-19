@@ -12,7 +12,6 @@
 #import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import "MLGMRepoDetailController.h"
 #import "NSDate+Extension.h"
-#import "UITableViewCell+Extension.h"
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 
 #define kTextDefaultColor           UIColorWithRGBA(113, 113, 117, 1)

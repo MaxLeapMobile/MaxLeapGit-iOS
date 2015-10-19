@@ -7,7 +7,7 @@
 //
 
 #import "MLGMWebViewController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 
 #define kWebViewLoadingStatusKey       @"loading"
 #define kWebViewLoadingProgressKey     @"estimatedProgress"
@@ -47,7 +47,7 @@
     }
    
     
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
     [self configureWebView];
     [self configureProgressView];

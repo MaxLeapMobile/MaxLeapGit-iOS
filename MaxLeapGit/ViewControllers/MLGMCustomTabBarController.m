@@ -6,20 +6,20 @@
 //  Copyright © 2015年 iLegendsoft. All rights reserved.
 //
 
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMTimeLineViewController.h"
 #import "MLGMRecommendViewController.h"
 #import "MLGMHomePageViewController.h"
 #import "MLGMLoginViewController.h"
 
-@interface MLGMTabBarController () <UITabBarControllerDelegate>
+@interface MLGMCustomTabBarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) UIButton *centralButton;
 @property (nonatomic, strong) UINavigationController *firstNav;
 @property (nonatomic, strong) UIViewController *secondVC;
 @property (nonatomic, strong) UINavigationController *thirdNav;
 @end
 
-@implementation MLGMTabBarController
+@implementation MLGMCustomTabBarController
 
 - (instancetype)init
 {

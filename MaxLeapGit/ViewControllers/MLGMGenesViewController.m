@@ -7,16 +7,16 @@
 //
 
 #import "MLGMGenesViewController.h"
-#import "MLGMAddNewGeneViewController.h"
-#import "MLGMAddNewGeneViewController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMNewGeneViewController.h"
+#import "MLGMNewGeneViewController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMWebService.h"
 
 @interface MLGMGenesViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *genes;
-
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIButton *addNewGeneButton;
+@property (nonatomic, strong) UIButton *geneCreationButton;
+@property (nonatomic, assign) BOOL didSetupConstraints;
 @end
 
 @implementation MLGMGenesViewController
@@ -25,105 +25,109 @@
 #pragma mark- View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.title = NSLocalizedString(@"Genes", @"");
-   
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 44) style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
-    self.navigationController.navigationBarHidden = NO;
-    
     [self configureSubViews];
     
-    MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-    
-    __weak typeof(self) wSelf = self;
-    [[MLGMWebService sharedInstance] updateGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSError *error) {
-        MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-        NSSet *genes = accountMOC.actorProfile.genes;
-        wSelf.genes = genes.allObjects;
-        [wSelf.tableView reloadData];
+    [[MLGMWebService sharedInstance] updateGenesForUserName:kOnlineUserName completion:^(NSError *error) {
+        [self.tableView reloadData];
     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [self.tableView reloadData];
+}
+
+#pragma mark- Override Parent Method
+- (void)updateViewConstraints {
+    if (!_didSetupConstraints) {
+        [self.tableView pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0f];
+        [self.tableView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeTop ofItem:self.geneCreationButton];
+        [self.geneCreationButton pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge | JRTViewPinBottomEdge inset:0.0];
+        [self.geneCreationButton constrainToHeight:44];
+        
+        _didSetupConstraints = YES;
+    }
+    
+    [super updateViewConstraints];
 }
 
 #pragma mark- SubView Configuration
 - (void)configureSubViews {
-    [self.view addSubview:self.addNewGeneButton];
+    self.title = NSLocalizedString(@"Genes", @"");
+    [self.view addSubview:self.geneCreationButton];
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark- Action
-- (void)onClickedEditGeneButton {
-    [self presentAddNewGenePage];
+- (void)editGene:(MLGMGene *)gene {
+    [self presentNewGeneViewControllerWithGene:gene];
 }
 
 - (void)onClickedAddNewGeneButton {
-    [self presentAddNewGenePage];
+    [self presentNewGeneViewControllerWithGene:nil];
 }
 
-- (void)presentAddNewGenePage {
-    MLGMAddNewGeneViewController *addNewGeneVC = [[MLGMAddNewGeneViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addNewGeneVC];
+- (void)presentNewGeneViewControllerWithGene:(MLGMGene *)gene {
+    MLGMNewGeneViewController *geneCreationVC = [[MLGMNewGeneViewController alloc] init];
+    geneCreationVC.gene = gene;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:geneCreationVC];
     nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
+
 #pragma mark- Delegate，DataSource, Callback Method
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _genes.count;
+    return self.genes.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-        
-        UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        editButton.frame = CGRectMake(self.view.bounds.size.width - 40, 0, 40, cell.bounds.size.height);
-        [editButton setImage:ImageNamed(@"edit_icon_normal") forState:UIControlStateNormal];
-        [editButton setImage:ImageNamed(@"edit_icon_selected") forState:UIControlStateNormal];
-        [editButton addTarget:self action:@selector(onClickedEditGeneButton) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:editButton];
-    }
-    MLGMGene *gene = _genes[indexPath.row];
-    cell.textLabel.text = gene.skill;
-    cell.detailTextLabel.text = gene.language;
+    MLGMGeneCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MLGMGeneCell"];
+    MLGMGene *gene = self.genes[indexPath.row];
+    cell.editingButtonEventHandler = ^(MLGMGene *gene) {
+        [self editGene:gene];
+    };
+    
+    [cell configureCell:gene];
+    
     return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        MLGMAddNewGeneViewController *vcAddGene = [[MLGMAddNewGeneViewController alloc] init];
-        [self.navigationController pushViewController:vcAddGene animated:YES];
-    }
-}
-
-#pragma mark- Override Parent Method
 
 #pragma mark- Private Method
 
 #pragma mark- Getter Setter
-- (UIButton *)addNewGeneButton {
-    if (!_addNewGeneButton) {
-        _addNewGeneButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _addNewGeneButton.frame = CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44);
-        _addNewGeneButton.backgroundColor = BottomToolBarColor;
-        [_addNewGeneButton setTitle:NSLocalizedString(@"Add new gene", @"") forState:UIControlStateNormal];
-        [_addNewGeneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _addNewGeneButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [_addNewGeneButton addTarget:self action:@selector(onClickedAddNewGeneButton) forControlEvents:UIControlEventTouchUpInside];
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [UITableView autoLayoutView];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc] init];
+        [_tableView registerClass:[MLGMGeneCell class] forCellReuseIdentifier:@"MLGMGeneCell"];
     }
-    return _addNewGeneButton;
+    
+    return _tableView;
+}
+
+- (UIButton *)geneCreationButton {
+    if (!_geneCreationButton) {
+        _geneCreationButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _geneCreationButton.frame = CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44);
+        _geneCreationButton.backgroundColor = BottomToolBarColor;
+        [_geneCreationButton setTitle:NSLocalizedString(@"Add new gene", @"") forState:UIControlStateNormal];
+        [_geneCreationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _geneCreationButton.titleLabel.font = [UIFont systemFontOfSize:17];
+        [_geneCreationButton addTarget:self action:@selector(onClickedAddNewGeneButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _geneCreationButton;
+}
+
+- (NSArray *)genes {
+    NSArray *genes = [kOnlineAccountProfile.genes allObjects];
+    return [genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
 }
 
 #pragma mark- Helper Method

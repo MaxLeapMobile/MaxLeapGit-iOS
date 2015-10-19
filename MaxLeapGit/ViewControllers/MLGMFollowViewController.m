@@ -10,7 +10,7 @@
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MLGMFollowCell.h"
 #import "MLGMHomePageViewController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMWebService.h"
 
 @interface MLGMFollowViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -35,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self.tableView triggerPullToRefresh];
 }
 

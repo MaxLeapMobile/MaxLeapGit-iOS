@@ -70,13 +70,12 @@
     
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging in", nil)];
     [[MLGMWebService sharedInstance] updateAccountProfileCompletion:^(MLGMAccount *account, NSError *error) {
-        [SVProgressHUD dismiss];
         if (error) {
+            [SVProgressHUD dismiss];
             [SVProgressHUD showErrorWithStatus:@"Error"];
         } else {
-            
-            MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-            [[MLGMWebService sharedInstance] updateGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSError *error) {
+            [[MLGMWebService sharedInstance] updateGenesForUserName:kOnlineUserName completion:^(NSError *error) {
+                [SVProgressHUD dismiss];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }];
         }

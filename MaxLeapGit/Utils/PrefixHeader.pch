@@ -21,12 +21,6 @@
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
 
-#import "UIView+AutoLayout.h"
-#import "UIImage+Extension.h"
-#import "NSString+Extension.h"
-#import "NSDictionary+Extension.h"
-#import "NSBundle+Extension.h"
-
 #import "MLGMError.h"
 #import "MLGMWebService.h"
 #import "MLGMAccount.h"
@@ -36,7 +30,15 @@
 #import "MLGMRepo.h"
 #import "MLGMFollowRelation.h"
 #import "MLGMStarRelation.h"
+#import "MLGMGeneCell.h"
+
+#import "UIView+AutoLayout.h"
+#import "UIImage+Extension.h"
+#import "NSString+Extension.h"
+#import "NSDictionary+Extension.h"
+#import "NSBundle+Extension.h"
 #import "UIViewController+Extension.h"
+
 #endif
 
 #ifdef DEBUG

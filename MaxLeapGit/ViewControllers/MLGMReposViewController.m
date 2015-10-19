@@ -10,7 +10,7 @@
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MLGMRepoCell.h"
 #import "MLGMRepoDetailController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 
 @interface MLGMReposViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -32,7 +32,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self transparentNavigationBar:NO];
     [self.tableView triggerPullToRefresh];
 }

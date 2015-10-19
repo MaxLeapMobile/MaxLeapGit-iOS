@@ -58,12 +58,12 @@
         <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MLGMAccount" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMActorProfile" positionX="0" positionY="0" width="128" height="330"/>
-        <element name="MLGMEvent" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMGene" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="MLGMStarRelation" positionX="9" positionY="153" width="128" height="90"/>
+        <element name="MLGMAccount" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMActorProfile" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMEvent" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMGene" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMRepo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMStarRelation" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
