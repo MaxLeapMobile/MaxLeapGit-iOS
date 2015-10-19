@@ -42,7 +42,7 @@
     <entity name="MLGMGene" representedClassName="MLGMGene" syncable="YES">
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="skill" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MLGMActorProfile" inverseName="genes" inverseEntity="MLGMActorProfile" syncable="YES"/>
     </entity>
     <entity name="MLGMRepo" representedClassName="MLGMRepo" syncable="YES">

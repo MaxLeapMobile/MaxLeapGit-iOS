@@ -574,27 +574,43 @@ static NSArray *supportEvent() {
 
 #pragma mark - Genes
 - (void)updateGenesForUserName:(NSString *)userName completion:(void(^)(NSError *error))completion {
-    MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-    NSSet *originalMRGenes = accountMOC.actorProfile.genes;
-    
-    [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<NSDictionary *> *maxLeapGenes, NSError *error) {
-        NSLog(@"maxLeapGenes = %@", maxLeapGenes);
-
-        NSSet<NSDictionary *> *mrGenes = [self dictionarySetForGenesSet:originalMRGenes];
-        if (mrGenes) {
-            [self updateLocalAndCloudGenesDataWithCurrentMRGenes:mrGenes maxLeapGenes:maxLeapGenes githubGenes:nil completion:^(NSError *error) {
+    NSSet *originalMRGenes = kOnlineAccountProfile.genes;
+    NSSet<NSDictionary *> *mrGenes = [self dictionarySetForGenesSet:originalMRGenes];
+    if (mrGenes.count > 0) {
+        [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<NSDictionary *> *maxLeapGenes, NSError *error) {
+            if (error) {
                 BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+                return;
+            }
+            
+            NSLog(@"maxLeapGenes = %@", maxLeapGenes);
+            [self updateLocalAndCloudGenesDataWithCurrentMRGenes:mrGenes maxLeapGenes:maxLeapGenes githubGenes:nil completion:^(NSError *error) {
+               BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
             }];
-        } else {
-            [self generateGitHubGenesForUserName:userName completion:^(NSSet<NSDictionary *> *githubGenes, NSError *error) {
-                NSLog(@"======= githubGenes = %@", githubGenes);
+        }];
+        
 
+    } else {
+        [self generateGitHubGenesForUserName:userName completion:^(NSSet<NSDictionary *> *githubGenes, NSError *error) {
+            if (error) {
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+                return;
+            }
+           
+            NSLog(@"======= githubGenes = %@", githubGenes);
+            [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<NSDictionary *> *maxLeapGenes, NSError *error) {
+                if (error) {
+                    BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+                    return;
+                }
+                
+                NSLog(@"maxLeapGenes = %@", maxLeapGenes);
                 [self updateLocalAndCloudGenesDataWithCurrentMRGenes:mrGenes maxLeapGenes:maxLeapGenes githubGenes:githubGenes completion:^(NSError *error) {
                     BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
                 }];
             }];
-        }
-    }];
+        }];
+    }
 }
 
 #pragma mark - Private Methods
@@ -607,8 +623,10 @@ static NSArray *supportEvent() {
             NSString *userName = [obj objectForKey:@"userName"];
             NSString *language = [obj objectForKey:@"language"];
             NSString *skill  = [obj objectForKey:@"skill"];
-            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName};
+            NSDate *updateTime  = [obj objectForKey:@"updateTime"];
+            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName, @"updateTime":updateTime};
             [genesSet addObject:genePair];
+            
         }];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
     }];
@@ -625,6 +643,7 @@ static NSArray *supportEvent() {
         }
         
         NSMutableSet *genesSet = [NSMutableSet set];
+        NSDate *updateTime = [NSDate date];
         [responseObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *language = oneRepoDic[@"language"];
             NSDictionary *supportedGenesDict = kMLGMSupportedGenesDict;
@@ -632,7 +651,7 @@ static NSArray *supportEvent() {
                 if ([language isKindOfClass:[NSString class]] && [[language lowercaseString] isEqualToString:[oneLanguage lowercaseString]]) {
                     NSArray *skills = supportedGenesDict[oneLanguage];
                     [skills enumerateObjectsUsingBlock:^(NSString *oneSkill, NSUInteger idx, BOOL * _Nonnull stop) {
-                        NSDictionary *genePair = @{@"language":oneLanguage, @"skill":oneSkill, @"userName":userName};
+                        NSDictionary *genePair = @{@"language":oneLanguage, @"skill":oneSkill, @"userName":userName, @"updateTime":updateTime};
                         [genesSet addObject:genePair];
                     }];
                 }
@@ -657,6 +676,10 @@ static NSArray *supportEvent() {
     NSSet<MLGMGene *> *genesSetForMR = [self genesSetForDictionarySet:genesDictSetToSaveToMR];
     NSSet<MLGMGene *> *genesSetForMaxLeap = [self genesSetForDictionarySet:genesDictSetToSaveToMaxLeap];
     [self saveGenesToMagicalRecord:genesSetForMR completion:^(NSError *error) {
+        if (error) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+            return;
+        }
         
         [self saveGenesToMaxLeap:genesSetForMaxLeap completion:^(BOOL success, NSError *error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
@@ -690,8 +713,7 @@ static NSArray *supportEvent() {
 }
 
 - (void)saveGenesToMaxLeap:(NSSet<MLGMGene *> *)genes completion:(void(^)(BOOL success, NSError *error))completion {
-    MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-    if (!account) {
+    if (!kOnlineAccount) {
         return;
     }
 
@@ -714,7 +736,7 @@ static NSArray *supportEvent() {
 - (NSDictionary *)dictionaryForGene:(MLGMGene *)gene {
     if (gene.language.length && gene.skill.length) {
         
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:gene.language, @"language", gene.skill, @"skill", nil];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:gene.language, @"language", gene.skill, @"skill", gene.updateTime, @"updateTime", nil];
         if (gene.userProfile.loginName.length) {
             [dict setValue:gene.userProfile.loginName forKey:@"userName"];
         }
