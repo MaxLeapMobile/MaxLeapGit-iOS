@@ -14,11 +14,11 @@
 - (void)fillObject:(NSDictionary *)object {
     self.language = [object valueForKeyPath:@"language"];
     self.skill = [object valueForKeyPath:@"skill"];
-//    self.userProfile.loginName = [object valueForKeyPath:@"userName"];
+    self.updateTime = [object valueForKey:@"updateTime"];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"language = %@, skill = %@, user.loginName = %@", self.language, self.skill, self.userProfile.loginName];
+    return [NSString stringWithFormat:@"language = %@, skill = %@, user.loginName = %@, updatedAt = %@", self.language, self.skill, self.userProfile.loginName, self.updateTime];
 }
 
 @end

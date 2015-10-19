@@ -15,6 +15,7 @@
 
 @dynamic language;
 @dynamic skill;
+@dynamic updateTime;
 @dynamic userProfile;
 
 @end
