@@ -7,17 +7,6 @@
 //
 
 #import "MLGMHomePageViewController.h"
-#import "MLGMSearchViewController.h"
-#import "MLGMHomePageHeaderCell.h"
-#import "MLGMHomePageCell.h"
-#import "MLGMGenesViewController.h"
-#import "MLGMFollowViewController.h"
-#import "MLGMReposViewController.h"
-#import "MLGMOrganizationsViewController.h"
-#import "MLGMCustomTabBarController.h"
-#import "UIView+CustomBorder.h"
-#import "NSDate+Extension.h"
-#import "UIBarButtonItem+Extension.h"
 
 @interface MLGMHomePageViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -79,10 +68,6 @@
     }
     
     [super updateViewConstraints];
-}
-
--(UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark- SubViews Configuration
@@ -335,8 +320,8 @@
     
     if (index == 3) {
         baseInfoCell.textLabel.text = @"Joined in";
-        if (self.userProfile.githubCreatedAt) {
-            NSString *humanDateString = [self.userProfile.githubCreatedAt humanDateString];
+        if (self.userProfile.githubCreatTime) {
+            NSString *humanDateString = [self.userProfile.githubCreatTime humanDateString];
             baseInfoCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", humanDateString];
         } else {
             baseInfoCell.detailTextLabel.text = @"-";

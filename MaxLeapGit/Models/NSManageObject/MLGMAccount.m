@@ -7,7 +7,6 @@
 //
 
 #import "MLGMAccount.h"
-#import "MLGMActorProfile.h"
 
 @implementation MLGMAccount
 

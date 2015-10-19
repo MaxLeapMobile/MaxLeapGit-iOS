@@ -7,11 +7,6 @@
 //
 
 #import "MLGMLoginViewController.h"
-#import "MLGMAuthViewController.h"
-#import "MLGMWebService.h"
-#import "MLGMAccount.h"
-#import "MLGMAccount.h"
-#import "MLGMActorProfile.h"
 
 @interface MLGMLoginViewController () <MLGMAuthViewControllerDelegate>
 @property (nonatomic, strong) UIImageView *logoImageView;

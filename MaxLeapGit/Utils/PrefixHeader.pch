@@ -20,24 +20,64 @@
 #import "Flurry.h"
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
+#import <HockeySDK/HockeySDK.h>
+#import <CCHLinkTextView/CCHLinkTextView.h>
+#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
+#import <WebKit/WebKit.h>
 
-#import "MLGMError.h"
-#import "MLGMWebService.h"
+#import "JSONValidation.h"
+#import "MLGMAccount+CoreDataProperties.h"
 #import "MLGMAccount.h"
 #import "MLGMActorProfile.h"
-#import "MLGMGene.h"
+#import "MLGMAuthViewController.h"
+#import "MLGMCustomTabBarController.h"
+#import "MLGMError.h"
 #import "MLGMEvent.h"
-#import "MLGMRepo.h"
+#import "MLGMFollowCell.h"
 #import "MLGMFollowRelation.h"
-#import "MLGMStarRelation.h"
+#import "MLGMFollowViewController.h"
+#import "MLGMGene.h"
 #import "MLGMGeneCell.h"
-
-#import "UIView+AutoLayout.h"
-#import "UIImage+Extension.h"
-#import "NSString+Extension.h"
-#import "NSDictionary+Extension.h"
+#import "MLGMGenesViewController.h"
+#import "MLGMHomePageCell.h"
+#import "MLGMHomePageHeaderCell.h"
+#import "MLGMHomePageViewController.h"
+#import "MLGMLoginViewController.h"
+#import "MLGMNewGeneViewController.h"
+#import "MLGMOrganizationCell.h"
+#import "MLGMOrganizationsViewController.h"
+#import "MLGMRecommendEmptyView.h"
+#import "MLGMRecommendViewController.h"
+#import "MLGMRepo.h"
+#import "MLGMRepoCell.h"
+#import "MLGMRepoDetailController.h"
+#import "MLGMReposViewController.h"
+#import "MLGMSearchPageTitleView.h"
+#import "MLGMSearchViewController.h"
+#import "MLGMSortViewController.h"
+#import "MLGMStarRelation.h"
+#import "MLGMStringUtil.h"
+#import "MLGMTimeLineCell.h"
+#import "MLGMTimeLineViewController.h"
+#import "MLGMWebService.h"
+#import "MLGMWebViewController.h"
 #import "NSBundle+Extension.h"
+#import "NSDate+Extension.h"
+#import "UIBarButtonItem+Extension.h"
+#import "UIView+CustomBorder.h"
+#import "WYPopoverController.h"
+
+#import "NSBundle+Extension.h"
+#import "NSDictionary+Extension.h"
+#import "NSString+Extension.h"
+#import "UIImage+Extension.h"
+#import "UIView+AutoLayout.h"
 #import "UIViewController+Extension.h"
+#include "UIBarButtonItem+Extension.h"
 
 #endif
 
@@ -117,10 +157,10 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kMaxLeap_Application_ID CONFIGURE(@"MaxLeap_Application_ID")
 #define kMaxLeap_Client_Key CONFIGURE(@"MaxLeap_Client_Key")
 #define kMaxLeap_REST_API_Key CONFIGURE(@"MaxLeap_REST_API_Key")
+#define kHockeyApp_Identifier CONFIGURE(@"HockeyApp_Identifier")
 
 #define kPixelWidth (1.0 / [UIScreen mainScreen].scale)
 
-#define UIColorWithRGBA(r, g, b, a)   [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)
 

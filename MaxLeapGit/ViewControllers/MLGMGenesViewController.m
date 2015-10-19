@@ -7,10 +7,7 @@
 //
 
 #import "MLGMGenesViewController.h"
-#import "MLGMNewGeneViewController.h"
-#import "MLGMNewGeneViewController.h"
-#import "MLGMCustomTabBarController.h"
-#import "MLGMWebService.h"
+
 
 @interface MLGMGenesViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *genes;

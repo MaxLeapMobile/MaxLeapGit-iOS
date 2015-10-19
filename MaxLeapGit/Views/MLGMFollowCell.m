@@ -7,9 +7,6 @@
 //
 
 #import "MLGMFollowCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
-#import "NSDate+Extension.h"
-#import "MLGMWebService.h"
 
 @interface MLGMFollowCell ()
 @property (nonatomic, strong) UIImageView *avatarImageView;
@@ -98,14 +95,14 @@
         [self updateFollowButtonTitleWithUserName:self.actorProfile.loginName];
     }];
     
-    if (actorProfile.githubUpdatedAt) {
-        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdatedAt timeAgo]];
+    if (actorProfile.githubUpdateTime) {
+        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
         [[MLGMWebService sharedInstance] userProfileForUserName:actorProfile.loginName completion:^(MLGMActorProfile *userProfile, NSError *error) {
             MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.actorProfile.loginName];
-            if (latestProfile.githubUpdatedAt) {
-                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdatedAt timeAgo]];
+            if (latestProfile.githubUpdateTime) {
+                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];
                 self.updateTimeLabel.text = updateAtString;
             }
         }];

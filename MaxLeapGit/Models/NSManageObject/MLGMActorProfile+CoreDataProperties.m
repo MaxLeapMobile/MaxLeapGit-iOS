@@ -19,9 +19,9 @@
 @dynamic email;
 @dynamic followers;
 @dynamic following;
-@dynamic githubCreatedAt;
+@dynamic githubCreatTime;
 @dynamic githubId;
-@dynamic githubUpdatedAt;
+@dynamic githubUpdateTime;
 @dynamic hireable;
 @dynamic location;
 @dynamic loginName;
@@ -30,7 +30,6 @@
 @dynamic organizations;
 @dynamic starts;
 @dynamic genes;
-@dynamic updatedAt;
 @dynamic introduction;
 
 @end

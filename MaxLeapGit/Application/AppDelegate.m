@@ -13,15 +13,18 @@
 #import "MLGMRecommendViewController.h"
 #import "MLGMCustomTabBarController.h"
 
+@interface AppDelegate () <BITHockeyManagerDelegate>
+@property (nonatomic) DDFileLogger *fileLogger;
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureGlobalAppearance];
-    [self configureGlobalSystemState];
+    [self configureFlurry];
 	[self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureCocoaLumberjack];
-    [self configureFlurry];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = UIColorFromRGB(0xffffff);
@@ -67,8 +70,9 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
-- (void)configureGlobalSystemState {
-
+- (void)configureFlurry {
+    [Flurry setAppVersion:kAppVersion];
+    [Flurry startSession:CONFIGURE(@"3cce3f30d1c88bef1cb54f4caa09abeb64863112")];
 }
 
 - (void)configureLeapCloud {
@@ -83,20 +87,57 @@
 }
 
 - (void)configureCocoaLumberjack {
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    _fileLogger = [[DDFileLogger alloc] init];
     
-    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
+    [_fileLogger setMaximumFileSize:(1024 * 1024)];
+    [_fileLogger setRollingFrequency:(3600.0 * 24.0)];
+    [[_fileLogger logFileManager] setMaximumNumberOfLogFiles:7];
+    [DDLog addLogger:_fileLogger];
     
-    [fileLogger setMaximumFileSize:(1024 * 1024)];
-    [fileLogger setRollingFrequency:(3600.0 * 24.0)];
-    [[fileLogger logFileManager] setMaximumNumberOfLogFiles:7];
-    [DDLog addLogger:fileLogger];
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:kHockeyApp_Identifier delegate:self];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    
+    if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
+        [DDLog addLogger:[DDASLLogger sharedInstance]];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    }
 }
 
-- (void)configureFlurry {
-    [Flurry setAppVersion:kAppVersion];
-    [Flurry startSession:CONFIGURE(@"3cce3f30d1c88bef1cb54f4caa09abeb64863112")];
+- (NSString *)getLogFilesContentWithMaxSize:(NSInteger)maxSize {
+    NSMutableString *description = [NSMutableString string];
+    
+    NSArray *sortedLogFileInfos = [[_fileLogger logFileManager] sortedLogFileInfos];
+    NSInteger count = [sortedLogFileInfos count];
+    
+    // we start from the last one
+    for (NSInteger index = count - 1; index >= 0; index--) {
+        DDLogFileInfo *logFileInfo = [sortedLogFileInfos objectAtIndex:index];
+        
+        NSData *logData = [[NSFileManager defaultManager] contentsAtPath:[logFileInfo filePath]];
+        if ([logData length] > 0) {
+            NSString *result = [[NSString alloc] initWithBytes:[logData bytes]
+                                                        length:[logData length]
+                                                      encoding: NSUTF8StringEncoding];
+            
+            [description appendString:result];
+        }
+    }
+    
+    if ([description length] > maxSize) {
+        description = (NSMutableString *)[description substringWithRange:NSMakeRange([description length]-maxSize-1, maxSize)];
+    }
+    
+    return description;
+}
+
+#pragma mark - BITCrashManagerDelegate
+- (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
+    NSString *description = [self getLogFilesContentWithMaxSize:5000]; // 5000 bytes should be enough!
+    if ([description length] == 0) {
+        return nil;
+    } else {
+        return description;
+    }
 }
 
 @end

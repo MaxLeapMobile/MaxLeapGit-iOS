@@ -18,6 +18,8 @@
 		B408C3C81BCB5EE80018634D /* MLGMGene.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3B71BCB5EE80018634D /* MLGMGene.m */; settings = {ASSET_TAGS = (); }; };
 		B408C3D31BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3D01BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3D21BCB64720018634D /* MLGMActorProfile.m */; settings = {ASSET_TAGS = (); }; };
+		B4099A7D1BD4E52200B7AEB8 /* searchReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B4099A7C1BD4E52200B7AEB8 /* searchReposPattern.json */; settings = {ASSET_TAGS = (); }; };
+		B4099A7F1BD4E69D00B7AEB8 /* searchUsersPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B4099A7E1BD4E69D00B7AEB8 /* searchUsersPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B40C35931BCF532D0081AB5B /* MLGMOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C35921BCF532D0081AB5B /* MLGMOrganizationCell.m */; settings = {ASSET_TAGS = (); }; };
 		B40C359E1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359B1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */; settings = {ASSET_TAGS = (); }; };
@@ -116,6 +118,8 @@
 		B408C3D01BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMActorProfile+CoreDataProperties.m"; sourceTree = "<group>"; };
 		B408C3D11BCB64720018634D /* MLGMActorProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMActorProfile.h; sourceTree = "<group>"; };
 		B408C3D21BCB64720018634D /* MLGMActorProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMActorProfile.m; sourceTree = "<group>"; };
+		B4099A7C1BD4E52200B7AEB8 /* searchReposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchReposPattern.json; sourceTree = "<group>"; };
+		B4099A7E1BD4E69D00B7AEB8 /* searchUsersPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchUsersPattern.json; sourceTree = "<group>"; };
 		B40C35911BCF532D0081AB5B /* MLGMOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMOrganizationCell.h; sourceTree = "<group>"; };
 		B40C35921BCF532D0081AB5B /* MLGMOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMOrganizationCell.m; sourceTree = "<group>"; };
 		B40C359A1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMFollowRelation+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -369,6 +373,8 @@
 				B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */,
 				B42264DF1BCB6E0B00CD5634 /* reposPattern.json */,
 				B42265101BCBB15000CD5634 /* followerPattern.json */,
+				B4099A7C1BD4E52200B7AEB8 /* searchReposPattern.json */,
+				B4099A7E1BD4E69D00B7AEB8 /* searchUsersPattern.json */,
 			);
 			path = JSONPattern;
 			sourceTree = "<group>";
@@ -761,7 +767,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B42265111BCBB15000CD5634 /* followerPattern.json in Resources */,
+				B4099A7D1BD4E52200B7AEB8 /* searchReposPattern.json in Resources */,
 				B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */,
+				B4099A7F1BD4E69D00B7AEB8 /* searchUsersPattern.json in Resources */,
 				B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */,
 				B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */,
 				B41B09EB1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle in Resources */,

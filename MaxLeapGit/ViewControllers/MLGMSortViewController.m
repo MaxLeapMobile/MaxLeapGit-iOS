@@ -46,7 +46,7 @@
     cell.textLabel.text = _sortMethods[indexPath.row];
     if (indexPath.row == _selectedIndex) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        cell.textLabel.textColor = UIColorWithRGBA(0, 118, 255, 1);
+        cell.textLabel.textColor = UIColorFromRGB(0x0076ff);
     }
     return cell;
 }

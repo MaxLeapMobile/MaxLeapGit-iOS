@@ -7,15 +7,10 @@
 //
 
 #import "MLGMTimeLineCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
-#import <CCHLinkTextView/CCHLinkTextView.h>
-#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
-#import "MLGMRepoDetailController.h"
-#import "NSDate+Extension.h"
-#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
-#define kTextDefaultColor           UIColorWithRGBA(113, 113, 117, 1)
-#define kTextHighlightedColor       UIColorWithRGBA(0, 118, 255, 1)
+
+#define kTextDefaultColor           UIColorFromRGB(0x717175)
+#define kTextHighlightedColor       UIColorFromRGB(0x0076ff)
 
 #define kUserNameLinkTag        @"userNameLink"
 #define kSourceRepoLinkTag      @"sourceRepoLink"   
@@ -110,7 +105,7 @@
         [self.contentLinkLabel addLinkToURL:[NSURL URLWithString:kforkedResultLinkTag] withRange:targetRepoRange];
     }
     
-    self.updateTimeLabel.text = [event.createdAt timeAgo];
+    self.updateTimeLabel.text = [event.createTime timeAgo];
 }
 
 #pragma mark- Private Methods

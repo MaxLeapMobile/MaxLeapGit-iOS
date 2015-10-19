@@ -7,15 +7,6 @@
 //
 
 #import "MLGMSearchViewController.h"
-#import "MLGMRepoCell.h"
-#import "MLGMFollowCell.h"
-#import "WYPopoverController.h"
-#import "MLGMSortViewController.h"
-#import "MLGMRepoDetailController.h"
-#import "MLGMSearchPageTitleView.h"
-#import "MLGMWebService.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMHomePageViewController.h"
 
 #define kRepoAndUserButtonWidth     77
 
@@ -52,13 +43,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
+    
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStyleDone target:self action:@selector(cancel)];
-
+    
     [self configureUI];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self transparentNavigationBar:NO];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
+}
+
 
 #pragma mark - SubView Configuration
 - (void)configureUI {
@@ -111,7 +108,7 @@
     _repoTableView.rowHeight = UITableViewAutomaticDimension;
     _repoTableView.estimatedRowHeight = 105;
     [_contentView addSubview:_repoTableView];
-
+    
     _userTableView = [[UITableView alloc]initWithFrame:CGRectMake(_contentView.bounds.size.width, 0, _contentView.bounds.size.width, _contentView.bounds.size.height)];
     _userTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _userTableView.dataSource = self;
@@ -122,6 +119,11 @@
     __weak typeof(self) wSelf = self;
     __block NSUInteger repoPage = 1;
     [_repoTableView addInfiniteScrollingWithActionHandler:^{
+        if (!wSelf.searchText.length) {
+            [wSelf.repoTableView.infiniteScrollingView stopAnimating];
+            return;
+        }
+        
         [[MLGMWebService sharedInstance] searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.repoTableView.infiniteScrollingView stopAnimating];
             wSelf.repoTableView.showsInfiniteScrolling = !isReachEnd;
@@ -137,6 +139,11 @@
     
     __block NSUInteger userPage = 1;
     [_userTableView addInfiniteScrollingWithActionHandler:^{
+        if (!wSelf.searchText.length) {
+            [wSelf.repoTableView.infiniteScrollingView stopAnimating];
+            return;
+        }
+        
         [[MLGMWebService sharedInstance] searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.userTableView.infiniteScrollingView stopAnimating];
             wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
@@ -169,7 +176,7 @@
 
 #pragma mark - Actions
 - (void)cancel {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];    
 }
 
 - (void)onClickedSortButton {
@@ -188,7 +195,9 @@
     if (_searchTargetIsUser) {
         _searchTargetIsUser = NO;
         [self scrollToTableViewWithCurrentSearchGroup];
-        [self searchDataAndReloadTableView];
+        if ([_repos count] == 0) {
+            [self searchDataAndReloadTableView];
+        }
     }
 }
 
@@ -196,7 +205,9 @@
     if (!_searchTargetIsUser) {
         _searchTargetIsUser = YES;
         [self scrollToTableViewWithCurrentSearchGroup];
-        [self searchDataAndReloadTableView];
+        if ([_users count] == 0) {
+            [self searchDataAndReloadTableView];
+        }
     }
 }
 
@@ -262,10 +273,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == _repoTableView) {
-        UIViewController *repoVC = [[MLGMRepoDetailController alloc] init];
+        MLGMRepoDetailController *repoVC = [[MLGMRepoDetailController alloc] init];
+        MLGMRepo *repo = _repos[indexPath.row];
+        repoVC.repoName = repo.name;
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         [self.navigationController pushViewController:repoVC animated:YES];
     } else {
-        UIViewController *userVC = [[MLGMHomePageViewController alloc] init];
+        MLGMHomePageViewController *userVC = [[MLGMHomePageViewController alloc] init];
+        MLGMActorProfile *user =  _users[indexPath.row];
+        userVC.ownerName = user.loginName;
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         [self.navigationController pushViewController:userVC animated:YES];
     }
 }
@@ -308,18 +325,26 @@
 
 #pragma mark- Private Method
 - (void)searchDataAndReloadTableView {
+    if (!_searchText.length) {
+        [SVProgressHUD dismiss];
+        return;
+    }
+    
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     _emptyView.hidden = YES;
-
+    
     NSLog(@"searchtext = %@", _searchText);
     if (!_searchTargetIsUser) {
         if (!_repos) {
             _repos = [NSMutableArray array];
         }
+        
         __weak typeof(self) wSelf = self;
-        [[MLGMWebService sharedInstance] searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isEnd, NSError *error) {
+        [[MLGMWebService sharedInstance] searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
- 
+            if (isReachEnd) {
+                wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
+            }
             NSLog(@"repos = %@", repos);
             [wSelf.repos removeAllObjects];
             [wSelf.repos addObjectsFromArray:repos];
@@ -330,16 +355,19 @@
         if (!_users) {
             _users = [NSMutableArray array];
         }
+        
         __weak typeof(self) wSelf = self;
         [[MLGMWebService sharedInstance] searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
-            
+            if (isReachEnd) {
+                wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
+            }
             NSLog(@"repos = %@", users);
             [wSelf.users removeAllObjects];
             [wSelf.users addObjectsFromArray:users];
             [wSelf showEmptyViewIfNeeded];
             [wSelf.userTableView reloadData];
-       }];
+        }];
     }
 }
 

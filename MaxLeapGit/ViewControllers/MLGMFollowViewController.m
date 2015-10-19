@@ -7,11 +7,6 @@
 //
 
 #import "MLGMFollowViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMFollowCell.h"
-#import "MLGMHomePageViewController.h"
-#import "MLGMCustomTabBarController.h"
-#import "MLGMWebService.h"
 
 @interface MLGMFollowViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;

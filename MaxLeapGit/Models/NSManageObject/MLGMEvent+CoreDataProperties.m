@@ -13,7 +13,7 @@
 
 @implementation MLGMEvent (CoreDataProperties)
 
-@dynamic createdAt;
+@dynamic createTime;
 @dynamic actorName;
 @dynamic avatarUrl;
 @dynamic sourceRepoName;

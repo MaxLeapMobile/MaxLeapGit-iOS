@@ -7,12 +7,8 @@
 //
 
 #import "MLGMCustomTabBarController.h"
-#import "MLGMTimeLineViewController.h"
-#import "MLGMRecommendViewController.h"
-#import "MLGMHomePageViewController.h"
-#import "MLGMLoginViewController.h"
 
-@interface MLGMCustomTabBarController () <UITabBarControllerDelegate>
+@interface MLGMCustomTabBarController ()
 @property (nonatomic, strong) UIButton *centralButton;
 @property (nonatomic, strong) UINavigationController *firstNav;
 @property (nonatomic, strong) UIViewController *secondVC;
@@ -30,16 +26,15 @@
         self.centralButtonAction = ^{
             UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
             UINavigationController *navRecommend = [[UINavigationController alloc] initWithRootViewController:vcRecommend];
+            navRecommend.navigationBar.barStyle = UIBarStyleBlack;
             navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
             [wSelf presentViewController:navRecommend animated:YES completion:nil];
         };
         self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
-//        self.delegate = self;
     }
     
     return self;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -73,8 +68,8 @@
 
 #pragma mark - Action
 - (void)onClickedCentralButton {
-    kOnlineAccount.isOnline = @NO;
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+//    kOnlineAccount.isOnline = @NO;
+//    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     //    [self presentLoginVCIfNeeded];
     
     BLOCK_SAFE_RUN(_centralButtonAction);

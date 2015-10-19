@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *email;
 @property (nullable, nonatomic, retain) NSNumber *followers;
 @property (nullable, nonatomic, retain) NSNumber *following;
-@property (nullable, nonatomic, retain) NSDate *githubCreatedAt;
+@property (nullable, nonatomic, retain) NSDate *githubCreatTime;
 @property (nullable, nonatomic, retain) NSNumber *githubId;
-@property (nullable, nonatomic, retain) NSDate *githubUpdatedAt;
+@property (nullable, nonatomic, retain) NSDate *githubUpdateTime;
 @property (nullable, nonatomic, retain) NSNumber *hireable;
 @property (nullable, nonatomic, retain) NSString *location;
 @property (nullable, nonatomic, retain) NSString *loginName;
@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *publicRepos;
 @property (nullable, nonatomic, retain) NSNumber *organizations;
 @property (nullable, nonatomic, retain) NSNumber *starts;
-@property (nullable, nonatomic, retain) NSDate *updatedAt;
 @property (nullable, nonatomic, retain) NSString *introduction;
 @property (nullable, nonatomic, retain) NSSet<MLGMGene *> *genes;
 

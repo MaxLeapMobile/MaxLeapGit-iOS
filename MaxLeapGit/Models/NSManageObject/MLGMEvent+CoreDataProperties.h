@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLGMEvent (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSDate *createdAt;
+@property (nullable, nonatomic, retain) NSDate *createTime;
 @property (nullable, nonatomic, retain) NSString *actorName;
 @property (nullable, nonatomic, retain) NSString *avatarUrl;
 @property (nullable, nonatomic, retain) NSString *sourceRepoName;
