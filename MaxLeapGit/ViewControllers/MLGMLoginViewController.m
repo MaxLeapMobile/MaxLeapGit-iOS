@@ -76,7 +76,7 @@
         } else {
             
             MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-            [[MLGMWebService sharedInstance] fetchGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSArray *genes, NSError *error) {
+            [[MLGMWebService sharedInstance] updateGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSError *error) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }];
         }

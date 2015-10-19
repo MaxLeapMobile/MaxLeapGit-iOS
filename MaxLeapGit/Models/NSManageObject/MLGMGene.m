@@ -14,7 +14,7 @@
 - (void)fillObject:(NSDictionary *)object {
     self.language = [object valueForKeyPath:@"language"];
     self.skill = [object valueForKeyPath:@"skill"];
-    self.userProfile.loginName = [object valueForKeyPath:@"userName"];
+//    self.userProfile.loginName = [object valueForKeyPath:@"userName"];
 }
 
 - (NSString *)description {
