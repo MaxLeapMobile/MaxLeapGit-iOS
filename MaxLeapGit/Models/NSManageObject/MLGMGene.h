@@ -16,9 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MLGMGene : NSManagedObject
 
 - (void)fillObject:(NSDictionary *)object;
-
+- (BOOL)isEqualToGene:(MLGMGene *)gene;
 @end
 
 NS_ASSUME_NONNULL_END
 
 #import "MLGMGene+CoreDataProperties.h"
+
+@interface NSSet (GeneComparison)
+- (BOOL)containsGene:(MLGMGene *)gene;
+@end
