@@ -39,11 +39,13 @@
     
     [self configureSubViews];
     
-    __weak typeof(self) wSelf = self;
     MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-    [[MLGMWebService sharedInstance] fetchGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSArray *genes, NSError *error) {
-        NSLog(@"fetch genes--- result = %@", genes);
-        wSelf.genes = genes;
+    
+    __weak typeof(self) wSelf = self;
+    [[MLGMWebService sharedInstance] updateGenesForUserName:accountMOC.actorProfile.loginName completion:^(NSError *error) {
+        MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
+        NSSet *genes = accountMOC.actorProfile.genes;
+        wSelf.genes = genes.allObjects;
         [wSelf.tableView reloadData];
     }];
 }

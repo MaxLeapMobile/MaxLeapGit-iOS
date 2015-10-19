@@ -42,6 +42,7 @@
     <entity name="MLGMGene" representedClassName="MLGMGene" syncable="YES">
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="skill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MLGMActorProfile" inverseName="genes" inverseEntity="MLGMActorProfile" syncable="YES"/>
     </entity>
     <entity name="MLGMRepo" representedClassName="MLGMRepo" syncable="YES">
@@ -61,7 +62,7 @@
         <element name="MLGMActorProfile" positionX="0" positionY="0" width="128" height="330"/>
         <element name="MLGMEvent" positionX="0" positionY="0" width="128" height="135"/>
         <element name="MLGMFollowRelation" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMGene" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="MLGMGene" positionX="0" positionY="0" width="128" height="105"/>
         <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="120"/>
         <element name="MLGMStarRelation" positionX="9" positionY="153" width="128" height="90"/>
     </elements>

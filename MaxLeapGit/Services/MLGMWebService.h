@@ -152,7 +152,6 @@ static NSUInteger const kPerPage = 30;
 /**
  * 获取用户的genes
  */
-- (void)fetchGenesForUserName:(NSString *)userName completion:(void(^)(NSArray *genes, NSError *error))completion;
+- (void)updateGenesForUserName:(NSString *)userName completion:(void(^)(NSError *error))completion;
 
 @end
-
