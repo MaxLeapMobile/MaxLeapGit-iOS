@@ -36,12 +36,14 @@
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [self.tableView reloadData];
 }
 
 #pragma mark- Override Parent Method
 - (void)updateViewConstraints {
     if (!_didSetupConstraints) {
         [self.tableView pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0f];
+        [self.tableView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeTop ofItem:self.geneCreationButton];
         [self.geneCreationButton pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge | JRTViewPinBottomEdge inset:0.0];
         [self.geneCreationButton constrainToHeight:44];
         
@@ -125,7 +127,7 @@
 
 - (NSArray *)genes {
     NSArray *genes = [kOnlineAccountProfile.genes allObjects];
-    return genes;
+    return [genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
 }
 
 #pragma mark- Helper Method

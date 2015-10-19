@@ -17,6 +17,5 @@
 @dynamic skill;
 @dynamic updateTime;
 @dynamic userProfile;
-@dynamic updatedAt;
 
 @end

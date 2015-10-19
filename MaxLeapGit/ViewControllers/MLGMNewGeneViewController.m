@@ -20,7 +20,7 @@ UITableViewDelegate
 @property (nonatomic, strong) NSArray *genesInBuild;
 @property (nonatomic, strong) UIPickerView *pickerView;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, assign) NSArray *allLanguage;
+@property (nonatomic, strong) NSArray *allLanguage;
 @property (nonatomic, assign) BOOL didSetupConstraints;
 @end
 
@@ -41,11 +41,23 @@ UITableViewDelegate
     [self updateViewConstraints];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.gene.language && self.gene.skill) {
+        NSUInteger languageIndex = [self.allLanguage indexOfObject:self.gene.language];
+        NSDictionary *oneGene = [self.genesInBuild objectAtIndex:languageIndex];
+        NSUInteger skillIndex = [oneGene[self.gene.language] indexOfObject:self.gene.skill];
+        [self.pickerView selectRow:languageIndex inComponent:0 animated:YES];
+        [self.pickerView selectRow:skillIndex inComponent:1 animated:YES];
+        [self.pickerView reloadComponent:1];
+    }
+}
+
 #pragma mark- Override Parent Methods
 - (void)updateViewConstraints {
     if (!_didSetupConstraints) {
         [self.tableView pinToSuperviewEdges:JRTViewPinAllEdges inset:0.0];
-
+        
         [self.pickerView pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0];
         [self.pickerView constrainToHeight:200];
         [self.pickerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self.view withConstant:0];
@@ -62,14 +74,6 @@ UITableViewDelegate
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed:)];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.pickerView];
-    
-    if (self.gene.language && self.gene.skill) {
-        NSUInteger languageIndex = [self.allLanguage indexOfObject:self.gene.language];
-        NSDictionary *oneGene = [self.genesInBuild objectAtIndex:languageIndex];
-        NSUInteger skillIndex = [oneGene.allValues indexOfObject:self.gene.skill];
-        [self.pickerView selectRow:languageIndex inComponent:0 animated:NO];
-        [self.pickerView selectRow:skillIndex inComponent:1 animated:NO];
-    }
 }
 
 #pragma mark- Actions
@@ -79,7 +83,7 @@ UITableViewDelegate
 
 - (void)doneButtonPressed:(id)sender {
     if (self.gene.skill.length && self.gene.language) {
-        self.gene.updatedAt = [NSDate date];
+        self.gene.updateTime = [NSDate date];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     }
     
@@ -154,6 +158,7 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
     }

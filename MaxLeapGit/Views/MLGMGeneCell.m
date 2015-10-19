@@ -37,8 +37,7 @@
 
 - (void)updateConstraints {
     if (!_didSetupConstraints) {
-        [self.editingButton pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge inset:0.0];
-        [self.editingButton pinToSuperviewEdges:JRTViewPinRightEdge inset:40];
+        [self.editingButton pinToSuperviewEdges:JRTViewPinRightEdge | JRTViewPinTopEdge | JRTViewPinBottomEdge inset:0.0];
         [self.editingButton constrainToWidth:40];
         
         _didSetupConstraints = YES;

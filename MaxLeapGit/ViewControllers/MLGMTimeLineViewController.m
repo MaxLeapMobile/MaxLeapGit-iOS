@@ -143,6 +143,9 @@
             [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
                                                       completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
+                                                          if (!isRechEnd && events.count < 30) {
+                                                              [self.tableView triggerInfiniteScrolling];
+                                                          }
                                                           execute_after_main_queue(0.2, ^{
                                                               [weakSelf.tableView.pullToRefreshView stopAnimating];
                                                           });
