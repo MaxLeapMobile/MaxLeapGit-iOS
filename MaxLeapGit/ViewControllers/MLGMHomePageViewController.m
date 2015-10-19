@@ -14,7 +14,7 @@
 #import "MLGMFollowViewController.h"
 #import "MLGMReposViewController.h"
 #import "MLGMOrganizationsViewController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "UIView+CustomBorder.h"
 #import "NSDate+Extension.h"
 #import "UIBarButtonItem+Extension.h"
@@ -46,7 +46,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
     [self transparentNavigationBar:YES];
     
     [[MLGMWebService sharedInstance] userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {

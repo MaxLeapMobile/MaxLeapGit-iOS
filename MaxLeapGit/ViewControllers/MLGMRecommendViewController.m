@@ -10,7 +10,7 @@
 #import "MLGMSearchViewController.h"
 #import <WebKit/WebKit.h>
 #import "MLGMRecommendEmptyView.h"
-#import "MLGMAddNewGeneViewController.h"
+#import "MLGMNewGeneViewController.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 #define kVerticalSeparatorLineWidth         1
@@ -104,7 +104,7 @@
 }
 
 - (void)presentAddNewGenePage {
-    MLGMAddNewGeneViewController *vcGenes = [[MLGMAddNewGeneViewController alloc] init];
+    MLGMNewGeneViewController *vcGenes = [[MLGMNewGeneViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
     [self presentViewController:nav animated:YES completion:nil];
 }

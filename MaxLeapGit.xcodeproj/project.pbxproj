@@ -55,7 +55,7 @@
 		B45E4DA81BCEA5E200B5C6BC /* UIView+CustomBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = B45E4DA71BCEA5E200B5C6BC /* UIView+CustomBorder.m */; settings = {ASSET_TAGS = (); }; };
 		B4653D661BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4653D631BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B4653D671BCBF58400D6F82B /* MLGMRepo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4653D651BCBF58400D6F82B /* MLGMRepo.m */; settings = {ASSET_TAGS = (); }; };
-		B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */; settings = {ASSET_TAGS = (); }; };
+		B4989EB81BD49BEC00D5B2B4 /* MLGMGeneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4989EB71BD49BEC00D5B2B4 /* MLGMGeneCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
 		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D201BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
@@ -67,7 +67,7 @@
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E0E1BCCE50300140E78 /* MLGMNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E111BCCE50300140E78 /* MLGMGenesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -76,7 +76,7 @@
 		E3AB6E181BCCE50300140E78 /* MLGMReposViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E191BCCE50300140E78 /* MLGMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFD1BCCE50300140E78 /* MLGMSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DFF1BCCE50300140E78 /* MLGMSortViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */; settings = {ASSET_TAGS = (); }; };
+		E3AB6E1B1BCCE50300140E78 /* MLGMCustomTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E011BCCE50300140E78 /* MLGMCustomTabBarController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E1D1BCCE50300140E78 /* MLGMTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E051BCCE50300140E78 /* MLGMTimeLineViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E201BCCE50300140E78 /* MLGMHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6E0B1BCCE50300140E78 /* MLGMHomePageViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -206,8 +206,8 @@
 		B4653D631BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMRepo+CoreDataProperties.m"; sourceTree = "<group>"; };
 		B4653D641BCBF58400D6F82B /* MLGMRepo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMRepo.h; sourceTree = "<group>"; };
 		B4653D651BCBF58400D6F82B /* MLGMRepo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMRepo.m; sourceTree = "<group>"; };
-		B4C044CC1BCE060900DBBD6D /* UITableViewCell+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Extension.h"; sourceTree = "<group>"; };
-		B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Extension.m"; sourceTree = "<group>"; };
+		B4989EB61BD49BEC00D5B2B4 /* MLGMGeneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMGeneCell.h; sourceTree = "<group>"; };
+		B4989EB71BD49BEC00D5B2B4 /* MLGMGeneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMGeneCell.m; sourceTree = "<group>"; };
 		B4C044CF1BCE320A00DBBD6D /* MLGMTimeLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineCell.h; sourceTree = "<group>"; };
 		B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineCell.m; sourceTree = "<group>"; };
 		B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebViewController.h; sourceTree = "<group>"; };
@@ -228,8 +228,8 @@
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchPageTitleView.h; sourceTree = "<group>"; };
 		E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSearchPageTitleView.m; sourceTree = "<group>"; };
-		E3AB6DE61BCCE50300140E78 /* MLGMAddNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMAddNewGeneViewController.h; sourceTree = "<group>"; };
-		E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAddNewGeneViewController.m; sourceTree = "<group>"; };
+		E3AB6DE61BCCE50300140E78 /* MLGMNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMNewGeneViewController.h; sourceTree = "<group>"; };
+		E3AB6DE71BCCE50300140E78 /* MLGMNewGeneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMNewGeneViewController.m; sourceTree = "<group>"; };
 		E3AB6DE81BCCE50300140E78 /* MLGMFollowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowViewController.h; sourceTree = "<group>"; };
 		E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMFollowViewController.m; sourceTree = "<group>"; };
 		E3AB6DEC1BCCE50300140E78 /* MLGMGenesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMGenesViewController.h; sourceTree = "<group>"; };
@@ -246,8 +246,8 @@
 		E3AB6DFD1BCCE50300140E78 /* MLGMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSearchViewController.m; sourceTree = "<group>"; };
 		E3AB6DFE1BCCE50300140E78 /* MLGMSortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSortViewController.h; sourceTree = "<group>"; };
 		E3AB6DFF1BCCE50300140E78 /* MLGMSortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSortViewController.m; sourceTree = "<group>"; };
-		E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTabBarController.h; sourceTree = "<group>"; };
-		E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTabBarController.m; sourceTree = "<group>"; };
+		E3AB6E001BCCE50300140E78 /* MLGMCustomTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMCustomTabBarController.h; sourceTree = "<group>"; };
+		E3AB6E011BCCE50300140E78 /* MLGMCustomTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMCustomTabBarController.m; sourceTree = "<group>"; };
 		E3AB6E041BCCE50300140E78 /* MLGMTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMTimeLineViewController.h; sourceTree = "<group>"; };
 		E3AB6E051BCCE50300140E78 /* MLGMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineViewController.m; sourceTree = "<group>"; };
 		E3AB6E0A1BCCE50300140E78 /* MLGMHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMHomePageViewController.h; sourceTree = "<group>"; };
@@ -542,8 +542,8 @@
 			children = (
 				B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */,
 				B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */,
-				E3AB6E001BCCE50300140E78 /* MLGMTabBarController.h */,
-				E3AB6E011BCCE50300140E78 /* MLGMTabBarController.m */,
+				E3AB6E001BCCE50300140E78 /* MLGMCustomTabBarController.h */,
+				E3AB6E011BCCE50300140E78 /* MLGMCustomTabBarController.m */,
 				E3AB6E221BCCE80100140E78 /* Login */,
 				E3AB6E261BCCE82400140E78 /* Search */,
 				E3AB6E251BCCE81F00140E78 /* TimeLine */,
@@ -572,8 +572,8 @@
 				B4429FC81BCCF82200F8B108 /* MLGMHomePageHeaderCell.m */,
 				B4257C2C1BCF447900E35785 /* MLGMHomePageCell.h */,
 				B4257C2D1BCF447900E35785 /* MLGMHomePageCell.m */,
-				B4C044CC1BCE060900DBBD6D /* UITableViewCell+Extension.h */,
-				B4C044CD1BCE060900DBBD6D /* UITableViewCell+Extension.m */,
+				B4989EB61BD49BEC00D5B2B4 /* MLGMGeneCell.h */,
+				B4989EB71BD49BEC00D5B2B4 /* MLGMGeneCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -635,8 +635,8 @@
 				E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */,
 				E3AB6DEC1BCCE50300140E78 /* MLGMGenesViewController.h */,
 				E3AB6DED1BCCE50300140E78 /* MLGMGenesViewController.m */,
-				E3AB6DE61BCCE50300140E78 /* MLGMAddNewGeneViewController.h */,
-				E3AB6DE71BCCE50300140E78 /* MLGMAddNewGeneViewController.m */,
+				E3AB6DE61BCCE50300140E78 /* MLGMNewGeneViewController.h */,
+				E3AB6DE71BCCE50300140E78 /* MLGMNewGeneViewController.m */,
 				E3AB6DFA1BCCE50300140E78 /* MLGMReposViewController.h */,
 				E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */,
 				E3AB6DF01BCCE50300140E78 /* MLGMOrganizationsViewController.h */,
@@ -832,7 +832,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3AB6E0F1BCCE50300140E78 /* MLGMFollowViewController.m in Sources */,
-				E3AB6E1B1BCCE50300140E78 /* MLGMTabBarController.m in Sources */,
+				E3AB6E1B1BCCE50300140E78 /* MLGMCustomTabBarController.m in Sources */,
 				B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */,
 				B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */,
 				B408C3C61BCB5EE80018634D /* MLGMAccount.m in Sources */,
@@ -846,6 +846,7 @@
 				B4429FCA1BCCF82200F8B108 /* MLGMRecommendEmptyView.m in Sources */,
 				B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */,
 				B4653D661BCBF58400D6F82B /* MLGMRepo+CoreDataProperties.m in Sources */,
+				B4989EB81BD49BEC00D5B2B4 /* MLGMGeneCell.m in Sources */,
 				B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */,
 				B4429FCE1BCCF82200F8B108 /* MLGMHomePageHeaderCell.m in Sources */,
 				E3AB6E201BCCE50300140E78 /* MLGMHomePageViewController.m in Sources */,
@@ -865,7 +866,6 @@
 				B44205001BC79BF5007F28CA /* NSString+Extension.m in Sources */,
 				B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */,
 				B45E4DA81BCEA5E200B5C6BC /* UIView+CustomBorder.m in Sources */,
-				B4C044CE1BCE060900DBBD6D /* UITableViewCell+Extension.m in Sources */,
 				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
 				B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */,
@@ -880,7 +880,7 @@
 				B4C82D241BD0A29D00BC6ADC /* MLGMStarRelation.m in Sources */,
 				B4257C2E1BCF447900E35785 /* MLGMHomePageCell.m in Sources */,
 				B4257C311BCF4A4300E35785 /* NSDate+Extension.m in Sources */,
-				E3AB6E0E1BCCE50300140E78 /* MLGMAddNewGeneViewController.m in Sources */,
+				E3AB6E0E1BCCE50300140E78 /* MLGMNewGeneViewController.m in Sources */,
 				E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */,
 				B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */,
 				B408C3D31BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m in Sources */,

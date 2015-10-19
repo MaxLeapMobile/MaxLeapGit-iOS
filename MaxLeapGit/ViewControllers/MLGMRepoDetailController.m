@@ -7,7 +7,7 @@
 //
 
 #import "MLGMRepoDetailController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMWebService.h"
 
 #define kVerticalSeparatorLineWidth         1
@@ -27,7 +27,7 @@
     [super viewDidLoad];
     self.title = self.repoName;
     // Do any additional setup after loading the view.
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self configureToolbarView];
     [self updateButtonState];
 }

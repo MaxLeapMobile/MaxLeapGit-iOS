@@ -11,7 +11,7 @@
 #import "MLGMTimeLineCell.h"
 #import "MLGMSearchViewController.h"
 #import "MLGMRepoDetailController.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMHomePageViewController.h"
 #include "UIBarButtonItem+Extension.h"
 
@@ -37,7 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

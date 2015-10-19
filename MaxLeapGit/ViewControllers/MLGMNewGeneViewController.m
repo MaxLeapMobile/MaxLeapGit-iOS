@@ -6,26 +6,25 @@
 //  Copyright © 2015年 MaxLeap. All rights reserved.
 //
 
-#import "MLGMAddNewGeneViewController.h"
+#import "MLGMNewGeneViewController.h"
 #import "MLGMStringUtil.h"
 #import "NSBundle+Extension.h"
 #import "UIView+CustomBorder.h"
 
-@interface MLGMAddNewGeneViewController () <
+@interface MLGMNewGeneViewController () <
 UIPickerViewDelegate,
 UIPickerViewDataSource,
 UITableViewDataSource,
 UITableViewDelegate
 >
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *genes;
+@property (nonatomic, strong) NSArray *genesInBuild;
 @property (nonatomic, strong) UIPickerView *pickerView;
-@property (nonatomic, assign) BOOL isPickerViewPoped;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) NSArray *allLanguage;
 @property (nonatomic, assign) BOOL didSetupConstraints;
-@property (nonatomic, strong) NSLayoutConstraint *pickerViewBottomConstraints;
 @end
 
-@implementation MLGMAddNewGeneViewController
+@implementation MLGMNewGeneViewController
 
 #pragma mark - init Method
 
@@ -33,6 +32,11 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!self.gene) {
+        self.gene = [MLGMGene MR_createEntity];
+        self.gene.userProfile = kOnlineAccountProfile;
+    }
+    
     [self configureSubViews];
     [self updateViewConstraints];
 }
@@ -44,7 +48,7 @@ UITableViewDelegate
 
         [self.pickerView pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0];
         [self.pickerView constrainToHeight:200];
-        self.pickerViewBottomConstraints = [self.pickerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self.view withConstant:0];
+        [self.pickerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self.view withConstant:0];
         
         _didSetupConstraints = YES;
     }
@@ -58,6 +62,14 @@ UITableViewDelegate
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed:)];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.pickerView];
+    
+    if (self.gene.language && self.gene.skill) {
+        NSUInteger languageIndex = [self.allLanguage indexOfObject:self.gene.language];
+        NSDictionary *oneGene = [self.genesInBuild objectAtIndex:languageIndex];
+        NSUInteger skillIndex = [oneGene.allValues indexOfObject:self.gene.skill];
+        [self.pickerView selectRow:languageIndex inComponent:0 animated:NO];
+        [self.pickerView selectRow:skillIndex inComponent:1 animated:NO];
+    }
 }
 
 #pragma mark- Actions
@@ -66,11 +78,8 @@ UITableViewDelegate
 }
 
 - (void)doneButtonPressed:(id)sender {
-    if (self.selectedSkill.length && self.selectedLanguage) {
-        MLGMGene *gene = [MLGMGene MR_createEntity];
-        gene.language = self.selectedLanguage;
-        gene.skill = self.selectedSkill;
-        gene.userProfile = kOnlineAccountProfile;
+    if (self.gene.skill.length && self.gene.language) {
+        self.gene.updatedAt = [NSDate date];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     }
     
@@ -78,33 +87,6 @@ UITableViewDelegate
 }
 
 #pragma mark - actions
-- (void)showPickerView {
-    [self.view layoutIfNeeded];
-    if (self.isPickerViewPoped) {
-        return;
-    }
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerViewBottomConstraints.constant = 0;
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.isPickerViewPoped = YES;
-    }];
-}
-
-- (void)hiddenPickerView {
-    [self.view layoutIfNeeded];
-    if (!self.isPickerViewPoped) {
-        return;
-    }
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerViewBottomConstraints.constant = -200;
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.isPickerViewPoped = YES;
-    }];
-}
 
 #pragma mark- Public Methods
 
@@ -118,10 +100,10 @@ UITableViewDelegate
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if (component == 0) {
-        return [self.genes count];
+        return [self.genesInBuild count];
     } else {
         NSUInteger selectedRowInComponent0 = [self.pickerView selectedRowInComponent:0];
-        NSDictionary *oneGene = self.genes[selectedRowInComponent0];
+        NSDictionary *oneGene = self.genesInBuild[selectedRowInComponent0];
         NSString *language = [oneGene.allKeys firstObject];
         NSArray *skills = oneGene[language];
         return [skills count];
@@ -130,12 +112,12 @@ UITableViewDelegate
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (component == 0) {
-        NSDictionary *oneGene = self.genes[row];
+        NSDictionary *oneGene = self.genesInBuild[row];
         NSString *language = [oneGene.allKeys firstObject];
         return language;
     } else {
         NSUInteger selectedRowInComponent0 = [self.pickerView selectedRowInComponent:0];
-        NSDictionary *oneGene = self.genes[selectedRowInComponent0];
+        NSDictionary *oneGene = self.genesInBuild[selectedRowInComponent0];
         NSString *language = [oneGene.allKeys firstObject];
         NSArray *skills = oneGene[language];
         return skills[row];
@@ -149,13 +131,13 @@ UITableViewDelegate
     }
     
     NSUInteger selectedGeneIndex = component == 0 ? row : [self.pickerView selectedRowInComponent:0];
-    NSDictionary *oneGene = self.genes[selectedGeneIndex];
+    NSDictionary *oneGene = self.genesInBuild[selectedGeneIndex];
     NSString *language = [oneGene.allKeys firstObject];
-    self.selectedLanguage = language;
+    self.gene.language = language;
     
     NSArray *skills = oneGene[language];
     NSUInteger selectedSkillIndex = component == 0 ? 0 : row;
-    self.selectedSkill = skills[selectedSkillIndex];
+    self.gene.skill = skills[selectedSkillIndex];
     
     [self.tableView reloadData];
 }
@@ -163,12 +145,6 @@ UITableViewDelegate
 #pragma mark - UITableViewDelegate
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
     return 32;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    [self showPickerView];
 }
 
 #pragma mark - Table view data source
@@ -186,10 +162,10 @@ UITableViewDelegate
     
     if (indexPath.row == 0) {
         cell.textLabel.text = NSLocalizedString(@"Language", @"");
-        cell.detailTextLabel.text = self.selectedLanguage;
+        cell.detailTextLabel.text = self.gene.language;
     } else {
         cell.textLabel.text = NSLocalizedString(@"Skill", @"");
-        cell.detailTextLabel.text = self.selectedSkill;
+        cell.detailTextLabel.text = self.gene.skill;
     }
     
     return cell;
@@ -220,12 +196,24 @@ UITableViewDelegate
     return _pickerView;
 }
 
-- (NSArray *)genes {
+- (NSArray *)genesInBuild {
     NSArray *genes = [[NSBundle mainBundle] plistObjectFromResource:@"GeneInBuild.plist"];
     return genes;
 }
 
 #pragma mark- Helper Method
+- (NSArray *)allLanguage {
+    if (!_allLanguage) {
+        NSMutableArray *allLanguage = [NSMutableArray new];
+        [self.genesInBuild enumerateObjectsUsingBlock:^(NSDictionary *oneGene, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *language = [oneGene.allKeys firstObject];
+            [allLanguage addObject:language];
+        }];
+        _allLanguage = [allLanguage copy];
+    }
+    
+    return _allLanguage;
+}
 
 #pragma mark Temporary Area
 

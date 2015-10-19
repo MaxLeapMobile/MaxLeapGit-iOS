@@ -16,5 +16,6 @@
 @dynamic language;
 @dynamic skill;
 @dynamic userProfile;
+@dynamic updatedAt;
 
 @end

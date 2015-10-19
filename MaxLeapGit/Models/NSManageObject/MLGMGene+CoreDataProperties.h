@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *language;
 @property (nullable, nonatomic, retain) NSString *skill;
 @property (nullable, nonatomic, retain) MLGMActorProfile *userProfile;
+@property (nullable, nonatomic, retain) NSDate *updatedAt;
 
 @end
 

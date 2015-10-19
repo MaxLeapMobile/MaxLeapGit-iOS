@@ -9,7 +9,7 @@
 #import "MLGMOrganizationsViewController.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MLGMFollowCell.h"
-#import "MLGMTabBarController.h"
+#import "MLGMCustomTabBarController.h"
 #import "MLGMWebViewController.h"
 #import "MLGMOrganizationCell.h"
 
@@ -35,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [(MLGMTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self.tableView triggerPullToRefresh];
 }
 
