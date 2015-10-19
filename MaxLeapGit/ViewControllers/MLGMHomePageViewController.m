@@ -375,10 +375,7 @@
             [self.navigationController pushViewController:orgnizationVC animated:YES];
         }
     } else {
-        if (indexPath.section == 1) {
-            MLGMGenesViewController *genesVC = [[MLGMGenesViewController alloc] init];
-            [self.navigationController pushViewController:genesVC animated:YES];
-        } else if (indexPath.section == 2 && [self.userProfile.organizations integerValue] > 0) {
+        if (indexPath.section == 2 && [self.userProfile.organizations integerValue] > 0) {
             MLGMOrganizationsViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
             orgnizationVC.ownerName = self.ownerName;
             [self.navigationController pushViewController:orgnizationVC animated:YES];

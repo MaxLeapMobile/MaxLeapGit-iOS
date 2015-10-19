@@ -19,8 +19,6 @@ UITableViewDelegate
 >
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *genes;
-@property (nonatomic, copy) NSString *selectedLanguage;
-@property (nonatomic, copy) NSString *selectedSkill;
 @property (nonatomic, strong) UIPickerView *pickerView;
 @property (nonatomic, assign) BOOL isPickerViewPoped;
 @property (nonatomic, assign) BOOL didSetupConstraints;
@@ -36,17 +34,16 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureSubViews];
+    [self updateViewConstraints];
 }
 
 #pragma mark- Override Parent Methods
 - (void)updateViewConstraints {
     if (!_didSetupConstraints) {
         [self.tableView pinToSuperviewEdges:JRTViewPinAllEdges inset:0.0];
+
         [self.pickerView pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0];
         [self.pickerView constrainToHeight:200];
-        self.pickerView.layer.borderColor = [UIColor redColor].CGColor;
-        self.pickerView.layer.borderWidth = 1.0f;
-
         self.pickerViewBottomConstraints = [self.pickerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self.view withConstant:0];
         
         _didSetupConstraints = YES;
@@ -69,6 +66,14 @@ UITableViewDelegate
 }
 
 - (void)doneButtonPressed:(id)sender {
+    if (self.selectedSkill.length && self.selectedLanguage) {
+        MLGMGene *gene = [MLGMGene MR_createEntity];
+        gene.language = self.selectedLanguage;
+        gene.skill = self.selectedSkill;
+        gene.userProfile = kOnlineAccountProfile;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -196,6 +201,7 @@ UITableViewDelegate
         _tableView = [UITableView autoLayoutView];
         _tableView.dataSource = self;
         _tableView.delegate = self;
+        _tableView.scrollEnabled = NO;
         _tableView.tableFooterView = [[UIView alloc] init];
     }
     
@@ -208,7 +214,7 @@ UITableViewDelegate
         _pickerView.delegate = self;
         _pickerView.dataSource = self;
         _pickerView.showsSelectionIndicator = YES;
-        [_pickerView addTopBorderWithColor:[UIColor grayColor] width:1];
+        [_pickerView addTopBorderWithColor:[UIColor lightGrayColor] width:1];
     }
     
     return _pickerView;
@@ -219,17 +225,6 @@ UITableViewDelegate
     return genes;
 }
 
-//- (NSString *)languageInGenes:(NSInteger)index {
-//    NSDictionary *oneGene = self.genes[index];
-//    NSString *language = [oneGene.allKeys firstObject];
-//    return language;
-//}
-//
-//- (NSString *)skillInLanguage:(NSString *)language {
-//    
-//}
-//
-//- (NSString *)language
 #pragma mark- Helper Method
 
 #pragma mark Temporary Area

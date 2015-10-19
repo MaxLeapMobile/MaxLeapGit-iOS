@@ -489,31 +489,9 @@ static NSArray *supportEvent() {
 }
 
 - (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
-    MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
-    if (!account) {
-        NSError *error = [MLGMError errorWithCode:MLGMErrorTypeNoOnlineAccount message:nil];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
-    }
-    
-    NSNumber *loginName = account.actorProfile.loginName;
-    LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
-                                          dictionary:@{@"language":gene.language, @"skill": gene.skill, @"userName" : @"xdream86"}];
-    [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"%d", succeeded);
-    }];
 }
 
 - (void)geneForUserName:(NSString *)userName completion:(void(^)())completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userName = %@", userName];
-    LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicate];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        [objects enumerateObjectsUsingBlock:^(LCObject *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSString *userName = [obj valueForKey:@"userName"];
-            NSString *language = [obj valueForKey:@"language"];
-            NSString *skill  = [obj valueForKey:@"skill"];
-            NSLog(@"%@, %@, %@", userName, language, skill);
-        }];
-    }];
 }
 
 #pragma mark - Search

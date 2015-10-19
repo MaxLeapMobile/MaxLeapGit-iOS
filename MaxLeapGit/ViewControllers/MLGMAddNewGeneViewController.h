@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMAddNewGeneViewController : UIViewController
-
+@property (nonatomic, copy) NSString *selectedLanguage;
+@property (nonatomic, copy) NSString *selectedSkill;
 @end

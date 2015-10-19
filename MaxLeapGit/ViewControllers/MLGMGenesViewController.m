@@ -71,6 +71,7 @@
 - (void)presentAddNewGenePage {
     MLGMAddNewGeneViewController *addNewGeneVC = [[MLGMAddNewGeneViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addNewGeneVC];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
