@@ -333,9 +333,9 @@
 
 - (MLGMHomePageCell *)configureOrganizationCell:(MLGMHomePageCell *)organizationCell {
     organizationCell.textLabel.text = @"Organization";
-    if (self.userProfile.organizations) {
+    if (self.userProfile.organizationCount) {
         organizationCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizations];
-        if (self.userProfile.organizations.integerValue > 0) {
+        if (self.userProfile.organizationCount.integerValue > 0) {
             organizationCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
             organizationCell.accessoryType = UITableViewCellAccessoryNone;

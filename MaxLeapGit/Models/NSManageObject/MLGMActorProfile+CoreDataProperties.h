@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *blog;
 @property (nullable, nonatomic, retain) NSString *company;
 @property (nullable, nonatomic, retain) NSString *email;
-@property (nullable, nonatomic, retain) NSNumber *followers;
-@property (nullable, nonatomic, retain) NSNumber *following;
+@property (nullable, nonatomic, retain) NSNumber *followerCount;
+@property (nullable, nonatomic, retain) NSNumber *followingCount;
 @property (nullable, nonatomic, retain) NSDate *githubCreatTime;
 @property (nullable, nonatomic, retain) NSNumber *githubId;
 @property (nullable, nonatomic, retain) NSDate *githubUpdateTime;
@@ -28,9 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *location;
 @property (nullable, nonatomic, retain) NSString *loginName;
 @property (nullable, nonatomic, retain) NSString *nickName;
-@property (nullable, nonatomic, retain) NSNumber *publicRepos;
-@property (nullable, nonatomic, retain) NSNumber *organizations;
-@property (nullable, nonatomic, retain) NSNumber *starts;
+@property (nullable, nonatomic, retain) NSNumber *publicRepoCount;
+@property (nullable, nonatomic, retain) NSNumber *organizationCount;
+@property (nullable, nonatomic, retain) NSNumber *starCount;
 @property (nullable, nonatomic, retain) NSString *introduction;
 @property (nullable, nonatomic, retain) NSSet<MLGMGene *> *genes;
 

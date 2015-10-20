@@ -153,7 +153,7 @@ static NSArray *supportEvent() {
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
-            userProfile.organizations = @(orgCount);
+            userProfile.organizationCount = @(orgCount);
         }
         [self.defaultContext MR_saveToPersistentStoreAndWait];
         
@@ -200,7 +200,7 @@ static NSArray *supportEvent() {
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
-            userProfile.starts = @(starCount);
+            userProfile.starCount = @(starCount);
         }
         [self.defaultContext MR_saveToPersistentStoreAndWait];
         
@@ -658,7 +658,6 @@ static NSArray *supportEvent() {
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
     }];
 }
-
 
 - (void)updateLocalAndCloudGenesDataWithCurrentMRGenes:(NSSet<NSDictionary *> *)mrGenes maxLeapGenes:(NSSet<NSDictionary *> *)maxLeapGenes githubGenes:(NSSet<NSDictionary *> *)githubGenes completion:(void(^)(NSError *error))completion {
     NSMutableSet<NSDictionary *> *allGenesDictSet = [NSMutableSet setWithSet:mrGenes];

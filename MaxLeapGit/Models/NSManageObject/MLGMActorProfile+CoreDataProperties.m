@@ -17,8 +17,8 @@
 @dynamic blog;
 @dynamic company;
 @dynamic email;
-@dynamic followers;
-@dynamic following;
+@dynamic followerCount;
+@dynamic followingCount;
 @dynamic githubCreatTime;
 @dynamic githubId;
 @dynamic githubUpdateTime;
@@ -26,9 +26,9 @@
 @dynamic location;
 @dynamic loginName;
 @dynamic nickName;
-@dynamic publicRepos;
-@dynamic organizations;
-@dynamic starts;
+@dynamic publicRepoCount;
+@dynamic organizationCount;
+@dynamic starCount;
 @dynamic genes;
 @dynamic introduction;
 

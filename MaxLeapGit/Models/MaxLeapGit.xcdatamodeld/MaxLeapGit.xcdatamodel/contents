@@ -10,8 +10,8 @@
         <attribute name="blog" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="company" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="followers" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="following" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="followerCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="followingCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="githubCreatTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="githubId" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="githubUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
@@ -20,9 +20,9 @@
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="organizations" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="publicRepos" optional="YES" attributeType="Integer 16" syncable="YES"/>
-        <attribute name="starts" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="organizationCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="publicRepoCount" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="starCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <relationship name="genes" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="MLGMGene" inverseName="userProfile" inverseEntity="MLGMGene" syncable="YES"/>
     </entity>
     <entity name="MLGMEvent" representedClassName="MLGMEvent" syncable="YES">
@@ -57,12 +57,12 @@
         <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MLGMAccount" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMActorProfile" positionX="0" positionY="0" width="128" height="315"/>
-        <element name="MLGMEvent" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MLGMGene" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="MLGMStarRelation" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="MLGMAccount" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMActorProfile" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMEvent" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMGene" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMRepo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMStarRelation" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
