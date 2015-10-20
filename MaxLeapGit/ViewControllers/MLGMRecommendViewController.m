@@ -14,14 +14,16 @@
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount
 
 @interface MLGMRecommendViewController () <WKNavigationDelegate>
-@property (nonatomic, strong) NSString *repoName;//e.g. AFNetworking/AFNetworking
+@property (nonatomic, strong) NSMutableArray<MLGMRepo *> *repos;
+@property (nonatomic, assign) NSUInteger currentIndex;
 
 @property (nonatomic, strong) UIView *emptyView;
 
 @property (nonatomic, strong) UIButton *starButton;
 @property (nonatomic, strong) UIButton *forkButton;
 @property (nonatomic, strong) UIButton *skipButton;
-
+@property (nonatomic, strong) UIActivityIndicatorView *loadingViewAtStarButton;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingViewAtForkButton;
 @end
 
 @implementation MLGMRecommendViewController
@@ -29,8 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.title = @"AFNetworking";
+   
+    self.title = @"";
     self.view.backgroundColor = [UIColor whiteColor];
   
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -48,8 +50,25 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     
     [self configureToolbarView];
+    
+    [[MLGMWebService sharedInstance] updateTrendingReposWithCompletion:^(NSArray *repos, NSError *error) {
+        NSLog(@"recommended repos = %@", repos);
+        
+        self.repos = [repos copy];
+        [self showRecommendedRepoDetail];
+    }];
 }
 
+- (void)showRecommendedRepoDetail {
+    MLGMRepo *currentRepo = self.repos[self.currentIndex];
+    if (currentRepo.htmlPageUrl.length) {
+        self.title = currentRepo.name;
+        [self.webView stopLoading];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentRepo.htmlPageUrl]]];
+    }
+}
+
+#pragma mark - Configure SubViews
 - (void)configureToolbarView {
     UIView *toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44)];
     toolbarView.backgroundColor = BottomToolBarColor;
@@ -66,6 +85,14 @@
     
     _forkButton = [self createButtonAtIndex:1 withTitle:NSLocalizedString(@"Fork", @"") action:@selector(onClickedForkButton)];
     [toolbarView addSubview:_forkButton];
+    
+    _loadingViewAtStarButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+    _loadingViewAtStarButton.center = [toolbarView convertPoint:_starButton.center toView:_starButton];
+    [_starButton addSubview:_loadingViewAtStarButton];
+    
+    _loadingViewAtForkButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+    _loadingViewAtForkButton.center = [toolbarView convertPoint:_forkButton.center toView:_forkButton];
+    [_forkButton addSubview:_loadingViewAtForkButton];
     
     _skipButton = [self createButtonAtIndex:2 withTitle:NSLocalizedString(@"Skip", @"") action:@selector(onClickedSkipButton)];
     [toolbarView addSubview:_skipButton];
@@ -124,29 +151,88 @@
 }
 
 - (void)onClickedStarButton {
-    [[MLGMWebService sharedInstance] starRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
-        if (success && !error) {
-            [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
-        } else {
-            [SVProgressHUD showErrorWithStatus:@"Error"];
-        }
-    }];
+    if (self.loadingViewAtStarButton.isAnimating) {
+        return;
+    }
+    
+    [self.starButton setTitle:@"" forState:UIControlStateNormal];
+    [self.loadingViewAtStarButton startAnimating];
+   
+    MLGMRepo *currentRepo = self.repos[self.currentIndex];
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
+    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
+    if (starRelation.isStar.boolValue) {
+        [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
+            [self.loadingViewAtStarButton stopAnimating];
+            
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"UnStar Success", nil)];
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"UnStar Failure", nil)];
+            }
+            
+            [self updateStarStateWithRepoName:repoName];
+        }];
+    } else {
+        [[MLGMWebService sharedInstance] starRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
+            if (success) {
+                [self.loadingViewAtStarButton stopAnimating];
+                [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Star Failure", nil)];
+            }
+            
+            [self updateStarStateWithRepoName:repoName];
+        }];
+    }
+}
+
+- (void)updateStarStateWithRepoName:(NSString *)repoName {
+    [self.loadingViewAtStarButton stopAnimating];
+    
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
+    if (!starRelation.isStar) {
+        [self.loadingViewAtStarButton startAnimating];
+        return;
+    }
+    
+    if (starRelation.isStar.boolValue) {
+        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
+    } else {
+        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
+    }
 }
 
 - (void)onClickedForkButton {
-    [[MLGMWebService sharedInstance] forkRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
-        if (success && !error) {
-            [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
+    if (self.loadingViewAtForkButton.isAnimating) {
+        return;
+    }
+    
+    [self.loadingViewAtForkButton startAnimating];
+    [self.forkButton setTitle:@"" forState:UIControlStateNormal];
+   
+    MLGMRepo *currentRepo = self.repos[self.currentIndex];
+    [[MLGMWebService sharedInstance] forkRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
+        [self.loadingViewAtForkButton stopAnimating];
+        [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
+        
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Fork Success", nil)];
         } else {
-            [SVProgressHUD showErrorWithStatus:@"Error"];
+            [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Fork Failure", nil)];
         }
     }];
 }
 
 - (void)onClickedSkipButton {
-    //temp -- skip to show empty view
-    self.webView.hidden = YES;
-    [self showEmptyView];
+    self.currentIndex++;
+    [self showRecommendedRepoDetail];
+    
+    if  (self.currentIndex == self.repos.count - 1) {
+        self.webView.hidden = YES;
+        [self showEmptyView];
+    }
 }
 
 @end

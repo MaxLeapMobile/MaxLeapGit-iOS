@@ -138,8 +138,6 @@
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [UIImageView autoLayoutView];
-        _avatarImageView.layer.borderWidth = 1;
-        _avatarImageView.layer.borderColor = [UIColor grayColor].CGColor;
         _avatarImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
         [_avatarImageView addGestureRecognizer:singleFingerTap];

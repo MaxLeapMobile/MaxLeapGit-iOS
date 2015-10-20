@@ -479,6 +479,43 @@ static NSArray *supportEvent() {
     }];
 }
 
+#pragma mark - Recommendation Data
+- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion {
+    NSString *userName = kOnlineUserName ?: @"";
+    NSDictionary *parameters = @{@"userid":userName,
+                                 @"genes":@[@{@"language":@"Objective-C",@"skill":@"iOS"}, @{@"language":@"Java",@"skill":@"Android"}],
+                                 @"page":@(1),
+                                 @"per_page":@(1),
+                                 @"type":@"trending"
+                                 };
+    
+    [LCCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *responseObject, NSError *error) {
+        if (error) {
+            DDLogError(@"fetch trending data error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            return;
+        }
+
+        id pattern = [[NSBundle mainBundle] jsonFromResource:@"recommendReposPattern.json"];
+        BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
+        if (!valid) {
+            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", responseObject];
+            error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            return;
+        }
+        
+        NSMutableArray *repoMOs = [NSMutableArray new];
+        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+            [oneRepoMO fillRecommendationObject:oneRepoDic];
+            [repoMOs addObject:oneRepoMO];
+        }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], nil);
+    }];
+}
+
+#pragma mark - clear Cache
 - (void)clearCacheData {
     NSArray *allEntities = [NSManagedObjectModel MR_defaultManagedObjectModel].entities;
     
@@ -550,7 +587,7 @@ static NSArray *supportEvent() {
     }
     NSString *sortString = [self userSortMethodForType:sortType];
     NSString *endPoint = @"/search/users";
-    NSDictionary *parameters = @{@"q":userName, @"sort":sortString, @"page" : @(1), @"per_page" : @(kPerPage)};
+    NSDictionary *parameters = @{@"q":userName, @"sort":sortString, @"type":@"user", @"page" : @(1), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
