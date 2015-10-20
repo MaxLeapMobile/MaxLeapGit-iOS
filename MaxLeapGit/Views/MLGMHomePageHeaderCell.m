@@ -7,7 +7,7 @@
 //
 
 #import "MLGMHomePageHeaderCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface MLGMHomePageHeaderCell ()
 @property (nonatomic, strong) UIImageView *avatarImageView;

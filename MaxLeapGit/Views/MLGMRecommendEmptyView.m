@@ -7,9 +7,6 @@
 //
 
 #import "MLGMRecommendEmptyView.h"
-#import "MLGMStringUtil.h"
-#import <CCHLinkTextView/CCHLinkTextView.h>
-#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 
 #define kTextFont               [UIFont systemFontOfSize:16]
 

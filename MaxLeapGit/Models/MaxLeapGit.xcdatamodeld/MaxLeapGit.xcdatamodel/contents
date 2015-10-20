@@ -12,9 +12,9 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="followers" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="following" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="githubCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="githubCreatTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="githubId" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="githubUpdatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="githubUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="hireable" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
@@ -23,13 +23,12 @@
         <attribute name="organizations" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="publicRepos" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="starts" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="genes" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="MLGMGene" inverseName="userProfile" inverseEntity="MLGMGene" syncable="YES"/>
     </entity>
     <entity name="MLGMEvent" representedClassName="MLGMEvent" syncable="YES">
         <attribute name="actorName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sourceRepoName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="targetRepoName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>

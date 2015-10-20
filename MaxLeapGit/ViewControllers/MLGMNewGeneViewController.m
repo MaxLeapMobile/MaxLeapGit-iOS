@@ -7,9 +7,6 @@
 //
 
 #import "MLGMNewGeneViewController.h"
-#import "MLGMStringUtil.h"
-#import "NSBundle+Extension.h"
-#import "UIView+CustomBorder.h"
 
 @interface MLGMNewGeneViewController () <
 UIPickerViewDelegate,

@@ -7,8 +7,6 @@
 //
 
 #import "MLGMOrganizationCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
-#import "NSDate+Extension.h"
 
 @interface MLGMOrganizationCell ()
 @property (nonatomic, strong) UIImageView *avatarImageView;
@@ -69,14 +67,14 @@
     [self.avatarImageView sd_setImageWithURL:actorProfile.avatarUrl.toURL];
     self.nameLabel.text = actorProfile.loginName;
     
-    if (actorProfile.githubUpdatedAt) {
-        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdatedAt timeAgo]];
+    if (actorProfile.githubUpdateTime) {
+        NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
         [[MLGMWebService sharedInstance] organizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
             MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.organizationProfile.loginName];
-            if (latestProfile.githubUpdatedAt) {
-                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdatedAt timeAgo]];
+            if (latestProfile.githubUpdateTime) {
+                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];
                 self.updateTimeLabel.text = updateAtString;
             }
         }];

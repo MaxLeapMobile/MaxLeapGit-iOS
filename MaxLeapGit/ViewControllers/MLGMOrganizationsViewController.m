@@ -7,11 +7,6 @@
 //
 
 #import "MLGMOrganizationsViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMFollowCell.h"
-#import "MLGMCustomTabBarController.h"
-#import "MLGMWebViewController.h"
-#import "MLGMOrganizationCell.h"
 
 @interface MLGMOrganizationsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -101,7 +96,7 @@
         [self.tableView addPullToRefreshWithActionHandler:^{
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
-             [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
+             [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOs, BOOL isRechEnd, NSError *error) {
                 execute_after_main_queue(0.2, ^{
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
                 });
@@ -109,7 +104,7 @@
                 
                 if (!error) {
                     [weakSelf.results removeAllObjects];
-                    [weakSelf.results addObjectsFromArray:orgMOCs];
+                    [weakSelf.results addObjectsFromArray:orgMOs];
                     [weakSelf.tableView reloadData];
                 } else {
                     [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];

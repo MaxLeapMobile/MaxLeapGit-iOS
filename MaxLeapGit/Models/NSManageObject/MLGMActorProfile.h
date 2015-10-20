@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fillProfile:(NSDictionary *)object;
 - (void)fillFollow:(NSDictionary *)object;
 - (void)fillOrg:(NSDictionary *)object;
+- (void)fillSearchResult:(NSDictionary *)object;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -57,7 +57,7 @@
     [_sortButton setTitle:@"Sort by" forState:UIControlStateNormal];
     _sortButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [_sortButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_sortButton setTitleColor:UIColorWithRGBA(177, 178, 177, 1) forState:UIControlStateHighlighted];
+    [_sortButton setTitleColor:UIColorFromRGB(0xb1b2b1) forState:UIControlStateHighlighted];
     [_sortButton setImage:ImageNamed(@"dropdown_arrow_normal") forState:UIControlStateNormal];
     [_sortButton setImage:ImageNamed(@"dropdown_arrow_selected") forState:UIControlStateHighlighted];
     [_sortButton layoutIfNeeded];

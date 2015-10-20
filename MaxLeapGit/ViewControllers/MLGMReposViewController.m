@@ -7,10 +7,6 @@
 //
 
 #import "MLGMReposViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMRepoCell.h"
-#import "MLGMRepoDetailController.h"
-#import "MLGMCustomTabBarController.h"
 
 @interface MLGMReposViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;

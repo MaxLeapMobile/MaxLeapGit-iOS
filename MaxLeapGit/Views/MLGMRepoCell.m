@@ -7,8 +7,7 @@
 //
 
 #import "MLGMRepoCell.h"
-#import "MLGMRepo.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface MLGMRepoCell ()
 @property (nonatomic, strong) UIImageView *avatarImageView;

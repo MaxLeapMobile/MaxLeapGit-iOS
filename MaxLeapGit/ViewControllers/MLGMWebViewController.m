@@ -7,7 +7,6 @@
 //
 
 #import "MLGMWebViewController.h"
-#import "MLGMCustomTabBarController.h"
 
 #define kWebViewLoadingStatusKey       @"loading"
 #define kWebViewLoadingProgressKey     @"estimatedProgress"
@@ -29,12 +28,10 @@
 #pragma mark- View Life Cycle
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = _webView.loading;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    if (_url.length) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
+        [self.webView loadRequest:request];
+    }
 }
 
 - (void)viewDidLoad {
@@ -46,7 +43,6 @@
         self.title = [array lastObject];
     }
    
-    
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
     [self configureWebView];
@@ -64,11 +60,6 @@
     //observe loading progress
     [_webView addObserver:self forKeyPath:kWebViewLoadingStatusKey options:NSKeyValueObservingOptionNew context:nil];
     [_webView addObserver:self forKeyPath:kWebViewLoadingProgressKey options:NSKeyValueObservingOptionNew context:nil];
-    
-    if (_url.length) {
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
-        [self.webView loadRequest:request];
-    }
 }
 
 - (void)configureProgressView {

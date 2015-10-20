@@ -7,8 +7,7 @@
 //
 
 #import "MLGMRepoDetailController.h"
-#import "MLGMCustomTabBarController.h"
-#import "MLGMWebService.h"
+
 
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 2
@@ -25,9 +24,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = self.repoName;
     // Do any additional setup after loading the view.
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    self.url = [NSString stringWithFormat:@"https://github.com/%@", self.repoName];
+    
     [self configureToolbarView];
     [self updateButtonState];
 }

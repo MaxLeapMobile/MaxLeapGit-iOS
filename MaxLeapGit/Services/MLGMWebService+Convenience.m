@@ -7,9 +7,6 @@
 //
 
 #import "MLGMWebService+Convenience.h"
-#import "JSONValidation.h"
-#import "MLGMAccount.h"
-#import "MLGMAccount+CoreDataProperties.h"
 
 #define KNewworkDebug 0
 

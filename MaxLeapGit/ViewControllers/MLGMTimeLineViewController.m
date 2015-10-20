@@ -7,13 +7,6 @@
 //
 
 #import "MLGMTimeLineViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MLGMTimeLineCell.h"
-#import "MLGMSearchViewController.h"
-#import "MLGMRepoDetailController.h"
-#import "MLGMCustomTabBarController.h"
-#import "MLGMHomePageViewController.h"
-#include "UIBarButtonItem+Extension.h"
 
 @interface MLGMTimeLineViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *results;

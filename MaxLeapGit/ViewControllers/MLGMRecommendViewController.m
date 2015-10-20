@@ -7,11 +7,7 @@
 //
 
 #import "MLGMRecommendViewController.h"
-#import "MLGMSearchViewController.h"
-#import <WebKit/WebKit.h>
-#import "MLGMRecommendEmptyView.h"
-#import "MLGMNewGeneViewController.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+
 
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 3
@@ -81,7 +77,7 @@
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:17];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageWithColor:UIColorWithRGBA(106, 169, 255, 1)] forState:UIControlStateDisabled];
+    [button setBackgroundImage:[UIImage imageWithColor:UIColorFromRGB(0x6aa9ff)] forState:UIControlStateDisabled];
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;
@@ -123,6 +119,7 @@
 - (void)search {
     MLGMSearchViewController *vcSearch = [[MLGMSearchViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcSearch];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
