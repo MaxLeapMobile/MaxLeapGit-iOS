@@ -175,25 +175,25 @@
     self.nickNameLabel.text = actorProfile.nickName;
 
     if (actorProfile.followerCount) {
-        self.followerLabel.text = [NSString stringWithFormat:@"%@", actorProfile.followers];
+        self.followerLabel.text = [NSString stringWithFormat:@"%@", actorProfile.followerCount];
     } else {
         self.followerLabel.text = @"-";
     }
     
     if (actorProfile.followingCount) {
-        self.followingLabel.text = [NSString stringWithFormat:@"%@", actorProfile.following];
+        self.followingLabel.text = [NSString stringWithFormat:@"%@", actorProfile.followingCount];
     } else {
         self.followingLabel.text = @"-";
     }
     
     if (actorProfile.publicRepoCount) {
-        self.reposLabel.text = [NSString stringWithFormat:@"%@", actorProfile.publicRepos];
+        self.reposLabel.text = [NSString stringWithFormat:@"%@", actorProfile.publicRepoCount];
     } else {
         self.reposLabel.text = @"-";
     }
     
     if (actorProfile.starCount) {
-        self.starsLabel.text = [NSString stringWithFormat:@"%@", actorProfile.starts];
+        self.starsLabel.text = [NSString stringWithFormat:@"%@", actorProfile.starCount];
     } else {
         self.starsLabel.text = @"-";
     }

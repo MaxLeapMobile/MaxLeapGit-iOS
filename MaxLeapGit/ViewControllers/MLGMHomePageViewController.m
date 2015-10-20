@@ -334,7 +334,7 @@
 - (MLGMHomePageCell *)configureOrganizationCell:(MLGMHomePageCell *)organizationCell {
     organizationCell.textLabel.text = @"Organization";
     if (self.userProfile.organizationCount) {
-        organizationCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizations];
+        organizationCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizationCount];
         if (self.userProfile.organizationCount.integerValue > 0) {
             organizationCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
@@ -355,12 +355,12 @@
         if (indexPath.section == 1) {
             MLGMGenesViewController *genesVC = [[MLGMGenesViewController alloc] init];
             [self.navigationController pushViewController:genesVC animated:YES];
-        } else if (indexPath.section == 3 && [self.userProfile.organizations integerValue] > 0) {
+        } else if (indexPath.section == 3 && [self.userProfile.organizationCount integerValue] > 0) {
             UIViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
             [self.navigationController pushViewController:orgnizationVC animated:YES];
         }
     } else {
-        if (indexPath.section == 2 && [self.userProfile.organizations integerValue] > 0) {
+        if (indexPath.section == 2 && [self.userProfile.organizationCount integerValue] > 0) {
             MLGMOrganizationsViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
             orgnizationVC.ownerName = self.ownerName;
             [self.navigationController pushViewController:orgnizationVC animated:YES];
