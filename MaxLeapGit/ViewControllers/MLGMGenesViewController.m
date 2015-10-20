@@ -13,7 +13,7 @@
 #import "MLGMWebService.h"
 
 @interface MLGMGenesViewController () <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) NSArray *genes;
+@property (nonatomic, strong) NSMutableArray *genes;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton *geneCreationButton;
 @property (nonatomic, assign) BOOL didSetupConstraints;
@@ -26,17 +26,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureSubViews];
-    
+  
+    [self reloadData];
     [[MLGMWebService sharedInstance] updateGenesForUserName:kOnlineUserName completion:^(NSError *error) {
-        [self.tableView reloadData];
+        [self reloadData];
     }];
+}
+
+- (void)reloadData {
+    self.genes = [NSMutableArray arrayWithArray:[kOnlineAccountProfile.genes allObjects]];
+    [self.genes sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
 #pragma mark- Override Parent Method
@@ -92,8 +99,23 @@
     };
     
     [cell configureCell:gene];
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        MLGMGene *gene = _genes[indexPath.row];
+        [_genes removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+        [[MLGMWebService sharedInstance] deleteGene:gene completion:^(BOOL success, NSError *error) {
+            
+        }];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark- Private Method
@@ -125,9 +147,12 @@
     return _geneCreationButton;
 }
 
-- (NSArray *)genes {
-    NSArray *genes = [kOnlineAccountProfile.genes allObjects];
-    return [genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
+- (NSMutableArray *)genes {
+    if (!_genes) {
+       _genes = [NSMutableArray arrayWithArray:[kOnlineAccountProfile.genes allObjects]];
+       [_genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
+    }
+    return _genes;
 }
 
 #pragma mark- Helper Method

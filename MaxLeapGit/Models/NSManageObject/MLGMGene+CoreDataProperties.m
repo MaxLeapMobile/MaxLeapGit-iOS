@@ -13,6 +13,7 @@
 
 @implementation MLGMGene (CoreDataProperties)
 
+@dynamic maxLeapID;
 @dynamic language;
 @dynamic skill;
 @dynamic updateTime;

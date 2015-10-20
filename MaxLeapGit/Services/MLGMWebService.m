@@ -489,6 +489,28 @@ static NSArray *supportEvent() {
 }
 
 - (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
+    if (!gene.maxLeapID) {
+        NSDictionary *geneDict = [self lcObjectDictionaryForGene:gene];
+        LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
+                                              dictionary:geneDict];
+        [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSLog(@"save to maxLeap: lasObj = %@, status = %d", lasObj, succeeded);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
+        }];
+    
+    } else {
+
+        LCObject *object = [LCObject objectWithoutDataWithClassName:@"Gene" objectId:gene.maxLeapID];
+        [object fetchInBackgroundWithBlock:^(LCObject *myCloudObj, NSError *error) {
+            myCloudObj[@"language"] = gene.language;
+            myCloudObj[@"skill"] = gene.skill;
+            myCloudObj[@"updateTime"] = [NSDate date];
+            [myCloudObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                NSLog(@"update cloud data succeeded = %d, error = %@", succeeded, error);
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
+            }];
+        }];
+    }
 }
 
 - (void)geneForUserName:(NSString *)userName completion:(void(^)())completion {
@@ -612,6 +634,26 @@ static NSArray *supportEvent() {
     }
 }
 
+
+- (void)deleteGene:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@", gene.language, gene.skill];
+    NSArray *genes =  [MLGMGene MR_findAllWithPredicate:predicate];
+    [genes enumerateObjectsUsingBlock:^(MLGMGene *geneToDelete, NSUInteger idx, BOOL * _Nonnull stop) {
+        //delete from maxLeap data
+        NSPredicate *predicateForMaxLeap = [NSPredicate predicateWithFormat:@"userName = %@ AND language = %@ AND skill = %@", gene.userProfile.loginName, gene.language, gene.skill];
+        LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicateForMaxLeap];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            [LCObject deleteAllInBackground:objects block:^(BOOL succeeded, NSError *error) {
+                NSLog(@"delete from maxLeap: succeed = %d, error = %@", succeeded, error);
+            }];
+        }];
+        [geneToDelete MR_deleteEntityInContext:self.defaultContext];
+    }];
+    [self.defaultContext MR_saveToPersistentStoreAndWait];
+    
+
+}
+
 #pragma mark - Private Methods
 - (void)fetchGenesFromMaxLeapForUsername:(NSString *)userName completion:(void(^)(NSSet<MLGMGene *> *genes, NSError *error))completion {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userName = %@", userName];
@@ -623,7 +665,8 @@ static NSArray *supportEvent() {
             NSString *language = [obj objectForKey:@"language"];
             NSString *skill  = [obj objectForKey:@"skill"];
             NSDate *updateTime  = [obj objectForKey:@"updateTime"];
-            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName, @"updateTime":updateTime};
+            NSString *maxLeapID = obj.objectId;
+            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName, @"updateTime":updateTime, @"maxLeapID":maxLeapID};
             [genesSet addObject:genePair];
         }];
         genesSet = [self genesSetForDictionarySet:genesSet];
@@ -667,21 +710,21 @@ static NSArray *supportEvent() {
     NSSet *mrGenes = kOnlineAccountProfile.genes;
 
     NSMutableSet *allGenes = [NSMutableSet setWithSet:mrGenes];
-    [maxLeapGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![allGenes containsGene:obj]) {
-            [allGenes addObject:obj];
+    [maxLeapGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
+        if (![allGenes containsGene:gene]) {
+            [allGenes addObject:gene];
         }
     }];
-    [githubGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![allGenes containsGene:obj]) {
-            [allGenes addObject:obj];
+    [githubGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
+        if (![allGenes containsGene:gene]) {
+            [allGenes addObject:gene];
         }
     }];
     
     NSMutableSet *genesToSaveForMaxLeap = [NSMutableSet set];
-    [allGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![maxLeapGenes containsGene:obj]) {
-            [genesToSaveForMaxLeap addObject:obj];
+    [allGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
+        if (!gene.maxLeapID || (gene.maxLeapID && ![maxLeapGenes containsGene:gene])) {
+            [genesToSaveForMaxLeap addObject:gene];
         }
     }];
     
@@ -698,52 +741,60 @@ static NSArray *supportEvent() {
 }
 
 - (void)saveGenesToMagicalRecord:(NSSet<MLGMGene *> *)genesSet completion:(void(^)(NSError *error))completion {
-    NSMutableSet *geneMOCs = [NSMutableSet set];
     [genesSet enumerateObjectsUsingBlock:^(MLGMGene *gene, BOOL * _Nonnull stop) {
-        MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES) inContext:self.defaultContext];
-        MLGMActorProfile *userProfileMOC = accountMOC.actorProfile;
-        NSSet *mrStoredGenes = userProfileMOC.genes;
-        
-        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@", gene.language, gene.skill];
+        NSSet *mrStoredGenes = kOnlineAccountProfile.genes;
+        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@ AND self.updateTime = %@", gene.language, gene.skill, gene.updateTime];
         NSSet *filteredSet = [mrStoredGenes filteredSetUsingPredicate:filterPredicate];
         if (!filteredSet.count) {
-            [geneMOCs addObject:gene];
+//            [geneMOCs addObject:gene];
+            gene.userProfile = kOnlineAccountProfile;
+            NSLog(@"save Gene To MR:%@, gene.ID = %@",gene, gene.maxLeapID);
         }
     }];
+  
+    [self.defaultContext MR_saveToPersistentStoreAndWait];
     
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        MLGMAccount *accountMOC = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES) inContext:self.defaultContext];
-        MLGMActorProfile *userProfileMOC = accountMOC.actorProfile;
-        [userProfileMOC addGenes:geneMOCs];
-        
-    } completion:^(BOOL contextDidSave, NSError *error) {
-        NSLog(@"contextDidSave = %d, error = %@", contextDidSave, error);
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-    }];
+    BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil);
 }
 
+//gene.maxLeapID == nil, add to maxLeap; otherwise update maxLeap data
 - (void)saveGenesToMaxLeap:(NSSet<MLGMGene *> *)genes completion:(void(^)(BOOL success, NSError *error))completion {
     if (!kOnlineAccount) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, nil);
         return;
     }
 
-    NSMutableArray *lasObjs = [NSMutableArray array];
     [genes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
         if (gene.userProfile.loginName.length) {
-            NSDictionary *geneDict = [self dictionaryForGene:gene];
-            LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
-                                                  dictionary:geneDict];
-            [lasObjs addObject:lasObj];
+            if (!gene.maxLeapID) {
+                NSDictionary *geneDict = [self lcObjectDictionaryForGene:gene];
+                LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
+                                                      dictionary:geneDict];
+                [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    NSLog(@"save to maxLeap: lasObj = %@, status = %d", lasObj, succeeded);
+                    if (stop) {
+                        BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
+                    }
+                }];
+            } else {
+                //udpate maxLeap data
+                LCObject *object = [LCObject objectWithoutDataWithClassName:@"Gene" objectId:gene.maxLeapID];
+                [object fetchInBackgroundWithBlock:^(LCObject *myCloudObj, NSError *error) {
+                    myCloudObj[@"updateTime"] = [NSDate date];
+                    myCloudObj[@"language"] = @"Unknown";
+                    [myCloudObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        NSLog(@"update cloud data succeeded = %d, error = %@", succeeded, error);
+                        if (stop) {
+                            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
+                        }
+                    }];
+                }];
+            }
         }
-    }];
-    
-    [LCObject saveAllInBackground:lasObjs block:^(BOOL succeeded, NSError *error) {
-        NSLog(@"save to maxLeap: objs = %@, status = %d", lasObjs, succeeded);
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
     }];
 }
 
-- (NSDictionary *)dictionaryForGene:(MLGMGene *)gene {
+- (NSDictionary *)lcObjectDictionaryForGene:(MLGMGene *)gene {
     if (gene.language.length && gene.skill.length) {
         
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:gene.language, @"language", gene.skill, @"skill", gene.updateTime, @"updateTime", nil];
@@ -754,19 +805,6 @@ static NSArray *supportEvent() {
     }
     return nil;
 }
-//
-//- (NSMutableSet<NSDictionary *> *)dictionarySetForGenesSet:(NSSet<MLGMGene *> *)set {
-//    NSMutableSet *dictSet = [NSMutableSet set];
-//    if (set.count > 0) {
-//        [set enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
-//            NSDictionary *geneDict = [self dictionaryForGene:gene];
-//            if (geneDict) {
-//                [dictSet addObject:geneDict];
-//            }
-//        }];
-//    }
-//    return dictSet;
-//}
 
 - (NSMutableSet<MLGMGene *> *)genesSetForDictionarySet:(NSSet<NSDictionary *> *)set {
     NSMutableSet *genesSet = [NSMutableSet set];

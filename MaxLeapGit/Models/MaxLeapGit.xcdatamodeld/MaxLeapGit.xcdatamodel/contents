@@ -41,6 +41,7 @@
     </entity>
     <entity name="MLGMGene" representedClassName="MLGMGene" syncable="YES">
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maxLeapID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="skill" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updateTime" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MLGMActorProfile" inverseName="genes" inverseEntity="MLGMActorProfile" syncable="YES"/>
@@ -58,12 +59,12 @@
         <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MLGMAccount" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMActorProfile" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMEvent" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMGene" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMRepo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MLGMStarRelation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MLGMAccount" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="MLGMActorProfile" positionX="0" positionY="0" width="128" height="330"/>
+        <element name="MLGMEvent" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="MLGMFollowRelation" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="MLGMGene" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="MLGMRepo" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="MLGMStarRelation" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

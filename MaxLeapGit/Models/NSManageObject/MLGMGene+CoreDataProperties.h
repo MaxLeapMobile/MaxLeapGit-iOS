@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLGMGene (CoreDataProperties)
 
+@property (nullable, nonatomic, retain) NSString *maxLeapID;
 @property (nullable, nonatomic, retain) NSString *language;
 @property (nullable, nonatomic, retain) NSString *skill;
 @property (nullable, nonatomic, retain) NSDate *updateTime;

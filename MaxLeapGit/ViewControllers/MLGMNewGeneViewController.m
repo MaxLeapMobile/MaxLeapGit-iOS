@@ -82,9 +82,16 @@ UITableViewDelegate
 }
 
 - (void)doneButtonPressed:(id)sender {
-    if (self.gene.skill.length && self.gene.language) {
+    NSString *selectedLanguage = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
+    NSString *selectedSkill = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
+    if (selectedLanguage.length && selectedSkill.length) {
         self.gene.updateTime = [NSDate date];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        [[MLGMWebService sharedInstance] saveGeneToMaxLeap:self.gene completion:^(BOOL success, NSError *error) {
+            
+        }];
+    } else {
+        [self.gene MR_deleteEntity];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];

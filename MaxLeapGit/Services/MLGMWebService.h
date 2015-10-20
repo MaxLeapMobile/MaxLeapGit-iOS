@@ -135,7 +135,7 @@ static NSUInteger const kPerPage = 30;
 - (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
 
 /**
- * 搜索开源项目
+ * 搜索用户
  */
 - (void)searchByUserName:(NSString *)repoName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion;
 
@@ -143,6 +143,11 @@ static NSUInteger const kPerPage = 30;
  * 保存用户的基因
  */
 - (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion;
+
+/**
+ * 删除基因
+ */
+- (void)deleteGene:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion;
 
 /**
  * 获取指定用户的基因
