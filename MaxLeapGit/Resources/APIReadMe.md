@@ -1,5 +1,5 @@
 
-假定用户名为kylef，组织名为：guardian
+假定用户名为kylef，组织名为：guardian，项目:mzp/LoveLiver
 
 1. 获取指定用户的资料：
 https://api.github.com/users/kylef
@@ -35,14 +35,17 @@ https://api.github.com/users/kylef/following
 https://api.github.com/users/users/xdream86/following/kylef
 
 12. 用户star过的项目
-
+https://api.github.com/users/kylef/starred
 
 13. 是否star过指定项目
+https://api.github.com/user/starred/kylef 
+204表示成功
 
-14. repo详情
+14. star项目
+https://api.github.com/user/starred/mzp/LoveLiver put方法
 
-15. star项目
+15. unstar项目
+https://api.github.com/user/starred/mzp/LoveLiver delete方法
 
-16. for项目
-
-17. 
+16. fork项目
+https://api.github.com/repos/mzp/LoveLiver/forks

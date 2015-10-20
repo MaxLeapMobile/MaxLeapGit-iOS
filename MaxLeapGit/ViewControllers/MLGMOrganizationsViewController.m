@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/12.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMOrganizationsViewController.h"
@@ -96,7 +96,7 @@
         [self.tableView addPullToRefreshWithActionHandler:^{
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
-             [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOs, BOOL isRechEnd, NSError *error) {
+             [KSharedWebService organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOs, BOOL isRechEnd, NSError *error) {
                 execute_after_main_queue(0.2, ^{
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
                 });
@@ -113,7 +113,7 @@
         }];
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
-            [[MLGMWebService sharedInstance] organizationsForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
+            [KSharedWebService organizationsForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
                 weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
                 if (!error && [orgMOCs count] > 0) {

@@ -12,9 +12,9 @@
 #import "MLGMAccount+CoreDataProperties.h"
 
 @implementation MLGMAccount (CoreDataProperties)
-
 @dynamic accessToken;
 @dynamic isOnline;
 @dynamic actorProfile;
+@dynamic isInitializeGene;
 
 @end

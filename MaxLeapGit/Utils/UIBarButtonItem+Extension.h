@@ -3,7 +3,7 @@
 //  iKeyboard
 //
 //  Created by XiaJun on 15/4/3.
-//  Copyright (c) 2015年 iLegendSoft. All rights reserved.
+//  Copyright (c) 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

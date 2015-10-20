@@ -1,6 +1,0 @@
-framework module ILSLeapCloud {
-  umbrella header "ILSLeapCloud.h"
-
-  export *
-  module * { export * }
-}

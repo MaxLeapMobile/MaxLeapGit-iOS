@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMHomePageViewController.h"
@@ -38,19 +38,19 @@
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
     [self transparentNavigationBar:YES];
     
-    [[MLGMWebService sharedInstance] userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
+    [KSharedWebService userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
         [self.tableView reloadData];
-        [[MLGMWebService sharedInstance] starCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
+        [KSharedWebService starCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
             [self.tableView reloadData];
         }];
         
-        [[MLGMWebService sharedInstance] organizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
+        [KSharedWebService organizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
             [self.tableView reloadData];
         }];
     }];
     
     [self updateFollowState];
-    [[MLGMWebService sharedInstance] isUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [KSharedWebService isUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         [self updateFollowState];
     }];
 }
@@ -94,11 +94,11 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, self.ownerName];
     MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
     if (followRelation.isFollow.boolValue) {
-        [[MLGMWebService sharedInstance] unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [KSharedWebService unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
             [self updateFollowState];
         }];
     } else {
-        [[MLGMWebService sharedInstance] followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [KSharedWebService followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
             [self updateFollowState];
         }];
     }

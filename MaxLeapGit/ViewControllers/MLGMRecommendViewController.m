@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMRecommendViewController.h"
@@ -124,7 +124,7 @@
 }
 
 - (void)onClickedStarButton {
-    [[MLGMWebService sharedInstance] starRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
+    [KSharedWebService starRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
         if (success && !error) {
             [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
         } else {
@@ -134,7 +134,7 @@
 }
 
 - (void)onClickedForkButton {
-    [[MLGMWebService sharedInstance] forkRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
+    [KSharedWebService forkRepo:@"AFNetworking/AFNetworking" completion:^(BOOL success, NSString *repoName, NSError *error) {
         if (success && !error) {
             [SVProgressHUD showSuccessWithStatus:@"Succeeded"];
         } else {

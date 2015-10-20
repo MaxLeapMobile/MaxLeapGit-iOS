@@ -20,9 +20,10 @@
 #import "Flurry.h"
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
-#import <HockeySDK/HockeySDK.h>
 #import <CCHLinkTextView/CCHLinkTextView.h>
 #import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
+#import <HockeySDK/HockeySDK.h>
+#import <MaxLeap/MaxLeap.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SVPullToRefresh/SVPullToRefresh.h>
@@ -158,14 +159,7 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kMaxLeap_Client_Key CONFIGURE(@"MaxLeap_Client_Key")
 #define kMaxLeap_REST_API_Key CONFIGURE(@"MaxLeap_REST_API_Key")
 #define kHockeyApp_Identifier CONFIGURE(@"HockeyApp_Identifier")
-
-#define kPixelWidth (1.0 / [UIScreen mainScreen].scale)
+#define kMaxLeapUserPassword CONFIGURE(@"MaxLeapUserPassword")
 
 #define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)
-
-#define kMLGMSupportedGenesDict     @{@"Html":@[@"html5",@"bootstrap"],@"Java":@[@"Android",@"spring"],@"Javascript":@[@"angularjs",@"bootstrap", @"jquery", @"node"],@"Objective-C":@[@"iOS"],@"PHP":@[@"Codeigniter"],@"Python":@[@"web framework"],@"Swift":@[@"iOS"],@"C#":@[@"asp", @"xamarin"]}
-
-#define kOnlineAccount [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)]
-#define kOnlineAccountProfile kOnlineAccount.actorProfile
-#define kOnlineUserName kOnlineAccount.actorProfile.loginName

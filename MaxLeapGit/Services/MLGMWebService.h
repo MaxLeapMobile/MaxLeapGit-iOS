@@ -14,6 +14,8 @@
 @class MLGMEvent;
 @class MLGMRepo;
 
+#define KSharedWebService [MLGMWebService sharedInstance]
+
 typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
     MLGMSearchRepoSortTypeDefault = 0,
     MLGMSearchRepoSortTypeStars = 1,
@@ -42,7 +44,7 @@ static NSUInteger const kPerPage = 30;
 /**
  * 账号信息
  */
-- (void)updateAccountProfileCompletion:(void(^)(MLGMAccount *account, NSError *error))completion;
+- (void)updateAccountProfileToDBCompletion:(void(^)(MLGMAccount *account, NSError *error))completion;
 
 /**
  * 特定用户的资料,不包括组织信息，以及各个组织最近活动的时间,需要另外调取下面提供的接口
@@ -140,23 +142,18 @@ static NSUInteger const kPerPage = 30;
 - (void)searchByUserName:(NSString *)repoName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion;
 
 /**
- * 保存用户的基因
+ * 使用github和maxleap的记录初始化用户的gene
  */
-- (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion;
+- (void)initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:(void(^)(BOOL success, NSError *error))completion;
 
 /**
- * 删除基因
+ * 同步本地账号基本信息到maxleap的User表
  */
-- (void)deleteGene:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion;
+- (void)syncOnlineAccountProfileToMaxLeapCompletion:(void (^)(BOOL success, NSError *error))completion;
 
 /**
- * 获取指定用户的基因
+ * 同步本地账号的Gene到maxleap的Gene表
  */
-- (void)geneForUserName:(NSString *)userName completion:(void(^)())completion;
-
-/**
- * 获取用户的genes
- */
-- (void)updateGenesForUserName:(NSString *)userName completion:(void(^)(NSError *error))completion;
+- (void)syncOnlineAccountGenesToMaxLeapCompletion:(void (^)(BOOL success, NSError *error))completion;
 
 @end

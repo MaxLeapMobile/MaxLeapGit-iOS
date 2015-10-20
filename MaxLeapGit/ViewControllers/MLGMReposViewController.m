@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/12.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMReposViewController.h"
@@ -106,7 +106,7 @@
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
             if (self.type == MLGMReposControllerTypeRepos) {
-                [[MLGMWebService sharedInstance] publicRepoForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService publicRepoForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -123,7 +123,7 @@
             }
             
             if (self.type == MLGMReposControllerTypeStars) {
-                [[MLGMWebService sharedInstance] staredReposForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService staredReposForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -142,7 +142,7 @@
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
             if (self.type == MLGMReposControllerTypeRepos) {
-                [[MLGMWebService sharedInstance] publicRepoForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService publicRepoForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
                     if (!error) {
@@ -156,7 +156,7 @@
             }
             
             if (self.type == MLGMReposControllerTypeStars) {
-                [[MLGMWebService sharedInstance] staredReposForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService staredReposForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
                     if (!error) {

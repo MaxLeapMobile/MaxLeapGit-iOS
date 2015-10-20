@@ -64,15 +64,15 @@
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging in", nil)];
-    [[MLGMWebService sharedInstance] updateAccountProfileCompletion:^(MLGMAccount *account, NSError *error) {
+    [KSharedWebService updateAccountProfileToDBCompletion:^(MLGMAccount *account, NSError *error) {
         if (error) {
             [SVProgressHUD dismiss];
             [SVProgressHUD showErrorWithStatus:@"Error"];
+            account.isOnline = @(NO);
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         } else {
-            [[MLGMWebService sharedInstance] updateGenesForUserName:kOnlineUserName completion:^(NSError *error) {
-                [SVProgressHUD dismiss];
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
+            [SVProgressHUD dismiss];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
 }
@@ -102,7 +102,7 @@
 #pragma mark- Getter Setter
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
-        UIImage *image = ImageNamed(@"placehold");
+        UIImage *image = ImageNamed(@"logo");
         _logoImageView = [UIImageView autoLayoutView];
         _logoImageView.image = image;
     }

@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMNewGeneViewController.h"
@@ -19,6 +19,8 @@ UITableViewDelegate
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *allLanguage;
 @property (nonatomic, assign) BOOL didSetupConstraints;
+@property (nonatomic, copy) NSString *selectedLanguage;
+@property (nonatomic, copy) NSString *selectedSkill;
 @end
 
 @implementation MLGMNewGeneViewController
@@ -29,9 +31,9 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (!self.gene) {
-        self.gene = [MLGMGene MR_createEntity];
-        self.gene.userProfile = kOnlineAccountProfile;
+    if (self.gene) {
+        self.selectedLanguage = self.gene.language;
+        self.selectedSkill = self.gene.skill;
     }
     
     [self configureSubViews];
@@ -40,7 +42,7 @@ UITableViewDelegate
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (self.gene.language && self.gene.skill) {
+    if (self.selectedLanguage && self.selectedSkill) {
         NSUInteger languageIndex = [self.allLanguage indexOfObject:self.gene.language];
         NSDictionary *oneGene = [self.genesInBuild objectAtIndex:languageIndex];
         NSUInteger skillIndex = [oneGene[self.gene.language] indexOfObject:self.gene.skill];
@@ -79,18 +81,26 @@ UITableViewDelegate
 }
 
 - (void)doneButtonPressed:(id)sender {
-    NSString *selectedLanguage = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].detailTextLabel.text;
-    NSString *selectedSkill = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]].detailTextLabel.text;
-    if (selectedLanguage.length && selectedSkill.length) {
-        self.gene.updateTime = [NSDate date];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        [[MLGMWebService sharedInstance] saveGeneToMaxLeap:self.gene completion:^(BOOL success, NSError *error) {
-            
-        }];
-    } else {
-        [self.gene MR_deleteEntity];
+    if (!self.selectedSkill.length || !self.selectedLanguage.length) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
     }
     
+    if (self.gene) {
+        self.gene.language = self.selectedLanguage;
+        self.gene.skill = self.selectedSkill;
+        self.gene.updateTime = [NSDate date];
+    } else {
+        MLGMGene *gene = [MLGMGene MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"language=%@ and skill=%@", self.selectedLanguage, self.selectedSkill]];
+        if (!gene) {
+            gene = [MLGMGene MR_createEntity];
+        }
+        gene.language = self.selectedLanguage;
+        gene.skill = self.selectedSkill;
+        gene.userProfile = kOnlineAccountProfile;
+        gene.updateTime = [NSDate date];
+    }
+    [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -141,11 +151,11 @@ UITableViewDelegate
     NSUInteger selectedGeneIndex = component == 0 ? row : [self.pickerView selectedRowInComponent:0];
     NSDictionary *oneGene = self.genesInBuild[selectedGeneIndex];
     NSString *language = [oneGene.allKeys firstObject];
-    self.gene.language = language;
+    self.selectedLanguage = language;
     
     NSArray *skills = oneGene[language];
     NSUInteger selectedSkillIndex = component == 0 ? 0 : row;
-    self.gene.skill = skills[selectedSkillIndex];
+    self.selectedSkill = skills[selectedSkillIndex];
     
     [self.tableView reloadData];
 }
@@ -162,19 +172,18 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     if (indexPath.row == 0) {
         cell.textLabel.text = NSLocalizedString(@"Language", @"");
-        cell.detailTextLabel.text = self.gene.language;
+        cell.detailTextLabel.text = self.selectedLanguage;
     } else {
         cell.textLabel.text = NSLocalizedString(@"Skill", @"");
-        cell.detailTextLabel.text = self.gene.skill;
+        cell.detailTextLabel.text = self.selectedSkill;
     }
     
     return cell;
