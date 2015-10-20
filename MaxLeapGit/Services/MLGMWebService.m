@@ -153,7 +153,7 @@ static NSArray *supportEvent() {
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
-            userProfile.organizations = @(orgCount);
+            userProfile.organizationCount = @(orgCount);
         }
         [self.defaultContext MR_saveToPersistentStoreAndWait];
         
@@ -200,7 +200,7 @@ static NSArray *supportEvent() {
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
-            userProfile.starts = @(starCount);
+            userProfile.starCount = @(starCount);
         }
         [self.defaultContext MR_saveToPersistentStoreAndWait];
         
@@ -524,20 +524,22 @@ static NSArray *supportEvent() {
     NSString *endPoint = @"/search/repositories";
     NSDictionary *parameters = @{@"q":repoName,@"sort":sortString, @"page" : @(page), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    [self startRquest:urlRequest patternFile:@"searchReposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
+            DDLogError(@"access /search/repositories api error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
             return;
         }
         
         if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
-            NSArray *items = responseData[@"items"];
-            NSMutableArray *repoMOCs = [NSMutableArray new];
-            [items enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
-                MLGMRepo *oneRepoMOC = [MLGMRepo MR_createEntityInContext:self.scratchContext];
-                [oneRepoMOC fillObject:oneRepoDic];
-                [repoMOCs addObject:oneRepoMOC];
-            }];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOCs copy], [repoMOCs count] < kPerPage, nil);
+        NSArray *items = responseData[@"items"];
+        NSMutableArray *repoMOs = [NSMutableArray new];
+        [items enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+            [oneRepoMO fillObject:oneRepoDic];
+            [repoMOs addObject:oneRepoMO];
+        }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], [repoMOs count] < kPerPage, nil);
         }
     }];
 }
@@ -550,20 +552,22 @@ static NSArray *supportEvent() {
     NSString *endPoint = @"/search/users";
     NSDictionary *parameters = @{@"q":userName, @"sort":sortString, @"page" : @(1), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRquest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
+            DDLogError(@"access /search/users api error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
             return;
         }
         
         if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
             NSArray *items = responseData[@"items"];
-            NSMutableArray *userMOCs = [NSMutableArray new];
+            NSMutableArray *userMOs = [NSMutableArray new];
             [items enumerateObjectsUsingBlock:^(NSDictionary *oneUserDic, NSUInteger idx, BOOL * _Nonnull stop) {
-                MLGMActorProfile *oneUserMOC = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
-                [oneUserMOC fillProfile:oneUserDic];
-                [userMOCs addObject:oneUserMOC];
+                MLGMActorProfile *oneUserMO = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
+                [oneUserMO fillSearchResult:oneUserDic];
+                [userMOs addObject:oneUserMO];
             }];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOCs copy], [userMOCs count] < kPerPage, nil);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOs copy], [userMOs count] < kPerPage, nil);
         }
     }];
 }
@@ -593,6 +597,7 @@ static NSArray *supportEvent() {
     return sortMethodName;
 }
 
+
 #pragma mark - Genes
 - (void)updateGenesForUserName:(NSString *)userName completion:(void(^)(NSError *error))completion {
     NSSet<MLGMGene *> *mrGenes = kOnlineAccountProfile.genes;
@@ -605,18 +610,18 @@ static NSArray *supportEvent() {
             
             NSLog(@"maxLeapGenes = %@", maxLeapGenes);
             [self updateLocalAndCloudGenesDataWithMaxLeapGenes:maxLeapGenes githubGenes:nil completion:^(NSError *error) {
-                BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+               BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
             }];
         }];
         
-        
+
     } else {
         [self generateGitHubGenesForUserName:userName completion:^(NSSet<MLGMGene *> *githubGenes, NSError *error) {
             if (error) {
                 BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
                 return;
             }
-            
+           
             NSLog(@"======= githubGenes = %@", githubGenes);
             [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<MLGMGene *> *maxLeapGenes, NSError *error) {
                 if (error) {
@@ -650,7 +655,7 @@ static NSArray *supportEvent() {
     }];
     [self.defaultContext MR_saveToPersistentStoreAndWait];
     
-    
+
 }
 
 #pragma mark - Private Methods
@@ -698,7 +703,7 @@ static NSArray *supportEvent() {
                 }
             }];
         }];
-        
+       
         genesSet = [self genesSetForDictionarySet:genesSet];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
     }];
@@ -707,7 +712,7 @@ static NSArray *supportEvent() {
 
 - (void)updateLocalAndCloudGenesDataWithMaxLeapGenes:(NSSet<MLGMGene *> *)maxLeapGenes githubGenes:(NSSet<MLGMGene *> *)githubGenes completion:(void(^)(NSError *error))completion {
     NSSet *mrGenes = kOnlineAccountProfile.genes;
-    
+
     NSMutableSet *allGenes = [NSMutableSet setWithSet:mrGenes];
     [maxLeapGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
         if (![allGenes containsGene:gene]) {
@@ -745,12 +750,12 @@ static NSArray *supportEvent() {
         NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@ AND self.updateTime = %@", gene.language, gene.skill, gene.updateTime];
         NSSet *filteredSet = [mrStoredGenes filteredSetUsingPredicate:filterPredicate];
         if (!filteredSet.count) {
-            //            [geneMOCs addObject:gene];
+//            [geneMOCs addObject:gene];
             gene.userProfile = kOnlineAccountProfile;
             NSLog(@"save Gene To MR:%@, gene.ID = %@",gene, gene.maxLeapID);
         }
     }];
-    
+  
     [self.defaultContext MR_saveToPersistentStoreAndWait];
     
     BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil);
@@ -762,7 +767,7 @@ static NSArray *supportEvent() {
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, nil);
         return;
     }
-    
+
     [genes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
         if (gene.userProfile.loginName.length) {
             if (!gene.maxLeapID) {
@@ -811,7 +816,7 @@ static NSArray *supportEvent() {
         [set enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, BOOL * _Nonnull stop) {
             MLGMGene *gene = [MLGMGene MR_createEntityInContext:self.defaultContext];
             [gene fillObject:dict];
-            
+           
             MLGMActorProfile *userProfileMOC = gene.userProfile;
             if (!userProfileMOC) {
                 userProfileMOC = [MLGMActorProfile MR_createEntityInContext:self.defaultContext];

@@ -176,7 +176,7 @@
 
 #pragma mark - Actions
 - (void)cancel {
-    [self dismissViewControllerAnimated:YES completion:nil];    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onClickedSortButton {

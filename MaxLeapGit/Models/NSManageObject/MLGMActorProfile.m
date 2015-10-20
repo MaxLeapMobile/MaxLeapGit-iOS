@@ -15,11 +15,11 @@
     self.githubId = [object valueForKey:@"id"];
     self.loginName = [object valueForKey:@"login"];
     self.avatarUrl = [object valueForKey:@"avatar_url"];
-    self.followers = [object valueForKey:@"followers"];
-    self.following = [object valueForKey:@"following"];
+    self.followerCount = [object valueForKey:@"followers"];
+    self.followingCount = [object valueForKey:@"following"];
     self.githubCreatTime = [[object valueForKey:@"created_at"] toDate];
     self.githubUpdateTime = [[object valueForKey:@"updated_at"] toDate];
-    self.publicRepos = [object valueForKey:@"public_repos"];
+    self.publicRepoCount = [object valueForKey:@"public_repos"];
     
     self.nickName = NULL_TO_NIL([object valueForKey:@"name"]);
     self.hireable = NULL_TO_NIL([object valueForKey:@"hireable"]);
@@ -50,7 +50,7 @@
 }
 
 - (NSString *)description {
-    NSString *description = [NSString stringWithFormat:@"%@:\n githubID=%@\n loginName=%@\n nickName=%@\n hireable=%@\n avatarUrl=%@\n stars=%@\n organizations=%@\n followers=%@\n following=%@\n publicRepos=%@\n githubCreateTime=%@\n githubUpdatTime=%@\n company=%@\n email=%@\n blog=%@\n location=%@\n introduction=%@\n", NSStringFromClass(self.class), self.githubId, self.loginName, self.nickName, self.hireable, self.avatarUrl, self.starts, self.organizations, self.followers, self.following, self.publicRepos, self.githubCreatTime, self.githubUpdateTime, self.company, self.email, self.blog, self.location, self.introduction];
+    NSString *description = [NSString stringWithFormat:@"%@:\n githubID=%@\n loginName=%@\n nickName=%@\n hireable=%@\n avatarUrl=%@\n stars=%@\n organizationCount=%@\n followerCount=%@\n followingCount=%@\n publicRepoCount=%@\n githubCreateTime=%@\n githubUpdatTime=%@\n company=%@\n email=%@\n blog=%@\n location=%@\n introduction=%@\n", NSStringFromClass(self.class), self.githubId, self.loginName, self.nickName, self.hireable, self.avatarUrl, self.starCount, self.organizationCount, self.followerCount, self.followingCount, self.publicRepoCount, self.githubCreatTime, self.githubUpdateTime, self.company, self.email, self.blog, self.location, self.introduction];
     return description;
 }
 
