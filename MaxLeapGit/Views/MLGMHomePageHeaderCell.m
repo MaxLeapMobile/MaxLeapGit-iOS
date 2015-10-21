@@ -236,7 +236,7 @@
 - (UILabel *)nickNameLabel {
     if (!_nickNameLabel) {
         _nickNameLabel = [UILabel autoLayoutView];
-        _nickNameLabel.text = @"Name";
+        _nickNameLabel.text = NSLocalizedString(@"Name", nil);
         _nickNameLabel.font = [UIFont systemFontOfSize:17];
         _nickNameLabel.textAlignment = NSTextAlignmentCenter;
         _nickNameLabel.textColor = [UIColor whiteColor];
@@ -248,7 +248,7 @@
 - (UILabel *)loginNameLabel {
     if (!_loginNameLabel) {
         _loginNameLabel = [UILabel autoLayoutView];
-        _loginNameLabel.text = @"LoginName";
+        _loginNameLabel.text = NSLocalizedString(@"LoginName", nil);
         _loginNameLabel.font = [UIFont systemFontOfSize:15];
         _loginNameLabel.textAlignment = NSTextAlignmentCenter;
         _loginNameLabel.textColor = UIColorFromRGB(0x808080);

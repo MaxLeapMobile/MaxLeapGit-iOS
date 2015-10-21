@@ -275,7 +275,7 @@
 }
 
 - (MLGMHomePageCell *)configureGeneCell:(MLGMHomePageCell *)geneCell {
-    geneCell.textLabel.text = @"Genes";
+    geneCell.textLabel.text = NSLocalizedString(@"Genes", nil);
     if  (self.userProfile.genes) {
         geneCell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[self.userProfile.genes count]];
     } else {
@@ -289,7 +289,7 @@
 
 - (MLGMHomePageCell *)configureBaseInfoCell:(MLGMHomePageCell *)baseInfoCell index:(NSInteger)index {
     if (index == 0) {
-        baseInfoCell.textLabel.text = @"Location";
+        baseInfoCell.textLabel.text = NSLocalizedString(@"Location", nil);
         if (self.userProfile.location) {
             baseInfoCell.detailTextLabel.text = self.userProfile.location;
         } else {
@@ -300,7 +300,7 @@
     }
     
     if (index == 1) {
-        baseInfoCell.textLabel.text = @"Email";
+        baseInfoCell.textLabel.text = NSLocalizedString(@"Email",nil);
         if (self.userProfile.email) {
             baseInfoCell.detailTextLabel.text = self.userProfile.email;
         } else {
@@ -312,7 +312,7 @@
     }
     
     if (index == 2) {
-        baseInfoCell.textLabel.text = @"Company";
+        baseInfoCell.textLabel.text = NSLocalizedString(@"Company", nil);
         if (self.userProfile.company) {
             baseInfoCell.detailTextLabel.text = self.userProfile.company;
         } else {
@@ -323,7 +323,7 @@
     }
     
     if (index == 3) {
-        baseInfoCell.textLabel.text = @"Joined in";
+        baseInfoCell.textLabel.text = NSLocalizedString(@"Joined in", nil);
         if (self.userProfile.githubCreatTime) {
             NSString *humanDateString = [self.userProfile.githubCreatTime humanDateString];
             baseInfoCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", humanDateString];
@@ -336,7 +336,7 @@
 }
 
 - (MLGMHomePageCell *)configureOrganizationCell:(MLGMHomePageCell *)organizationCell {
-    organizationCell.textLabel.text = @"Organization";
+    organizationCell.textLabel.text = NSLocalizedString(@"Organization", nil);
     if (self.userProfile.organizationCount) {
         organizationCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", self.userProfile.organizationCount];
         if (self.userProfile.organizationCount.integerValue > 0) {

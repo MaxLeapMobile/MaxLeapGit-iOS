@@ -9,4 +9,4 @@ pod 'CCHLinkTextView'
 pod 'SVPullToRefresh', '~> 0.4.1'
 pod 'SDWebImage', '~> 3.7.3'
 pod 'TTTAttributedLabel', '~> 1.13.4'
-pod 'HockeySDK', :subspecs => ['CrashOnlyLib']
+pod 'HockeySDK', '~> 3.8.2'

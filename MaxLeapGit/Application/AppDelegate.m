@@ -19,6 +19,7 @@
     [self configureFlurry];
 	[self configureLeapCloud];
     [self configureMagicalRecord];
+    [self configureHoceyApp];
     [self configureCocoaLumberjack];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -72,6 +73,14 @@
     [MagicalRecord setupCoreDataStack];
 }
 
+- (void)configureHoceyApp {
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:kHockeyApp_Identifier delegate:self];
+    [[BITHockeyManager sharedHockeyManager] setDelegate: self];
+    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+}
+
 - (void)configureCocoaLumberjack {
     _fileLogger = [[DDFileLogger alloc] init];
     
@@ -79,9 +88,6 @@
     [_fileLogger setRollingFrequency:(3600.0 * 24.0)];
     [[_fileLogger logFileManager] setMaximumNumberOfLogFiles:7];
     [DDLog addLogger:_fileLogger];
-    
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:kHockeyApp_Identifier delegate:self];
-    [[BITHockeyManager sharedHockeyManager] startManager];
     
     if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
         [DDLog addLogger:[DDASLLogger sharedInstance]];
