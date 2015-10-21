@@ -21,8 +21,6 @@
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
 #import <HockeySDK/HockeySDK.h>
-#import <CCHLinkTextView/CCHLinkTextView.h>
-#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SVPullToRefresh/SVPullToRefresh.h>

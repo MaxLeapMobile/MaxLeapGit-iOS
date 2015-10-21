@@ -479,39 +479,52 @@ static NSArray *supportEvent() {
     }];
 }
 
-#pragma mark - Recommendation Data
-- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion {
+#pragma mark - Recommendation Repos
+- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
+    NSString *type = page == 0 ? @"trending" : @"search";
+    [self fetchRecommendationReposForType:type fromPage:page completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repos copy], isReachEnd, error);
+    }];
+}
+
+- (void)fetchRecommendationReposForType:(NSString *)type fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
+    NSArray *genes = @[@{@"language":@"Objective-C",@"skill":@"iOS"}];
+    
+    //"page" is only valid for "search"
+    NSUInteger numberofRecordsPerPage = 25;
     NSString *userName = kOnlineUserName ?: @"";
     NSDictionary *parameters = @{@"userid":userName,
-                                 @"genes":@[@{@"language":@"Objective-C",@"skill":@"iOS"}, @{@"language":@"Java",@"skill":@"Android"}],
-                                 @"page":@(1),
-                                 @"per_page":@(1),
-                                 @"type":@"trending"
+                                 @"genes":genes,
+                                 @"page":@(page),
+                                 @"per_page":@(numberofRecordsPerPage),
+                                 @"type":type
                                  };
     
-    [LCCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *responseObject, NSError *error) {
+    [LCCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
+        NSLog(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
+        BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < numberofRecordsPerPage * genes.count;
         if (error) {
-            DDLogError(@"fetch trending data error:%@", error.localizedDescription);
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            DDLogError(@"fetch %@ data error:%@", type, error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, isReachEnd, error);
             return;
         }
-
+        
         id pattern = [[NSBundle mainBundle] jsonFromResource:@"recommendReposPattern.json"];
-        BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
+        BOOL valid = [self.jsonValidation verifyJSON:cloudObjects pattern:pattern];
         if (!valid) {
-            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", responseObject];
+            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content: <%@>", cloudObjects];
             error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, isReachEnd, error);
             return;
         }
         
         NSMutableArray *repoMOs = [NSMutableArray new];
-        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+        [cloudObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
             MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
             [oneRepoMO fillRecommendationObject:oneRepoDic];
             [repoMOs addObject:oneRepoMO];
         }];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], nil);
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], isReachEnd, nil);
     }];
 }
 

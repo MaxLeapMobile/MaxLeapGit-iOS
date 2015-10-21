@@ -16,7 +16,7 @@
 #define kSourceRepoLinkTag      @"sourceRepoLink"   
 #define kforkedResultLinkTag    @"forkedResultLink"
 
-@interface MLGMTimeLineCell () <CCHLinkTextViewDelegate, TTTAttributedLabelDelegate>
+@interface MLGMTimeLineCell () <TTTAttributedLabelDelegate>
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) TTTAttributedLabel *contentLinkLabel;
 @property (nonatomic, strong) UILabel *updateTimeLabel;
@@ -73,7 +73,7 @@
     NSMutableAttributedString *eventAttributedString = [NSMutableAttributedString new];
     
     NSAttributedString *actor = [[NSAttributedString alloc] initWithString:event.actorName
-                                                                attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor, CCHLinkAttributeName : kUserNameLinkTag}];
+                                                                attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor}];
     [eventAttributedString appendAttributedString:actor];
     
     if ([event.type isEqualToString:@"WatchEvent"]) {
@@ -84,14 +84,14 @@
         [eventAttributedString appendAttributedString:actionType];
     }
     
-    NSAttributedString *sourceRepo = [[NSAttributedString alloc] initWithString:event.sourceRepoName attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor, CCHLinkAttributeName : kSourceRepoLinkTag}];
+    NSAttributedString *sourceRepo = [[NSAttributedString alloc] initWithString:event.sourceRepoName attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor}];
     [eventAttributedString appendAttributedString:sourceRepo];
     
     if ([event.type isEqualToString:@"ForkEvent"]) {
         NSAttributedString * prep = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" to "] attributes:nil];
         [eventAttributedString appendAttributedString:prep];
         
-        NSAttributedString *sourceRepo = [[NSAttributedString alloc] initWithString:event.targetRepoName attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor, CCHLinkAttributeName : kforkedResultLinkTag}];
+        NSAttributedString *sourceRepo = [[NSAttributedString alloc] initWithString:event.targetRepoName attributes:@{NSForegroundColorAttributeName : kTextHighlightedColor}];
         [eventAttributedString appendAttributedString:sourceRepo];
     }
     
@@ -111,17 +111,6 @@
 #pragma mark- Private Methods
 
 #pragma mark- Delegate，DataSource, Callback Method
-#pragma mark - CCHLinkTextViewDelegate
-- (void)linkTextView:(CCHLinkTextView *)linkTextView didTapLinkWithValue:(id)value {
-    if ([(NSString *)value isEqualToString:kUserNameLinkTag]) {
-        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapUserAction, self.event.actorName);
-    } else if ([(NSString *)value isEqualToString:kSourceRepoLinkTag]) {
-        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapSourceRepoAction, self.event.sourceRepoName);
-    } else if ([(NSString *)value isEqualToString:kforkedResultLinkTag]) {
-        BLOCK_SAFE_ASY_RUN_MainQueue(self.tapForkRepoAction, self.event.targetRepoName);
-    }
-}
-
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
     NSLog(@"did select urlString: %@", url.absoluteString);
