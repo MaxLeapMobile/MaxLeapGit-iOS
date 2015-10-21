@@ -509,6 +509,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
+
+#pragma mark - Search
 - (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
     NSString *endPoint = @"/search/repositories";
     NSDictionary *parameters = @{@"q":SAFE_STRING(repoName),@"sort":repoSortMethodForType(sortType), @"page" : @(page), @"per_page" : @(kPerPage)};
@@ -535,7 +537,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = @"/search/users";
-    NSDictionary *parameters = @{@"q":SAFE_STRING(userName), @"sort":userSortMethodForType(sortType), @"page" : @(1), @"per_page" : @(kPerPage)};
+    NSDictionary *parameters = @{@"q":userName, @"sort":userSortMethodForType(sortType), @"type":@"user", @"page" : @(1), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
@@ -554,6 +556,41 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             }];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOs copy], [userMOs count] < kPerPage, nil);
         }
+    }];
+}
+
+- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion {
+    NSString *userName = kOnlineUserName ?: @"";
+    NSDictionary *parameters = @{@"userid":userName,
+                                 @"genes":@[@{@"language":@"Objective-C",@"skill":@"iOS"}, @{@"language":@"Java",@"skill":@"Android"}],
+                                 @"page":@(1),
+                                 @"per_page":@(1),
+                                 @"type":@"trending"
+                                 };
+    
+    [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *responseObject, NSError *error) {
+        if (error) {
+            DDLogError(@"fetch trending data error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            return;
+        }
+
+        id pattern = [[NSBundle mainBundle] jsonFromResource:@"recommendReposPattern.json"];
+        BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
+        if (!valid) {
+            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", responseObject];
+            error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            return;
+        }
+        
+        NSMutableArray *repoMOs = [NSMutableArray new];
+        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+            [oneRepoMO fillRecommendationObject:oneRepoDic];
+            [repoMOs addObject:oneRepoMO];
+        }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], nil);
     }];
 }
 

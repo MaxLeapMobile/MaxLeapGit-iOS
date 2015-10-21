@@ -94,11 +94,15 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, self.ownerName];
     MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
     if (followRelation.isFollow.boolValue) {
-        [KSharedWebService unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Unfollowing", @"")];
+        [[MLGMWebService sharedInstance] unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [SVProgressHUD dismiss];
             [self updateFollowState];
         }];
     } else {
-        [KSharedWebService followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Following", @"")];
+        [[MLGMWebService sharedInstance] followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [SVProgressHUD dismiss];
             [self updateFollowState];
         }];
     }

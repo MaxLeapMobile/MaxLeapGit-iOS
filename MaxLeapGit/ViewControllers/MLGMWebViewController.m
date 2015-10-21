@@ -75,7 +75,6 @@
     _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_activityIndicatorView];
     [_activityIndicatorView centerInContainer];
-    [_activityIndicatorView startAnimating];
 }
 
 #pragma mark- Action
@@ -85,6 +84,7 @@
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
     _progressView.progress = 0;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = webView.loading;
+    [_activityIndicatorView startAnimating];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {

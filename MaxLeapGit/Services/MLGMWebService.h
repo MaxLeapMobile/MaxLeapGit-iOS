@@ -127,6 +127,11 @@ static NSUInteger const kPerPage = 30;
 - (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
 
 /**
+ *  获取推荐项目
+ */
+- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion;
+
+/**
  * fork项目
  */
 - (void)forkRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;

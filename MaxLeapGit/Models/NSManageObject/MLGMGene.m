@@ -33,19 +33,3 @@
 }
 
 @end
-
-@implementation NSSet (GeneComparison)
-
-- (BOOL)containsGene:(MLGMGene *)gene {
-    __block BOOL containsGene = NO;
-    if ([gene isKindOfClass:[MLGMGene class]]) {
-        [self enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([obj isKindOfClass:[MLGMGene class]] && [obj isEqualToGene:gene]) {
-                containsGene = YES;
-            }
-        }];
-    }
-    return containsGene;
-}
-
-@end

@@ -22,7 +22,7 @@
 		B40C35931BCF532D0081AB5B /* MLGMOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C35921BCF532D0081AB5B /* MLGMOrganizationCell.m */; settings = {ASSET_TAGS = (); }; };
 		B40C359E1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359B1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */; settings = {ASSET_TAGS = (); }; };
-		B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = B410BAB41BCA359C00E24AFE /* APIReadMe.md */; settings = {ASSET_TAGS = (); }; };
+		B410BAB51BCA359C00E24AFE /* APIReadMe in Sources */ = {isa = PBXBuildFile; fileRef = B410BAB41BCA359C00E24AFE /* APIReadMe */; settings = {ASSET_TAGS = (); }; };
 		B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAB91BCA36EC00E24AFE /* userPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */; settings = {ASSET_TAGS = (); }; };
 		B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193491BC6BE6D0069483C /* libz.tbd */; };
@@ -67,6 +67,7 @@
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; settings = {ASSET_TAGS = (); }; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0E1BCCE50300140E78 /* MLGMNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMNewGeneViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -124,7 +125,7 @@
 		B40C359B1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMFollowRelation+CoreDataProperties.m"; sourceTree = "<group>"; };
 		B40C359C1BCF86EF0081AB5B /* MLGMFollowRelation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMFollowRelation.h; sourceTree = "<group>"; };
 		B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMFollowRelation.m; sourceTree = "<group>"; };
-		B410BAB41BCA359C00E24AFE /* APIReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = APIReadMe.md; sourceTree = "<group>"; };
+		B410BAB41BCA359C00E24AFE /* APIReadMe */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APIReadMe; sourceTree = "<group>"; };
 		B410BAB91BCA36EC00E24AFE /* userPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userPattern.json; sourceTree = "<group>"; };
 		B410BABB1BCA36EC00E24AFE /* event.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = event.json; sourceTree = "<group>"; };
 		B410BABC1BCA36EC00E24AFE /* organization.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = organization.json; sourceTree = "<group>"; };
@@ -228,6 +229,7 @@
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
 		B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMError.m; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E31D875C1BD60D1A00909236 /* recommendReposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recommendReposPattern.json; sourceTree = "<group>"; };
 		E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchPageTitleView.h; sourceTree = "<group>"; };
 		E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMSearchPageTitleView.m; sourceTree = "<group>"; };
 		E3AB6DE61BCCE50300140E78 /* MLGMNewGeneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMNewGeneViewController.h; sourceTree = "<group>"; };
@@ -314,7 +316,7 @@
 		B40469581BC767CC00E1C5EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B410BAB41BCA359C00E24AFE /* APIReadMe.md */,
+				B410BAB41BCA359C00E24AFE /* APIReadMe */,
 				B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */,
 				B410BAB81BCA36EC00E24AFE /* JSONPattern */,
 				B410BABA1BCA36EC00E24AFE /* JSONSample */,
@@ -370,6 +372,7 @@
 				B410BAB91BCA36EC00E24AFE /* userPattern.json */,
 				B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */,
 				B42264DF1BCB6E0B00CD5634 /* reposPattern.json */,
+				E31D875C1BD60D1A00909236 /* recommendReposPattern.json */,
 				B42265101BCBB15000CD5634 /* followerPattern.json */,
 				B4099A7C1BD4E52200B7AEB8 /* searchReposPattern.json */,
 				B4099A7E1BD4E69D00B7AEB8 /* searchUsersPattern.json */,
@@ -765,6 +768,7 @@
 			files = (
 				B42265111BCBB15000CD5634 /* followerPattern.json in Resources */,
 				B4099A7D1BD4E52200B7AEB8 /* searchReposPattern.json in Resources */,
+				E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */,
 				B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */,
 				B4099A7F1BD4E69D00B7AEB8 /* searchUsersPattern.json in Resources */,
 				B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */,
@@ -870,7 +874,7 @@
 				B44205001BC79BF5007F28CA /* NSString+Extension.m in Sources */,
 				B4C82D231BD0A29D00BC6ADC /* MLGMStarRelation+CoreDataProperties.m in Sources */,
 				B45E4DA81BCEA5E200B5C6BC /* UIView+CustomBorder.m in Sources */,
-				B410BAB51BCA359C00E24AFE /* APIReadMe.md in Sources */,
+				B410BAB51BCA359C00E24AFE /* APIReadMe in Sources */,
 				B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */,
 				B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */,
 				B4429FCD1BCCF82200F8B108 /* MLGMFollowCell.m in Sources */,

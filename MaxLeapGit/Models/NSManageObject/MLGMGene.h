@@ -22,7 +22,3 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 
 #import "MLGMGene+CoreDataProperties.h"
-
-@interface NSSet (GeneComparison)
-- (BOOL)containsGene:(MLGMGene *)gene;
-@end

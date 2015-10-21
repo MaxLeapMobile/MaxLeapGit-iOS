@@ -1,0 +1,19 @@
+ [
+  {
+  "description": "string",
+  "forksCount": "number"
+  "htmlUrl": "string",
+  "id": "string",
+  "isPrivate":"bool",
+  "language": "string",
+  "name": "string",
+  "ownerAvatarUrl": "string",
+  "ownerFollowersUrl": "string",
+  "ownerFollowingUrl": "string",
+  "ownerHtmlUrl": "string",
+  "ownerId": "string",
+  "ownerLogin": "string",
+  "ownerReposUrl": "string",
+  "stargazersCount": "number"
+  }
+]

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLGMRepo : NSManagedObject
 - (void)fillObject:(NSDictionary *)object;
+- (void)fillRecommendationObject:(NSDictionary *)object;
 @end
 
 NS_ASSUME_NONNULL_END

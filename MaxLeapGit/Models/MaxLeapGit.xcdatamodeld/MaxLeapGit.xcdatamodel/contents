@@ -4,7 +4,7 @@
         <attribute name="accessToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isInitializeGene" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isOnline" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="actorProfile" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="MLGMActorProfile" syncable="YES"/>
+        <relationship name="actorProfile" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MLGMActorProfile" syncable="YES"/>
     </entity>
     <entity name="MLGMActorProfile" representedClassName="MLGMActorProfile" syncable="YES">
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,7 +24,7 @@
         <attribute name="organizationCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="publicRepoCount" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="starCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <relationship name="genes" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="MLGMGene" inverseName="userProfile" inverseEntity="MLGMGene" syncable="YES"/>
+        <relationship name="genes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MLGMGene" inverseName="userProfile" inverseEntity="MLGMGene" syncable="YES"/>
     </entity>
     <entity name="MLGMEvent" representedClassName="MLGMEvent" syncable="YES">
         <attribute name="actorName" optional="YES" attributeType="String" syncable="YES"/>
@@ -60,7 +60,7 @@
     </entity>
     <elements>
         <element name="MLGMAccount" positionX="-342" positionY="243" width="128" height="103"/>
-        <element name="MLGMActorProfile" positionX="-171" positionY="153" width="128" height="315"/>
+        <element name="MLGMActorProfile" positionX="-171" positionY="153" width="128" height="313"/>
         <element name="MLGMEvent" positionX="-342" positionY="-0" width="128" height="135"/>
         <element name="MLGMFollowRelation" positionX="-135" positionY="18" width="128" height="90"/>
         <element name="MLGMGene" positionX="16" positionY="321" width="128" height="120"/>
