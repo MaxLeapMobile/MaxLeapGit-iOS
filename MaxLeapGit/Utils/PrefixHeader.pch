@@ -20,8 +20,6 @@
 #import "Flurry.h"
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
-#import <CCHLinkTextView/CCHLinkTextView.h>
-#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import <HockeySDK/HockeySDK.h>
 #import <MaxLeap/MaxLeap.h>
 #import <SDWebImage/UIImageView+WebCache.h>

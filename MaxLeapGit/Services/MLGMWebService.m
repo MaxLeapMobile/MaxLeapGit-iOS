@@ -559,39 +559,46 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
-- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion {
-    NSString *userName = kOnlineUserName ?: @"";
-    NSDictionary *parameters = @{@"userid":userName,
-                                 @"genes":@[@{@"language":@"Objective-C",@"skill":@"iOS"}, @{@"language":@"Java",@"skill":@"Android"}],
-                                 @"page":@(1),
-                                 @"per_page":@(1),
-                                 @"type":@"trending"
+- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
+    NSString *userid = kOnlineUserName ?: @"";
+    NSArray *genes = @[@{@"language":@"Objective-C", @"skill":@"iOS"}];
+    NSUInteger numberofRecordsPerPage = 25;
+    NSString *type = page == 0 ? @"trending" : @"search";
+ 
+    NSDictionary *parameters = @{@"userid":userid,
+                                 @"genes":genes,
+                                 @"page":@(page), //"page" is only valid for "search"
+                                 @"per_page":@(numberofRecordsPerPage),
+                                 @"type":type
                                  };
     
-    [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *responseObject, NSError *error) {
+    [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
+        NSLog(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
+        BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < numberofRecordsPerPage * genes.count;
         if (error) {
-            DDLogError(@"fetch trending data error:%@", error.localizedDescription);
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            DDLogError(@"fetch %@ data error:%@", type, error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, isReachEnd, error);
             return;
         }
-
+        
         id pattern = [[NSBundle mainBundle] jsonFromResource:@"recommendReposPattern.json"];
-        BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
+        BOOL valid = [self.jsonValidation verifyJSON:cloudObjects pattern:pattern];
         if (!valid) {
-            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", responseObject];
+            NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content: <%@>", cloudObjects];
             error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, isReachEnd, error);
             return;
         }
         
         NSMutableArray *repoMOs = [NSMutableArray new];
-        [responseObject enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+        [cloudObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
             MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
             [oneRepoMO fillRecommendationObject:oneRepoDic];
             [repoMOs addObject:oneRepoMO];
         }];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], nil);
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], isReachEnd, nil);
     }];
+
 }
 
 - (void)initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:(void(^)(BOOL success, NSError *error))completion {

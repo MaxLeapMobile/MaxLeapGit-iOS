@@ -21,7 +21,6 @@
 - (void)fillRecommendationObject:(NSDictionary *)object {
     self.author = [object valueForKeyPath:@"ownerLogin"];
     self.htmlPageUrl = [object valueForKeyPath:@"htmlUrl"];
-    self.introduction = NULL_TO_NIL([object valueForKeyPath:@"description"]);
     NSString *repoName = [object valueForKeyPath:@"name"];
     self.name = [NSString stringWithFormat:@"%@/%@", self.author, repoName];
 }

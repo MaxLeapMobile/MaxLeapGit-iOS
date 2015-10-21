@@ -8,6 +8,7 @@
 
 #import "MLGMRecommendEmptyView.h"
 
+#define kTextHighlightedColor       UIColorFromRGB(0x0076ff)
 #define kTextFont               [UIFont systemFontOfSize:16]
 
 #define kDefaultTextColor       UIColorFromRGB(0x808080)
@@ -16,14 +17,16 @@
 #define kAddNewGenesLinkTag                 @"addNewGenesLink"
 #define kReplayRecommendationListLinkTag    @"replayRecommendationList"
 
-@interface MLGMRecommendEmptyView () <CCHLinkTextViewDelegate>
+@interface MLGMRecommendEmptyView () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, copy) dispatch_block_t addNewGeneAction;
 @property (nonatomic, copy) dispatch_block_t replayAction;
 
 @property (nonatomic, strong) UILabel *topLabel;
-@property (nonatomic, strong) CCHLinkTextView *addNewGeneTextView;
-@property (nonatomic, strong) CCHLinkTextView *replayTextView;
+@property (nonatomic, strong) TTTAttributedLabel *addNewGeneTextView;
+@property (nonatomic, strong) TTTAttributedLabel *replayTextView;
+
+@property (nonatomic, strong) TTTAttributedLabel *contentLinkLabel;
 
 @property (nonatomic, assign) BOOL didSetUpConstraints;
 @end
@@ -49,31 +52,39 @@
     _topLabel.text = NSLocalizedString(@"That's all about it!", @"");
     _topLabel.font = kTextFont;
     [self addSubview:_topLabel];
-   
-    _addNewGeneTextView = [[CCHLinkTextView alloc] init];
-    _addNewGeneTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    _addNewGeneTextView.linkDelegate = self;
-    _addNewGeneTextView.attributedText = [self attributedStringForaddNewGeneTextView];
+
+    _addNewGeneTextView = [TTTAttributedLabel autoLayoutView];
+    _addNewGeneTextView.numberOfLines = 0;
+    _addNewGeneTextView.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+    _addNewGeneTextView.delegate = self;
     [self addSubview:_addNewGeneTextView];
     
-    _replayTextView = [[CCHLinkTextView alloc] init];
-    _replayTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    _replayTextView.linkDelegate = self;
-    _replayTextView.attributedText = [self attributedStringForreplayTextView];
+    _addNewGeneTextView.text = [self attributedStringForaddNewGeneTextView];
+    NSRange addNewGeneTextRange = [_addNewGeneTextView.text rangeOfString:NSLocalizedString(@"Add new genes",@"")];
+    [_addNewGeneTextView addLinkToURL:[NSURL URLWithString:kAddNewGenesLinkTag] withRange:addNewGeneTextRange];
+    
+    _replayTextView = [TTTAttributedLabel autoLayoutView];
+    _replayTextView.numberOfLines = 0;
+    _replayTextView.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+    _replayTextView.delegate = self;
     [self addSubview:_replayTextView];
+    
+    _replayTextView.text = [self attributedStringForreplayTextView];
+    NSRange replayTextRange = [_replayTextView.text rangeOfString:NSLocalizedString(@"view this recommendation list again",@"")];
+    [_replayTextView addLinkToURL:[NSURL URLWithString:kReplayRecommendationListLinkTag] withRange:replayTextRange];
     
     [self updateConstraintsIfNeeded];
 }
 
 - (NSAttributedString *)attributedStringForaddNewGeneTextView {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Add new genes",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kAddNewGenesLinkTag}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Add new genes",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}];
     [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@" to find more repos worth recommending",@"") attributes:@{NSFontAttributeName : kTextFont, NSForegroundColorAttributeName : kDefaultTextColor}]];
     return string;
 }
 
 - (NSAttributedString *)attributedStringForreplayTextView {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Or you can ",@"") attributes:@{NSFontAttributeName : kTextFont, NSForegroundColorAttributeName : kDefaultTextColor}];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont, CCHLinkAttributeName : kReplayRecommendationListLinkTag}]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}]];
     return string;
 }
 
@@ -98,12 +109,13 @@
     [super updateConstraints];
 }
 
-#pragma mark - CCHLinkTextViewDelegate
-- (void)linkTextView:(CCHLinkTextView *)linkTextView didTapLinkWithValue:(id)value {
-    if ([(NSString *)value isEqualToString:kAddNewGenesLinkTag]) {
-        BLOCK_SAFE_RUN(_addNewGeneAction);
-    } else if ([(NSString *)value isEqualToString:kReplayRecommendationListLinkTag]) {
-        BLOCK_SAFE_RUN(_replayAction);
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    NSLog(@"did select urlString: %@", url.absoluteString);
+    if ([url.absoluteString isEqualToString:kAddNewGenesLinkTag]) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(_addNewGeneAction);
+    } else if ([url.absoluteString isEqualToString:kReplayRecommendationListLinkTag]) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(_replayAction);
     }
 }
 

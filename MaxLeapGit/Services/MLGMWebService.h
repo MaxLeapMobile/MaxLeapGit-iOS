@@ -127,9 +127,11 @@ static NSUInteger const kPerPage = 30;
 - (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
 
 /**
- *  获取推荐项目
+ *  获取推荐项目: 1）GitHub Trending; 2)Search by Genes (language, skill)
  */
-- (void)updateTrendingReposWithCompletion:(void(^)(NSArray *repos, NSError *error))completion;
+- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
+//- (void)fetchRecommendationReposByTrendingWithCompletion:(void(^)(NSArray *repos, NSError *error))completion;
+//- (void)fetchRecommendationReposBySearchFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
 
 /**
  * fork项目
