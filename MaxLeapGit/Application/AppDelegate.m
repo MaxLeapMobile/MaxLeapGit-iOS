@@ -7,11 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import <ILSLeapCloud/ILSLeapCloud.h>
-#import "MLGMLoginViewController.h"
-#import "MLGMTimeLineViewController.h"
-#import "MLGMRecommendViewController.h"
-#import "MLGMCustomTabBarController.h"
 
 @interface AppDelegate () <BITHockeyManagerDelegate>
 @property (nonatomic) DDFileLogger *fileLogger;
@@ -47,16 +42,6 @@
 #pragma Private Method
 - (void)configureGlobalAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//    [UITabBarItem.appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x404040),
-//                                                      NSFontAttributeName : [UIFont systemFontOfSize:10]}
-//                                           forState:UIControlStateNormal];
-//    [UITabBarItem.appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x0076FF),
-//                                                      NSFontAttributeName : [UIFont systemFontOfSize:10]}
-//                                           forState:UIControlStateSelected];
-//    [[UITabBarItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0, -2)];
-//    [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
-    
-//    [[UITabBar appearance] setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
     
     UIImage *barLineImage = [UIImage imageWithColor:[UIColor clearColor]];
     UIImage *barBGImage = [UIImage imageWithColor:ThemeNavigationBarColor];
@@ -76,7 +61,8 @@
 }
 
 - (void)configureLeapCloud {
-    [ILSLeapCloud setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key];
+    [MLLogger setLogLevel:MLLogLevelError];
+    [MaxLeap setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key site:MLSiteUS];
 }
 
 - (void)configureMagicalRecord {

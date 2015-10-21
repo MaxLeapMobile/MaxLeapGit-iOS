@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/12.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMFollowViewController.h"
@@ -88,12 +88,12 @@
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetLoginName];
         MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
         if (followRelation.isFollow.boolValue) {
-            [[MLGMWebService sharedInstance] unfollowTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [KSharedWebService unfollowTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
                 [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
         } else {
-            [[MLGMWebService sharedInstance] followTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [KSharedWebService followTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
                 [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
@@ -127,7 +127,7 @@
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
             if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
-                [[MLGMWebService sharedInstance] followerListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService followerListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -144,7 +144,7 @@
             }
             
             if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
-                [[MLGMWebService sharedInstance] followingListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService followingListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -164,7 +164,7 @@
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
             if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
-                [[MLGMWebService sharedInstance] followerListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService followerListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
                     if (!error) {
@@ -178,7 +178,7 @@
             }
             
             if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
-                [[MLGMWebService sharedInstance] followingListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService followingListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isRechEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
                     if (!error) {

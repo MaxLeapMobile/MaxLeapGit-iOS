@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/9.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMFollowCell.h"
@@ -90,7 +90,7 @@
     
     self.isAnimationRunning = YES;
     [self updateFollowButtonTitleWithUserName:actorProfile.loginName];
-    [[MLGMWebService sharedInstance] isUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [KSharedWebService isUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         self.isAnimationRunning = NO;
         [self updateFollowButtonTitleWithUserName:self.actorProfile.loginName];
     }];
@@ -99,7 +99,7 @@
         NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
-        [[MLGMWebService sharedInstance] userProfileForUserName:actorProfile.loginName completion:^(MLGMActorProfile *userProfile, NSError *error) {
+        [KSharedWebService userProfileForUserName:actorProfile.loginName completion:^(MLGMActorProfile *userProfile, NSError *error) {
             MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.actorProfile.loginName];
             if (latestProfile.githubUpdateTime) {
                 NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];
@@ -120,7 +120,7 @@
         [self.loadingView startAnimating];
         return;
     }
-
+    
     if (followRelation.isFollow.boolValue) {
         [self.followSwitchButton setTitle:NSLocalizedString(@"Unfollow", nil) forState:UIControlStateNormal];
     } else {
@@ -163,7 +163,7 @@
 
 - (UIButton *)followSwitchButton {
     if (!_followSwitchButton) {
-        _followSwitchButton = [UIButton autoLayoutView];        
+        _followSwitchButton = [UIButton autoLayoutView];
         [_followSwitchButton setTitleColor:UIColorFromRGB(0x474747) forState:UIControlStateNormal];
         _followSwitchButton.layer.borderColor = UIColorFromRGB(0x474747).CGColor;
         _followSwitchButton.layer.borderWidth = 1;

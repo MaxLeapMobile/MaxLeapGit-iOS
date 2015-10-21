@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMTimeLineViewController.h"
@@ -133,7 +133,7 @@
         [weakSelf.tableView addPullToRefreshWithActionHandler:^{
             self.tableView.showsInfiniteScrolling = NO;
             page = 1;
-            [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
+            [KSharedWebService timeLineForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
                                                       completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
                                                           if (!isRechEnd && events.count < 30) {
@@ -155,7 +155,7 @@
         }];
         
         [weakSelf.tableView addInfiniteScrollingWithActionHandler:^{
-            [[MLGMWebService sharedInstance] timeLineForUserName:kOnlineAccount.actorProfile.loginName
+            [KSharedWebService timeLineForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page + 1
                                                       completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
                                                           [weakSelf.tableView.infiniteScrollingView stopAnimating];

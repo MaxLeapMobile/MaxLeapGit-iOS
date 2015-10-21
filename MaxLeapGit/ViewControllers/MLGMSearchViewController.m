@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMSearchViewController.h"
@@ -124,7 +124,7 @@
             return;
         }
         
-        [[MLGMWebService sharedInstance] searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [KSharedWebService searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.repoTableView.infiniteScrollingView stopAnimating];
             wSelf.repoTableView.showsInfiniteScrolling = !isReachEnd;
             if (!error) {
@@ -144,7 +144,7 @@
             return;
         }
         
-        [[MLGMWebService sharedInstance] searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [KSharedWebService searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.userTableView.infiniteScrollingView stopAnimating];
             wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
             if (!error) {
@@ -340,7 +340,7 @@
         }
         
         __weak typeof(self) wSelf = self;
-        [[MLGMWebService sharedInstance] searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [KSharedWebService searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
             if (isReachEnd) {
                 wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
@@ -357,7 +357,7 @@
         }
         
         __weak typeof(self) wSelf = self;
-        [[MLGMWebService sharedInstance] searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
+        [KSharedWebService searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
             if (isReachEnd) {
                 wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;

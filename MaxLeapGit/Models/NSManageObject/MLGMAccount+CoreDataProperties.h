@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *accessToken;
 @property (nullable, nonatomic, retain) NSNumber *isOnline;
 @property (nullable, nonatomic, retain) MLGMActorProfile *actorProfile;
+@property (nullable, nonatomic, retain) NSNumber *isInitializeGene;
 
 @end
 

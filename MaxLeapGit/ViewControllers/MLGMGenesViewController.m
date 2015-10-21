@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/8.
-//  Copyright © 2015年 MaxLeap. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMGenesViewController.h"
@@ -23,11 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureSubViews];
-  
+    
     [self reloadData];
-    [[MLGMWebService sharedInstance] updateGenesForUserName:kOnlineUserName completion:^(NSError *error) {
-        [self reloadData];
-    }];
 }
 
 - (void)reloadData {
@@ -40,6 +37,8 @@
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
+    self.genes = [NSMutableArray arrayWithArray:[kOnlineAccountProfile.genes allObjects]];
+    [self.genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
     [self reloadData];
 }
 
@@ -101,13 +100,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        MLGMGene *gene = _genes[indexPath.row];
-        [_genes removeObjectAtIndex:indexPath.row];
+        MLGMGene *gene = self.genes[indexPath.row];
+        [self.genes removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
-        [[MLGMWebService sharedInstance] deleteGene:gene completion:^(BOOL success, NSError *error) {
-            
-        }];
+        [gene MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        
+        [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
     }
 }
 
@@ -142,14 +142,6 @@
         [_geneCreationButton addTarget:self action:@selector(onClickedAddNewGeneButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _geneCreationButton;
-}
-
-- (NSMutableArray *)genes {
-    if (!_genes) {
-       _genes = [NSMutableArray arrayWithArray:[kOnlineAccountProfile.genes allObjects]];
-       [_genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
-    }
-    return _genes;
 }
 
 #pragma mark- Helper Method

@@ -6,7 +6,6 @@
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
-#import <LeapCloud/LeapCloud.h>
 #import "MLGMWebService.h"
 #import "MLGMWebService+Convenience.h"
 #import "MLGMAccount.h"
@@ -45,6 +44,28 @@ static NSArray *supportEvent() {
     return supportEvent;
 }
 
+static NSString *repoSortMethodForType(MLGMSearchRepoSortType type) {
+    NSString *sortMethodName = nil;
+    switch (type) {
+        case MLGMSearchRepoSortTypeStars: sortMethodName = @"stars"; break;
+        case MLGMSearchRepoSortTypeForks: sortMethodName = @"forks"; break;
+        case MLGMSearchRepoSortTypeRecentlyUpdated: sortMethodName = @"updated"; break;
+        default: sortMethodName = @""; break;
+    }
+    return sortMethodName;
+}
+
+static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
+    NSString *sortMethodName = nil;
+    switch (type) {
+        case MLGMSearchUserSortTypeFollowers: sortMethodName = @"followers"; break;
+        case MLGMSearchUserSortTypeRepos: sortMethodName = @"repositories"; break;
+        case MLGMSearchUserSortTypeJoined: sortMethodName = @"joined"; break;
+        default: sortMethodName = @""; break;
+    }
+    return sortMethodName;
+}
+
 + (MLGMWebService *)sharedInstance {
     DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
         return [MLGMWebService new];
@@ -63,7 +84,15 @@ static NSArray *supportEvent() {
     return self;
 }
 
-- (void)updateAccountProfileCompletion:(void(^)(MLGMAccount *account, NSError *error))completion {
+- (void)clearCacheData {
+    NSArray *allEntities = [NSManagedObjectModel MR_defaultManagedObjectModel].entities;
+    
+    [allEntities enumerateObjectsUsingBlock:^(NSEntityDescription *entityDescription, NSUInteger idx, BOOL *stop) {
+        [NSClassFromString([entityDescription managedObjectClassName]) MR_truncateAll];
+    }];
+}
+
+- (void)updateAccountProfileToDBCompletion:(void(^)(MLGMAccount *account, NSError *error))completion {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
     [self startRquest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error) {
@@ -91,6 +120,7 @@ static NSArray *supportEvent() {
         }];
     }];
 }
+
 
 - (void)userProfileForUserName:(NSString *)userName completion:(void(^)(MLGMActorProfile *userProfile, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@", userName];
@@ -479,28 +509,70 @@ static NSArray *supportEvent() {
     }];
 }
 
-#pragma mark - Recommendation Repos
-- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
-    NSString *type = page == 0 ? @"trending" : @"search";
-    [self fetchRecommendationReposForType:type fromPage:page completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repos copy], isReachEnd, error);
+
+#pragma mark - Search
+- (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
+    NSString *endPoint = @"/search/repositories";
+    NSDictionary *parameters = @{@"q":SAFE_STRING(repoName),@"sort":repoSortMethodForType(sortType), @"page" : @(page), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
+    [self startRquest:urlRequest patternFile:@"searchReposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        if (error) {
+            DDLogError(@"access /search/repositories api error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
+            return;
+        }
+        
+        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
+            NSArray *items = responseData[@"items"];
+            NSMutableArray *repoMOs = [NSMutableArray new];
+            [items enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
+                [oneRepoMO fillObject:oneRepoDic];
+                [repoMOs addObject:oneRepoMO];
+            }];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], [repoMOs count] < kPerPage, nil);
+        }
     }];
 }
 
-- (void)fetchRecommendationReposForType:(NSString *)type fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
-    NSArray *genes = @[@{@"language":@"Objective-C",@"skill":@"iOS"}];
-    
-    //"page" is only valid for "search"
+- (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
+    NSString *endPoint = @"/search/users";
+    NSDictionary *parameters = @{@"q":userName, @"sort":userSortMethodForType(sortType), @"type":@"user", @"page" : @(1), @"per_page" : @(kPerPage)};
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
+    [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        if (error) {
+            DDLogError(@"access /search/users api error:%@", error.localizedDescription);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
+            return;
+        }
+        
+        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
+            NSArray *items = responseData[@"items"];
+            NSMutableArray *userMOs = [NSMutableArray new];
+            [items enumerateObjectsUsingBlock:^(NSDictionary *oneUserDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                MLGMActorProfile *oneUserMO = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
+                [oneUserMO fillSearchResult:oneUserDic];
+                [userMOs addObject:oneUserMO];
+            }];
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOs copy], [userMOs count] < kPerPage, nil);
+        }
+    }];
+}
+
+- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
+    NSString *userid = kOnlineUserName ?: @"";
+    NSArray *genes = @[@{@"language":@"Objective-C", @"skill":@"iOS"}];
     NSUInteger numberofRecordsPerPage = 25;
-    NSString *userName = kOnlineUserName ?: @"";
-    NSDictionary *parameters = @{@"userid":userName,
+    NSString *type = page == 0 ? @"trending" : @"search";
+ 
+    NSDictionary *parameters = @{@"userid":userid,
                                  @"genes":genes,
-                                 @"page":@(page),
+                                 @"page":@(page), //"page" is only valid for "search"
                                  @"per_page":@(numberofRecordsPerPage),
                                  @"type":type
                                  };
     
-    [LCCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
+    [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
         NSLog(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
         BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < numberofRecordsPerPage * genes.count;
         if (error) {
@@ -526,357 +598,203 @@ static NSArray *supportEvent() {
         }];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], isReachEnd, nil);
     }];
+
 }
 
-#pragma mark - clear Cache
-- (void)clearCacheData {
-    NSArray *allEntities = [NSManagedObjectModel MR_defaultManagedObjectModel].entities;
+- (void)initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:(void(^)(BOOL success, NSError *error))completion {
+    if (kOnlineAccount.isInitializeGene.boolValue) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, nil);
+        return;
+    }
     
-    [allEntities enumerateObjectsUsingBlock:^(NSEntityDescription *entityDescription, NSUInteger idx, BOOL *stop) {
-        [NSClassFromString([entityDescription managedObjectClassName]) MR_truncateAll];
-    }];
-}
-
-- (void)saveGeneToMaxLeap:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
-    if (!gene.maxLeapID) {
-        NSDictionary *geneDict = [self lcObjectDictionaryForGene:gene];
-        LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
-                                              dictionary:geneDict];
-        [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            NSLog(@"save to maxLeap: lasObj = %@, status = %d", lasObj, succeeded);
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
-        }];
-        
-    } else {
-        
-        LCObject *object = [LCObject objectWithoutDataWithClassName:@"Gene" objectId:gene.maxLeapID];
-        [object fetchInBackgroundWithBlock:^(LCObject *myCloudObj, NSError *error) {
-            myCloudObj[@"language"] = gene.language;
-            myCloudObj[@"skill"] = gene.skill;
-            myCloudObj[@"updateTime"] = [NSDate date];
-            [myCloudObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                NSLog(@"update cloud data succeeded = %d, error = %@", succeeded, error);
-                BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
-            }];
-        }];
-    }
-}
-
-- (void)geneForUserName:(NSString *)userName completion:(void(^)())completion {
-}
-
-#pragma mark - Search
-- (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isRechEnd, NSError *error))completion {
-    if (repoName.length == 0) {
-        return;
-    }
-    NSString *sortString = [self repoSortMethodForType:sortType];
-    NSString *endPoint = @"/search/repositories";
-    NSDictionary *parameters = @{@"q":repoName,@"sort":sortString, @"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRquest:urlRequest patternFile:@"searchReposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    [self genesFromGitHubCompletion:^(NSArray *allGeneMOs, NSError *error) {
         if (error) {
-            DDLogError(@"access /search/repositories api error:%@", error.localizedDescription);
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
             return;
         }
         
-        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
-        NSArray *items = responseData[@"items"];
-        NSMutableArray *repoMOs = [NSMutableArray new];
-        [items enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
-            MLGMRepo *oneRepoMO = [MLGMRepo MR_createEntityInContext:self.scratchContext];
-            [oneRepoMO fillObject:oneRepoDic];
-            [repoMOs addObject:oneRepoMO];
-        }];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], [repoMOs count] < kPerPage, nil);
-        }
-    }];
-}
-
-- (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
-    if (userName.length == 0) {
-        return;
-    }
-    NSString *sortString = [self userSortMethodForType:sortType];
-    NSString *endPoint = @"/search/users";
-    NSDictionary *parameters = @{@"q":userName, @"sort":sortString, @"type":@"user", @"page" : @(1), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        if (error) {
-            DDLogError(@"access /search/users api error:%@", error.localizedDescription);
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
-            return;
-        }
-        
-        if (responseData && [responseData isKindOfClass:[NSDictionary class]]) {
-            NSArray *items = responseData[@"items"];
-            NSMutableArray *userMOs = [NSMutableArray new];
-            [items enumerateObjectsUsingBlock:^(NSDictionary *oneUserDic, NSUInteger idx, BOOL * _Nonnull stop) {
-                MLGMActorProfile *oneUserMO = [MLGMActorProfile MR_createEntityInContext:self.scratchContext];
-                [oneUserMO fillSearchResult:oneUserDic];
-                [userMOs addObject:oneUserMO];
-            }];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, [userMOs copy], [userMOs count] < kPerPage, nil);
-        }
-    }];
-}
-
-//sort=stars, forks, or updated. Default: results are sorted by best match
-- (NSString *)repoSortMethodForType:(MLGMSearchRepoSortType)type {
-    NSString *sortMethodName = nil;
-    switch (type) {
-        case MLGMSearchRepoSortTypeStars: sortMethodName = @"stars"; break;
-        case MLGMSearchRepoSortTypeForks: sortMethodName = @"forks"; break;
-        case MLGMSearchRepoSortTypeRecentlyUpdated: sortMethodName = @"updated"; break;
-        default: sortMethodName = @""; break;
-    }
-    return sortMethodName;
-}
-
-//sort = followers, repositories, or joined. Default: results are sorted by best
-//match.
-- (NSString *)userSortMethodForType:(MLGMSearchUserSortType)type {
-    NSString *sortMethodName = nil;
-    switch (type) {
-        case MLGMSearchUserSortTypeFollowers: sortMethodName = @"followers"; break;
-        case MLGMSearchUserSortTypeRepos: sortMethodName = @"repositories"; break;
-        case MLGMSearchUserSortTypeJoined: sortMethodName = @"joined"; break;
-        default: sortMethodName = @""; break;
-    }
-    return sortMethodName;
-}
-
-
-#pragma mark - Genes
-- (void)updateGenesForUserName:(NSString *)userName completion:(void(^)(NSError *error))completion {
-    NSSet<MLGMGene *> *mrGenes = kOnlineAccountProfile.genes;
-    if (mrGenes.count > 0) {
-        [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<MLGMGene *> *maxLeapGenes, NSError *error) {
+        [self genesFromMaxLeapCompletion:^(NSArray *allGeneMLOs, NSError *error) {
             if (error) {
-                BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
                 return;
             }
             
-            NSLog(@"maxLeapGenes = %@", maxLeapGenes);
-            [self updateLocalAndCloudGenesDataWithMaxLeapGenes:maxLeapGenes githubGenes:nil completion:^(NSError *error) {
-               BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-            }];
-        }];
-        
-
-    } else {
-        [self generateGitHubGenesForUserName:userName completion:^(NSSet<MLGMGene *> *githubGenes, NSError *error) {
-            if (error) {
-                BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-                return;
-            }
-           
-            NSLog(@"======= githubGenes = %@", githubGenes);
-            [self fetchGenesFromMaxLeapForUsername:userName completion:^(NSSet<MLGMGene *> *maxLeapGenes, NSError *error) {
-                if (error) {
-                    BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-                    return;
+            [allGeneMLOs enumerateObjectsUsingBlock:^(MLObject *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *language = obj[@"language"];;
+                NSString *skill = obj[@"skill"];
+                NSPredicate *p = [NSPredicate predicateWithFormat:@"language = %@ and skill = %@", language, skill];
+                NSArray *filtedArray = [MLGMGene MR_findAllWithPredicate:p];
+                if ([filtedArray count] == 0) {
+                    MLGMGene *geneMO = [MLGMGene MR_createEntity];
+                    geneMO.language = obj[@"language"];
+                    geneMO.skill = obj[@"skill"];
+                    geneMO.updateTime = obj[@"updateTime"];
+                    geneMO.userProfile = kOnlineAccountProfile;
+                    [self.defaultContext MR_saveToPersistentStoreAndWait];
                 }
-                
-                NSLog(@"maxLeapGenes = %@", maxLeapGenes);
-                [self updateLocalAndCloudGenesDataWithMaxLeapGenes:maxLeapGenes githubGenes:githubGenes completion:^(NSError *error) {
-                    BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-                }];
             }];
+            
+            kOnlineAccount.isInitializeGene = @YES;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
+            
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, nil);
         }];
-    }
-}
-
-
-- (void)deleteGene:(MLGMGene *)gene completion:(void(^)(BOOL success, NSError *error))completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@", gene.language, gene.skill];
-    NSArray *genes =  [MLGMGene MR_findAllWithPredicate:predicate];
-    [genes enumerateObjectsUsingBlock:^(MLGMGene *geneToDelete, NSUInteger idx, BOOL * _Nonnull stop) {
-        //delete from maxLeap data
-        NSPredicate *predicateForMaxLeap = [NSPredicate predicateWithFormat:@"userName = %@ AND language = %@ AND skill = %@", gene.userProfile.loginName, gene.language, gene.skill];
-        LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicateForMaxLeap];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            [LCObject deleteAllInBackground:objects block:^(BOOL succeeded, NSError *error) {
-                NSLog(@"delete from maxLeap: succeed = %d, error = %@", succeeded, error);
-            }];
-        }];
-        [geneToDelete MR_deleteEntityInContext:self.defaultContext];
-    }];
-    [self.defaultContext MR_saveToPersistentStoreAndWait];
-    
-
-}
-
-#pragma mark - Private Methods
-- (void)fetchGenesFromMaxLeapForUsername:(NSString *)userName completion:(void(^)(NSSet<MLGMGene *> *genes, NSError *error))completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userName = %@", userName];
-    LCQuery *query = [LCQuery queryWithClassName:@"Gene" predicate:predicate];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSMutableSet *genesSet = [NSMutableSet set];
-        [objects enumerateObjectsUsingBlock:^(LCObject *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSString *userName = [obj objectForKey:@"userName"];
-            NSString *language = [obj objectForKey:@"language"];
-            NSString *skill  = [obj objectForKey:@"skill"];
-            NSDate *updateTime  = [obj objectForKey:@"updateTime"];
-            NSString *maxLeapID = obj.objectId;
-            NSDictionary *genePair = @{@"language":language, @"skill":skill, @"userName":userName, @"updateTime":updateTime, @"maxLeapID":maxLeapID};
-            [genesSet addObject:genePair];
-        }];
-        genesSet = [self genesSetForDictionarySet:genesSet];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
     }];
 }
 
-- (void)generateGitHubGenesForUserName:(NSString *)userName completion:(void(^)(NSSet<MLGMGene *> *genes, NSError *error))completion {
-    NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", userName];
+- (void)genesFromMaxLeapCompletion:(void(^)(NSArray *allGeneMLOs, NSError *error))completion {
+    MLQuery *query = [MLQuery queryWithClassName:@"Gene"];
+    [query whereKey:@"githubName" equalTo:kOnlineUserName];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *allGeneMLOs, NSError *error) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, allGeneMLOs, error);
+    }];
+}
+
+/**
+ * 从github返回本地没有的gene
+ */
+- (void)genesFromGitHubCompletion:(void(^)(NSArray *allGeneMOs, NSError *error))completion {
+    NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", kOnlineUserName];
     NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObjects, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
+            DDLogError(@"access /users/%@/repos api error:%@", kOnlineUserName, error.localizedDescription);
             return;
         }
         
-        NSMutableSet *genesSet = [NSMutableSet set];
-        NSDate *updateTime = [NSDate date];
+        NSMutableArray *allGeneMOs = [NSMutableArray new];
         [responseObjects enumerateObjectsUsingBlock:^(NSDictionary *oneRepoDic, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *language = oneRepoDic[@"language"];
-            NSDictionary *supportedGenesDict = kMLGMSupportedGenesDict;
-            [supportedGenesDict.allKeys enumerateObjectsUsingBlock:^(NSString *oneLanguage, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([language isKindOfClass:[NSString class]] && [[language lowercaseString] isEqualToString:[oneLanguage lowercaseString]]) {
-                    NSArray *skills = supportedGenesDict[oneLanguage];
-                    [skills enumerateObjectsUsingBlock:^(NSString *oneSkill, NSUInteger idx, BOOL * _Nonnull stop) {
-                        NSDictionary *genePair = @{@"language":oneLanguage, @"skill":oneSkill, @"userName":userName, @"updateTime":updateTime};
-                        [genesSet addObject:genePair];
+            if ([language isKindOfClass:[NSNull class]]) {
+                return;
+            }
+            
+            MLGMGene *existedGene = [MLGMGene MR_findFirstByAttribute:@"language" withValue:language];
+            if (existedGene) {
+                return;
+            }
+            
+            NSArray *inBuildGenes = [[NSBundle mainBundle] plistObjectFromResource:@"GeneInBuild.plist"];
+            [inBuildGenes enumerateObjectsUsingBlock:^(NSDictionary *oneKindOfGenes, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *oneLanguage = [oneKindOfGenes.allKeys firstObject];
+                if ([oneLanguage isEqualToString:language]) {
+                    NSArray *kills = oneKindOfGenes[oneLanguage];
+                    [kills enumerateObjectsUsingBlock:^(NSString *skill, NSUInteger idx, BOOL *stop) {
+                        MLGMGene *gene = [MLGMGene MR_createEntity];
+                        gene.language = language;
+                        gene.skill = skill;
+                        gene.updateTime = [NSDate date];
+                        gene.userProfile = kOnlineAccountProfile;
+                        [allGeneMOs addObject:gene];
                     }];
                 }
             }];
         }];
-       
-        genesSet = [self genesSetForDictionarySet:genesSet];
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, [genesSet copy], nil);
-    }];
-}
-
-
-- (void)updateLocalAndCloudGenesDataWithMaxLeapGenes:(NSSet<MLGMGene *> *)maxLeapGenes githubGenes:(NSSet<MLGMGene *> *)githubGenes completion:(void(^)(NSError *error))completion {
-    NSSet *mrGenes = kOnlineAccountProfile.genes;
-
-    NSMutableSet *allGenes = [NSMutableSet setWithSet:mrGenes];
-    [maxLeapGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
-        if (![allGenes containsGene:gene]) {
-            [allGenes addObject:gene];
-        }
-    }];
-    [githubGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
-        if (![allGenes containsGene:gene]) {
-            [allGenes addObject:gene];
-        }
-    }];
-    
-    NSMutableSet *genesToSaveForMaxLeap = [NSMutableSet set];
-    [allGenes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
-        if (!gene.maxLeapID || (gene.maxLeapID && ![maxLeapGenes containsGene:gene])) {
-            [genesToSaveForMaxLeap addObject:gene];
-        }
-    }];
-    
-    [self saveGenesToMagicalRecord:allGenes completion:^(NSError *error) {
-        if (error) {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-            return;
-        }
         
-        [self saveGenesToMaxLeap:genesToSaveForMaxLeap completion:^(BOOL success, NSError *error) {
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, error);
-        }];
+        [self.defaultContext MR_saveToPersistentStoreAndWait];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, allGeneMOs, nil);
     }];
 }
 
-- (void)saveGenesToMagicalRecord:(NSSet<MLGMGene *> *)genesSet completion:(void(^)(NSError *error))completion {
-    [genesSet enumerateObjectsUsingBlock:^(MLGMGene *gene, BOOL * _Nonnull stop) {
-        NSSet *mrStoredGenes = kOnlineAccountProfile.genes;
-        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"self.language = %@ AND self.skill = %@ AND self.updateTime = %@", gene.language, gene.skill, gene.updateTime];
-        NSSet *filteredSet = [mrStoredGenes filteredSetUsingPredicate:filterPredicate];
-        if (!filteredSet.count) {
-//            [geneMOCs addObject:gene];
-            gene.userProfile = kOnlineAccountProfile;
-            NSLog(@"save Gene To MR:%@, gene.ID = %@",gene, gene.maxLeapID);
+- (void)syncOnlineAccountProfileToMaxLeapCompletion:(void (^)(BOOL success, NSError *error))completion {
+    [MLUser logInWithUsernameInBackground:kOnlineUserName password:kMaxLeapUserPassword block:^(MLUser *user, NSError *error) {
+        if (user) {
+            user[@"nickName"] = kOnlineAccountProfile.nickName;
+            user[@"avatarUrl"] = kOnlineAccountProfile.avatarUrl;
+            user[@"blog"] = kOnlineAccountProfile.blog;
+            user[@"company"] = kOnlineAccountProfile.company;
+            user[@"location"] = kOnlineAccountProfile.location;
+            user[@"hireable"] = kOnlineAccountProfile.hireable.boolValue ? @YES : @NO;
+            user[@"followerCount"] = kOnlineAccountProfile.followerCount;
+            user[@"followingCount"] = kOnlineAccountProfile.followingCount;
+            user[@"publicRepoCount"]  = kOnlineAccountProfile.publicRepoCount;
+            user[@"githubCreateTime"] = kOnlineAccountProfile.githubCreatTime;
+            user[@"githubUpdateTime"] = kOnlineAccountProfile.githubUpdateTime;
+            
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    DDLogError(@"update user %@ profile to maxleap error:%@", kOnlineUserName, error.localizedDescription);
+                }
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
+            }];
+        } else if (!user && error.code == kMLErrorUserNotFound) {
+            user = [MLUser user];
+            user.username = kOnlineUserName;
+            user.password = kMaxLeapUserPassword;
+            user[@"nickName"] = kOnlineAccountProfile.nickName;
+            user[@"avatarUrl"] = kOnlineAccountProfile.avatarUrl;
+            user[@"blog"] = kOnlineAccountProfile.blog;
+            user[@"company"] = kOnlineAccountProfile.company;
+            user[@"location"] = kOnlineAccountProfile.location;
+            user[@"hireable"] = kOnlineAccountProfile.hireable.boolValue ? @YES : @NO;
+            user[@"followerCount"] = kOnlineAccountProfile.followerCount;
+            user[@"followingCount"] = kOnlineAccountProfile.followingCount;
+            user[@"publicRepoCount"]  = kOnlineAccountProfile.publicRepoCount;
+            user[@"githubCreateTime"] = kOnlineAccountProfile.githubCreatTime;
+            user[@"githubUpdateTime"] = kOnlineAccountProfile.githubUpdateTime;
+            
+            [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    DDLogError(@"sign up user %@ to maxleap error:%@", kOnlineUserName, error.localizedDescription);
+                }
+                
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
+            }];
+        } else {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
         }
     }];
-  
-    [self.defaultContext MR_saveToPersistentStoreAndWait];
-    
-    BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil);
 }
 
-//gene.maxLeapID == nil, add to maxLeap; otherwise update maxLeap data
-- (void)saveGenesToMaxLeap:(NSSet<MLGMGene *> *)genes completion:(void(^)(BOOL success, NSError *error))completion {
-    if (!kOnlineAccount) {
-        BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, nil);
-        return;
-    }
-
-    [genes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
-        if (gene.userProfile.loginName.length) {
-            if (!gene.maxLeapID) {
-                NSDictionary *geneDict = [self lcObjectDictionaryForGene:gene];
-                LCObject *lasObj = [LCObject objectWithClassName:@"Gene"
-                                                      dictionary:geneDict];
-                [lasObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    NSLog(@"save to maxLeap: lasObj = %@, status = %d", lasObj, succeeded);
-                    if (stop) {
-                        BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
-                    }
-                }];
+- (void)syncOnlineAccountGenesToMaxLeapCompletion:(void (^)(BOOL success, NSError *error))completion {
+    NSMutableArray *allInsertToMaxLeapGeneMLOs = [NSMutableArray new];
+    NSMutableArray *allDeletedToMaxLeapGeneMLOs = [NSMutableArray new];
+    
+    MLQuery *queryForGene = [MLQuery queryWithClassName:@"Gene"];
+    [queryForGene whereKey:@"githubName" equalTo:kOnlineUserName];
+    
+    [queryForGene findObjectsInBackgroundWithBlock:^(NSArray *allGeneMLOs, NSError *error) {
+        [kOnlineAccountProfile.genes enumerateObjectsUsingBlock:^(MLGMGene * oneGeneMO, BOOL * stop) {
+            NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(MLObject *evaluatedObject, NSDictionary<NSString *,id> * bindings) {
+                return [evaluatedObject[@"language"] isEqualToString:oneGeneMO.language] && [evaluatedObject[@"skill"] isEqualToString:oneGeneMO.skill];
+            }];
+            
+            NSArray *filtedArray = [allGeneMLOs filteredArrayUsingPredicate:p];
+            if ([filtedArray count] == 0) {
+                MLObject *oneGeneMLO = [MLObject objectWithClassName:@"Gene"];
+                oneGeneMLO[@"githubName"] = kOnlineUserName;
+                oneGeneMLO[@"language"] = oneGeneMO.language;
+                oneGeneMLO[@"skill"] = oneGeneMO.skill;
+                oneGeneMLO[@"updateTime"] = oneGeneMO.updateTime;
+                
+                [allInsertToMaxLeapGeneMLOs addObject:oneGeneMLO];
+            }
+        }];
+        
+        [allGeneMLOs enumerateObjectsUsingBlock:^(MLObject *oneGeneMLO, NSUInteger idx, BOOL * stop) {
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"language = %@ and skill = %@", oneGeneMLO[@"language"], oneGeneMLO[@"skill"]];
+            NSSet *filtedSet = [kOnlineAccountProfile.genes filteredSetUsingPredicate:p];
+            if ([filtedSet count] == 0) {
+                [allDeletedToMaxLeapGeneMLOs addObject:oneGeneMLO];
+            }
+        }];
+        
+        [MLObject saveAllInBackground:allInsertToMaxLeapGeneMLOs block:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                DDLogError(@"save new gene to maxleap occur error:%@", error.localizedDescription);
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
             } else {
-                //udpate maxLeap data
-                LCObject *object = [LCObject objectWithoutDataWithClassName:@"Gene" objectId:gene.maxLeapID];
-                [object fetchInBackgroundWithBlock:^(LCObject *myCloudObj, NSError *error) {
-                    myCloudObj[@"updateTime"] = [NSDate date];
-                    myCloudObj[@"language"] = @"Unknown";
-                    [myCloudObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        NSLog(@"update cloud data succeeded = %d, error = %@", succeeded, error);
-                        if (stop) {
-                            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, error);
-                        }
-                    }];
+                [MLObject deleteAllInBackground:allDeletedToMaxLeapGeneMLOs block:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        DDLogError(@"delete new gene to maxleap occur error:%@", error.localizedDescription);
+                    }
+                    BLOCK_SAFE_ASY_RUN_MainQueue(completion, succeeded, error);
                 }];
             }
-        }
-    }];
-}
-
-- (NSDictionary *)lcObjectDictionaryForGene:(MLGMGene *)gene {
-    if (gene.language.length && gene.skill.length) {
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:gene.language, @"language", gene.skill, @"skill", gene.updateTime, @"updateTime", nil];
-        if (gene.userProfile.loginName.length) {
-            [dict setValue:gene.userProfile.loginName forKey:@"userName"];
-        }
-        return dict;
-    }
-    return nil;
-}
-
-- (NSMutableSet<MLGMGene *> *)genesSetForDictionarySet:(NSSet<NSDictionary *> *)set {
-    NSMutableSet *genesSet = [NSMutableSet set];
-    if (set.count > 0) {
-        [set enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, BOOL * _Nonnull stop) {
-            MLGMGene *gene = [MLGMGene MR_createEntityInContext:self.defaultContext];
-            [gene fillObject:dict];
-           
-            MLGMActorProfile *userProfileMOC = gene.userProfile;
-            if (!userProfileMOC) {
-                userProfileMOC = [MLGMActorProfile MR_createEntityInContext:self.defaultContext];
-                gene.userProfile = userProfileMOC;
-                gene.userProfile.loginName = dict[@"userName"];
-            }
-            [genesSet addObject:gene];
         }];
-    }
-    return genesSet;
+    }];
 }
 
 @end

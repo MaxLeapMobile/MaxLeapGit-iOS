@@ -3,7 +3,7 @@
 //  MaxLeapGit
 //
 //  Created by julie on 15/10/12.
-//  Copyright © 2015年 iLegendsoft. All rights reserved.
+//  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMCustomTabBarController.h"
@@ -43,7 +43,18 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self presentLoginVCIfNeeded];
+    if (!kOnlineUserName.length) {
+        MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
+        [self presentViewController:loginVC animated:NO completion:nil];
+    } else {
+        [KSharedWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
+        [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL success, NSError *error) {
+            if (success) {
+                [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
+            }
+        }];
+    }
+    
     UIViewController *homePageViewController = (MLGMHomePageViewController *)self.thirdNav.topViewController;
     if ([homePageViewController isKindOfClass:[MLGMHomePageViewController class]]) {
         [(MLGMHomePageViewController *)homePageViewController setOwnerName:kOnlineUserName];
@@ -68,10 +79,6 @@
 
 #pragma mark - Action
 - (void)onClickedCentralButton {
-//    kOnlineAccount.isOnline = @NO;
-//    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    //    [self presentLoginVCIfNeeded];
-    
     BLOCK_SAFE_RUN(_centralButtonAction);
 }
 
@@ -82,13 +89,6 @@
         return NO;
     }
     return YES;
-}
-
-- (void)presentLoginVCIfNeeded {
-    if (!kOnlineUserName.length) {
-        MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
-        [self presentViewController:loginVC animated:NO completion:nil];
-    }
 }
 
 - (UINavigationController *)firstNav {
