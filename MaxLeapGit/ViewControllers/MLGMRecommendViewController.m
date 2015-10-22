@@ -74,6 +74,7 @@
             }
         }
     }];
+    
     if  (kRecommendationDebug) {
         DDLogInfo(@"self.repos.count = %lu", self.repos.count);
     }
@@ -132,12 +133,6 @@
     
     [self.starButton addSubview:self.loadingViewAtStarButton];
     [self.forkButton addSubview:self.loadingViewAtForkButton];
-    
-//    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
-//        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
-//        separatorLine.backgroundColor = [UIColor whiteColor];
-//        [self.toolbarView addSubview:separatorLine];
-//    }
 }
 
 - (void)configureNavigationBar {
@@ -274,12 +269,16 @@
 #pragma mark- Override Parent Method
 - (void)updateViewConstraints {
     if (!self.didSetUpConstraints) {
-        NSDictionary *views = NSDictionaryOfVariableBindings(_toolbarView, _starButton, _separatorLine1, _forkButton, _separatorLine2, _skipButton);
-       
+        NSDictionary *views = NSDictionaryOfVariableBindings(_toolbarView, _starButton, _separatorLine1, _forkButton, _separatorLine2, _skipButton, _loadingViewAtStarButton, _loadingViewAtForkButton);
+      
+        [self.loadingViewAtStarButton pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0];
+        [self.loadingViewAtForkButton pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0];
+        
         [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_starButton]|" options:0 metrics:nil views:views]];
-        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton(==_forkButton,==_skipButton)]-1-[_forkButton]-1-[_skipButton]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:views]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton(==_forkButton,==_skipButton)][_forkButton][_skipButton]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:views]];
        
-        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton][_separatorLine1(1)][_forkButton][_separatorLine2(1)][_skipButton]|" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton][_separatorLine1(1)]" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_separatorLine2(1)][_skipButton]|" options:0 metrics:nil views:views]];
         [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_separatorLine1(16)]" options:0 metrics:nil views:views]];
         [self.toolbarView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine1 attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.toolbarView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
         [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_separatorLine2(16)]" options:0 metrics:nil views:views]];
@@ -344,16 +343,14 @@
 
 - (UIActivityIndicatorView *)loadingViewAtStarButton {
     if (!_loadingViewAtForkButton) {
-        _loadingViewAtStarButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
-        _loadingViewAtStarButton.center = [self.toolbarView convertPoint:self.starButton.center toView:self.starButton];
+        _loadingViewAtStarButton = [UIActivityIndicatorView autoLayoutView];
     }
     return _loadingViewAtStarButton;
 }
 
 - (UIActivityIndicatorView *)loadingViewAtForkButton {
     if (!_loadingViewAtForkButton) {
-        _loadingViewAtForkButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
-        _loadingViewAtForkButton.center = [self.toolbarView convertPoint:self.forkButton.center toView:self.forkButton];
+        _loadingViewAtForkButton = [UIActivityIndicatorView autoLayoutView];
     }
     return _loadingViewAtForkButton;
 }
