@@ -22,11 +22,16 @@
 
 @property (nonatomic, strong) UIView *emptyView;
 
+@property (nonatomic, strong) UIView *toolbarView;
 @property (nonatomic, strong) UIButton *starButton;
 @property (nonatomic, strong) UIButton *forkButton;
 @property (nonatomic, strong) UIButton *skipButton;
+@property (nonatomic, strong) UIView *separatorLine1;
+@property (nonatomic, strong) UIView *separatorLine2;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingViewAtStarButton;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingViewAtForkButton;
+
+@property (nonatomic, assign) BOOL didSetUpConstraints;
 @end
 
 @implementation MLGMRecommendViewController
@@ -38,14 +43,14 @@
     // Do any additional setup after loading the view.
 
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self configureNavigationBar];
-    [self configureToolbarView];
+   
+    [self configureSubViews];
+    [self updateViewConstraints];
 
-    [self fetchDataAndUpdateViews];
+    [self fetchDataAndUpdateContentViews];
 }
 
-- (void)fetchDataAndUpdateViews {
+- (void)fetchDataAndUpdateContentViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
     [[MLGMWebService sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
         [SVProgressHUD dismiss];
@@ -95,7 +100,7 @@
         [self.view addSubview:self.emptyView];
     }
     self.emptyView.hidden = NO;
-    _starButton.enabled = _forkButton.enabled = _skipButton.enabled = NO;
+    self.starButton.enabled = _forkButton.enabled = _skipButton.enabled = NO;
     self.webView.hidden = YES;
     [self.webView stopLoading];
 }
@@ -109,12 +114,32 @@
             [self.webView stopLoading];
             [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentRepo.htmlPageUrl]]];
             self.emptyView.hidden = YES;
-            _starButton.enabled = _forkButton.enabled = _skipButton.enabled = YES;
+            self.starButton.enabled = _forkButton.enabled = _skipButton.enabled = YES;
         }
     }
 }
 
 #pragma mark- SubView Configuration
+- (void)configureSubViews {
+    [self configureNavigationBar];
+    
+    [self.view addSubview:self.toolbarView];
+    [self.toolbarView addSubview:self.starButton];
+    [self.toolbarView addSubview:self.forkButton];
+    [self.toolbarView addSubview:self.skipButton];
+    [self.toolbarView addSubview:self.separatorLine1];
+    [self.toolbarView addSubview:self.separatorLine2];
+    
+    [self.starButton addSubview:self.loadingViewAtStarButton];
+    [self.forkButton addSubview:self.loadingViewAtForkButton];
+    
+//    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
+//        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
+//        separatorLine.backgroundColor = [UIColor whiteColor];
+//        [self.toolbarView addSubview:separatorLine];
+//    }
+}
+
 - (void)configureNavigationBar {
     UIButton *dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     dismissButton.frame = CGRectMake(0, 0, 21, 12.5);
@@ -129,35 +154,6 @@
     searchButton.frame = CGRectMake(0, 0, 18, 18);
     [searchButton addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
-}
-
-- (void)configureToolbarView {
-    UIView *toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44)];
-    toolbarView.backgroundColor = BottomToolBarColor;
-    [self.view addSubview:toolbarView];
-
-    _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
-    [toolbarView addSubview:_starButton];
-    
-    _forkButton = [self createButtonAtIndex:1 withTitle:NSLocalizedString(@"Fork", @"") action:@selector(onClickedForkButton)];
-    [toolbarView addSubview:_forkButton];
-    
-    _loadingViewAtStarButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
-    _loadingViewAtStarButton.center = [toolbarView convertPoint:_starButton.center toView:_starButton];
-    [_starButton addSubview:_loadingViewAtStarButton];
-    
-    _loadingViewAtForkButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
-    _loadingViewAtForkButton.center = [toolbarView convertPoint:_forkButton.center toView:_forkButton];
-    [_forkButton addSubview:_loadingViewAtForkButton];
-    
-    _skipButton = [self createButtonAtIndex:2 withTitle:NSLocalizedString(@"Skip", @"") action:@selector(onClickedSkipButton)];
-    [toolbarView addSubview:_skipButton];
-    
-    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
-        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
-        separatorLine.backgroundColor = [UIColor whiteColor];
-        [toolbarView addSubview:separatorLine];
-    }
 }
 
 #pragma mark - Actions
@@ -210,23 +206,6 @@
     }
 }
 
-- (void)updateStarStateWithRepoName:(NSString *)repoName {
-    [self.loadingViewAtStarButton stopAnimating];
-    
-    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (!starRelation.isStar) {
-        [self.loadingViewAtStarButton startAnimating];
-        return;
-    }
-    
-    if (starRelation.isStar.boolValue) {
-        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
-    } else {
-        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
-    }
-}
-
 - (void)onClickedForkButton {
     if (self.loadingViewAtForkButton.isAnimating) {
         return;
@@ -261,7 +240,7 @@
     if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
         self.requestPageNumber++;
         
-        [self fetchDataAndUpdateViews];
+        [self fetchDataAndUpdateContentViews];
     }
 }
 
@@ -269,7 +248,7 @@
     MLGMNewGeneViewController *vcGenes = [[MLGMNewGeneViewController alloc] init];
     __weak typeof(self) wSelf = self;
     vcGenes.dismissBlock = ^{
-        [wSelf fetchDataAndUpdateViews];
+        [wSelf fetchDataAndUpdateContentViews];
     };
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
     [self presentViewController:nav animated:YES completion:nil];
@@ -293,10 +272,108 @@
 #pragma mark- Delegate，DataSource, Callback Method
 
 #pragma mark- Override Parent Method
+- (void)updateViewConstraints {
+    if (!self.didSetUpConstraints) {
+        NSDictionary *views = NSDictionaryOfVariableBindings(_toolbarView, _starButton, _separatorLine1, _forkButton, _separatorLine2, _skipButton);
+       
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_starButton]|" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton(==_forkButton,==_skipButton)]-1-[_forkButton]-1-[_skipButton]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:views]];
+       
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton][_separatorLine1(1)][_forkButton][_separatorLine2(1)][_skipButton]|" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_separatorLine1(16)]" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine1 attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.toolbarView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+        [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_separatorLine2(16)]" options:0 metrics:nil views:views]];
+        [self.toolbarView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine2 attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.toolbarView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_toolbarView(44)]|" options:0 metrics:nil views:views]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_toolbarView]|" options:0 metrics:nil views:views]];
+        
+        self.didSetUpConstraints = YES;
+    }
+    
+    [super updateViewConstraints];
+}
 
 #pragma mark- Private Method
+- (void)updateStarStateWithRepoName:(NSString *)repoName {
+    [self.loadingViewAtStarButton stopAnimating];
+    
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
+    if (!starRelation.isStar) {
+        [self.loadingViewAtStarButton startAnimating];
+        return;
+    }
+    
+    if (starRelation.isStar.boolValue) {
+        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
+    } else {
+        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
+    }
+}
 
 #pragma mark- Getter Setter
+- (UIView *)toolbarView {
+    if (!_toolbarView) {
+        _toolbarView = [UIView autoLayoutView];
+        _toolbarView.backgroundColor = BottomToolBarColor;
+    }
+    return _toolbarView;
+}
+
+- (UIButton *)starButton {
+    if (!_starButton) {
+        _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
+    }
+    return _starButton;
+}
+
+- (UIButton *)forkButton {
+    if (!_forkButton) {
+        _forkButton = [self createButtonAtIndex:1 withTitle:NSLocalizedString(@"Fork", @"") action:@selector(onClickedForkButton)];
+    }
+    return _forkButton;
+}
+
+- (UIButton *)skipButton {
+    if (!_skipButton) {
+        _skipButton = [self createButtonAtIndex:2 withTitle:NSLocalizedString(@"Skip", @"") action:@selector(onClickedSkipButton)];
+    }
+    return _skipButton;
+}
+
+- (UIActivityIndicatorView *)loadingViewAtStarButton {
+    if (!_loadingViewAtForkButton) {
+        _loadingViewAtStarButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        _loadingViewAtStarButton.center = [self.toolbarView convertPoint:self.starButton.center toView:self.starButton];
+    }
+    return _loadingViewAtStarButton;
+}
+
+- (UIActivityIndicatorView *)loadingViewAtForkButton {
+    if (!_loadingViewAtForkButton) {
+        _loadingViewAtForkButton = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        _loadingViewAtForkButton.center = [self.toolbarView convertPoint:self.forkButton.center toView:self.forkButton];
+    }
+    return _loadingViewAtForkButton;
+}
+
+- (UIView *)separatorLine1 {
+    if (!_separatorLine1) {
+        _separatorLine1 = [UIView autoLayoutView];
+        _separatorLine1.backgroundColor = [UIColor whiteColor];
+    }
+    return _separatorLine1;
+}
+
+- (UIView *)separatorLine2 {
+    if (!_separatorLine2) {
+        _separatorLine2 = [UIView autoLayoutView];
+        _separatorLine2.backgroundColor = [UIColor whiteColor];
+    }
+    return _separatorLine2;
+}
+
 - (UIView *)emptyView {
     if (!_emptyView) {
         __weak typeof(self) wSelf = self;
@@ -321,8 +398,7 @@
 
 #pragma mark- Helper Method
 - (UIButton *)createButtonAtIndex:(NSUInteger)index withTitle:(NSString *)title action:(SEL)action {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.frame = CGRectMake((kToolBarButtonWidth + kVerticalSeparatorLineWidth) * index - 1, 0, kToolBarButtonWidth + 2, 44);
+    UIButton *button = [UIButton autoLayoutView];
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:17];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
