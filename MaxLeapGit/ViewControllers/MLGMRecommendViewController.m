@@ -74,9 +74,6 @@
             }
         }
     }];
-    if  (kRecommendationDebug) {
-        DDLogInfo(@"self.repos.count = %lu", self.repos.count);
-    }
 }
 
 - (void)updateViews {
@@ -232,10 +229,6 @@
     self.currentRepoIndex++;
     
     [self updateViews];
-    
-    if  (kRecommendationDebug) {
-        DDLogInfo(@"self.repos.count = %lu, currentIndex = %lu, didReachEnd = %d", self.repos.count, self.currentRepoIndex, self.didRequestedDataReachEnd);
-    }
     
     if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
         self.requestPageNumber++;

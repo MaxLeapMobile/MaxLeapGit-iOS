@@ -14,8 +14,6 @@
 @class MLGMEvent;
 @class MLGMRepo;
 
-#define kRecommendationDebug    0
-
 #define KSharedWebService [MLGMWebService sharedInstance]
 
 typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
