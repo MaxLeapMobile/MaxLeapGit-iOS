@@ -74,10 +74,6 @@
             }
         }
     }];
-    
-    if  (kRecommendationDebug) {
-        DDLogInfo(@"self.repos.count = %lu", self.repos.count);
-    }
 }
 
 - (void)updateViews {
