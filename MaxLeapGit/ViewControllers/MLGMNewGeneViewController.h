@@ -10,4 +10,5 @@
 
 @interface MLGMNewGeneViewController : UIViewController
 @property (nonatomic, strong) MLGMGene *gene;
+@property (nonatomic, copy) dispatch_block_t dismissBlock;
 @end

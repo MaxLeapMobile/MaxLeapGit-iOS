@@ -9,79 +9,118 @@
 #import "MLGMCustomTabBarController.h"
 
 @interface MLGMCustomTabBarController ()
-@property (nonatomic, strong) UIButton *centralButton;
+@property (nonatomic, strong) UIButton *recommendationButton;
 @property (nonatomic, strong) UINavigationController *firstNav;
 @property (nonatomic, strong) UIViewController *secondVC;
 @property (nonatomic, strong) UINavigationController *thirdNav;
+@property (nonatomic, strong) NSTimer *credentialsMonitor;
+@property (nonatomic, assign) BOOL didInitSyncOnlineAccountGenes;
+@property (nonatomic, assign) BOOL isViewControllerUsed;
 @end
 
 @implementation MLGMCustomTabBarController
 
-- (instancetype)init
-{
+#pragma mark - init Method
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        
-        __weak typeof(self) wSelf = self;
-        self.centralButtonAction = ^{
-            UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
-            UINavigationController *navRecommend = [[UINavigationController alloc] initWithRootViewController:vcRecommend];
-            navRecommend.navigationBar.barStyle = UIBarStyleBlack;
-            navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
-            [wSelf presentViewController:navRecommend animated:YES completion:nil];
-        };
-        self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
+    if (!self) {
+        return nil;
     }
+
+    self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
     
     return self;
 }
 
+#pragma mark- View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configureUI];
+    [self.view addSubview:self.recommendationButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     if (!kOnlineUserName.length) {
-        MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
-        [self presentViewController:loginVC animated:NO completion:nil];
-    } else {
+        if (!self.isViewControllerUsed) {
+            MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
+            [self presentViewController:loginVC animated:NO completion:nil];
+        } else {
+            [self prepareToLogout];
+        }
+        
+        return;
+    }
+    
+    self.isViewControllerUsed = YES;
+    
+    if (!self.credentialsMonitor.isValid) {
+        self.credentialsMonitor = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(checkCredentials:) userInfo:nil repeats:YES];
+        [self.credentialsMonitor fire];
+    }
+    
+    if (!self.didInitSyncOnlineAccountGenes) {
+        [self setupThirdTabName];
         [KSharedWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
         [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL success, NSError *error) {
             if (success) {
                 [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
+                self.didInitSyncOnlineAccountGenes = YES;
             }
         }];
     }
-    
+}
+
+#pragma mark- Override Parent Methods
+
+#pragma mark- SubViews Configuration
+
+- (void)setupThirdTabName {
     UIViewController *homePageViewController = (MLGMHomePageViewController *)self.thirdNav.topViewController;
     if ([homePageViewController isKindOfClass:[MLGMHomePageViewController class]]) {
         [(MLGMHomePageViewController *)homePageViewController setOwnerName:kOnlineUserName];
     }
 }
 
-- (void)configureUI {
-    CGFloat buttonWidth = self.view.bounds.size.width / 3;
-    _centralButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_centralButton setImage:[UIImage imageNamed:@"star_icon_normal"] forState:UIControlStateNormal];
-    [_centralButton setImage:[UIImage imageNamed:@"star_icon_selected"] forState:UIControlStateHighlighted];
-    _centralButton.frame = CGRectMake(buttonWidth, self.view.bounds.size.height - self.tabBar.bounds.size.height, buttonWidth, self.tabBar.bounds.size.height);
-    [_centralButton addTarget:self action:@selector(onClickedCentralButton) forControlEvents:UIControlEventTouchUpInside];
-    _centralButton.tag = 1001;
-    [self.view addSubview:_centralButton];
+#pragma mark- Actions
+- (void)recommendationButtonPressed:(id)sender {
+    UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
+    UINavigationController *navRecommend = [[UINavigationController alloc] initWithRootViewController:vcRecommend];
+    navRecommend.navigationBar.barStyle = UIBarStyleBlack;
+    navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
+    [self presentViewController:navRecommend animated:YES completion:nil];
 }
 
+- (void)checkCredentials:(id)sender {
+    [KSharedWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
+        if (!valid && kOnlineUserName.length > 0) {
+            [self prepareToLogout];
+        }
+    }];
+}
+
+- (void)prepareToLogout {
+    [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Bad credentials", nil)];
+    [KSharedWebService cancelAllDataTasksCompletion:^{
+        [self.credentialsMonitor invalidate];
+        self.credentialsMonitor = nil;
+        
+        kOnlineAccount.isOnline = @NO;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        
+        [(AppDelegate *)[UIApplication sharedApplication].delegate logout];
+    }];
+}
+
+#pragma mark- Public Methods
 - (void)setTabBarHidden:(BOOL)hidden {
     self.tabBar.hidden = hidden;
-    _centralButton.hidden = hidden;
+    self.recommendationButton.hidden = hidden;
 }
 
-#pragma mark - Action
-- (void)onClickedCentralButton {
-    BLOCK_SAFE_RUN(_centralButtonAction);
-}
+#pragma mark- Private Methods
 
+#pragma mark- Delegate，DataSource, Callback Method
 #pragma mark - UITabBarControllerDelegate
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     UIViewController *centralViewController = self.viewControllers[1];
@@ -91,6 +130,7 @@
     return YES;
 }
 
+#pragma mark- Getter Setter
 - (UINavigationController *)firstNav {
     if (!_firstNav) {
         UIViewController *firstVC = [[MLGMTimeLineViewController alloc] init];
@@ -124,5 +164,22 @@
     
     return _thirdNav;
 }
+
+- (UIButton *)recommendationButton {
+    if (!_recommendationButton) {
+        CGFloat buttonWidth = self.view.bounds.size.width / 3;
+        _recommendationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _recommendationButton.frame = CGRectMake(buttonWidth, self.view.bounds.size.height - self.tabBar.bounds.size.height, buttonWidth, self.tabBar.bounds.size.height);
+        [_recommendationButton setImage:[UIImage imageNamed:@"star_icon_normal"] forState:UIControlStateNormal];
+        [_recommendationButton setImage:[UIImage imageNamed:@"star_icon_selected"] forState:UIControlStateHighlighted];
+        [_recommendationButton addTarget:self action:@selector(recommendationButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _recommendationButton;
+}
+
+#pragma mark- Helper Method
+
+#pragma mark Temporary Area
 
 @end

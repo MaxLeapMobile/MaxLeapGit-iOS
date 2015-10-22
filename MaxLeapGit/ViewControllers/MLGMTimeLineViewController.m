@@ -136,7 +136,7 @@
             [KSharedWebService timeLineForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
                                                       completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
-                                                          if (!isRechEnd && events.count < 30) {
+                                                          if (!isRechEnd && events.count < kPerPage) {
                                                               [self.tableView triggerInfiniteScrolling];
                                                           }
                                                           execute_after_main_queue(0.2, ^{
@@ -187,4 +187,3 @@
 #pragma mark Temporary Area
 
 @end
-

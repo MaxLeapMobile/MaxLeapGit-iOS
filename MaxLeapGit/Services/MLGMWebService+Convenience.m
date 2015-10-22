@@ -29,6 +29,7 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     }
     NSURL *requestURL = [NSURL URLWithString:requestURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     request.timeoutInterval = kTimeOutInvervalForRequest;
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -110,12 +111,6 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     NSURLSessionDataTask *sessionTask = [session dataTaskWithRequest:request completionHandler:^(NSData *receiveData, NSURLResponse *response, NSError *error) {
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         
-        if (KNewworkDebug) {
-            DDLogInfo(@"--------requestURL:%@", request.URL.absoluteString);
-            NSString *responseContent = [[NSString alloc] initWithData:receiveData encoding:NSUTF8StringEncoding];
-            DDLogInfo(@"%@", responseContent);
-        }
-        
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, statusCode, nil, error);
             return;
@@ -175,13 +170,14 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     [sessionTask resume];
 }
 
-- (void)cancelAllDataTasks {
+- (void)cancelAllDataTasksCompletion:(void(^)())completion {
     [[NSURLSession sharedSession] getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         [dataTasks enumerateObjectsUsingBlock:^(NSURLSessionDataTask *oneDataTask, NSUInteger idx, BOOL *stop) {
             if (oneDataTask.state == NSURLSessionTaskStateRunning) {
                 [oneDataTask cancel];
             }
         }];
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil);
     }];
 }
 

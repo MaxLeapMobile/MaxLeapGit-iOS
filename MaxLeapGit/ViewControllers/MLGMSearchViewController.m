@@ -263,6 +263,7 @@
         if (indexPath.row < _users.count) {
             MLGMActorProfile *actorProfile = _users[indexPath.row];
             MLGMFollowCell *userCell = (MLGMFollowCell *)cell;
+            userCell.isForSearchPage = YES;
             [userCell configureCell:actorProfile];
         }
     }

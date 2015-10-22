@@ -36,8 +36,6 @@
     
     return self;
 }
-#pragma mark- View Life Cycle
-
 
 #pragma mark- Override Parent Methods
 + (BOOL)requiresConstraintBasedLayout {
@@ -54,10 +52,14 @@
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[_nameLabel]-8-[_updateTimeLabel]-8-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[_avatarImageView(40)]-8-[_nameLabel]-8-|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-8-[_avatarImageView(40)]-8-[_updateTimeLabel]-8-|" options:0 metrics:nil views:views]];
-        
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_followSwitchButton(82)]-8-|" options:0 metrics:nil views:views]];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_followSwitchButton(28)]" options:0 metrics:nil views:views]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_followSwitchButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+       
+        if (!self.isForSearchPage) {
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_followSwitchButton(82)]-8-|" options:0 metrics:nil views:views]];
+            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_followSwitchButton(28)]" options:0 metrics:nil views:views]];
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_followSwitchButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+        } else {
+            _followSwitchButton.hidden = YES;
+        }
         
         [self.loadingView centerInContainer];
         
@@ -99,13 +101,9 @@
         NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
-        [KSharedWebService userProfileForUserName:actorProfile.loginName completion:^(MLGMActorProfile *userProfile, NSError *error) {
-            MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.actorProfile.loginName];
-            if (latestProfile.githubUpdateTime) {
-                NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];
-                self.updateTimeLabel.text = updateAtString;
-            }
-        }];
+        if (actorProfile.loginName.length) {
+            self.updateTimeLabel.text = [@"https://github.com/" stringByAppendingString:actorProfile.loginName];
+        }
     }
 }
 

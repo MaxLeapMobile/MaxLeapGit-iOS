@@ -14,6 +14,8 @@
 @class MLGMEvent;
 @class MLGMRepo;
 
+#define kRecommendationDebug    0
+
 #define KSharedWebService [MLGMWebService sharedInstance]
 
 typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
@@ -30,21 +32,21 @@ typedef NS_ENUM(NSUInteger, MLGMSearchUserSortType) {
     MLGMSearchUserSortTypeJoined = 3
 };
 
-static NSUInteger const kPerPage = 30;
+static NSUInteger const kPerPage = 25;
 
 @interface MLGMWebService : NSObject
 
 + (MLGMWebService *)sharedInstance;
 
 /**
- * 清理所有缓存的数据
- */
-- (void)clearCacheData;
-
-/**
  * 账号信息
  */
 - (void)updateAccountProfileToDBCompletion:(void(^)(MLGMAccount *account, NSError *error))completion;
+
+/**
+ * 检查session是否过期
+ */
+- (void)checkSessionTokenStatusCompletion:(void(^)(BOOL valid, NSError *error))completion;
 
 /**
  * 特定用户的资料,不包括组织信息，以及各个组织最近活动的时间,需要另外调取下面提供的接口
@@ -127,11 +129,9 @@ static NSUInteger const kPerPage = 30;
 - (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL success, NSString *repoName, NSError *error))completion;
 
 /**
- *  获取推荐项目: 1）GitHub Trending; 2)Search by Genes (language, skill)
+ *  获取推荐项目 based on Genes (language, skill): 1）GitHub Trending; 2)Search
  */
 - (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
-//- (void)fetchRecommendationReposByTrendingWithCompletion:(void(^)(NSArray *repos, NSError *error))completion;
-//- (void)fetchRecommendationReposBySearchFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
 
 /**
  * fork项目

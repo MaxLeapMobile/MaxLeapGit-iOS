@@ -8,7 +8,6 @@
 
 #import "MLGMRepoDetailController.h"
 
-
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 2
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount

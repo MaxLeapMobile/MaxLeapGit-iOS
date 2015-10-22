@@ -8,11 +8,6 @@
 
 #import "MLGMWebService.h"
 #import "MLGMWebService+Convenience.h"
-#import "MLGMAccount.h"
-#import "MLGMActorProfile.h"
-#import "MLGMEvent.h"
-#import "MLGMRepo.h"
-#import "MLGMGene.h"
 
 @interface MLGMWebService()
 @property (nonatomic, strong) NSManagedObjectContext *defaultContext;
@@ -84,14 +79,6 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     return self;
 }
 
-- (void)clearCacheData {
-    NSArray *allEntities = [NSManagedObjectModel MR_defaultManagedObjectModel].entities;
-    
-    [allEntities enumerateObjectsUsingBlock:^(NSEntityDescription *entityDescription, NSUInteger idx, BOOL *stop) {
-        [NSClassFromString([entityDescription managedObjectClassName]) MR_truncateAll];
-    }];
-}
-
 - (void)updateAccountProfileToDBCompletion:(void(^)(MLGMAccount *account, NSError *error))completion {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
     [self startRquest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
@@ -121,6 +108,16 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
+- (void)checkSessionTokenStatusCompletion:(void(^)(BOOL valid, NSError *error))completion {
+    NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
+    [self startRquest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+        if (error.code == MLGMErrorTypeBadCredentials) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
+        } else {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, nil);
+        }
+    }];
+}
 
 - (void)userProfileForUserName:(NSString *)userName completion:(void(^)(MLGMActorProfile *userProfile, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@", userName];
@@ -537,7 +534,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = @"/search/users";
-    NSDictionary *parameters = @{@"q":userName, @"sort":userSortMethodForType(sortType), @"type":@"user", @"page" : @(1), @"per_page" : @(kPerPage)};
+    NSDictionary *parameters = @{@"q":userName, @"sort":userSortMethodForType(sortType), @"type":@"user", @"page" : @(page), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
     [self startRquest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
@@ -561,20 +558,32 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
     NSString *userid = kOnlineUserName ?: @"";
-    NSArray *genes = @[@{@"language":@"Objective-C", @"skill":@"iOS"}];
-    NSUInteger numberofRecordsPerPage = 25;
+    NSSet *userGenes = kOnlineAccountProfile.genes;
+    if (userGenes.count == 0) {
+        BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, nil);
+        return;
+    }
+    
+    NSMutableArray *genes = [NSMutableArray array];
+    [userGenes enumerateObjectsUsingBlock:^(MLGMGene *gene, BOOL * _Nonnull stop) {
+        NSDictionary *geneDict = @{@"language":gene.language, @"skill":gene.skill};
+        [genes addObject:geneDict];
+    }];
+    
     NSString *type = page == 0 ? @"trending" : @"search";
  
     NSDictionary *parameters = @{@"userid":userid,
                                  @"genes":genes,
-                                 @"page":@(page), //"page" is only valid for "search"
-                                 @"per_page":@(numberofRecordsPerPage),
+                                 @"page":@(page), //"page" and "per_page" are only valid for "search"
+                                 @"per_page":@(kPerPage),
                                  @"type":type
                                  };
     
     [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
-        NSLog(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
-        BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < numberofRecordsPerPage * genes.count;
+        if  (kRecommendationDebug) {
+            DDLogInfo(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
+        }
+        BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < kPerPage * genes.count;
         if (error) {
             DDLogError(@"fetch %@ data error:%@", type, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, isReachEnd, error);
@@ -760,7 +769,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(MLObject *evaluatedObject, NSDictionary<NSString *,id> * bindings) {
                 return [evaluatedObject[@"language"] isEqualToString:oneGeneMO.language] && [evaluatedObject[@"skill"] isEqualToString:oneGeneMO.skill];
             }];
-            
+
             NSArray *filtedArray = [allGeneMLOs filteredArrayUsingPredicate:p];
             if ([filtedArray count] == 0) {
                 MLObject *oneGeneMLO = [MLObject objectWithClassName:@"Gene"];

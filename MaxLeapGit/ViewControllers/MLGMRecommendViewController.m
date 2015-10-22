@@ -42,13 +42,18 @@
     [self configureNavigationBar];
     [self configureToolbarView];
 
+    [self fetchDataAndUpdateViews];
+}
+
+- (void)fetchDataAndUpdateViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
-    __weak typeof(self) weakSelf = self;
     [[MLGMWebService sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
         [SVProgressHUD dismiss];
+       
+        self.didRequestedDataReachEnd = isReachEnd;
         
-        [weakSelf updateRepos:repos];
-        [weakSelf showRecommendedRepoDetail];
+        [self updateRepos:repos];
+        [self updateViews];
     }];
 }
 
@@ -64,18 +69,47 @@
             }
         }
     }];
-    
-    NSLog(@"self.repos.count = %lu", (unsigned long)self.repos.count);
+    if  (kRecommendationDebug) {
+        DDLogInfo(@"self.repos.count = %lu", self.repos.count);
+    }
 }
 
-- (void)showRecommendedRepoDetail {
+- (void)updateViews {
+    if (self.repos.count == 0) {
+        [self hideRepoWebViewAndShowEmptyView];
+        self.currentRepoIndex = 0;
+        
+    } else if (self.repos.count > 0) {
+        if (self.currentRepoIndex < self.repos.count) {
+            [self showRepoWebView];
+            
+        } else if (self.currentRepoIndex == self.repos.count && self.didRequestedDataReachEnd) {
+            [self hideRepoWebViewAndShowEmptyView];
+            self.currentRepoIndex = 0;
+        }
+    }
+}
+
+- (void)hideRepoWebViewAndShowEmptyView {
+    if (!self.emptyView.superview) {
+        [self.view addSubview:self.emptyView];
+    }
+    self.emptyView.hidden = NO;
+    _starButton.enabled = _forkButton.enabled = _skipButton.enabled = NO;
+    self.webView.hidden = YES;
+    [self.webView stopLoading];
+}
+
+- (void)showRepoWebView {
     if (self.currentRepoIndex < self.repos.count) {
         MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
         if (currentRepo.htmlPageUrl.length) {
             self.title = currentRepo.name;
+            self.webView.hidden = NO;
             [self.webView stopLoading];
             [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentRepo.htmlPageUrl]]];
             self.emptyView.hidden = YES;
+            _starButton.enabled = _forkButton.enabled = _skipButton.enabled = YES;
         }
     }
 }
@@ -101,12 +135,6 @@
     UIView *toolbarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 64 - 44, self.view.bounds.size.width, 44)];
     toolbarView.backgroundColor = BottomToolBarColor;
     [self.view addSubview:toolbarView];
-    
-    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
-        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
-        separatorLine.backgroundColor = [UIColor whiteColor];
-        [toolbarView addSubview:separatorLine];
-    }
 
     _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
     [toolbarView addSubview:_starButton];
@@ -124,14 +152,12 @@
     
     _skipButton = [self createButtonAtIndex:2 withTitle:NSLocalizedString(@"Skip", @"") action:@selector(onClickedSkipButton)];
     [toolbarView addSubview:_skipButton];
-}
-
-- (void)showEmptyView {
-    if (!self.emptyView.superview) {
-        [self.view addSubview:self.emptyView];
+    
+    for (NSUInteger i = 0; i < kToolBarButtonCount; i++) {
+        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(kToolBarButtonWidth + (kToolBarButtonWidth + kVerticalSeparatorLineWidth) * i, (44 - 16) / 2, kVerticalSeparatorLineWidth, 16)];
+        separatorLine.backgroundColor = [UIColor whiteColor];
+        [toolbarView addSubview:separatorLine];
     }
-    self.emptyView.hidden = NO;
-    self.webView.hidden = YES;
 }
 
 #pragma mark - Actions
@@ -225,49 +251,43 @@
 
 - (void)onClickedSkipButton {
     self.currentRepoIndex++;
-
-    NSLog(@"self.repos.count = %lu, currentIndex = %lu, didReachEnd = %d", self.repos.count, self.currentRepoIndex, self.didRequestedDataReachEnd);
     
-    if (self.currentRepoIndex < self.repos.count) {
-        [self showRecommendedRepoDetail];
+    [self updateViews];
+    
+    if  (kRecommendationDebug) {
+        DDLogInfo(@"self.repos.count = %lu, currentIndex = %lu, didReachEnd = %d", self.repos.count, self.currentRepoIndex, self.didRequestedDataReachEnd);
+    }
+    
+    if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
+        self.requestPageNumber++;
         
-    } else if (self.currentRepoIndex == self.repos.count) {
-        
-        if (self.didRequestedDataReachEnd) {
-            [self showEmptyView];
-            self.currentRepoIndex = 0;
-            
-        } else {
-            self.requestPageNumber++;
-            
-            [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
-            __weak typeof(self) weakSelf = self;
-            [[MLGMWebService sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
-                [SVProgressHUD dismiss];
-                
-                self.didRequestedDataReachEnd = isReachEnd;
-                
-                [weakSelf updateRepos:repos];
-                [weakSelf showRecommendedRepoDetail];
-                
-                if (repos.count == 0) {
-                    [weakSelf showEmptyView];
-                    self.currentRepoIndex = 0;
-                }
-            }];
-        }
+        [self fetchDataAndUpdateViews];
     }
 }
 
 - (void)presentAddNewGenePage {
     MLGMNewGeneViewController *vcGenes = [[MLGMNewGeneViewController alloc] init];
+    __weak typeof(self) wSelf = self;
+    vcGenes.dismissBlock = ^{
+        [wSelf fetchDataAndUpdateViews];
+    };
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)replayRecommendationView {
-    _emptyView.hidden = YES;
-    self.webView.hidden = NO;
+    if (self.repos.count == 0) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"Please add new genes first!" preferredStyle:UIAlertControllerStyleAlert];
+        __weak typeof(self) weakSelf = self;
+        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction) {
+            [weakSelf presentAddNewGenePage];
+        }];
+        [alertController addAction:alertAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    
+    self.currentRepoIndex = 0;
+    [self updateViews];
 }
 
 #pragma mark- Delegate，DataSource, Callback Method

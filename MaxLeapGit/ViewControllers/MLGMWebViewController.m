@@ -12,8 +12,8 @@
 #define kWebViewLoadingProgressKey     @"estimatedProgress"
 
 @interface MLGMWebViewController () <WKNavigationDelegate>
-@property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) UIProgressView *progressView;
 @end
 
 @implementation MLGMWebViewController
@@ -88,6 +88,7 @@
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
     _progressView.progress = 0;
+    _progressView.hidden = NO;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = webView.loading;
     [_activityIndicatorView startAnimating];
 }
@@ -113,11 +114,18 @@
 
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:kWebViewLoadingStatusKey]) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = _webView.loading;
-    } else if ([keyPath isEqualToString:kWebViewLoadingProgressKey]) {
-        _progressView.hidden = NO;
-        [_progressView setProgress:_webView.estimatedProgress animated:YES];
+    if (!_webView.hidden) {
+        if ([keyPath isEqualToString:kWebViewLoadingStatusKey]) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = _webView.loading;
+        } else if ([keyPath isEqualToString:kWebViewLoadingProgressKey]) {
+            _progressView.hidden = NO;
+            [_progressView setProgress:_webView.estimatedProgress animated:YES];
+        }
+    } else {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        _progressView.progress = 0;
+        _progressView.hidden = YES;
+        [_activityIndicatorView stopAnimating];
     }
 }
 

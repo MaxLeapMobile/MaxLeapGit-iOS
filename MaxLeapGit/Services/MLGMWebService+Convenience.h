@@ -17,7 +17,7 @@ typedef void(^CompleteHanderBlock)(NSDictionary *responHeaderFields, NSInteger s
 - (NSURLRequest *)deleteRequestWithEndPoint:(NSString *)endPoint parameters:(NSDictionary *)postParameters;
 
 - (void)startRquest:(NSURLRequest *)request patternFile:(NSString *)patternFile completion:(CompleteHanderBlock)completion;
-- (void)cancelAllDataTasks;
+- (void)cancelAllDataTasksCompletion:(void(^)())completion;
 
 - (JSONValidation *)jsonValidation;
 

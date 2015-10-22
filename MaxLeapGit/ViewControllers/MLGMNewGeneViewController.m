@@ -101,7 +101,11 @@ UITableViewDelegate
         gene.updateTime = [NSDate date];
     }
     [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (_dismissBlock) {
+            _dismissBlock();
+        }
+    }];
 }
 
 #pragma mark - actions

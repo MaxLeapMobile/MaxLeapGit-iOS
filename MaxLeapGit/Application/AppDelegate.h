@@ -10,9 +10,7 @@
 
 @class MLGMCustomTabBarController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
 @property (strong, nonatomic) UIWindow *window;
-@property(nonatomic,strong) MLGMCustomTabBarController *tabBarController;
-
+- (void)logout;
 @end
 

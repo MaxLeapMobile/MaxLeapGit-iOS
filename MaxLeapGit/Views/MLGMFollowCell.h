@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMFollowCell : UITableViewCell
+@property (nonatomic, assign) BOOL isForSearchPage;
 @property (nonatomic, assign, readonly) BOOL isAnimationRunning;
 @property (nonatomic, copy) void(^followButtonPressedAction)(NSString *targetLoginName);
 

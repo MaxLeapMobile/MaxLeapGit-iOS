@@ -41,7 +41,6 @@
 		B43F3FBC1BB10F6A0036ECF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FBB1BB10F6A0036ECF6 /* AppDelegate.m */; };
 		B43F3FBF1BB125D80036ECF6 /* MLGMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FBE1BB125D80036ECF6 /* MLGMLoginViewController.m */; };
 		B43F3FC11BB126450036ECF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B43F3FC01BB126450036ECF6 /* main.m */; };
-		B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */; };
 		B44204FF1BC79BF5007F28CA /* NSDictionary+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B44204FC1BC79BF5007F28CA /* NSDictionary+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B44205001BC79BF5007F28CA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B44204FE1BC79BF5007F28CA /* NSString+Extension.m */; settings = {ASSET_TAGS = (); }; };
 		B4429FCA1BCCF82200F8B108 /* MLGMRecommendEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4429FC01BCCF82200F8B108 /* MLGMRecommendEmptyView.m */; settings = {ASSET_TAGS = (); }; };
@@ -181,9 +180,6 @@
 		B43F3FBD1BB125D80036ECF6 /* MLGMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMLoginViewController.h; sourceTree = "<group>"; };
 		B43F3FBE1BB125D80036ECF6 /* MLGMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMLoginViewController.m; sourceTree = "<group>"; };
 		B43F3FC01BB126450036ECF6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B43F3FC31BB12BCB0036ECF6 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
-		B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.0.0.a; sourceTree = "<group>"; };
 		B44204FB1BC79BF5007F28CA /* NSDictionary+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Extension.h"; sourceTree = "<group>"; };
 		B44204FC1BC79BF5007F28CA /* NSDictionary+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Extension.m"; sourceTree = "<group>"; };
 		B44204FD1BC79BF5007F28CA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -266,7 +262,6 @@
 				B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */,
 				B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */,
 				B4720FD51BD61060000FCF5A /* MaxLeap.framework in Frameworks */,
-				B43F3FC61BB12BCB0036ECF6 /* libFlurry_7.0.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,7 +490,6 @@
 			isa = PBXGroup;
 			children = (
 				B4720FD41BD61060000FCF5A /* MaxLeap.framework */,
-				B43F3FC21BB12BCB0036ECF6 /* Flurry */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -543,10 +537,7 @@
 		B43F3FB81BB10F570036ECF6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */,
-				B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */,
-				E3AB6E001BCCE50300140E78 /* MLGMCustomTabBarController.h */,
-				E3AB6E011BCCE50300140E78 /* MLGMCustomTabBarController.m */,
+				B4DFFB7B1BD88F6D00688BB1 /* MainViewController */,
 				E3AB6E221BCCE80100140E78 /* Login */,
 				E3AB6E261BCCE82400140E78 /* Search */,
 				E3AB6E251BCCE81F00140E78 /* TimeLine */,
@@ -581,16 +572,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		B43F3FC21BB12BCB0036ECF6 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				B43F3FC31BB12BCB0036ECF6 /* Flurry.h */,
-				B43F3FC41BB12BCB0036ECF6 /* FlurryWatch.h */,
-				B43F3FC51BB12BCB0036ECF6 /* libFlurry_7.0.0.a */,
-			);
-			path = Flurry;
-			sourceTree = "<group>";
-		};
 		B45582B31BC800FF00336B9E /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +580,15 @@
 				B408C3C41BCB5EE80018634D /* NSObject */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B4DFFB7B1BD88F6D00688BB1 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E3AB6E001BCCE50300140E78 /* MLGMCustomTabBarController.h */,
+				E3AB6E011BCCE50300140E78 /* MLGMCustomTabBarController.m */,
+			);
+			name = MainViewController;
 			sourceTree = "<group>";
 		};
 		B4E69C561BC8B935008993A7 /* Library */ = {
@@ -651,6 +641,8 @@
 		E3AB6E241BCCE81900140E78 /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
+				B4C044D21BCE346100DBBD6D /* MLGMWebViewController.h */,
+				B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */,
 				E3AB6DF41BCCE50300140E78 /* MLGMRecommendViewController.h */,
 				E3AB6DF51BCCE50300140E78 /* MLGMRecommendViewController.m */,
 			);

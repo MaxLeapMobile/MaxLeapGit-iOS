@@ -166,7 +166,6 @@
             return 1;
         }
         
-        
         if (section == 2) {
             return 4;
         }
@@ -277,7 +276,7 @@
 - (MLGMHomePageCell *)configureGeneCell:(MLGMHomePageCell *)geneCell {
     geneCell.textLabel.text = NSLocalizedString(@"Genes", nil);
     if  (self.userProfile.genes) {
-        geneCell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[self.userProfile.genes count]];
+        geneCell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[kOnlineAccountProfile.genes count]];
     } else {
         geneCell.detailTextLabel.text = @"-";
     }
@@ -403,7 +402,6 @@
     
     return _tableView;
 }
-
 
 - (UIView *)headerView {
     if (!_headerView) {

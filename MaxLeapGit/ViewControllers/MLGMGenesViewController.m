@@ -37,8 +37,6 @@
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
-    self.genes = [NSMutableArray arrayWithArray:[kOnlineAccountProfile.genes allObjects]];
-    [self.genes sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]]];
     [self reloadData];
 }
 

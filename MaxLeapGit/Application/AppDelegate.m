@@ -16,7 +16,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureGlobalAppearance];
-    [self configureFlurry];
 	[self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureHoceyApp];
@@ -24,7 +23,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = UIColorFromRGB(0xffffff);
-    self.window.rootViewController = self.tabBarController = [[MLGMCustomTabBarController alloc] init];
+    self.window.rootViewController = [[MLGMCustomTabBarController alloc] init];
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -40,7 +39,12 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
-#pragma Private Method
+#pragma mark - Public Method 
+- (void)logout {
+    self.window.rootViewController = [[MLGMCustomTabBarController alloc] init];
+}
+
+#pragma mark - Private Method
 - (void)configureGlobalAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -54,11 +58,6 @@
     [[UINavigationBar appearance] setBackgroundImage:barBGImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:barLineImage];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-}
-
-- (void)configureFlurry {
-    [Flurry setAppVersion:kAppVersion];
-    [Flurry startSession:CONFIGURE(@"3cce3f30d1c88bef1cb54f4caa09abeb64863112")];
 }
 
 - (void)configureLeapCloud {
@@ -82,12 +81,14 @@
 }
 
 - (void)configureCocoaLumberjack {
-    _fileLogger = [[DDFileLogger alloc] init];
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
     
-    [_fileLogger setMaximumFileSize:(1024 * 1024)];
-    [_fileLogger setRollingFrequency:(3600.0 * 24.0)];
-    [[_fileLogger logFileManager] setMaximumNumberOfLogFiles:7];
-    [DDLog addLogger:_fileLogger];
+    [fileLogger setMaximumFileSize:(1024 * 1024)];
+    [fileLogger setRollingFrequency:(3600.0 * 24.0)];
+    [[fileLogger logFileManager] setMaximumNumberOfLogFiles:7];
+    [DDLog addLogger:fileLogger];
+    
+    self.fileLogger = fileLogger;
     
     if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
         [DDLog addLogger:[DDASLLogger sharedInstance]];
@@ -98,25 +99,21 @@
 - (NSString *)getLogFilesContentWithMaxSize:(NSInteger)maxSize {
     NSMutableString *description = [NSMutableString string];
     
-    NSArray *sortedLogFileInfos = [[_fileLogger logFileManager] sortedLogFileInfos];
+    NSArray *sortedLogFileInfos = [[self.fileLogger logFileManager] sortedLogFileInfos];
     NSInteger count = [sortedLogFileInfos count];
     
-    // we start from the last one
     for (NSInteger index = count - 1; index >= 0; index--) {
         DDLogFileInfo *logFileInfo = [sortedLogFileInfos objectAtIndex:index];
         
         NSData *logData = [[NSFileManager defaultManager] contentsAtPath:[logFileInfo filePath]];
         if ([logData length] > 0) {
-            NSString *result = [[NSString alloc] initWithBytes:[logData bytes]
-                                                        length:[logData length]
-                                                      encoding: NSUTF8StringEncoding];
-            
+            NSString *result = [[NSString alloc] initWithBytes:[logData bytes] length:[logData length] encoding: NSUTF8StringEncoding];
             [description appendString:result];
         }
     }
     
     if ([description length] > maxSize) {
-        description = (NSMutableString *)[description substringWithRange:NSMakeRange([description length]-maxSize-1, maxSize)];
+        description = (NSMutableString *)[description substringWithRange:NSMakeRange([description length] - maxSize - 1, maxSize)];
     }
     
     return description;
@@ -124,12 +121,12 @@
 
 #pragma mark - BITCrashManagerDelegate
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
-    NSString *description = [self getLogFilesContentWithMaxSize:5000]; // 5000 bytes should be enough!
+    NSString *description = [self getLogFilesContentWithMaxSize:5000];
     if ([description length] == 0) {
         return nil;
-    } else {
-        return description;
     }
+    
+    return description;
 }
 
 @end

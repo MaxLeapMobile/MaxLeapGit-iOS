@@ -9,8 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MLGMCustomTabBarController : UITabBarController
-@property (nonatomic, copy) dispatch_block_t centralButtonAction;
-
 - (void)setTabBarHidden:(BOOL)hidden;
-
 @end
