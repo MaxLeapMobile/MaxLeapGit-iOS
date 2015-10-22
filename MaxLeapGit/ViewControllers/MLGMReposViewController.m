@@ -24,13 +24,14 @@
     [super viewDidLoad];
     [self configureSubViews];
     [self updateViewConstraints];
+    [self.tableView triggerPullToRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self transparentNavigationBar:NO];
-    [self.tableView triggerPullToRefresh];
+    [self.tableView reloadData];
 }
 
 #pragma mark- Override Parent Methods

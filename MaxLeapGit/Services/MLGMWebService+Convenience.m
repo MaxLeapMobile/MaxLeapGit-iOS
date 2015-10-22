@@ -8,8 +8,6 @@
 
 #import "MLGMWebService+Convenience.h"
 
-#define KNewworkDebug 0
-
 #define kTimeOutInvervalForRequest 30
 
 static NSString *const kGitHubBaseName = @"https://api.github.com";

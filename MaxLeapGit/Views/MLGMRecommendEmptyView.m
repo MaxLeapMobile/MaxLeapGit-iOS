@@ -111,7 +111,7 @@
 
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    NSLog(@"did select urlString: %@", url.absoluteString);
+    DDLogInfo(@"did select urlString: %@", url.absoluteString);
     if ([url.absoluteString isEqualToString:kAddNewGenesLinkTag]) {
         BLOCK_SAFE_ASY_RUN_MainQueue(_addNewGeneAction);
     } else if ([url.absoluteString isEqualToString:kReplayRecommendationListLinkTag]) {

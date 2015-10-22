@@ -580,9 +580,6 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
                                  };
     
     [MLCloudCode callFunctionInBackground:@"repositories" withParameters:parameters block:^(NSArray *cloudObjects, NSError *error) {
-        if  (kRecommendationDebug) {
-            DDLogInfo(@"cloudObjs.count = %lu", (unsigned long)cloudObjects.count);
-        }
         BOOL isReachEnd = [type isEqualToString:@"trending"] ? NO : cloudObjects.count < kPerPage * genes.count;
         if (error) {
             DDLogError(@"fetch %@ data error:%@", type, error.localizedDescription);

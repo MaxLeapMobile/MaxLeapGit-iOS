@@ -113,7 +113,7 @@
 #pragma mark- Delegate，DataSource, Callback Method
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    NSLog(@"did select urlString: %@", url.absoluteString);
+    DDLogInfo(@"did select urlString: %@", url.absoluteString);
     if ([url.absoluteString isEqualToString:kUserNameLinkTag]) {
         BLOCK_SAFE_ASY_RUN_MainQueue(self.tapUserAction, self.event.actorName);
     } else if ([url.absoluteString isEqualToString:kSourceRepoLinkTag]) {
