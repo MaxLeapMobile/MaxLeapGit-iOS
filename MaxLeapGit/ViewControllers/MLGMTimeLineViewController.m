@@ -133,16 +133,16 @@
         [weakSelf.tableView addPullToRefreshWithActionHandler:^{
             self.tableView.showsInfiniteScrolling = NO;
             page = 1;
-            [KSharedWebService timeLineForUserName:kOnlineAccount.actorProfile.loginName
+            [KSharedWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
-                                                      completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
-                                                          if (!isRechEnd && events.count < kPerPage) {
+                                                      completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
+                                                          if (!isReachEnd && events.count < kPerPage) {
                                                               [self.tableView triggerInfiniteScrolling];
                                                           }
                                                           execute_after_main_queue(0.2, ^{
                                                               [weakSelf.tableView.pullToRefreshView stopAnimating];
                                                           });
-                                                          weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                                                          weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                                                           
                                                           if (!error) {
                                                               [weakSelf.results removeAllObjects];
@@ -155,11 +155,11 @@
         }];
         
         [weakSelf.tableView addInfiniteScrollingWithActionHandler:^{
-            [KSharedWebService timeLineForUserName:kOnlineAccount.actorProfile.loginName
+            [KSharedWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page + 1
-                                                      completion:^(NSArray *events, BOOL isRechEnd, NSError *error) {
+                                                      completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
                                                           [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                                                          weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                                                          weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                                                           if (!error) {
                                                               page++;
                                                               [weakSelf.results addObjectsFromArray:events];

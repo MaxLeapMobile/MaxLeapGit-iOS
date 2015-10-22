@@ -107,11 +107,11 @@
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
             if (self.type == MLGMReposControllerTypeRepos) {
-                [KSharedWebService publicRepoForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService fetchPublicReposForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
-                    weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                    weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     
                     if (!error) {
                         [weakSelf.results removeAllObjects];
@@ -124,11 +124,11 @@
             }
             
             if (self.type == MLGMReposControllerTypeStars) {
-                [KSharedWebService staredReposForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService fetchStarredReposForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
-                    weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                    weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     
                     if (!error) {
                         [weakSelf.results removeAllObjects];
@@ -143,9 +143,9 @@
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
             if (self.type == MLGMReposControllerTypeRepos) {
-                [KSharedWebService publicRepoForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService fetchPublicReposForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                    weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                    weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     if (!error) {
                         page++;
                         [weakSelf.results addObjectsFromArray:repos];
@@ -157,9 +157,9 @@
             }
             
             if (self.type == MLGMReposControllerTypeStars) {
-                [KSharedWebService staredReposForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isRechEnd, NSError *error) {
+                [KSharedWebService fetchStarredReposForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                    weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                    weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     if (!error) {
                         page++;
                         [weakSelf.results addObjectsFromArray:repos];

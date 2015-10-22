@@ -62,8 +62,8 @@
     if (!self.didInitSyncOnlineAccountGenes) {
         [self setupThirdTabName];
         [KSharedWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
-        [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL success, NSError *error) {
-            if (success) {
+        [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
                 [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
                 self.didInitSyncOnlineAccountGenes = YES;
             }

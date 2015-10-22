@@ -38,19 +38,19 @@
     [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
     [self transparentNavigationBar:YES];
     
-    [KSharedWebService userProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
+    [KSharedWebService fetchUserProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
         [self.tableView reloadData];
-        [KSharedWebService starCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
+        [KSharedWebService fetchStarCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
             [self.tableView reloadData];
         }];
         
-        [KSharedWebService organizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
+        [KSharedWebService fetchOrganizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
             [self.tableView reloadData];
         }];
     }];
     
     [self updateFollowState];
-    [KSharedWebService isUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [KSharedWebService checkFollowStatusForUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         [self updateFollowState];
     }];
 }

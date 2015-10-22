@@ -71,7 +71,7 @@
         NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
-        [KSharedWebService organizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
+        [KSharedWebService fetchOrganizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
             MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.organizationProfile.loginName];
             if (latestProfile.githubUpdateTime) {
                 NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];

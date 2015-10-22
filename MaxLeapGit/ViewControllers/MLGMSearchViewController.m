@@ -38,6 +38,15 @@
 @implementation MLGMSearchViewController
 
 #pragma mark - init Method
+-(void)dealloc {
+
+    [self.searchController.view removeFromSuperview]; // UISearchController's view has to be removed from its superview before deallocation. (a bug for UISearchController) Ref: http://stackoverflow.com/questions/32282401/attempting-to-load-the-view-of-a-view-controller-while-it-is-deallocating-uis
+    
+    //Fix warning: Attempting to load the view of a view controller while it
+    //is deallocating is not allowed and may result in undefined behavior
+    //(<UISearchController: 0x7f89a4c0edd0>)
+}
+
 
 #pragma mark- View Life Cycle
 - (void)viewDidLoad {

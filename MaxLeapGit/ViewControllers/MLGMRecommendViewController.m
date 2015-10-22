@@ -178,10 +178,10 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
     MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
     if (starRelation.isStar.boolValue) {
-        [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
+        [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
-            if (success) {
+            if (succeeded) {
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"UnStar Success", nil)];
             } else {
                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"UnStar Failure", nil)];
@@ -190,8 +190,8 @@
             [self updateStarStateWithRepoName:repoName];
         }];
     } else {
-        [[MLGMWebService sharedInstance] starRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
-            if (success) {
+        [[MLGMWebService sharedInstance] starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+            if (succeeded) {
                 [self.loadingViewAtStarButton stopAnimating];
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
             } else {
@@ -213,11 +213,11 @@
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     __weak typeof(self) weakSelf = self;
-    [[MLGMWebService sharedInstance] forkRepo:currentRepo.name completion:^(BOOL success, NSString *repoName, NSError *error) {
+    [[MLGMWebService sharedInstance] forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         [weakSelf.loadingViewAtForkButton stopAnimating];
         [weakSelf.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         
-        if (success) {
+        if (succeeded) {
             [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Fork Success", nil)];
         } else {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Fork Failure", nil)];

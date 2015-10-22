@@ -101,7 +101,7 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     return request;
 }
 
-- (void)startRquest:(NSURLRequest *)request patternFile:(NSString *)patternFile completion:(CompleteHanderBlock)completion {
+- (void)startRequest:(NSURLRequest *)request patternFile:(NSString *)patternFile completion:(CompleteHanderBlock)completion {
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
