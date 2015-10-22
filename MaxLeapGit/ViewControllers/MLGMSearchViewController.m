@@ -10,6 +10,18 @@
 
 #define kRepoAndUserButtonWidth     77
 
+@interface MLGMCustomSearchController : UISearchController
+
+@end
+
+@implementation MLGMCustomSearchController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+@end
+
 @interface MLGMSearchViewController () <UISearchControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, WYPopoverControllerDelegate, MLGMSortViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -75,7 +87,7 @@
 }
 
 - (void)configureSearchController {
-    _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    _searchController = [[MLGMCustomSearchController alloc] initWithSearchResultsController:nil];
     _searchController.hidesNavigationBarDuringPresentation = NO;
     _searchController.dimsBackgroundDuringPresentation = NO;
     _searchController.delegate = self;

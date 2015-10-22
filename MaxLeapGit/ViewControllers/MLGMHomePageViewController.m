@@ -13,6 +13,7 @@
 @property (nonatomic, assign) BOOL didSetupConstraints;
 @property (nonatomic, assign) BOOL isLoginUserHomePage;
 @property (nonatomic, strong) MLGMActorProfile *userProfile;
+@property (nonatomic, strong) UIButton *followButton;
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) NSLayoutConstraint *bgViewTopConstraints;
@@ -82,10 +83,7 @@
                                                                                              target:self
                                                                                              action:@selector(searchButtonPressed:)];
     } else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(followButtonPressed:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.followButton];
     }
 }
 
@@ -127,9 +125,9 @@
         }
         
         if (followRelation.isFollow.boolValue) {
-            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Unfollow", nil)];
+            [self.followButton setTitle:NSLocalizedString(@"Unfollow", @"") forState:UIControlStateNormal];
         } else {
-            [self.navigationItem.rightBarButtonItem setTitle:NSLocalizedString(@"Follow", nil)];
+            [self.followButton setTitle:NSLocalizedString(@"Follow", @"") forState:UIControlStateNormal];
         }
     }
 }
@@ -380,6 +378,17 @@
 }
 
 #pragma mark- Getter Setter
+- (UIButton *)followButton {
+    if (!_followButton) {
+        _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 44)];
+        [_followButton setTitle:@"" forState:UIControlStateNormal];
+        _followButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _followButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        [_followButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _followButton;
+}
+
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
