@@ -96,11 +96,11 @@
         [self.tableView addPullToRefreshWithActionHandler:^{
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
-             [KSharedWebService organizationsForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOs, BOOL isRechEnd, NSError *error) {
+             [KSharedWebService fetchOrganizationInfoForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *orgMOs, BOOL isReachEnd, NSError *error) {
                 execute_after_main_queue(0.2, ^{
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
                 });
-                weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                 
                 if (!error) {
                     [weakSelf.results removeAllObjects];
@@ -113,9 +113,9 @@
         }];
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
-            [KSharedWebService organizationsForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isRechEnd, NSError *error) {
+            [KSharedWebService fetchOrganizationInfoForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *orgMOCs, BOOL isReachEnd, NSError *error) {
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                weakSelf.tableView.showsInfiniteScrolling = !isRechEnd;
+                weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                 if (!error && [orgMOCs count] > 0) {
                     page++;
                     [weakSelf.results addObjectsFromArray:orgMOCs];

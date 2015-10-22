@@ -33,7 +33,7 @@
 
 - (void)updateButtonState {
     [self updateStarStateWithRepoName:self.repoName];
-    [KSharedWebService isStarRepo:self.repoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
+    [KSharedWebService checkStarStatusForRepo:self.repoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
         [self updateStarStateWithRepoName:self.repoName];
     }];
 }
@@ -102,10 +102,10 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, self.repoName];
     MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
     if (starRelation.isStar.boolValue) {
-        [KSharedWebService unstarRepo:self.repoName completion:^(BOOL success, NSString *repoName, NSError *error) {
+        [KSharedWebService unstarRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
-            if (success) {
+            if (succeeded) {
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"UnStar Success", nil)];
             } else {
                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"UnStar Failure", nil)];
@@ -114,8 +114,8 @@
             [self updateStarStateWithRepoName:repoName];
         }];
     } else {
-        [KSharedWebService starRepo:self.repoName completion:^(BOOL success, NSString *repoName, NSError *error) {
-            if (success) {
+        [KSharedWebService starRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+            if (succeeded) {
             [self.loadingViewAtStarButton stopAnimating];
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
             } else {
@@ -135,11 +135,11 @@
     [self.loadingViewAtForkButton startAnimating];
     [self.forkButton setTitle:@"" forState:UIControlStateNormal];
     
-    [KSharedWebService forkRepo:self.repoName completion:^(BOOL success, NSString *repoName, NSError *error) {
+    [KSharedWebService forkRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         [self.loadingViewAtForkButton stopAnimating];
         [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         
-        if (success) {
+        if (succeeded) {
             [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Fork Success", nil)];
         } else {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Fork Failure", nil)];
