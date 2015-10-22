@@ -302,6 +302,12 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == _repoTableView || scrollView == _userTableView) {
+        [_searchController.searchBar endEditing:YES];
+    }
+}
+
 #pragma mark - WYPopoverController Delegate
 - (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller {
     _popover.delegate = nil;
@@ -334,7 +340,6 @@
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     _emptyView.hidden = YES;
     
-    NSLog(@"searchtext = %@", _searchText);
     if (!_searchTargetIsUser) {
         if (!_repos) {
             _repos = [NSMutableArray array];
@@ -343,14 +348,17 @@
         __weak typeof(self) wSelf = self;
         [KSharedWebService searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
+           
             if (isReachEnd) {
                 wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
             }
-            NSLog(@"repos = %@", repos);
             [wSelf.repos removeAllObjects];
             [wSelf.repos addObjectsFromArray:repos];
-            [wSelf showEmptyViewIfNeeded];
             [wSelf.repoTableView reloadData];
+            if (repos.count > 0) {
+                [wSelf.repoTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            }
+            [wSelf showEmptyViewIfNeeded];
         }];
     } else {
         if (!_users) {
@@ -360,14 +368,17 @@
         __weak typeof(self) wSelf = self;
         [KSharedWebService searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
+           
             if (isReachEnd) {
                 wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
             }
-            NSLog(@"repos = %@", users);
             [wSelf.users removeAllObjects];
             [wSelf.users addObjectsFromArray:users];
-            [wSelf showEmptyViewIfNeeded];
             [wSelf.userTableView reloadData];
+            if (users.count > 0) {
+                [wSelf.userTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            }
+            [wSelf showEmptyViewIfNeeded];
         }];
     }
 }
@@ -398,3 +409,4 @@
 #pragma mark- Helper Method
 
 @end
+
