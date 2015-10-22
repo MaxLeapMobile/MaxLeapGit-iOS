@@ -100,12 +100,11 @@
 }
 
 - (void)prepareToLogout {
-    [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Bad credentials", nil)];
     [KSharedWebService cancelAllDataTasksCompletion:^{
         [self.credentialsMonitor invalidate];
         self.credentialsMonitor = nil;
         
-        kOnlineAccount.isOnline = @NO;
+        [kOnlineAccount MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
         [(AppDelegate *)[UIApplication sharedApplication].delegate logout];

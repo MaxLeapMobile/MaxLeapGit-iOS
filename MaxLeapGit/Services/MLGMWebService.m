@@ -765,6 +765,11 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     [queryForGene whereKey:@"githubName" equalTo:kOnlineUserName];
     
     [queryForGene findObjectsInBackgroundWithBlock:^(NSArray *allGeneMLOs, NSError *error) {
+        if (error) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
+            return;
+        }
+        
         [kOnlineAccountProfile.genes enumerateObjectsUsingBlock:^(MLGMGene * oneGeneMO, BOOL * stop) {
             NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(MLObject *evaluatedObject, NSDictionary<NSString *,id> * bindings) {
                 return [evaluatedObject[@"language"] isEqualToString:oneGeneMO.language] && [evaluatedObject[@"skill"] isEqualToString:oneGeneMO.skill];
