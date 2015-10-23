@@ -47,8 +47,6 @@
         NSArray *array = [_url componentsSeparatedByString:@"/"];
         self.title = [array lastObject];
     }
-   
-    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     
     [self configureWebView];
     [self configureProgressView];

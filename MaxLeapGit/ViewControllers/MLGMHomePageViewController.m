@@ -36,7 +36,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:!self.isLoginUserHomePage];
     [self transparentNavigationBar:YES];
     
     [KSharedWebService fetchUserProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
@@ -231,7 +230,7 @@
             cell = [self configureOrganizationCell:(MLGMHomePageCell *)cell];
         }
     }
-    
+
     return cell;
 }
 
@@ -242,6 +241,7 @@
         MLGMFollowViewController *followerVC = [MLGMFollowViewController new];
         followerVC.type = MLGMFollowControllerTypeFollowers;
         followerVC.ownerName = self.userProfile.loginName;
+        followerVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:followerVC animated:YES];
     };
     
@@ -249,6 +249,7 @@
         MLGMFollowViewController *followingerVC = [MLGMFollowViewController new];
         followingerVC.type = MLGMFollowControllerTypeFollowing;
         followingerVC.ownerName = self.userProfile.loginName;
+        followingerVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:followingerVC animated:YES];
     };
     
@@ -256,6 +257,7 @@
         MLGMReposViewController *reposVC = [MLGMReposViewController new];
         reposVC.ownerName = self.ownerName;
         reposVC.type = MLGMReposControllerTypeRepos;
+        reposVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:reposVC animated:YES];
     };
     
@@ -263,6 +265,7 @@
         MLGMReposViewController *starVC = [MLGMReposViewController new];
         starVC.ownerName = self.ownerName;
         starVC.type = MLGMReposControllerTypeStars;
+        starVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:starVC animated:YES];
     };
     
@@ -355,15 +358,18 @@
     if ([self isLoginUserHomePage]) {
         if (indexPath.section == 1) {
             MLGMGenesViewController *genesVC = [[MLGMGenesViewController alloc] init];
+            genesVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:genesVC animated:YES];
         } else if (indexPath.section == 3 && [self.userProfile.organizationCount integerValue] > 0) {
             UIViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
+            orgnizationVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:orgnizationVC animated:YES];
         }
     } else {
         if (indexPath.section == 2 && [self.userProfile.organizationCount integerValue] > 0) {
             MLGMOrganizationsViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
             orgnizationVC.ownerName = self.ownerName;
+            orgnizationVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:orgnizationVC animated:YES];
         }
     }

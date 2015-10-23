@@ -29,7 +29,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     [self transparentNavigationBar:NO];
     [self.tableView reloadData];
 }

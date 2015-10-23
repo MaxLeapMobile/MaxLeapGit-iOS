@@ -8,7 +8,7 @@
 
 #import "MLGMCustomTabBarController.h"
 
-@interface MLGMCustomTabBarController ()
+@interface MLGMCustomTabBarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) UIButton *recommendationButton;
 @property (nonatomic, strong) UINavigationController *firstNav;
 @property (nonatomic, strong) UIViewController *secondVC;
@@ -35,7 +35,8 @@
 #pragma mark- View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.recommendationButton];
+    self.delegate = self;
+    [self.tabBar addSubview:self.recommendationButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -83,7 +84,14 @@
 }
 
 #pragma mark- Actions
-- (void)recommendationButtonPressed:(id)sender {
+#pragma mark- Public Methods
+- (void)setTabBarHidden:(BOOL)hidden {
+    self.tabBar.hidden = hidden;
+    self.recommendationButton.hidden = hidden;
+}
+
+#pragma mark- Private Methods
+- (void)presentRecommendationViewController {
     UIViewController *vcRecommend = [[MLGMRecommendViewController alloc] init];
     UINavigationController *navRecommend = [[UINavigationController alloc] initWithRootViewController:vcRecommend];
     navRecommend.navigationBar.barStyle = UIBarStyleBlack;
@@ -111,21 +119,14 @@
     }];
 }
 
-#pragma mark- Public Methods
-- (void)setTabBarHidden:(BOOL)hidden {
-    self.tabBar.hidden = hidden;
-    self.recommendationButton.hidden = hidden;
-}
-
-#pragma mark- Private Methods
-
 #pragma mark- Delegate，DataSource, Callback Method
 #pragma mark - UITabBarControllerDelegate
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    UIViewController *centralViewController = self.viewControllers[1];
-    if (centralViewController == viewController) {
+    if (viewController == self.secondVC) {
+        [self presentRecommendationViewController];
         return NO;
     }
+    
     return YES;
 }
 
@@ -166,12 +167,11 @@
 
 - (UIButton *)recommendationButton {
     if (!_recommendationButton) {
-        CGFloat buttonWidth = self.view.bounds.size.width / 3;
+        CGFloat buttonWidth = ScreenRect.size.width / 3;
         _recommendationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _recommendationButton.frame = CGRectMake(buttonWidth, self.view.bounds.size.height - self.tabBar.bounds.size.height, buttonWidth, self.tabBar.bounds.size.height);
+        _recommendationButton.frame = CGRectMake((ScreenRect.size.width - buttonWidth) / 2, 0, buttonWidth, self.tabBar.bounds.size.height);
         [_recommendationButton setImage:[UIImage imageNamed:@"star_icon_normal"] forState:UIControlStateNormal];
         [_recommendationButton setImage:[UIImage imageNamed:@"star_icon_selected"] forState:UIControlStateHighlighted];
-        [_recommendationButton addTarget:self action:@selector(recommendationButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _recommendationButton;

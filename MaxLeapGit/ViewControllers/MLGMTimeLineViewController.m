@@ -30,7 +30,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -78,21 +77,24 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.tapUserAction = ^(NSString *userName){
-        MLGMHomePageViewController *vcUser = [[MLGMHomePageViewController alloc] init];
-        vcUser.ownerName = userName;
-        [self.navigationController pushViewController:vcUser animated:YES];
+        MLGMHomePageViewController *homePageVC = [[MLGMHomePageViewController alloc] init];
+        homePageVC.ownerName = userName;
+        homePageVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:homePageVC animated:YES];
     };
     
     cell.tapSourceRepoAction = ^(NSString *source){
-        MLGMRepoDetailController *vc = [[MLGMRepoDetailController alloc] init];
-        vc.repoName = source;
-        [self.navigationController pushViewController:vc animated:YES];
+        MLGMRepoDetailController *repoDetailVC = [[MLGMRepoDetailController alloc] init];
+        repoDetailVC.repoName = source;
+        repoDetailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:repoDetailVC animated:YES];
     };
     
     cell.tapForkRepoAction = ^(NSString *taget) {
-        MLGMRepoDetailController *vc = [[MLGMRepoDetailController alloc] init];
-        vc.repoName = taget;
-        [self.navigationController pushViewController:vc animated:YES];
+        MLGMRepoDetailController *repoDetailVC = [[MLGMRepoDetailController alloc] init];
+        repoDetailVC.repoName = taget;
+        repoDetailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:repoDetailVC animated:YES];
     };
     
     [cell configureCell:self.results[indexPath.row]];

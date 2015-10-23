@@ -17,6 +17,7 @@
         self.navigationController.navigationBar.translucent = YES;
     } else {
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:UIColorFromRGB(0x333333)] forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.view.backgroundColor = UIColorFromRGB(0x333333);
         self.navigationController.navigationBar.shadowImage = [UIImage imageWithColor:[UIColor clearColor]];;
         self.navigationController.navigationBar.translucent = NO;
     }

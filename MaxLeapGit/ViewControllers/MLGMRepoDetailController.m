@@ -24,7 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [(MLGMCustomTabBarController *)self.navigationController.tabBarController setTabBarHidden:YES];
     self.url = [NSString stringWithFormat:@"https://github.com/%@", self.repoName];
     
     [self configureToolbarView];
