@@ -1002,6 +1002,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MaxLeapGit/Utils/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+				);
 				INFOPLIST_FILE = MaxLeapGit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1029,6 +1033,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MaxLeapGit/Utils/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+				);
 				INFOPLIST_FILE = MaxLeapGit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1038,7 +1046,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxleap.gitmaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8f455649-4fec-47ff-86ff-435ef4495f09";
+				PROVISIONING_PROFILE = "6b608ccc-73f8-45cd-bb6b-f1699d5a40e5";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
