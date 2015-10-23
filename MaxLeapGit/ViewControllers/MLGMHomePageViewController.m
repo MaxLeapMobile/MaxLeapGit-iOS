@@ -382,6 +382,8 @@
     if (!_followButton) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 44)];
         [_followButton setTitle:@"" forState:UIControlStateNormal];
+        [_followButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_followButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         _followButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         _followButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
         [_followButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

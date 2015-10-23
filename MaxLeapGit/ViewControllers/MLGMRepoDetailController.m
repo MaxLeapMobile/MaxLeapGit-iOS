@@ -43,12 +43,12 @@
     
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
     MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (!starRelation.isStar) {
+    if (!starRelation.isStarred) {
         [self.loadingViewAtStarButton startAnimating];
         return;
     }
     
-    if (starRelation.isStar.boolValue) {
+    if (starRelation.isStarred.boolValue) {
         [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
     } else {
         [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
@@ -101,7 +101,7 @@
     
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, self.repoName];
     MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (starRelation.isStar.boolValue) {
+    if (starRelation.isStarred.boolValue) {
         [KSharedWebService unstarRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             

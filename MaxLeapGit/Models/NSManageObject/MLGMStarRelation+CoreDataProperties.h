@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain) NSString *loginName;
 @property (nullable, nonatomic, retain) NSString *repoName;
-@property (nullable, nonatomic, retain) NSNumber *isStar;
-@property (nullable, nonatomic, retain) NSNumber *isSkipped;
+@property (nullable, nonatomic, retain) NSNumber *isStarred;
+@property (nullable, nonatomic, retain) NSNumber *isTagged;//== YES if the user starred or unstarred the repo
 
 @end
 

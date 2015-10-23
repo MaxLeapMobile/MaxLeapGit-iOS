@@ -47,18 +47,25 @@
     [self configureSubViews];
     [self updateViewConstraints];
 
+    [self.loadingViewAtStarButton startAnimating];
     [self fetchDataAndUpdateContentViews];
 }
 
 - (void)fetchDataAndUpdateContentViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
+   
     [[MLGMWebService sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
+            return;
+        }
+     
         [SVProgressHUD dismiss];
        
         self.didRequestedDataReachEnd = isReachEnd;
         
         [self updateRepos:repos];
-        [self updateViews];
+        [self updateContentViews];
     }];
 }
 
@@ -69,14 +76,14 @@
         if (filteredArray.count == 0) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repo.name];
             MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-            if (!starRelation) {
+            if (!starRelation.isTagged) {
                 [self.repos addObject:repo];
             }
         }
     }];
 }
 
-- (void)updateViews {
+- (void)updateContentViews {
     if (self.repos.count == 0) {
         [self hideRepoWebViewAndShowEmptyView];
         self.currentRepoIndex = 0;
@@ -85,7 +92,14 @@
         if (self.currentRepoIndex < self.repos.count) {
             [self showRepoWebView];
             
-        } else if (self.currentRepoIndex == self.repos.count && self.didRequestedDataReachEnd) {
+            MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
+            NSString *currentRepoName = currentRepo.name;
+            [self updateStarButtonStateWithRepoName:currentRepoName];
+            [KSharedWebService checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
+                [self updateStarButtonStateWithRepoName:currentRepoName];
+            }];
+            
+        } else if (self.currentRepoIndex >= self.repos.count && self.didRequestedDataReachEnd) {
             [self hideRepoWebViewAndShowEmptyView];
             self.currentRepoIndex = 0;
         }
@@ -111,8 +125,26 @@
             [self.webView stopLoading];
             [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentRepo.htmlPageUrl]]];
             self.emptyView.hidden = YES;
-            self.starButton.enabled = _forkButton.enabled = _skipButton.enabled = YES;
+            self.starButton.enabled = self.forkButton.enabled = self.skipButton.enabled = YES;
         }
+    }
+}
+
+- (void)updateStarButtonStateWithRepoName:(NSString *)repoName {
+    [self.loadingViewAtStarButton stopAnimating];
+    
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
+    if (!starRelation.isStarred) {
+        [self.loadingViewAtStarButton startAnimating];
+        [self.starButton setTitle:NSLocalizedString(@"", nil) forState:UIControlStateNormal];
+        return;
+    }
+    
+    if (starRelation.isStarred.boolValue) {
+        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
+    } else {
+        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
     }
 }
 
@@ -161,7 +193,7 @@
 }
 
 - (void)onClickedStarButton {
-    if (self.loadingViewAtStarButton.isAnimating) {
+    if (self.loadingViewAtStarButton.isAnimating || self.currentRepoIndex >= self.repos.count) {
         return;
     }
     
@@ -171,7 +203,7 @@
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
     MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (starRelation.isStar.boolValue) {
+    if (starRelation.isStarred.boolValue) {
         [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
@@ -181,7 +213,7 @@
                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"UnStar Failure", nil)];
             }
             
-            [self updateStarStateWithRepoName:repoName];
+            [self updateStarButtonStateWithRepoName:repoName];
         }];
     } else {
         [[MLGMWebService sharedInstance] starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
@@ -192,13 +224,13 @@
                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Star Failure", nil)];
             }
             
-            [self updateStarStateWithRepoName:repoName];
+            [self updateStarButtonStateWithRepoName:repoName];
         }];
     }
 }
 
 - (void)onClickedForkButton {
-    if (self.loadingViewAtForkButton.isAnimating) {
+    if (self.loadingViewAtForkButton.isAnimating || self.currentRepoIndex >= self.repos.count) {
         return;
     }
     
@@ -222,7 +254,7 @@
 - (void)onClickedSkipButton {
     self.currentRepoIndex++;
     
-    [self updateViews];
+    [self updateContentViews];
     
     if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
         self.requestPageNumber++;
@@ -253,7 +285,7 @@
     }
     
     self.currentRepoIndex = 0;
-    [self updateViews];
+    [self updateContentViews];
 }
 
 #pragma mark- Delegate，DataSource, Callback Method
@@ -262,9 +294,9 @@
 - (void)updateViewConstraints {
     if (!self.didSetUpConstraints) {
         NSDictionary *views = NSDictionaryOfVariableBindings(_toolbarView, _starButton, _separatorLine1, _forkButton, _separatorLine2, _skipButton, _loadingViewAtStarButton, _loadingViewAtForkButton);
-      
-        [self.loadingViewAtStarButton pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0];
-        [self.loadingViewAtForkButton pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge | JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0];
+     
+        [self.loadingViewAtStarButton pinToSuperviewEdgesWithInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [self.loadingViewAtForkButton pinToSuperviewEdgesWithInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         
         [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_starButton]|" options:0 metrics:nil views:views]];
         [self.toolbarView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_starButton(==_forkButton,==_skipButton)][_forkButton][_skipButton]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:views]];
@@ -286,22 +318,7 @@
 }
 
 #pragma mark- Private Method
-- (void)updateStarStateWithRepoName:(NSString *)repoName {
-    [self.loadingViewAtStarButton stopAnimating];
-    
-    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (!starRelation.isStar) {
-        [self.loadingViewAtStarButton startAnimating];
-        return;
-    }
-    
-    if (starRelation.isStar.boolValue) {
-        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
-    } else {
-        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
-    }
-}
+
 
 #pragma mark- Getter Setter
 - (UIView *)toolbarView {
@@ -314,7 +331,7 @@
 
 - (UIButton *)starButton {
     if (!_starButton) {
-        _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
+        _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"", @"") action:@selector(onClickedStarButton)];
     }
     return _starButton;
 }
@@ -391,6 +408,7 @@
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:17];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [button setBackgroundImage:[UIImage imageWithColor:UIColorFromRGB(0x6aa9ff)] forState:UIControlStateDisabled];
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];

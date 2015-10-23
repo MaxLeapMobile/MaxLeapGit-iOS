@@ -54,8 +54,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="MLGMStarRelation" representedClassName="MLGMStarRelation" syncable="YES">
-        <attribute name="isSkipped" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isStar" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isStarred" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isTagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>

@@ -15,7 +15,7 @@
 
 @dynamic loginName;
 @dynamic repoName;
-@dynamic isStar;
-@dynamic isSkipped;
+@dynamic isStarred;
+@dynamic isTagged;
 
 @end

@@ -425,10 +425,25 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)checkStarStatusForRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {        
+    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!starRelation) {
+            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
+        }
+        
         if (statusCode == 204) {
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStarred = @YES;
+            starRelation.isTagged = @YES;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else if (statusCode == 404) {
+            starRelation.loginName = kOnlineUserName;
+            starRelation.repoName = repoName;
+            starRelation.isStarred = @NO;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, error);
@@ -449,7 +464,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         if (statusCode == 204) {
             starRelation.loginName = kOnlineUserName;
             starRelation.repoName = repoName;
-            starRelation.isStar = @YES;
+            starRelation.isStarred = @YES;
+            starRelation.isTagged = @YES;
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -471,7 +487,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         if (statusCode == 204) {
             starRelation.loginName = kOnlineUserName;
             starRelation.repoName = repoName;
-            starRelation.isStar = @NO;
+            starRelation.isStarred = @NO;
+            starRelation.isTagged = @YES;
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
