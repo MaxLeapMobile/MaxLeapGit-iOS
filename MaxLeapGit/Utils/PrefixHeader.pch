@@ -57,7 +57,7 @@
 #import "MLGMSearchPageTitleView.h"
 #import "MLGMSearchViewController.h"
 #import "MLGMSortViewController.h"
-#import "MLGMStarRelation.h"
+#import "MLGMTagRelation.h"
 #import "MLGMStringUtil.h"
 #import "MLGMTimeLineCell.h"
 #import "MLGMTimeLineViewController.h"

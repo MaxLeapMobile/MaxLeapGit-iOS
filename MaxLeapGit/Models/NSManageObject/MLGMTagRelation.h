@@ -1,5 +1,5 @@
 //
-//  MLGMStarRelation.h
+//  MLGMTagRelation.h
 //  MaxLeapGit
 //
 //  Created by Jun Xia on 15/10/16.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MLGMStarRelation : NSManagedObject
+@interface MLGMTagRelation : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -19,4 +19,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "MLGMStarRelation+CoreDataProperties.h"
+#import "MLGMTagRelation+CoreDataProperties.h"

@@ -427,22 +427,22 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
     [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
-        if (!starRelation) {
-            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
+        MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+        if (!tagRelation) {
+            tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
         }
         
         if (statusCode == 204) {
-            starRelation.loginName = kOnlineUserName;
-            starRelation.repoName = repoName;
-            starRelation.isStarred = @YES;
-            starRelation.isTagged = @YES;
+            tagRelation.loginName = kOnlineUserName;
+            tagRelation.repoName = repoName;
+            tagRelation.isStarred = @YES;
+            tagRelation.isTagged = @YES;//if the repo is starred already, tag it (to exclude from recommendation list)
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else if (statusCode == 404) {
-            starRelation.loginName = kOnlineUserName;
-            starRelation.repoName = repoName;
-            starRelation.isStarred = @NO;
+            tagRelation.loginName = kOnlineUserName;
+            tagRelation.repoName = repoName;
+            tagRelation.isStarred = @NO;
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
         } else {
@@ -455,17 +455,16 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
     NSURLRequest *urlRequest = [self putRequestWithEndPoint:endPoint parameters:nil];
     [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
-        if (!starRelation) {
-            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
-        }
-        
         if (statusCode == 204) {
-            starRelation.loginName = kOnlineUserName;
-            starRelation.repoName = repoName;
-            starRelation.isStarred = @YES;
-            starRelation.isTagged = @YES;
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+            MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+            if (!tagRelation) {
+                tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
+            }
+            tagRelation.loginName = kOnlineUserName;
+            tagRelation.repoName = repoName;
+            tagRelation.isStarred = @YES;
+            tagRelation.isTagged = @YES;
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -478,17 +477,16 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
     NSURLRequest *urlRequest = [self deleteRequestWithEndPoint:endPoint parameters:nil];
     [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
-        NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-        MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
-        if (!starRelation) {
-            starRelation = [MLGMStarRelation MR_createEntityInContext:self.defaultContext];
-        }
-        
         if (statusCode == 204) {
-            starRelation.loginName = kOnlineUserName;
-            starRelation.repoName = repoName;
-            starRelation.isStarred = @NO;
-            starRelation.isTagged = @YES;
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+            MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+            if (!tagRelation) {
+                tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
+            }
+            tagRelation.loginName = kOnlineUserName;
+            tagRelation.repoName = repoName;
+            tagRelation.isStarred = @NO;
+            tagRelation.isTagged = @YES;
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -502,13 +500,21 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSURLRequest *urlRequest = [self postRequestWithEndPoint:endPoint parameters:nil];
     [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (statusCode == 202) {
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+            MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+            if (!tagRelation) {
+                tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
+            }
+            tagRelation.loginName = kOnlineUserName;
+            tagRelation.repoName = repoName;
+            tagRelation.isTagged = @YES;
+            [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
         }
     }];
 }
-
 
 #pragma mark - Search
 - (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {

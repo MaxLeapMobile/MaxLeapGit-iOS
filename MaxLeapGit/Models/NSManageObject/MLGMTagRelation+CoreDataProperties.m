@@ -1,5 +1,5 @@
 //
-//  MLGMStarRelation+CoreDataProperties.m
+//  MLGMTagRelation+CoreDataProperties.m
 //  MaxLeapGit
 //
 //  Created by Jun Xia on 15/10/16.
@@ -9,9 +9,9 @@
 //  to delete and recreate this implementation file for your updated model.
 //
 
-#import "MLGMStarRelation+CoreDataProperties.h"
+#import "MLGMTagRelation+CoreDataProperties.h"
 
-@implementation MLGMStarRelation (CoreDataProperties)
+@implementation MLGMTagRelation (CoreDataProperties)
 
 @dynamic loginName;
 @dynamic repoName;

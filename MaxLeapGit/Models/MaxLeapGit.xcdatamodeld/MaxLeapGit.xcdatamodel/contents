@@ -53,7 +53,7 @@
         <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="MLGMStarRelation" representedClassName="MLGMStarRelation" syncable="YES">
+    <entity name="MLGMTagRelation" representedClassName="MLGMTagRelation" syncable="YES">
         <attribute name="isStarred" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isTagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
@@ -66,6 +66,6 @@
         <element name="MLGMFollowRelation" positionX="-135" positionY="18" width="128" height="90"/>
         <element name="MLGMGene" positionX="16" positionY="321" width="128" height="120"/>
         <element name="MLGMRepo" positionX="34" positionY="15" width="128" height="120"/>
-        <element name="MLGMStarRelation" positionX="34" positionY="171" width="128" height="105"/>
+        <element name="MLGMTagRelation" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

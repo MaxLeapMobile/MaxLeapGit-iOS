@@ -47,7 +47,7 @@
     [self configureSubViews];
     [self updateViewConstraints];
 
-    [self.loadingViewAtStarButton startAnimating];
+    self.starButton.enabled = _forkButton.enabled = _skipButton.enabled = NO;
     [self fetchDataAndUpdateContentViews];
 }
 
@@ -75,8 +75,8 @@
         NSArray *filteredArray = [self.repos filteredArrayUsingPredicate:predicate];
         if (filteredArray.count == 0) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repo.name];
-            MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-            if (!starRelation.isTagged) {
+            MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
+            if (!tagRelation.isTagged) {
                 [self.repos addObject:repo];
             }
         }
@@ -134,14 +134,14 @@
     [self.loadingViewAtStarButton stopAnimating];
     
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (!starRelation.isStarred) {
+    MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
+    if (!tagRelation.isStarred) {
         [self.loadingViewAtStarButton startAnimating];
         [self.starButton setTitle:NSLocalizedString(@"", nil) forState:UIControlStateNormal];
         return;
     }
     
-    if (starRelation.isStarred.boolValue) {
+    if (tagRelation.isStarred.boolValue) {
         [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
     } else {
         [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
@@ -202,8 +202,8 @@
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
-    MLGMStarRelation *starRelation = [MLGMStarRelation MR_findFirstWithPredicate:p];
-    if (starRelation.isStarred.boolValue) {
+    MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
+    if (tagRelation.isStarred.boolValue) {
         [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
@@ -331,7 +331,7 @@
 
 - (UIButton *)starButton {
     if (!_starButton) {
-        _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"", @"") action:@selector(onClickedStarButton)];
+        _starButton = [self createButtonAtIndex:0 withTitle:NSLocalizedString(@"Star", @"") action:@selector(onClickedStarButton)];
     }
     return _starButton;
 }
