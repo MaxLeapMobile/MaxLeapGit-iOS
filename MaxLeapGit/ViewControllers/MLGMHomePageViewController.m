@@ -2,7 +2,7 @@
 //  GMMyPageViewController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/8.
+//  Created by Li Zhu on 15/10/8.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -38,19 +38,19 @@
     [super viewWillAppear:animated];
     [self transparentNavigationBar:YES];
     
-    [KSharedWebService fetchUserProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
+    [[MLGMAccountManager sharedInstance] fetchUserProfileForUserName:self.ownerName completion:^(MLGMActorProfile *userProfile, NSError *error) {
         [self.tableView reloadData];
-        [KSharedWebService fetchStarCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
+        [[MLGMAccountManager sharedInstance] fetchStarCountForUserName:self.ownerName completion:^(NSUInteger starCount, NSString *userName, NSError *error) {
             [self.tableView reloadData];
         }];
         
-        [KSharedWebService fetchOrganizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
+        [[MLGMAccountManager sharedInstance] fetchOrganizationCountForUserName:self.ownerName completion:^(NSUInteger orgCount, NSError *error) {
             [self.tableView reloadData];
         }];
     }];
     
     [self updateFollowState];
-    [KSharedWebService checkFollowStatusForUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [[MLGMAccountManager sharedInstance] checkFollowStatusForUserName:kOnlineUserName followTargetUserName:self.ownerName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         [self updateFollowState];
     }];
 }
@@ -92,13 +92,13 @@
     MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
     if (followRelation.isFollow.boolValue) {
         [SVProgressHUD showWithStatus:NSLocalizedString(@"Unfollowing", @"")];
-        [[MLGMWebService sharedInstance] unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [[MLGMAccountManager sharedInstance] unfollowTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
             [SVProgressHUD dismiss];
             [self updateFollowState];
         }];
     } else {
         [SVProgressHUD showWithStatus:NSLocalizedString(@"Following", @"")];
-        [[MLGMWebService sharedInstance] followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+        [[MLGMAccountManager sharedInstance] followTargetUserName:self.ownerName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
             [SVProgressHUD dismiss];
             [self updateFollowState];
         }];

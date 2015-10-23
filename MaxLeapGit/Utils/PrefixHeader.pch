@@ -61,7 +61,7 @@
 #import "MLGMStringUtil.h"
 #import "MLGMTimeLineCell.h"
 #import "MLGMTimeLineViewController.h"
-#import "MLGMWebService.h"
+#import "MLGMAccountManager.h"
 #import "MLGMWebViewController.h"
 #import "UIBarButtonItem+Extension.h"
 #import "WYPopoverController.h"
@@ -76,7 +76,7 @@
 #import "UIView+AutoLayout.h"
 #import "UIViewController+Extension.h"
 #include "UIBarButtonItem+Extension.h"
-#import "MLGMWebService+Convenience.h"
+#import "MLGMWebService.h"
 
 #endif
 

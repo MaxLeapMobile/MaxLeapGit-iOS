@@ -2,7 +2,7 @@
 //  GMUserCell.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/9.
+//  Created by Li Zhu on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -92,7 +92,7 @@
     
     self.isAnimationRunning = YES;
     [self updateFollowButtonTitleWithUserName:actorProfile.loginName];
-    [KSharedWebService checkFollowStatusForUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [[MLGMAccountManager sharedInstance] checkFollowStatusForUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         self.isAnimationRunning = NO;
         [self updateFollowButtonTitleWithUserName:self.actorProfile.loginName];
     }];

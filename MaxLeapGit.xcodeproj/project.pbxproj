@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469561BC764E300E1C5EB /* MLGMWebService.m */; settings = {ASSET_TAGS = (); }; };
+		B40469571BC764E300E1C5EB /* MLGMAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469561BC764E300E1C5EB /* MLGMAccountManager.m */; settings = {ASSET_TAGS = (); }; };
 		B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */; settings = {ASSET_TAGS = (); }; };
 		B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695F1BC7684100E1C5EB /* UIView+AutoLayout.m */; settings = {ASSET_TAGS = (); }; };
 		B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469621BC7695400E1C5EB /* MLGMAuthViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -61,7 +61,7 @@
 		B4C82D241BD0A29D00BC6ADC /* MLGMTagRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D221BD0A29D00BC6ADC /* MLGMTagRelation.m */; settings = {ASSET_TAGS = (); }; };
 		B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */; settings = {ASSET_TAGS = (); }; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; settings = {ASSET_TAGS = (); }; };
-		B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */; settings = {ASSET_TAGS = (); }; };
+		B4E69C551BC8B875008993A7 /* MLGMWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService.m */; settings = {ASSET_TAGS = (); }; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
@@ -94,8 +94,8 @@
 /* Begin PBXFileReference section */
 		22E4148FE84D787D13499179 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6A5172BC9B65FADD5B99762D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B40469551BC764E300E1C5EB /* MLGMWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebService.h; sourceTree = "<group>"; };
-		B40469561BC764E300E1C5EB /* MLGMWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebService.m; sourceTree = "<group>"; };
+		B40469551BC764E300E1C5EB /* MLGMAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMAccountManager.h; sourceTree = "<group>"; };
+		B40469561BC764E300E1C5EB /* MLGMAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAccountManager.m; sourceTree = "<group>"; };
 		B404695B1BC7682E00E1C5EB /* UIView+FrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameAccessor.h"; sourceTree = "<group>"; };
 		B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameAccessor.m"; sourceTree = "<group>"; };
 		B404695E1BC7684100E1C5EB /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
@@ -216,8 +216,8 @@
 		B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GeneInBuild.plist; sourceTree = "<group>"; };
 		B4D2492F1BC7707900A719E6 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
-		B4E69C531BC8B875008993A7 /* MLGMWebService+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMWebService+Convenience.h"; sourceTree = "<group>"; };
-		B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMWebService+Convenience.m"; sourceTree = "<group>"; };
+		B4E69C531BC8B875008993A7 /* MLGMWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebService.h; sourceTree = "<group>"; };
+		B4E69C541BC8B875008993A7 /* MLGMWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebService.m; sourceTree = "<group>"; };
 		B4E69C581BC8B940008993A7 /* JSONValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValidation.h; sourceTree = "<group>"; };
 		B4E69C591BC8B940008993A7 /* JSONValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValidation.m; sourceTree = "<group>"; };
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
@@ -298,10 +298,10 @@
 		B40469541BC764CE00E1C5EB /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B40469551BC764E300E1C5EB /* MLGMWebService.h */,
-				B40469561BC764E300E1C5EB /* MLGMWebService.m */,
-				B4E69C531BC8B875008993A7 /* MLGMWebService+Convenience.h */,
-				B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */,
+				B40469551BC764E300E1C5EB /* MLGMAccountManager.h */,
+				B40469561BC764E300E1C5EB /* MLGMAccountManager.m */,
+				B4E69C531BC8B875008993A7 /* MLGMWebService.h */,
+				B4E69C541BC8B875008993A7 /* MLGMWebService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -872,7 +872,7 @@
 				B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */,
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */,
 				E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */,
-				B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */,
+				B40469571BC764E300E1C5EB /* MLGMAccountManager.m in Sources */,
 				B4C82D241BD0A29D00BC6ADC /* MLGMTagRelation.m in Sources */,
 				B4257C2E1BCF447900E35785 /* MLGMHomePageCell.m in Sources */,
 				B4257C311BCF4A4300E35785 /* NSDate+Extension.m in Sources */,
@@ -881,7 +881,7 @@
 				B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */,
 				B408C3D31BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m in Sources */,
 				B40C35931BCF532D0081AB5B /* MLGMOrganizationCell.m in Sources */,
-				B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */,
+				B4E69C551BC8B875008993A7 /* MLGMWebService.m in Sources */,
 				B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */,
 				B45582B61BC8010500336B9E /* MaxLeapGit.xcdatamodeld in Sources */,
 			);

@@ -2,7 +2,7 @@
 //  GMRecommendViewController.h
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/8.
+//  Created by Li Zhu on 15/10/8.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 

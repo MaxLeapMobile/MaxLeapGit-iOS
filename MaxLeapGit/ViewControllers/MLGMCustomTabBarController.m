@@ -2,7 +2,7 @@
 //  MLGMTabBarController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/12.
+//  Created by Li Zhu on 15/10/12.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -62,10 +62,10 @@
     
     if (!self.didInitSyncOnlineAccountGenes) {
         [self setupThirdTabName];
-        [KSharedWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
-        [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
+        [[MLGMAccountManager sharedInstance] syncOnlineAccountProfileToMaxLeapCompletion:nil];
+        [[MLGMAccountManager sharedInstance] initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
+                [[MLGMAccountManager sharedInstance] syncOnlineAccountGenesToMaxLeapCompletion:nil];
                 self.didInitSyncOnlineAccountGenes = YES;
             }
         }];
@@ -100,7 +100,7 @@
 }
 
 - (void)checkCredentials:(id)sender {
-    [KSharedWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
+    [[MLGMAccountManager sharedInstance] checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
         if (!valid && kOnlineUserName.length > 0) {
             [self prepareToLogout];
         }
@@ -108,7 +108,7 @@
 }
 
 - (void)prepareToLogout {
-    [KSharedWebService cancelAllDataTasksCompletion:^{
+    [[MLGMWebService sharedInstance] cancelAllDataTasksCompletion:^{
         [self.credentialsMonitor invalidate];
         self.credentialsMonitor = nil;
         
