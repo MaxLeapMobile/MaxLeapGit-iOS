@@ -436,7 +436,6 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @YES;
-            tagRelation.isTagged = @YES;//if the repo is starred already, tag it (to exclude from recommendation list)
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else if (statusCode == 404) {
@@ -464,7 +463,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @YES;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -486,7 +485,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @NO;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -507,13 +506,26 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             }
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, repoName, nil);
         }
     }];
+}
+
+- (void)skipRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion {
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+    MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+    if (!tagRelation) {
+        tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
+    }
+    tagRelation.loginName = kOnlineUserName;
+    tagRelation.repoName = repoName;
+    tagRelation.tagDate = [NSDate date];
+    [self.defaultContext MR_saveToPersistentStoreAndWait];
+    BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
 }
 
 #pragma mark - Search
@@ -818,3 +830,4 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 }
 
 @end
+

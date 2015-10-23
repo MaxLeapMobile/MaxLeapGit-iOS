@@ -55,9 +55,9 @@
     </entity>
     <entity name="MLGMTagRelation" representedClassName="MLGMTagRelation" syncable="YES">
         <attribute name="isStarred" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isTagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagDate" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
         <element name="MLGMAccount" positionX="-342" positionY="243" width="128" height="103"/>

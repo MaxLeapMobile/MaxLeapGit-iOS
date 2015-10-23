@@ -130,6 +130,9 @@ static NSUInteger const kPerPage = 25;
  */
 - (void)forkRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion;
 
+
+- (void)skipRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion;
+
 /**
  * 搜索开源项目
  */

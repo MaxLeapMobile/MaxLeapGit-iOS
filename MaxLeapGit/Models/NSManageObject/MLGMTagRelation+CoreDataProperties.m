@@ -17,5 +17,6 @@
 @dynamic repoName;
 @dynamic isStarred;
 @dynamic isTagged;
+@dynamic tagDate;
 
 @end

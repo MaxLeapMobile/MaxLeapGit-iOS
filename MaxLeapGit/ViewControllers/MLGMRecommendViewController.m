@@ -8,6 +8,7 @@
 
 #import "MLGMRecommendViewController.h"
 
+#define kRepoTagDateExpireTimeInterval      (3600 * 24 * 14)
 
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 3
@@ -76,7 +77,11 @@
         if (filteredArray.count == 0) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repo.name];
             MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
-            if (!tagRelation.isTagged) {
+            
+            NSTimeInterval tagTimeInterval = [tagRelation.tagDate timeIntervalSince1970];
+            NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
+            BOOL isTagExpired = currentTimeInterval - tagTimeInterval > kRepoTagDateExpireTimeInterval;
+            if (!tagRelation.tagDate || isTagExpired) {
                 [self.repos addObject:repo];
             }
         }
@@ -238,10 +243,9 @@
     [self.forkButton setTitle:@"" forState:UIControlStateNormal];
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
-    __weak typeof(self) weakSelf = self;
     [[MLGMWebService sharedInstance] forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
-        [weakSelf.loadingViewAtForkButton stopAnimating];
-        [weakSelf.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
+        [self.loadingViewAtForkButton stopAnimating];
+        [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         
         if (succeeded) {
             [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Fork Success", nil)];
@@ -252,15 +256,17 @@
 }
 
 - (void)onClickedSkipButton {
-    self.currentRepoIndex++;
-    
-    [self updateContentViews];
-    
-    if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
-        self.requestPageNumber++;
+    MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
+    [[MLGMWebService sharedInstance] skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        self.currentRepoIndex++;
+        [self updateContentViews];
         
-        [self fetchDataAndUpdateContentViews];
-    }
+        if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
+            self.requestPageNumber++;
+            
+            [self fetchDataAndUpdateContentViews];
+        }
+    }];
 }
 
 - (void)presentAddNewGenePage {
@@ -318,7 +324,6 @@
 }
 
 #pragma mark- Private Method
-
 
 #pragma mark- Getter Setter
 - (UIView *)toolbarView {
