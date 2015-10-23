@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *loginName;
 @property (nullable, nonatomic, retain) NSString *repoName;
 @property (nullable, nonatomic, retain) NSNumber *isStar;
+@property (nullable, nonatomic, retain) NSNumber *isSkipped;
 
 @end
 

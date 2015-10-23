@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class MLGMActorProfile;
-@class MLGMAccount;
-@class MLGMGene;
-@class MLGMEvent;
-@class MLGMRepo;
-
 #define KSharedWebService [MLGMWebService sharedInstance]
 
 typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
