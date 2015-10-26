@@ -126,11 +126,22 @@
         MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
         if (currentRepo.htmlPageUrl.length) {
             self.title = currentRepo.name;
-            self.webView.hidden = NO;
-            [self.webView stopLoading];
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentRepo.htmlPageUrl]]];
             self.emptyView.hidden = YES;
             self.starButton.enabled = self.forkButton.enabled = self.skipButton.enabled = YES;
+            self.webView.hidden = NO;
+            [self.webView stopLoading];
+            
+            NSString *repoURLString = [NSString stringWithFormat:@"https://github.com/%@", currentRepo.name];
+            NSString *repoReadMeFileURLString = [repoURLString stringByAppendingString:@"/blob/master/README.md"];
+            [kWebService checkReachedStatusForURL:repoReadMeFileURLString.toURL completion:^(BOOL isReached) {
+                if (isReached) {
+                    NSURLRequest *request = [NSURLRequest requestWithURL:repoReadMeFileURLString.toURL];
+                    [self.webView loadRequest:request];
+                } else {                    
+                    NSURLRequest *request = [NSURLRequest requestWithURL:repoURLString.toURL];
+                    [self.webView loadRequest:request];
+                }
+            }];
         }
     }
 }

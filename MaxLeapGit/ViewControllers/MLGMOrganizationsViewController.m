@@ -25,12 +25,12 @@
     self.title = NSLocalizedString(@"Organization", @"");
     [self configureSubViews];
     [self updateViewConstraints];
+    [self.tableView triggerPullToRefresh];    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self transparentNavigationBar:NO];
-    [self.tableView triggerPullToRefresh];
 }
 
 #pragma mark- Override Parent Methods

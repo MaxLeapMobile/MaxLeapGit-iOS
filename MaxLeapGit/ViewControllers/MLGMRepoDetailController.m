@@ -24,10 +24,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.url = [NSString stringWithFormat:@"https://github.com/%@", self.repoName];
     
     [self configureToolbarView];
     [self updateButtonState];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSString *repoURLString = [NSString stringWithFormat:@"https://github.com/%@", self.repoName];
+    NSString *repoReadMeFileURLString = [repoURLString stringByAppendingString:@"/blob/master/README.md"];
+    [kWebService checkReachedStatusForURL:repoReadMeFileURLString.toURL completion:^(BOOL isReached) {
+        if (isReached) {
+            NSURLRequest *request = [NSURLRequest requestWithURL:repoReadMeFileURLString.toURL];
+            [self.webView loadRequest:request];
+        } else {
+            NSURLRequest *request = [NSURLRequest requestWithURL:repoURLString.toURL];
+            [self.webView loadRequest:request];
+        }
+    }];
 }
 
 - (void)updateButtonState {

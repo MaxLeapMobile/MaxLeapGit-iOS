@@ -72,7 +72,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     if (!self) {
         return nil;
     }
-
+    
     _defaultContext = [NSManagedObjectContext MR_defaultContext];
     _scratchContext = [NSManagedObjectContext MR_newMainQueueContext];
     [_scratchContext setPersistentStoreCoordinator:[NSPersistentStoreCoordinator MR_defaultStoreCoordinator]];
@@ -116,6 +116,17 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
         } else {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, nil);
+        }
+    }];
+}
+
+- (void)checkReachedStatusForURL:(NSURL *)URL completion:(void(^)(BOOL isReached))completion {
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:URL];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+        if (statusCode == 200) {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES);
+        } else {
+            BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO);
         }
     }];
 }
@@ -178,6 +189,9 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         }
         
         int orgCount = totalPageInHeadField(responHeaderFields);
+        if (orgCount == 0) {
+            orgCount = (int)[responseObject count];
+        }
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {
@@ -225,6 +239,9 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         }
         
         int starCount = totalPageInHeadField(responHeaderFields);
+        if (starCount == 0) {
+            starCount = (int)[responseObject count];
+        }
         
         MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName inContext:self.defaultContext];
         if (userProfile) {

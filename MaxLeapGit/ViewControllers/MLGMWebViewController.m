@@ -26,14 +26,6 @@
 }
 
 #pragma mark- View Life Cycle
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (_url.length) {
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_url]];
-        [self.webView loadRequest:request];
-    }
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

@@ -41,6 +41,11 @@ static NSUInteger const kPerPage = 25;
 - (void)checkSessionTokenStatusCompletion:(void(^)(BOOL valid, NSError *error))completion;
 
 /**
+ * url是否可达
+ */
+- (void)checkReachedStatusForURL:(NSURL *)URL completion:(void(^)(BOOL isReached))completion;
+
+/**
  * 特定用户的资料,不包括组织信息，以及各个组织最近活动的时间,需要另外调取下面提供的接口
  */
 - (void)fetchUserProfileForUserName:(NSString *)userName completion:(void(^)(MLGMActorProfile *userProfile, NSError *error))completion;
