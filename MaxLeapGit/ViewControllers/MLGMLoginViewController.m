@@ -2,7 +2,7 @@
 //  ViewController.m
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/9/22.
+//  Created by Michael on 15/9/22.
 //  Copyright (c) 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -64,7 +64,7 @@
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging in", nil)];
-    [[MLGMAccountManager sharedInstance] updateAccountProfileToDBCompletion:^(MLGMAccount *account, NSError *error) {
+    [kWebService updateAccountProfileToDBCompletion:^(MLGMAccount *account, NSError *error) {
         if (error) {
             [SVProgressHUD dismiss];
             [SVProgressHUD showErrorWithStatus:@"Error"];

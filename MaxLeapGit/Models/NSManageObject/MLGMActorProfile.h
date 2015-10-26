@@ -2,7 +2,7 @@
 //  MLGMUserProfile.h
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/10/12.
+//  Created by Michael on 15/10/12.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 

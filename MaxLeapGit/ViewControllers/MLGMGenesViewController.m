@@ -104,7 +104,7 @@
         [gene MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
-        [[MLGMAccountManager sharedInstance] syncOnlineAccountGenesToMaxLeapCompletion:nil];
+        [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
     }
 }
 

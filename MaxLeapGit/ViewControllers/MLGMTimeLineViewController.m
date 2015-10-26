@@ -135,7 +135,7 @@
         [weakSelf.tableView addPullToRefreshWithActionHandler:^{
             self.tableView.showsInfiniteScrolling = NO;
             page = 1;
-            [[MLGMAccountManager sharedInstance] fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
+            [kWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
                                                       completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
                                                           if (!isReachEnd && events.count < kPerPage) {
@@ -157,7 +157,7 @@
         }];
         
         [weakSelf.tableView addInfiniteScrollingWithActionHandler:^{
-            [[MLGMAccountManager sharedInstance] fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
+            [kWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page + 1
                                                       completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
                                                           [weakSelf.tableView.infiniteScrollingView stopAnimating];

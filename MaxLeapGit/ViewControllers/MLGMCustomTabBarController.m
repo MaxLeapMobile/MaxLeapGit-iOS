@@ -13,9 +13,7 @@
 @property (nonatomic, strong) UINavigationController *firstNav;
 @property (nonatomic, strong) UIViewController *secondVC;
 @property (nonatomic, strong) UINavigationController *thirdNav;
-@property (nonatomic, strong) NSTimer *credentialsMonitor;
 @property (nonatomic, assign) BOOL didInitSyncOnlineAccountGenes;
-@property (nonatomic, assign) BOOL isViewControllerUsed;
 @end
 
 @implementation MLGMCustomTabBarController
@@ -26,7 +24,7 @@
     if (!self) {
         return nil;
     }
-
+    
     self.viewControllers = @[self.firstNav, self.secondVC, self.thirdNav];
     
     return self;
@@ -43,29 +41,17 @@
     [super viewDidAppear:animated];
     
     if (!kOnlineUserName.length) {
-        if (!self.isViewControllerUsed) {
-            MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
-            [self presentViewController:loginVC animated:NO completion:nil];
-        } else {
-            [self prepareToLogout];
-        }
-        
+        MLGMLoginViewController *loginVC = [[MLGMLoginViewController alloc] init];
+        [self presentViewController:loginVC animated:NO completion:nil];
         return;
-    }
-    
-    self.isViewControllerUsed = YES;
-    
-    if (!self.credentialsMonitor.isValid) {
-        self.credentialsMonitor = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(checkCredentials:) userInfo:nil repeats:YES];
-        [self.credentialsMonitor fire];
     }
     
     if (!self.didInitSyncOnlineAccountGenes) {
         [self setupThirdTabName];
-        [[MLGMAccountManager sharedInstance] syncOnlineAccountProfileToMaxLeapCompletion:nil];
-        [[MLGMAccountManager sharedInstance] initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
+        [kWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
+        [kWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                [[MLGMAccountManager sharedInstance] syncOnlineAccountGenesToMaxLeapCompletion:nil];
+                [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
                 self.didInitSyncOnlineAccountGenes = YES;
             }
         }];
@@ -97,26 +83,6 @@
     navRecommend.navigationBar.barStyle = UIBarStyleBlack;
     navRecommend.title = vcRecommend.title = NSLocalizedString(@"Recommend", @"");
     [self presentViewController:navRecommend animated:YES completion:nil];
-}
-
-- (void)checkCredentials:(id)sender {
-    [[MLGMAccountManager sharedInstance] checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
-        if (!valid && kOnlineUserName.length > 0) {
-            [self prepareToLogout];
-        }
-    }];
-}
-
-- (void)prepareToLogout {
-    [[MLGMWebService sharedInstance] cancelAllDataTasksCompletion:^{
-        [self.credentialsMonitor invalidate];
-        self.credentialsMonitor = nil;
-        
-        [kOnlineAccount MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
-        [(AppDelegate *)[UIApplication sharedApplication].delegate logout];
-    }];
 }
 
 #pragma mark- Delegate，DataSource, Callback Method

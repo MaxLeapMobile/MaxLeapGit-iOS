@@ -2,7 +2,7 @@
 //  MLGMGeneCell.m
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/10/19.
+//  Created by Michael on 15/10/19.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 

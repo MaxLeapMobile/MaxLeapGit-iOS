@@ -92,7 +92,7 @@
     
     self.isAnimationRunning = YES;
     [self updateFollowButtonTitleWithUserName:actorProfile.loginName];
-    [[MLGMAccountManager sharedInstance] checkFollowStatusForUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
+    [kWebService checkFollowStatusForUserName:kOnlineUserName followTargetUserName:actorProfile.loginName completion:^(BOOL isFollow, NSString *targetUserName, NSError *error) {
         self.isAnimationRunning = NO;
         [self updateFollowButtonTitleWithUserName:self.actorProfile.loginName];
     }];

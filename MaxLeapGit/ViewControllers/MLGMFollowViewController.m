@@ -88,12 +88,12 @@
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetLoginName];
         MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p];
         if (followRelation.isFollow.boolValue) {
-            [[MLGMAccountManager sharedInstance] unfollowTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [kWebService unfollowTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
                 [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
         } else {
-            [[MLGMAccountManager sharedInstance] followTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
+            [kWebService followTargetUserName:targetLoginName completion:^(BOOL isUnFollow, NSString *targetUserName, NSError *error) {
                 [weakCell stopLoadingAnimation];
                 [weakSelf.tableView reloadData];
             }];
@@ -127,7 +127,7 @@
             weakSelf.tableView.showsInfiniteScrolling = NO;
             page = 1;
             if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
-                [[MLGMAccountManager sharedInstance] fetchFollowerListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
+                [kWebService fetchFollowerListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -144,7 +144,7 @@
             }
             
             if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
-                [[MLGMAccountManager sharedInstance] fetchFollowingListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
+                [kWebService fetchFollowingListForUserName:weakSelf.ownerName fromPage:page completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
                     execute_after_main_queue(0.2, ^{
                         [weakSelf.tableView.pullToRefreshView stopAnimating];
                     });
@@ -164,7 +164,7 @@
         
         [self.tableView addInfiniteScrollingWithActionHandler:^{
             if (weakSelf.type == MLGMFollowControllerTypeFollowers) {
-                [[MLGMAccountManager sharedInstance] fetchFollowerListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
+                [kWebService fetchFollowerListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     if (!error) {
@@ -178,7 +178,7 @@
             }
             
             if (weakSelf.type == MLGMFollowControllerTypeFollowing) {
-                [[MLGMAccountManager sharedInstance] fetchFollowingListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
+                [kWebService fetchFollowingListForUserName:weakSelf.ownerName fromPage:page + 1 completion:^(NSArray *userProfiles, BOOL isReachEnd, NSError *error) {
                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
                     weakSelf.tableView.showsInfiniteScrolling = !isReachEnd;
                     if (!error) {

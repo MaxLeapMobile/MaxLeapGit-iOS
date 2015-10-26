@@ -100,7 +100,7 @@ UITableViewDelegate
         gene.userProfile = kOnlineAccountProfile;
         gene.updateTime = [NSDate date];
     }
-    [[MLGMAccountManager sharedInstance] syncOnlineAccountGenesToMaxLeapCompletion:nil];    
+    [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];    
     [self dismissViewControllerAnimated:YES completion:^{
         if (_dismissBlock) {
             _dismissBlock();

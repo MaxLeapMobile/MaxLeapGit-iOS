@@ -55,7 +55,7 @@
 - (void)fetchDataAndUpdateContentViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
    
-    [[MLGMAccountManager sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+    [kWebService fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
             return;
@@ -100,7 +100,7 @@
             MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
             NSString *currentRepoName = currentRepo.name;
             [self updateStarButtonStateWithRepoName:currentRepoName];
-            [[MLGMAccountManager sharedInstance] checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
+            [kWebService checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
                 [self updateStarButtonStateWithRepoName:currentRepoName];
             }];
             
@@ -209,7 +209,7 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
     MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
     if (tagRelation.isStarred.boolValue) {
-        [[MLGMAccountManager sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
             if (succeeded) {
@@ -221,7 +221,7 @@
             [self updateStarButtonStateWithRepoName:repoName];
         }];
     } else {
-        [[MLGMAccountManager sharedInstance] starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             if (succeeded) {
                 [self.loadingViewAtStarButton stopAnimating];
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
@@ -243,7 +243,7 @@
     [self.forkButton setTitle:@"" forState:UIControlStateNormal];
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
-    [[MLGMAccountManager sharedInstance] forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+    [kWebService forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         [self.loadingViewAtForkButton stopAnimating];
         [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         
@@ -257,7 +257,7 @@
 
 - (void)onClickedSkipButton {
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
-    [[MLGMAccountManager sharedInstance] skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+    [kWebService skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         self.currentRepoIndex++;
         [self updateContentViews];
         

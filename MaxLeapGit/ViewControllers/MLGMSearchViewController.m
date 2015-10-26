@@ -144,7 +144,7 @@
             return;
         }
         
-        [[MLGMAccountManager sharedInstance] searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [kWebService searchByRepoName:wSelf.searchText sortType:wSelf.repoSortType fromPage:repoPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.repoTableView.infiniteScrollingView stopAnimating];
             wSelf.repoTableView.showsInfiniteScrolling = !isReachEnd;
             if (!error) {
@@ -164,7 +164,7 @@
             return;
         }
         
-        [[MLGMAccountManager sharedInstance] searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [kWebService searchByUserName:wSelf.searchText sortType:wSelf.userSortType fromPage:userPage + 1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [wSelf.userTableView.infiniteScrollingView stopAnimating];
             wSelf.userTableView.showsInfiniteScrolling = !isReachEnd;
             if (!error) {
@@ -366,7 +366,7 @@
         }
         
         __weak typeof(self) wSelf = self;
-        [[MLGMAccountManager sharedInstance] searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+        [kWebService searchByRepoName:_searchText sortType:_repoSortType fromPage:1 completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
            
             if (isReachEnd) {
@@ -386,7 +386,7 @@
         }
         
         __weak typeof(self) wSelf = self;
-        [[MLGMAccountManager sharedInstance] searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
+        [kWebService searchByUserName:_searchText sortType:_userSortType fromPage:1 completion:^(NSArray *users, BOOL isReachEnd, NSError *error) {
             [SVProgressHUD dismiss];
            
             if (isReachEnd) {

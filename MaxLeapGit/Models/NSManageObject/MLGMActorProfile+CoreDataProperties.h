@@ -2,7 +2,7 @@
 //  MLGMUserProfile+CoreDataProperties.h
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/10/12.
+//  Created by Michael on 15/10/12.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

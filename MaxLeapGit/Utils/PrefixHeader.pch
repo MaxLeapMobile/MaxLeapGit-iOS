@@ -16,6 +16,7 @@
 #import <Foundation/Foundation.h>
 
 #import "DDLog.h"
+#import "Flurry.h"
 #import "MagicalRecord.h"
 #import "SVProgressHUD.h"
 #import <HockeySDK/HockeySDK.h>
@@ -61,7 +62,7 @@
 #import "MLGMStringUtil.h"
 #import "MLGMTimeLineCell.h"
 #import "MLGMTimeLineViewController.h"
-#import "MLGMAccountManager.h"
+#import "MLGMWebService.h"
 #import "MLGMWebViewController.h"
 #import "UIBarButtonItem+Extension.h"
 #import "WYPopoverController.h"
@@ -76,7 +77,7 @@
 #import "UIView+AutoLayout.h"
 #import "UIViewController+Extension.h"
 #include "UIBarButtonItem+Extension.h"
-#import "MLGMWebService.h"
+#import "MLGMNetworkClient.h"
 
 #endif
 
@@ -158,6 +159,7 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kMaxLeap_REST_API_Key CONFIGURE(@"MaxLeap_REST_API_Key")
 #define kHockeyApp_Identifier CONFIGURE(@"HockeyApp_Identifier")
 #define kMaxLeapUserPassword CONFIGURE(@"MaxLeapUserPassword")
+#define kFlurryAPIKey CONFIGURE(@"FlurryAPIKey")
 
 #define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)
