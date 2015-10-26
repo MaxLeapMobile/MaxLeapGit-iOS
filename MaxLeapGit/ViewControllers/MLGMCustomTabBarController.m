@@ -2,7 +2,7 @@
 //  MLGMTabBarController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/12.
+//  Created by Li Zhu on 15/10/12.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -48,10 +48,10 @@
     
     if (!self.didInitSyncOnlineAccountGenes) {
         [self setupThirdTabName];
-        [KSharedWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
-        [KSharedWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
+        [kWebService syncOnlineAccountProfileToMaxLeapCompletion:nil];
+        [kWebService initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                [KSharedWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
+                [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
                 self.didInitSyncOnlineAccountGenes = YES;
             }
         }];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
 		B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469561BC764E300E1C5EB /* MLGMWebService.m */; };
 		B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */; };
 		B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695F1BC7684100E1C5EB /* UIView+AutoLayout.m */; };
@@ -24,12 +25,30 @@
 		B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */; };
 		B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAB91BCA36EC00E24AFE /* userPattern.json */; };
 		B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */; };
+=======
+		B40469571BC764E300E1C5EB /* MLGMAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469561BC764E300E1C5EB /* MLGMAccountManager.m */; settings = {ASSET_TAGS = (); }; };
+		B404695D1BC7682E00E1C5EB /* UIView+FrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */; settings = {ASSET_TAGS = (); }; };
+		B40469601BC7684100E1C5EB /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B404695F1BC7684100E1C5EB /* UIView+AutoLayout.m */; settings = {ASSET_TAGS = (); }; };
+		B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B40469621BC7695400E1C5EB /* MLGMAuthViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3C51BCB5EE80018634D /* MLGMAccount+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3B11BCB5EE80018634D /* MLGMAccount+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3C61BCB5EE80018634D /* MLGMAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3B31BCB5EE80018634D /* MLGMAccount.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3C71BCB5EE80018634D /* MLGMGene+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3B51BCB5EE80018634D /* MLGMGene+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3C81BCB5EE80018634D /* MLGMGene.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3B71BCB5EE80018634D /* MLGMGene.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3D31BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3D01BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = B408C3D21BCB64720018634D /* MLGMActorProfile.m */; settings = {ASSET_TAGS = (); }; };
+		B4099A7D1BD4E52200B7AEB8 /* searchReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B4099A7C1BD4E52200B7AEB8 /* searchReposPattern.json */; settings = {ASSET_TAGS = (); }; };
+		B4099A7F1BD4E69D00B7AEB8 /* searchUsersPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B4099A7E1BD4E69D00B7AEB8 /* searchUsersPattern.json */; settings = {ASSET_TAGS = (); }; };
+		B40C35931BCF532D0081AB5B /* MLGMOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C35921BCF532D0081AB5B /* MLGMOrganizationCell.m */; settings = {ASSET_TAGS = (); }; };
+		B40C359E1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359B1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B40C359D1BCF86EF0081AB5B /* MLGMFollowRelation.m */; settings = {ASSET_TAGS = (); }; };
+		B410BAC01BCA36EC00E24AFE /* userPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAB91BCA36EC00E24AFE /* userPattern.json */; settings = {ASSET_TAGS = (); }; };
+		B410BAD11BCA530F00E24AFE /* timelineEventPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B410BAD01BCA530F00E24AFE /* timelineEventPattern.json */; settings = {ASSET_TAGS = (); }; };
+>>>>>>> e802cd195f5dc333334b8d17e9271dc81ceb03de
 		B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B41193491BC6BE6D0069483C /* libz.tbd */; };
 		B411934C1BC6BE7F0069483C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B411934B1BC6BE7F0069483C /* libsqlite3.tbd */; };
 		B41B09EB1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B41B09EA1BCFEB60008DE6F3 /* NSDateTimeAgo.bundle */; };
 		B41B09EE1BCFF511008DE6F3 /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09ED1BCFF511008DE6F3 /* UIViewController+Extension.m */; };
 		B41B09F11BD00555008DE6F3 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B09F01BD00555008DE6F3 /* UIBarButtonItem+Extension.m */; };
-		B421FF211BDDD1C200E02DB3 /* MLGMNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B421FF201BDDD1C200E02DB3 /* MLGMNetworkClient.m */; };
 		B42264E01BCB6E0B00CD5634 /* reposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = B42264DF1BCB6E0B00CD5634 /* reposPattern.json */; };
 		B42264E51BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B42264E21BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m */; };
 		B42264E61BCB8CF500CD5634 /* MLGMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B42264E41BCB8CF500CD5634 /* MLGMEvent.m */; };
@@ -55,6 +74,7 @@
 		B4653D671BCBF58400D6F82B /* MLGMRepo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4653D651BCBF58400D6F82B /* MLGMRepo.m */; };
 		B4720FD51BD61060000FCF5A /* MaxLeap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4720FD41BD61060000FCF5A /* MaxLeap.framework */; };
 		B4973BE81BD73920009DE69B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4973BE71BD73920009DE69B /* CoreTelephony.framework */; };
+<<<<<<< HEAD
 		B4989EB81BD49BEC00D5B2B4 /* MLGMGeneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4989EB71BD49BEC00D5B2B4 /* MLGMGeneCell.m */; };
 		B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */; };
 		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; };
@@ -62,9 +82,22 @@
 		B4C82D241BD0A29D00BC6ADC /* MLGMTagRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D221BD0A29D00BC6ADC /* MLGMTagRelation.m */; };
 		B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; };
+		B4E69C551BC8B875008993A7 /* MLGMWebService+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService+Convenience.m */; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; };
 		B4F71FB71BDDCBE300C8CCFF /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F71FB61BDDCBE300C8CCFF /* libFlurry_7.0.0.a */; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; };
+=======
+		B4989EB81BD49BEC00D5B2B4 /* MLGMGeneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4989EB71BD49BEC00D5B2B4 /* MLGMGeneCell.m */; settings = {ASSET_TAGS = (); }; };
+		B4C044D11BCE320A00DBBD6D /* MLGMTimeLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D01BCE320A00DBBD6D /* MLGMTimeLineCell.m */; settings = {ASSET_TAGS = (); }; };
+		B4C044D41BCE346100DBBD6D /* MLGMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C044D31BCE346100DBBD6D /* MLGMWebViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D231BD0A29D00BC6ADC /* MLGMTagRelation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D201BD0A29D00BC6ADC /* MLGMTagRelation+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D241BD0A29D00BC6ADC /* MLGMTagRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C82D221BD0A29D00BC6ADC /* MLGMTagRelation.m */; settings = {ASSET_TAGS = (); }; };
+		B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */; settings = {ASSET_TAGS = (); }; };
+		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; settings = {ASSET_TAGS = (); }; };
+		B4E69C551BC8B875008993A7 /* MLGMWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C541BC8B875008993A7 /* MLGMWebService.m */; settings = {ASSET_TAGS = (); }; };
+		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; settings = {ASSET_TAGS = (); }; };
+		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; settings = {ASSET_TAGS = (); }; };
+>>>>>>> e802cd195f5dc333334b8d17e9271dc81ceb03de
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; };
@@ -95,8 +128,8 @@
 /* Begin PBXFileReference section */
 		22E4148FE84D787D13499179 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6A5172BC9B65FADD5B99762D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B40469551BC764E300E1C5EB /* MLGMWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebService.h; sourceTree = "<group>"; };
-		B40469561BC764E300E1C5EB /* MLGMWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebService.m; sourceTree = "<group>"; };
+		B40469551BC764E300E1C5EB /* MLGMAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMAccountManager.h; sourceTree = "<group>"; };
+		B40469561BC764E300E1C5EB /* MLGMAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMAccountManager.m; sourceTree = "<group>"; };
 		B404695B1BC7682E00E1C5EB /* UIView+FrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameAccessor.h"; sourceTree = "<group>"; };
 		B404695C1BC7682E00E1C5EB /* UIView+FrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameAccessor.m"; sourceTree = "<group>"; };
 		B404695E1BC7684100E1C5EB /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
@@ -139,8 +172,6 @@
 		B41B09ED1BCFF511008DE6F3 /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
 		B41B09EF1BD00555008DE6F3 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		B41B09F01BD00555008DE6F3 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
-		B421FF1F1BDDD1C200E02DB3 /* MLGMNetworkClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMNetworkClient.h; sourceTree = "<group>"; };
-		B421FF201BDDD1C200E02DB3 /* MLGMNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMNetworkClient.m; sourceTree = "<group>"; };
 		B42264DF1BCB6E0B00CD5634 /* reposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reposPattern.json; sourceTree = "<group>"; };
 		B42264E11BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLGMEvent+CoreDataProperties.h"; sourceTree = "<group>"; };
 		B42264E21BCB8CF500CD5634 /* MLGMEvent+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLGMEvent+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -219,6 +250,8 @@
 		B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GeneInBuild.plist; sourceTree = "<group>"; };
 		B4D2492F1BC7707900A719E6 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		B4E69C531BC8B875008993A7 /* MLGMWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMWebService.h; sourceTree = "<group>"; };
+		B4E69C541BC8B875008993A7 /* MLGMWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMWebService.m; sourceTree = "<group>"; };
 		B4E69C581BC8B940008993A7 /* JSONValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValidation.h; sourceTree = "<group>"; };
 		B4E69C591BC8B940008993A7 /* JSONValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValidation.m; sourceTree = "<group>"; };
 		B4F71FB41BDDCBE300C8CCFF /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
@@ -303,10 +336,10 @@
 		B40469541BC764CE00E1C5EB /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B40469551BC764E300E1C5EB /* MLGMWebService.h */,
-				B40469561BC764E300E1C5EB /* MLGMWebService.m */,
-				B421FF1F1BDDD1C200E02DB3 /* MLGMNetworkClient.h */,
-				B421FF201BDDD1C200E02DB3 /* MLGMNetworkClient.m */,
+				B40469551BC764E300E1C5EB /* MLGMAccountManager.h */,
+				B40469561BC764E300E1C5EB /* MLGMAccountManager.m */,
+				B4E69C531BC8B875008993A7 /* MLGMWebService.h */,
+				B4E69C541BC8B875008993A7 /* MLGMWebService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -888,7 +921,7 @@
 				B408C3D41BCB64720018634D /* MLGMActorProfile.m in Sources */,
 				E3AB6E131BCCE50300140E78 /* MLGMOrganizationsViewController.m in Sources */,
 				E3AB6E1A1BCCE50300140E78 /* MLGMSortViewController.m in Sources */,
-				B40469571BC764E300E1C5EB /* MLGMWebService.m in Sources */,
+				B40469571BC764E300E1C5EB /* MLGMAccountManager.m in Sources */,
 				B4C82D241BD0A29D00BC6ADC /* MLGMTagRelation.m in Sources */,
 				B4257C2E1BCF447900E35785 /* MLGMHomePageCell.m in Sources */,
 				B4257C311BCF4A4300E35785 /* NSDate+Extension.m in Sources */,
@@ -896,8 +929,8 @@
 				E3AB6E171BCCE50300140E78 /* MLGMRepoDetailController.m in Sources */,
 				B40469631BC7695400E1C5EB /* MLGMAuthViewController.m in Sources */,
 				B408C3D31BCB64720018634D /* MLGMActorProfile+CoreDataProperties.m in Sources */,
-				B421FF211BDDD1C200E02DB3 /* MLGMNetworkClient.m in Sources */,
 				B40C35931BCF532D0081AB5B /* MLGMOrganizationCell.m in Sources */,
+				B4E69C551BC8B875008993A7 /* MLGMWebService.m in Sources */,
 				B40C359F1BCF86EF0081AB5B /* MLGMFollowRelation.m in Sources */,
 				B45582B61BC8010500336B9E /* MaxLeapGit.xcdatamodeld in Sources */,
 			);

@@ -2,7 +2,7 @@
 //  MLGMOrganizationCell.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/9.
+//  Created by Li Zhu on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -71,7 +71,7 @@
         NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [actorProfile.githubUpdateTime timeAgo]];
         self.updateTimeLabel.text = updateAtString;
     } else {
-        [KSharedWebService fetchOrganizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
+        [kWebService fetchOrganizationUpdateDateForOrgName:self.organizationProfile.loginName completion:^(NSDate *updatedAt, NSString *orgName, NSError *error) {
             MLGMActorProfile *latestProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:self.organizationProfile.loginName];
             if (latestProfile.githubUpdateTime) {
                 NSString *updateAtString = [NSString stringWithFormat:@"Last Update at %@", [latestProfile.githubUpdateTime timeAgo]];

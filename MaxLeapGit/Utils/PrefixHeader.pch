@@ -77,7 +77,7 @@
 #import "UIView+AutoLayout.h"
 #import "UIViewController+Extension.h"
 #include "UIBarButtonItem+Extension.h"
-#import "MLGMWebService+Convenience.h"
+#import "MLGMNetworkClient.h"
 
 #endif
 
@@ -160,7 +160,6 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define kHockeyApp_Identifier CONFIGURE(@"HockeyApp_Identifier")
 #define kMaxLeapUserPassword CONFIGURE(@"MaxLeapUserPassword")
 #define kFlurryAPIKey CONFIGURE(@"FlurryAPIKey")
-
 
 #define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
 #define BottomToolBarColor          UIColorFromRGB(0x0076FF)

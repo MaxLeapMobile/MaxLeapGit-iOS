@@ -2,12 +2,13 @@
 //  GMRecommendViewController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/8.
+//  Created by Li Zhu on 15/10/8.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMRecommendViewController.h"
 
+#define kRepoTagDateExpireTimeInterval      (3600 * 24 * 14)
 
 #define kVerticalSeparatorLineWidth         1
 #define kToolBarButtonCount                 3
@@ -54,7 +55,7 @@
 - (void)fetchDataAndUpdateContentViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
    
-    [[MLGMWebService sharedInstance] fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+    [kWebService fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
             return;
@@ -76,7 +77,11 @@
         if (filteredArray.count == 0) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repo.name];
             MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
-            if (!tagRelation.isTagged) {
+            
+            NSTimeInterval tagTimeInterval = [tagRelation.tagDate timeIntervalSince1970];
+            NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
+            BOOL isTagExpired = currentTimeInterval - tagTimeInterval > kRepoTagDateExpireTimeInterval;
+            if (!tagRelation.tagDate || isTagExpired) {
                 [self.repos addObject:repo];
             }
         }
@@ -95,7 +100,7 @@
             MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
             NSString *currentRepoName = currentRepo.name;
             [self updateStarButtonStateWithRepoName:currentRepoName];
-            [KSharedWebService checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
+            [kWebService checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
                 [self updateStarButtonStateWithRepoName:currentRepoName];
             }];
             
@@ -204,7 +209,7 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
     MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
     if (tagRelation.isStarred.boolValue) {
-        [[MLGMWebService sharedInstance] unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
             if (succeeded) {
@@ -216,7 +221,7 @@
             [self updateStarButtonStateWithRepoName:repoName];
         }];
     } else {
-        [[MLGMWebService sharedInstance] starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             if (succeeded) {
                 [self.loadingViewAtStarButton stopAnimating];
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
@@ -238,10 +243,9 @@
     [self.forkButton setTitle:@"" forState:UIControlStateNormal];
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
-    __weak typeof(self) weakSelf = self;
-    [[MLGMWebService sharedInstance] forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
-        [weakSelf.loadingViewAtForkButton stopAnimating];
-        [weakSelf.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
+    [kWebService forkRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [self.loadingViewAtForkButton stopAnimating];
+        [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         
         if (succeeded) {
             [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Fork Success", nil)];
@@ -252,15 +256,17 @@
 }
 
 - (void)onClickedSkipButton {
-    self.currentRepoIndex++;
-    
-    [self updateContentViews];
-    
-    if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
-        self.requestPageNumber++;
+    MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
+    [kWebService skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        self.currentRepoIndex++;
+        [self updateContentViews];
         
-        [self fetchDataAndUpdateContentViews];
-    }
+        if (self.currentRepoIndex == self.repos.count && !self.didRequestedDataReachEnd) {
+            self.requestPageNumber++;
+            
+            [self fetchDataAndUpdateContentViews];
+        }
+    }];
 }
 
 - (void)presentAddNewGenePage {
@@ -318,7 +324,6 @@
 }
 
 #pragma mark- Private Method
-
 
 #pragma mark- Getter Setter
 - (UIView *)toolbarView {

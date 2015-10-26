@@ -1,19 +1,33 @@
 //
-//  MLGMWebService+Convenience.m
+//  MLGMAccountManager+Convenience.m
 //  MaxLeapGit
 //
-//  Created by Michael on 15/10/10.
+//  Created by Michael on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
-#import "MLGMWebService+Convenience.h"
+#import "MLGMNetworkClient.h"
 
 #define kTimeOutInvervalForRequest 30
 
 static NSString *const kGitHubBaseName = @"https://api.github.com";
 typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSError *error);
 
-@implementation MLGMWebService (Convenience)
+@implementation MLGMNetworkClient
++ (MLGMWebService *)sharedInstance {
+    DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
+        return [MLGMNetworkClient new];
+    });
+}
+
+- (JSONValidation *)jsonValidation {
+    static JSONValidation *jsonValidation = nil;
+    if (!jsonValidation) {
+        jsonValidation = [JSONValidation new];
+    }
+    
+    return jsonValidation;
+}
 
 - (NSString *)accessToken {
     MLGMAccount *account = [MLGMAccount MR_findFirstByAttribute:@"isOnline" withValue:@(YES)];
@@ -27,6 +41,7 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     }
     NSURL *requestURL = [NSURL URLWithString:requestURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     request.timeoutInterval = kTimeOutInvervalForRequest;
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -151,7 +166,7 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
         }
         
         id pattern = [[NSBundle mainBundle] jsonFromResource:patternFile];
-        BOOL valid = [self.jsonValidation verifyJSON:responseObject pattern:pattern];
+        BOOL valid = [kSharedNetworkClient.jsonValidation verifyJSON:responseObject pattern:pattern];
         if (!valid) {
             NSString *receiveDataString = [[NSString alloc] initWithData:receiveData encoding:NSUTF8StringEncoding];
             NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content:<%@>", receiveDataString];
@@ -176,15 +191,6 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
         }];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil);
     }];
-}
-
-- (JSONValidation *)jsonValidation {
-    static JSONValidation *jsonValidation = nil;
-    if (!jsonValidation) {
-        jsonValidation = [JSONValidation new];
-    }
-    
-    return jsonValidation;
 }
 
 @end

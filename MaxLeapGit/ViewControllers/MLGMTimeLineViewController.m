@@ -2,7 +2,7 @@
 //  GMTimeLineViewController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/8.
+//  Created by Li Zhu on 15/10/8.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -135,7 +135,7 @@
         [weakSelf.tableView addPullToRefreshWithActionHandler:^{
             self.tableView.showsInfiniteScrolling = NO;
             page = 1;
-            [KSharedWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
+            [kWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page
                                                       completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
                                                           if (!isReachEnd && events.count < kPerPage) {
@@ -157,7 +157,7 @@
         }];
         
         [weakSelf.tableView addInfiniteScrollingWithActionHandler:^{
-            [KSharedWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
+            [kWebService fetchTimeLineEventsForUserName:kOnlineAccount.actorProfile.loginName
                                                         fromPage:page + 1
                                                       completion:^(NSArray *events, BOOL isReachEnd, NSError *error) {
                                                           [weakSelf.tableView.infiniteScrollingView stopAnimating];

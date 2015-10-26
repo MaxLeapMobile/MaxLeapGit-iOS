@@ -2,7 +2,7 @@
 //  MLGMUserDetailView.h
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/10.
+//  Created by Li Zhu on 15/10/10.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 

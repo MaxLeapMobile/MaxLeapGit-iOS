@@ -2,7 +2,7 @@
 //  MLGMRecommendEmptyView.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/10.
+//  Created by Li Zhu on 15/10/10.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -23,10 +23,8 @@
 @property (nonatomic, copy) dispatch_block_t replayAction;
 
 @property (nonatomic, strong) UILabel *topLabel;
-@property (nonatomic, strong) TTTAttributedLabel *addNewGeneTextView;
-@property (nonatomic, strong) TTTAttributedLabel *replayTextView;
-
-@property (nonatomic, strong) TTTAttributedLabel *contentLinkLabel;
+@property (nonatomic, strong) TTTAttributedLabel *addNewGeneTextLabel;
+@property (nonatomic, strong) TTTAttributedLabel *replayTextLabel;
 
 @property (nonatomic, assign) BOOL didSetUpConstraints;
 @end
@@ -53,25 +51,27 @@
     _topLabel.font = kTextFont;
     [self addSubview:_topLabel];
 
-    _addNewGeneTextView = [TTTAttributedLabel autoLayoutView];
-    _addNewGeneTextView.numberOfLines = 0;
-    _addNewGeneTextView.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
-    _addNewGeneTextView.delegate = self;
-    [self addSubview:_addNewGeneTextView];
+    _addNewGeneTextLabel = [TTTAttributedLabel autoLayoutView];
+    _addNewGeneTextLabel.numberOfLines = 0;
+    _addNewGeneTextLabel.textAlignment = NSTextAlignmentCenter;
+    _addNewGeneTextLabel.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+    _addNewGeneTextLabel.delegate = self;
+    [self addSubview:_addNewGeneTextLabel];
     
-    _addNewGeneTextView.text = [self attributedStringForaddNewGeneTextView];
-    NSRange addNewGeneTextRange = [_addNewGeneTextView.text rangeOfString:NSLocalizedString(@"Add new genes",@"")];
-    [_addNewGeneTextView addLinkToURL:[NSURL URLWithString:kAddNewGenesLinkTag] withRange:addNewGeneTextRange];
+    _addNewGeneTextLabel.text = [self attributedStringForaddNewGeneTextView];
+    NSRange addNewGeneTextRange = [_addNewGeneTextLabel.text rangeOfString:NSLocalizedString(@"Add new genes",@"")];
+    [_addNewGeneTextLabel addLinkToURL:[NSURL URLWithString:kAddNewGenesLinkTag] withRange:addNewGeneTextRange];
     
-    _replayTextView = [TTTAttributedLabel autoLayoutView];
-    _replayTextView.numberOfLines = 0;
-    _replayTextView.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
-    _replayTextView.delegate = self;
-    [self addSubview:_replayTextView];
+    _replayTextLabel = [TTTAttributedLabel autoLayoutView];
+    _replayTextLabel.numberOfLines = 0;
+    _replayTextLabel.textAlignment = NSTextAlignmentCenter;
+    _replayTextLabel.linkAttributes = @{NSForegroundColorAttributeName: kTextHighlightedColor, NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)};
+    _replayTextLabel.delegate = self;
+    [self addSubview:_replayTextLabel];
     
-    _replayTextView.text = [self attributedStringForreplayTextView];
-    NSRange replayTextRange = [_replayTextView.text rangeOfString:NSLocalizedString(@"view this recommendation list again",@"")];
-    [_replayTextView addLinkToURL:[NSURL URLWithString:kReplayRecommendationListLinkTag] withRange:replayTextRange];
+    _replayTextLabel.text = [self attributedStringForreplayTextView];
+    NSRange replayTextRange = [_replayTextLabel.text rangeOfString:NSLocalizedString(@"view this recommend list again",@"")];
+    [_replayTextLabel addLinkToURL:[NSURL URLWithString:kReplayRecommendationListLinkTag] withRange:replayTextRange];
     
     [self updateConstraintsIfNeeded];
 }
@@ -84,28 +84,30 @@
 
 - (NSAttributedString *)attributedStringForreplayTextView {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Or you can ",@"") attributes:@{NSFontAttributeName : kTextFont, NSForegroundColorAttributeName : kDefaultTextColor}];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommendation list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"view this recommend list again",@"") attributes:@{NSForegroundColorAttributeName : kHightlightedTextColor, NSFontAttributeName : kTextFont}]];
     return string;
 }
 
 - (void)updateConstraints {
-    [self removeConstraints:self.constraints];
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(_topLabel, _addNewGeneTextView, _replayTextView);
-    
-    CGFloat topLabelHeight = [MLGMStringUtil sizeInOneLineOfText:_topLabel.text font:kTextFont].height;
-    CGFloat addNewGeneTextViewHeight = [MLGMStringUtil sizeOfText:_addNewGeneTextView.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
-    CGFloat replayTextViewHeight = [MLGMStringUtil sizeOfText:_replayTextView.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
-    CGFloat topMargin = (self.bounds.size.height - topLabelHeight - 24 - addNewGeneTextViewHeight - 20 - replayTextViewHeight) / 2;
-    
-    NSDictionary *metrics = @{@"margin":@(topMargin),
-                              @"h1":@(topLabelHeight),
-                              @"h2":@(addNewGeneTextViewHeight),
-                              @"h3":@(replayTextViewHeight)};
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[_topLabel(h1)]-24-[_addNewGeneTextView(h2)]-20-[_replayTextView(h3)]" options:NSLayoutFormatAlignAllCenterX | NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.bounds.size.width - 20 * 2]];
-    
+    if (!_didSetUpConstraints) {
+        NSDictionary *views = NSDictionaryOfVariableBindings(_topLabel, _addNewGeneTextLabel, _replayTextLabel);
+        
+        CGFloat topLabelHeight = [MLGMStringUtil sizeInOneLineOfText:_topLabel.text font:kTextFont].height;
+        CGFloat addNewGeneTextViewHeight = [MLGMStringUtil sizeOfText:_addNewGeneTextLabel.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
+        CGFloat replayTextViewHeight = [MLGMStringUtil sizeOfText:_replayTextLabel.text font:kTextFont constrainedToSize:CGSizeMake(self.bounds.size.width - 20 * 2, 500)].height + 20;
+        CGFloat topMargin = (self.bounds.size.height - topLabelHeight - 24 - addNewGeneTextViewHeight - 20 - replayTextViewHeight) / 2;
+        
+        NSDictionary *metrics = @{@"margin":@(topMargin),
+                                  @"h1":@(topLabelHeight),
+                                  @"h2":@(addNewGeneTextViewHeight),
+                                  @"h3":@(replayTextViewHeight)};
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[_topLabel(h1)]-24-[_addNewGeneTextLabel(h2)]-20-[_replayTextLabel(h3)]" options:NSLayoutFormatAlignAllCenterX | NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_topLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:self.bounds.size.width - 20 * 2]];
+        
+        _didSetUpConstraints = YES;
+    }
+
     [super updateConstraints];
 }
 

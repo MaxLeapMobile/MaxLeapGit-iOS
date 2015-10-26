@@ -1,13 +1,13 @@
 //
-//  MLGMWebService.m
+//  MLGMAccountManager.m
 //  MaxLeapGit
 //
-//  Created by Michael on 15/10/9.
+//  Created by Jun Xia on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import "MLGMWebService.h"
-#import "MLGMWebService+Convenience.h"
+#import "MLGMNetworkClient.h"
 
 @interface MLGMWebService()
 @property (nonatomic, strong) NSManagedObjectContext *defaultContext;
@@ -72,16 +72,17 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     if (!self) {
         return nil;
     }
-    
+
     _defaultContext = [NSManagedObjectContext MR_defaultContext];
     _scratchContext = [NSManagedObjectContext MR_newMainQueueContext];
     [_scratchContext setPersistentStoreCoordinator:[NSPersistentStoreCoordinator MR_defaultStoreCoordinator]];
+    
     return self;
 }
 
 - (void)updateAccountProfileToDBCompletion:(void(^)(MLGMAccount *account, NSError *error))completion {
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
-    [self startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:@"/user" parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user api error:%@", error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
@@ -109,8 +110,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 }
 
 - (void)checkSessionTokenStatusCompletion:(void(^)(BOOL valid, NSError *error))completion {
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:@"/user" parameters:nil];
-    [self startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:@"/user" parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error.code == MLGMErrorTypeBadCredentials) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, NO, error);
         } else {
@@ -121,8 +122,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)fetchUserProfileForUserName:(NSString *)userName completion:(void(^)(MLGMActorProfile *userProfile, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@", userName];
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /users/%@ api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
@@ -146,8 +147,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchOrganizationInfoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *orgMOs, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/orgs", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -168,8 +169,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchOrganizationCountForUserName:(NSString *)userName completion:(void(^)(NSUInteger orgCount, NSError *error))completion; {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/orgs", userName];
     NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(1)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/orgs api error:%@",userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, 0, error);
@@ -190,8 +191,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)fetchOrganizationUpdateDateForOrgName:(NSString *)orgName completion:(void(^)(NSDate *updatedAt, NSString *orgName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/orgs/%@", orgName];
-    NSURLRequest *request = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:request patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSDictionary *responseObject, NSError *error) {
+    NSURLRequest *request = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:request patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSDictionary *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, orgName, error);
             DDLogError(@"access orgs/%@/ api error:%@", orgName, error.localizedDescription);
@@ -215,8 +216,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchStarCountForUserName:(NSString *)userName completion:(void(^)(NSUInteger starCount, NSString *userName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/starred", userName];
     NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(1)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, 0, userName, error);
             DDLogError(@"access /user/%@/starred api error:%@", userName, error.localizedDescription);
@@ -238,8 +239,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchTimeLineEventsForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *events, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/received_events", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, error);
             DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
@@ -262,8 +263,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)checkFollowStatusForUserName:(NSString *)sourceUserName followTargetUserName:(NSString *)targetUserName completion:(void(^)(BOOL isFollow, NSString *targetUserName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/following/%@", sourceUserName, targetUserName];
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", sourceUserName, targetUserName];
         MLGMFollowRelation *followRecord = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
@@ -291,8 +292,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)followTargetUserName:(NSString *)targetUserName completion:(void(^)(BOOL isFollow, NSString *targetUserName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/following/%@", targetUserName];
-    NSURLRequest *urlRequest = [self putRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient putRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetUserName];
         MLGMFollowRelation *followRecord = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
@@ -314,8 +315,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)unfollowTargetUserName:(NSString *)targetUserName completion:(void(^)(BOOL isUnFollow, NSString *targetUserName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/following/%@", targetUserName];
-    NSURLRequest *urlRequest = [self deleteRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient deleteRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         NSPredicate *p = [NSPredicate predicateWithFormat:@"sourceLoginName = %@ and targetLoginName = %@", kOnlineUserName, targetUserName];
         MLGMFollowRelation *followRelation = [MLGMFollowRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
         if (!followRelation) {
@@ -336,8 +337,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchFollowerListForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *userProfiles, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/followers", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
             
@@ -359,8 +360,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchFollowingListForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *userProfile, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/following", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/received_events api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -381,8 +382,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchStarredReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/starred", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /user/%@/starred api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -403,8 +404,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)fetchPublicReposForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", userName];
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             DDLogError(@"access /users/%@/repos api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -424,8 +425,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)checkStarStatusForRepo:(NSString *)repoName completion:(void(^)(BOOL isStar, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
         MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
         if (!tagRelation) {
@@ -436,7 +437,6 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @YES;
-            tagRelation.isTagged = @YES;//if the repo is starred already, tag it (to exclude from recommendation list)
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else if (statusCode == 404) {
@@ -453,8 +453,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)starRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
-    NSURLRequest *urlRequest = [self putRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient putRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (statusCode == 204) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
             MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
@@ -464,7 +464,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @YES;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -475,8 +475,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)unstarRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/user/starred/%@", repoName];
-    NSURLRequest *urlRequest = [self deleteRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient deleteRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (statusCode == 204) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
             MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
@@ -486,7 +486,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
             tagRelation.isStarred = @NO;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -497,8 +497,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)forkRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/repos/%@/forks", repoName];
-    NSURLRequest *urlRequest = [self postRequestWithEndPoint:endPoint parameters:nil];
-    [self startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient postRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:nil completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (statusCode == 202) {
             NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
             MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
@@ -507,7 +507,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             }
             tagRelation.loginName = kOnlineUserName;
             tagRelation.repoName = repoName;
-            tagRelation.isTagged = @YES;
+            tagRelation.tagDate = [NSDate date];
             [self.defaultContext MR_saveToPersistentStoreAndWait];
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
         } else {
@@ -516,12 +516,25 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
+- (void)skipRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion {
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
+    MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p inContext:self.defaultContext];
+    if (!tagRelation) {
+        tagRelation = [MLGMTagRelation MR_createEntityInContext:self.defaultContext];
+    }
+    tagRelation.loginName = kOnlineUserName;
+    tagRelation.repoName = repoName;
+    tagRelation.tagDate = [NSDate date];
+    [self.defaultContext MR_saveToPersistentStoreAndWait];
+    BLOCK_SAFE_ASY_RUN_MainQueue(completion, YES, repoName, nil);
+}
+
 #pragma mark - Search
 - (void)searchByRepoName:(NSString *)repoName sortType:(MLGMSearchRepoSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = @"/search/repositories";
     NSDictionary *parameters = @{@"q":SAFE_STRING(repoName),@"sort":repoSortMethodForType(sortType), @"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"searchReposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"searchReposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
             DDLogError(@"access /search/repositories api error:%@", error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -544,8 +557,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)searchByUserName:(NSString *)userName sortType:(MLGMSearchUserSortType)sortType fromPage:(NSUInteger)page completion:(void(^)(NSArray *users, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = @"/search/users";
     NSDictionary *parameters = @{@"q":userName, @"sort":userSortMethodForType(sortType), @"type":@"user", @"page" : @(page), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"searchUsersPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseData, NSError *error) {
         if (error) {
             DDLogError(@"access /search/users api error:%@", error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
@@ -580,7 +593,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
     
     NSString *type = page == 0 ? @"trending" : @"search";
- 
+    
     NSDictionary *parameters = @{@"userid":userid,
                                  @"genes":genes,
                                  @"page":@(page), //"page" and "per_page" are only valid for "search"
@@ -597,7 +610,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         }
         
         id pattern = [[NSBundle mainBundle] jsonFromResource:@"recommendReposPattern.json"];
-        BOOL valid = [self.jsonValidation verifyJSON:cloudObjects pattern:pattern];
+        BOOL valid = [kSharedNetworkClient.jsonValidation verifyJSON:cloudObjects pattern:pattern];
         if (!valid) {
             NSString *errorMessage = [NSString stringWithFormat:@"server data formate invalid,content: <%@>", cloudObjects];
             error = [MLGMError errorWithCode:MLGMErrorTypeServerDataFormateError message:errorMessage];
@@ -613,7 +626,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         }];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], isReachEnd, nil);
     }];
-
+    
 }
 
 - (void)initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:(void(^)(BOOL succeeded, NSError *error))completion {
@@ -671,8 +684,8 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 - (void)genesFromGitHubCompletion:(void(^)(NSArray *allGeneMOs, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/repos", kOnlineUserName];
     NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(kPerPage)};
-    NSURLRequest *urlRequest = [self getRequestWithEndPoint:endPoint parameters:parameters];
-    [self startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObjects, NSError *error) {
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"reposPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObjects, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, error);
             DDLogError(@"access /users/%@/repos api error:%@", kOnlineUserName, error.localizedDescription);
@@ -780,7 +793,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             NSPredicate *p = [NSPredicate predicateWithBlock:^BOOL(MLObject *evaluatedObject, NSDictionary<NSString *,id> * bindings) {
                 return [evaluatedObject[@"language"] isEqualToString:oneGeneMO.language] && [evaluatedObject[@"skill"] isEqualToString:oneGeneMO.skill];
             }];
-
+            
             NSArray *filtedArray = [allGeneMLOs filteredArrayUsingPredicate:p];
             if ([filtedArray count] == 0) {
                 MLObject *oneGeneMLO = [MLObject objectWithClassName:@"Gene"];
@@ -818,3 +831,4 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 }
 
 @end
+

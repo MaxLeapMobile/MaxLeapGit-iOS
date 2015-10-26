@@ -64,7 +64,7 @@
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging in", nil)];
-    [KSharedWebService updateAccountProfileToDBCompletion:^(MLGMAccount *account, NSError *error) {
+    [kWebService updateAccountProfileToDBCompletion:^(MLGMAccount *account, NSError *error) {
         if (error) {
             [SVProgressHUD dismiss];
             [SVProgressHUD showErrorWithStatus:@"Error"];

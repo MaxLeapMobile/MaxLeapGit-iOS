@@ -2,7 +2,7 @@
 //  MLGMRepoDetailController.m
 //  MaxLeapGit
 //
-//  Created by julie on 15/10/9.
+//  Created by Li Zhu on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -32,7 +32,7 @@
 
 - (void)updateButtonState {
     [self updateStarStateWithRepoName:self.repoName];
-    [KSharedWebService checkStarStatusForRepo:self.repoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
+    [kWebService checkStarStatusForRepo:self.repoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
         [self updateStarStateWithRepoName:self.repoName];
     }];
 }
@@ -101,7 +101,7 @@
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, self.repoName];
     MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
     if (tagRelation.isStarred.boolValue) {
-        [KSharedWebService unstarRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService unstarRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             [self.loadingViewAtStarButton stopAnimating];
             
             if (succeeded) {
@@ -113,7 +113,7 @@
             [self updateStarStateWithRepoName:repoName];
         }];
     } else {
-        [KSharedWebService starRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [kWebService starRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
             if (succeeded) {
             [self.loadingViewAtStarButton stopAnimating];
                 [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
@@ -134,7 +134,7 @@
     [self.loadingViewAtForkButton startAnimating];
     [self.forkButton setTitle:@"" forState:UIControlStateNormal];
     
-    [KSharedWebService forkRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+    [kWebService forkRepo:self.repoName completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         [self.loadingViewAtForkButton stopAnimating];
         [self.forkButton setTitle:NSLocalizedString(@"Fork", nil) forState:UIControlStateNormal];
         

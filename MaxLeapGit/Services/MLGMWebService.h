@@ -1,14 +1,14 @@
 //
-//  MLGMWebService.h
+//  MLGMAccountManager.h
 //  MaxLeapGit
 //
-//  Created by Michael on 15/10/9.
+//  Created by Jun Xia on 15/10/9.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-#define KSharedWebService [MLGMWebService sharedInstance]
+#define kWebService [MLGMWebService sharedInstance]
 
 typedef NS_ENUM(NSUInteger, MLGMSearchRepoSortType) {
     MLGMSearchRepoSortTypeDefault = 0,
@@ -129,6 +129,9 @@ static NSUInteger const kPerPage = 25;
  * fork项目
  */
 - (void)forkRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion;
+
+
+- (void)skipRepo:(NSString *)repoName completion:(void(^)(BOOL succeeded, NSString *repoName, NSError *error))completion;
 
 /**
  * 搜索开源项目

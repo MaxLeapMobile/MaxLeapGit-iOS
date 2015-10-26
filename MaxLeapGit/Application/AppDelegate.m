@@ -112,7 +112,7 @@
 }
 
 - (void)checkCredentials:(id)sender {
-    [KSharedWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
+    [kWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
         if (!valid && kOnlineAccount) {
             [self logout];
         }
@@ -120,7 +120,7 @@
 }
 
 - (void)logout {
-    [KSharedWebService cancelAllDataTasksCompletion:^{
+    [kSharedNetworkClient cancelAllDataTasksCompletion:^{
         [kOnlineAccount MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         self.window.rootViewController = [[MLGMCustomTabBarController alloc] init];
