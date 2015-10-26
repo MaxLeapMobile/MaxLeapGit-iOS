@@ -243,6 +243,8 @@
         } else {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Fork Failure", nil)];
         }
+        
+        [self skipToNextPage];
     }];
 }
 
