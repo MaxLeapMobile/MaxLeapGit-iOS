@@ -128,7 +128,7 @@ static NSUInteger const kPerPage = 25;
 /**
  *  获取推荐项目 based on Genes (language, skill): 1）GitHub Trending; 2)Search
  */
-- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
+- (void)fetchRecommendReposForGenes:(NSSet<MLGMGene *> *)genes fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion;
 
 /**
  * fork项目
