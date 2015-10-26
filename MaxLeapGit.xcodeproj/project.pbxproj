@@ -700,7 +700,6 @@
 				B43F3F841BB10E180036ECF6 /* Frameworks */,
 				B43F3F851BB10E180036ECF6 /* Resources */,
 				4C0862434447C7704EE393BF /* Copy Pods Resources */,
-				0C5A9220C69901C5F4C4CB1F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -795,21 +794,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C5A9220C69901C5F4C4CB1F /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4C0862434447C7704EE393BF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1028,6 +1012,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Shanhu Ma (LMRSZX5M2S)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework",
@@ -1059,6 +1044,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Granite Mobile, Inc. (65223HE549)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework",
@@ -1078,7 +1064,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxleap.gitmaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6b608ccc-73f8-45cd-bb6b-f1699d5a40e5";
+				PROVISIONING_PROFILE = "8f455649-4fec-47ff-86ff-435ef4495f09";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

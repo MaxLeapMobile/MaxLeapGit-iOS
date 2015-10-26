@@ -2,9 +2,6 @@
 //  SSKeychainFix.h
 //  MaxLeap
 //
-//  Created by Sun Jin on 11/5/14.
-//  Copyright (c) 2014 iLegendsoft. All rights reserved.
-//
 
 #import "ML_SSKeychain.h"
 

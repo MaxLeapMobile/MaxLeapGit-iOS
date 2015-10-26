@@ -2,9 +2,6 @@
 //  MLGeoPoint.h
 //  MaxLeap
 //
-//  Created by Sun Jin on 6/30/14.
-//  Copyright (c) 2014 iLegendsoft. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>

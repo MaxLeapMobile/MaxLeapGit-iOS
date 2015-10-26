@@ -76,12 +76,12 @@
     [self.view addSubview:self.tableView];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.titleView = [[UIView alloc] initWithFrame:CGRectZero];
-    if (self.isLoginUserHomePage) {
+    if (self.isLoginUserHomePage && [self.navigationController.viewControllers count] == 1) {
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem barButtonItemWithNormalImagenName:@"search_icon_normal"
                                                                                   selectedImageName:@"search_icon_selected"
                                                                                              target:self
                                                                                              action:@selector(searchButtonPressed:)];
-    } else {
+    } else if (!self.isLoginUserHomePage){
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.followButton];
     }
 }
