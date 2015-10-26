@@ -2,7 +2,7 @@
 //  MLGMWebService+Convenience.m
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/10/10.
+//  Created by Michael on 15/10/10.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -27,7 +27,6 @@ typedef void(^SessionrResponse)(NSInteger statusCode, NSData *receiveData, NSErr
     }
     NSURL *requestURL = [NSURL URLWithString:requestURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
-    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     request.timeoutInterval = kTimeOutInvervalForRequest;
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];

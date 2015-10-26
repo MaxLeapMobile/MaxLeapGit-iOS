@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  MaxLeapGit
 //
-//  Created by Jun Xia on 15/9/22.
+//  Created by Michael on 15/9/22.
 //  Copyright (c) 2015年 MaxLeapMobile. All rights reserved.
 //
 
@@ -10,6 +10,7 @@
 
 @interface AppDelegate () <BITHockeyManagerDelegate>
 @property (nonatomic) DDFileLogger *fileLogger;
+@property (nonatomic, strong) NSTimer *credentialsMonitor;
 @end
 
 @implementation AppDelegate
@@ -19,7 +20,9 @@
 	[self configureLeapCloud];
     [self configureMagicalRecord];
     [self configureHoceyApp];
+    [self configureFlurry];
     [self configureCocoaLumberjack];
+    [self configureCredentialMonitor];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = UIColorFromRGB(0xffffff);
@@ -39,12 +42,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
-#pragma mark - Public Method 
-- (void)logout {
-    self.window.rootViewController = [[MLGMCustomTabBarController alloc] init];
-}
+#pragma mark - Public Method
 
 #pragma mark - Private Method
+
 - (void)configureGlobalAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -80,6 +81,11 @@
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 }
 
+- (void)configureFlurry {
+    [Flurry setAppVersion:kAppVersion];
+    [Flurry startSession:kFlurryAPIKey];
+}
+
 - (void)configureCocoaLumberjack {
     DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
     
@@ -94,6 +100,31 @@
         [DDLog addLogger:[DDASLLogger sharedInstance]];
         [DDLog addLogger:[DDTTYLogger sharedInstance]];
     }
+}
+
+- (void)configureCredentialMonitor {
+    self.credentialsMonitor = [NSTimer scheduledTimerWithTimeInterval:10
+                                                               target:self
+                                                             selector:@selector(checkCredentials:)
+                                                             userInfo:nil
+                                                              repeats:YES];
+    [self.credentialsMonitor fire];
+}
+
+- (void)checkCredentials:(id)sender {
+    [KSharedWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
+        if (!valid && kOnlineAccount) {
+            [self logout];
+        }
+    }];
+}
+
+- (void)logout {
+    [KSharedWebService cancelAllDataTasksCompletion:^{
+        [kOnlineAccount MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        self.window.rootViewController = [[MLGMCustomTabBarController alloc] init];
+    }];
 }
 
 - (NSString *)getLogFilesContentWithMaxSize:(NSInteger)maxSize {
