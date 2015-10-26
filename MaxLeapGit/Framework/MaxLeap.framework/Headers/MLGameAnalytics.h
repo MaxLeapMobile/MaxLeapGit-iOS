@@ -2,9 +2,6 @@
 //  MLGameAnalytics.h
 //  MaxLeap
 //
-//  Created by Sun Jin on 10/15/15.
-//  Copyright © 2015 leap. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>

@@ -2,16 +2,13 @@
 //  MLLogger.h
 //  MaxLeap
 //
-//  Created by Sun Jin on 8/18/15.
-//  Copyright (c) 2015 leap. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 
 /**
  *  `MLLogLevel` enum specifies different levels of logging that could be used to limit or display more messages in logs.
  */
-typedef NS_ENUM(int, MLLogLevel){
+typedef NS_ENUM(int, MLLogLevel) {
     /**
      *  Log level that disables all logging.
      */
@@ -42,17 +39,51 @@ typedef NS_ENUM(int, MLLogLevel){
      */
     MLLogLevelDebug = 4
 };
+
+@protocol MLLogger <NSObject>
+
+@optional
+
+/**
+ *  Sets the level of logging to display.
+ *
+ *  @discussion By default:
+ *  - If running inside an app that was downloaded from iOS App Store, it is set to `MLLogLevelNone`.
+ *  - All other cases, it is set to `MLLogLevelWarning`.
+ *  - When `+[MLLogger setLogLevel:]` get called, it will attempt to call this method on current logger.
+ *
+ *  @param level Log level to set
+ */
+- (void)setLogLevel:(MLLogLevel)level;
+
+@required
+
+/**
+ *  Display a log message at a specific level for a tag.
+ *  If current logging level doesn't include this level, this method will not be called.
+ *
+ *  @discussion This method must be implemented to provide your own logging logic.
+ *
+ *  @param tag    Logging tag
+ *  @param level  Longging Level
+ *  @param format Format to use for the log message
+ *  @param args   Log message arguments.
+ */
+- (void)logMsg_va:(NSString *)tag level:(MLLogLevel)level format:(NSString *)format args:(va_list)args;
+
+@end
+
 /**
  *  `MLLogger` used to display logs.
  */
-@interface MLLogger : NSObject
+@interface MLLogger : NSObject <MLLogger>
 
 /**
  *  Current logger that will be used to display log messages.
  *
  *  @return the current logger
  */
-+ (MLLogger *)currentLogger;
++ (id<MLLogger>)currentLogger;
 
 /**
  *  Set the custom logger.
@@ -61,18 +92,7 @@ typedef NS_ENUM(int, MLLogLevel){
  *
  *  @param logger Logger to set
  */
-+ (void)setCurrentLogger:(MLLogger *)logger;
-
-/**
- *  Sets the level of logging to display.
- *
- *  @discussion By default:
- *  - If running inside an app that was downloaded from iOS App Store, it is set to `MLLogLevelNone`.
- *  - All other cases, it is set to `MLLogLevelWarning`.
- *
- *  @param level Log level to set
- */
-+ (void)setLogLevel:(MLLogLevel)level;
++ (void)setCurrentLogger:(id<MLLogger>)logger;
 
 /**
  *  Log level that will be displayed.
@@ -86,17 +106,15 @@ typedef NS_ENUM(int, MLLogLevel){
 + (MLLogLevel)logLevel;
 
 /**
- *  Display a log message at a specific level for a tag using `NSLog()`.
- *  If current logging level doesn't include this level, this method does nothing.
+ *  Sets the level of logging to display.
  *
- *  @discussion Subclasses can overide this method to implement your own logging method.
+ *  @discussion By default:
+ *  - If running inside an app that was downloaded from iOS App Store, it is set to `MLLogLevelNone`.
+ *  - All other cases, it is set to `MLLogLevelWarning`.
  *
- *  @param tag    Logging tag
- *  @param level  Longging Level
- *  @param format Format to use for the log message
- *  @param args   Log message arguments.
+ *  @param level Log level to set
  */
-- (void)logMsg_va:(NSString *)tag level:(MLLogLevel)level format:(NSString *)format args:(va_list)args;
++ (void)setLogLevel:(MLLogLevel)level;
 
 @end
 
