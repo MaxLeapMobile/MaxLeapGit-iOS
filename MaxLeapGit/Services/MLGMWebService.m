@@ -578,24 +578,22 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
-- (void)fetchRecommendationReposFromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
-    NSString *userid = kOnlineUserName ?: @"";
-    NSSet *userGenes = kOnlineAccountProfile.genes;
-    if (userGenes.count == 0) {
+- (void)fetchRecommendReposForGenes:(NSSet<MLGMGene *> *)genes fromPage:(NSUInteger)page completion:(void(^)(NSArray *repos, BOOL isReachEnd, NSError *error))completion {
+    if (genes.count == 0) {
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, nil);
         return;
     }
     
-    NSMutableArray *genes = [NSMutableArray array];
-    [userGenes enumerateObjectsUsingBlock:^(MLGMGene *gene, BOOL * _Nonnull stop) {
+    NSMutableArray *geneDicts = [NSMutableArray array];
+    [genes enumerateObjectsUsingBlock:^(MLGMGene * _Nonnull gene, BOOL * _Nonnull stop) {
         NSDictionary *geneDict = @{@"language":gene.language, @"skill":gene.skill};
-        [genes addObject:geneDict];
+        [geneDicts addObject:geneDict];
     }];
     
+    NSString *userid = kOnlineUserName ?: @"";
     NSString *type = page == 0 ? @"trending" : @"search";
-    
     NSDictionary *parameters = @{@"userid":userid,
-                                 @"genes":genes,
+                                 @"genes":geneDicts,
                                  @"page":@(page), //"page" and "per_page" are only valid for "search"
                                  @"per_page":@(kPerPage),
                                  @"type":type
@@ -626,7 +624,6 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
         }];
         BLOCK_SAFE_ASY_RUN_MainQueue(completion, [repoMOs copy], isReachEnd, nil);
     }];
-    
 }
 
 - (void)initializeGenesFromGitHubAndMaxLeapToLocalDBComletion:(void(^)(BOOL succeeded, NSError *error))completion {

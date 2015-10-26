@@ -15,6 +15,7 @@
 #define kToolBarButtonWidth                 (self.view.bounds.size.width - kVerticalSeparatorLineWidth) / kToolBarButtonCount
 
 @interface MLGMRecommendViewController () <WKNavigationDelegate>
+@property (nonatomic, strong) NSSet *requestGenes;
 @property (nonatomic, assign) NSUInteger requestPageNumber;
 @property (nonatomic, assign) BOOL didRequestedDataReachEnd;
 
@@ -55,14 +56,14 @@
 - (void)fetchDataAndUpdateContentViews {
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
    
-    [kWebService fetchRecommendationReposFromPage:self.requestPageNumber  completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+    [kWebService fetchRecommendReposForGenes:self.requestGenes fromPage:self.requestPageNumber completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
         if (error) {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
             return;
         }
-     
+        
         [SVProgressHUD dismiss];
-       
+        
         self.didRequestedDataReachEnd = isReachEnd;
         
         [self updateRepos:repos];
@@ -256,6 +257,10 @@
 }
 
 - (void)onClickedSkipButton {
+    if (self.currentRepoIndex >= self.repos.count) {
+        return;
+    }
+    
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     [kWebService skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         self.currentRepoIndex++;
@@ -272,7 +277,14 @@
 - (void)presentAddNewGenePage {
     MLGMNewGeneViewController *vcGenes = [[MLGMNewGeneViewController alloc] init];
     __weak typeof(self) wSelf = self;
-    vcGenes.dismissBlock = ^{
+    vcGenes.dismissBlock = ^(MLGMGene *gene){
+        if (!gene) {
+            return;
+        }
+      
+        wSelf.didRequestedDataReachEnd = NO;
+        wSelf.requestGenes = [NSSet setWithObjects:gene, nil];
+        wSelf.requestPageNumber = 0;
         [wSelf fetchDataAndUpdateContentViews];
     };
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
@@ -405,6 +417,13 @@
         _repos = [NSMutableArray array];
     }
     return _repos;
+}
+
+- (NSSet *)requestGenes {
+    if (!_requestGenes) {
+        _requestGenes = kOnlineAccountProfile.genes;
+    }
+    return _requestGenes;
 }
 
 #pragma mark- Helper Method

@@ -99,11 +99,14 @@ UITableViewDelegate
         gene.skill = self.selectedSkill;
         gene.userProfile = kOnlineAccountProfile;
         gene.updateTime = [NSDate date];
+        self.gene = gene;
     }
-    [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];    
+    [kWebService syncOnlineAccountGenesToMaxLeapCompletion:nil];
+    __weak typeof(self) wSelf = self;
     [self dismissViewControllerAnimated:YES completion:^{
-        if (_dismissBlock) {
-            _dismissBlock();
+        MLGMNewGeneViewController *sSelf = wSelf;
+        if (sSelf.dismissBlock) {
+            sSelf.dismissBlock(sSelf.gene);
         }
     }];
 }
