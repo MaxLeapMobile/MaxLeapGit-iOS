@@ -1,5 +1,5 @@
 #! /bin/bash
-maxleapgitconfig="../ilslib/MaxLeapGitSecurity/MaxLeapGitSecurity.plist"
+maxleapgitconfig="../GitMaster-iOS-Sensitive-Keys/MaxLeapGitSecurity.plist"
 project_root="./MaxLeapGit";
 if [ -f $maxleapgitconfig ]; then
     
