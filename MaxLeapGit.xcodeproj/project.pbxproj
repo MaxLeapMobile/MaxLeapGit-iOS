@@ -63,7 +63,7 @@
 		B4C82D261BD0E92300BC6ADC /* GeneInBuild.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4C82D251BD0E92300BC6ADC /* GeneInBuild.plist */; };
 		B4D249311BC7707900A719E6 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D249301BC7707900A719E6 /* UIImage+Extension.m */; };
 		B4E69C5A1BC8B940008993A7 /* JSONValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E69C591BC8B940008993A7 /* JSONValidation.m */; };
-		B4F71FB71BDDCBE300C8CCFF /* libFlurry_7.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F71FB61BDDCBE300C8CCFF /* libFlurry_7.0.0.a */; };
+		B4E7F6A81BDDE3E500942F6D /* libFlurry_7.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E7F6A71BDDE3E500942F6D /* libFlurry_7.2.1.a */; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; };
@@ -221,9 +221,9 @@
 		B4D249301BC7707900A719E6 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		B4E69C581BC8B940008993A7 /* JSONValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValidation.h; sourceTree = "<group>"; };
 		B4E69C591BC8B940008993A7 /* JSONValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValidation.m; sourceTree = "<group>"; };
+		B4E7F6A71BDDE3E500942F6D /* libFlurry_7.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.2.1.a; sourceTree = "<group>"; };
 		B4F71FB41BDDCBE300C8CCFF /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		B4F71FB51BDDCBE300C8CCFF /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
-		B4F71FB61BDDCBE300C8CCFF /* libFlurry_7.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.0.0.a; sourceTree = "<group>"; };
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
 		B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMError.m; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -262,10 +262,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4973BE81BD73920009DE69B /* CoreTelephony.framework in Frameworks */,
-				B4F71FB71BDDCBE300C8CCFF /* libFlurry_7.0.0.a in Frameworks */,
 				B411934C1BC6BE7F0069483C /* libsqlite3.tbd in Frameworks */,
 				B411934A1BC6BE6D0069483C /* libz.tbd in Frameworks */,
 				B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */,
+				B4E7F6A81BDDE3E500942F6D /* libFlurry_7.2.1.a in Frameworks */,
 				B4720FD51BD61060000FCF5A /* MaxLeap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,7 +619,7 @@
 			children = (
 				B4F71FB41BDDCBE300C8CCFF /* Flurry.h */,
 				B4F71FB51BDDCBE300C8CCFF /* FlurryWatch.h */,
-				B4F71FB61BDDCBE300C8CCFF /* libFlurry_7.0.0.a */,
+				B4E7F6A71BDDE3E500942F6D /* libFlurry_7.2.1.a */,
 			);
 			path = Flurry;
 			sourceTree = "<group>";
