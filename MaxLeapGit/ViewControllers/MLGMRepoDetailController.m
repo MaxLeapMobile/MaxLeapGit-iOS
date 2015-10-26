@@ -24,7 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+   
+    self.title = self.repoName;
     [self configureToolbarView];
     [self updateButtonState];
 }
