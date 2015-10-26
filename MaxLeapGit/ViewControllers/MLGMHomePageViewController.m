@@ -361,7 +361,8 @@
             genesVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:genesVC animated:YES];
         } else if (indexPath.section == 3 && [self.userProfile.organizationCount integerValue] > 0) {
-            UIViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
+            MLGMOrganizationsViewController *orgnizationVC = [[MLGMOrganizationsViewController alloc] init];
+            orgnizationVC.ownerName = self.ownerName;
             orgnizationVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:orgnizationVC animated:YES];
         }
