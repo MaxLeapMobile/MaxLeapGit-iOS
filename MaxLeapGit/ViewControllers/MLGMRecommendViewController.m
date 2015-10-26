@@ -101,10 +101,7 @@
             
             MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
             NSString *currentRepoName = currentRepo.name;
-            [self updateStarButtonStateWithRepoName:currentRepoName];
-            [kWebService checkStarStatusForRepo:currentRepoName completion:^(BOOL isStar, NSString *repoName, NSError *error) {
-                [self updateStarButtonStateWithRepoName:currentRepoName];
-            }];
+            [kWebService checkStarStatusForRepo:currentRepoName completion:nil];
             
         } else if (self.currentRepoIndex >= self.repos.count && self.didRequestedDataReachEnd) {
             [self hideRepoWebViewAndShowEmptyView];
@@ -135,24 +132,6 @@
             self.emptyView.hidden = YES;
             self.starButton.enabled = self.forkButton.enabled = self.skipButton.enabled = YES;
         }
-    }
-}
-
-- (void)updateStarButtonStateWithRepoName:(NSString *)repoName {
-    [self.loadingViewAtStarButton stopAnimating];
-    
-    NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, repoName];
-    MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
-    if (!tagRelation.isStarred) {
-        [self.loadingViewAtStarButton startAnimating];
-        [self.starButton setTitle:NSLocalizedString(@"", nil) forState:UIControlStateNormal];
-        return;
-    }
-    
-    if (tagRelation.isStarred.boolValue) {
-        [self.starButton setTitle:NSLocalizedString(@"UnStar", nil) forState:UIControlStateNormal];
-    } else {
-        [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
     }
 }
 
@@ -200,41 +179,39 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 
+//skip to next page after 'star' action
 - (void)onClickedStarButton {
     if (self.loadingViewAtStarButton.isAnimating || self.currentRepoIndex >= self.repos.count) {
         return;
     }
     
-    [self.starButton setTitle:@"" forState:UIControlStateNormal];
     [self.loadingViewAtStarButton startAnimating];
+    [self.starButton setTitle:@"" forState:UIControlStateNormal];
     
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     NSPredicate *p = [NSPredicate predicateWithFormat:@"loginName = %@ and repoName = %@", kOnlineUserName, currentRepo.name];
     MLGMTagRelation *tagRelation = [MLGMTagRelation MR_findFirstWithPredicate:p];
-    if (tagRelation.isStarred.boolValue) {
-        [kWebService unstarRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
-            [self.loadingViewAtStarButton stopAnimating];
-            
-            if (succeeded) {
-                [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"UnStar Success", nil)];
-            } else {
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"UnStar Failure", nil)];
-            }
-            
-            [self updateStarButtonStateWithRepoName:repoName];
-        }];
-    } else {
-        [kWebService starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
-            if (succeeded) {
-                [self.loadingViewAtStarButton stopAnimating];
-                [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
-            } else {
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Star Failure", nil)];
-            }
-            
-            [self updateStarButtonStateWithRepoName:repoName];
-        }];
+    if (tagRelation.isStarred) {
+        [self showStarStatus:YES];
+        [self skipToNextPage];
+        return;
     }
+    
+    [kWebService starRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
+        [self showStarStatus:succeeded];
+        [self skipToNextPage];
+    }];
+}
+
+- (void)showStarStatus:(BOOL)succeeded {
+    if (succeeded) {
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Star Success", nil)];
+    } else {
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Star Failure", nil)];
+    }
+    
+    [self.loadingViewAtStarButton stopAnimating];
+    [self.starButton setTitle:NSLocalizedString(@"Star", nil) forState:UIControlStateNormal];
 }
 
 - (void)onClickedForkButton {
@@ -263,6 +240,10 @@
         return;
     }
     
+    [self skipToNextPage];
+}
+
+- (void)skipToNextPage {
     MLGMRepo *currentRepo = self.repos[self.currentRepoIndex];
     [kWebService skipRepo:currentRepo.name completion:^(BOOL succeeded, NSString *repoName, NSError *error) {
         self.currentRepoIndex++;
