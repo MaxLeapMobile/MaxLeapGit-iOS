@@ -2,7 +2,7 @@
 //  MLGMRecommendEmptyView.m
 //  MaxLeapGit
 //
-//  Created by Li Zhu on 15/10/10.
+//  Created by Julie on 15/10/10.
 //  Copyright © 2015年 MaxLeapMobile. All rights reserved.
 //
 
