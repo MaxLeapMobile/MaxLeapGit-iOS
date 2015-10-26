@@ -45,6 +45,7 @@
     // Do any additional setup after loading the view.
 
     self.view.backgroundColor = [UIColor whiteColor];
+    self.title = NSLocalizedString(@"Recommend", @"");
    
     [self configureSubViews];
     [self updateViewConstraints];
@@ -120,6 +121,7 @@
     self.starButton.enabled = _forkButton.enabled = _skipButton.enabled = NO;
     self.webView.hidden = YES;
     [self.webView stopLoading];
+    self.title = NSLocalizedString(@"Recommend", @"");
 }
 
 - (void)showRepoWebView {
