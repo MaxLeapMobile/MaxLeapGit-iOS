@@ -208,7 +208,7 @@
     
     _popover = [[WYPopoverController alloc] initWithContentViewController:vc];
     _popover.delegate = self;
-    [_popover presentPopoverFromRect:CGRectMake(self.view.bounds.size.width - 80, _titleView.bounds.size.height -10, 0, 0) inView:self.view permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
+    [_popover presentPopoverFromRect:CGRectMake(self.view.bounds.size.width - 50, _titleView.bounds.size.height -10, 0, 0) inView:self.view permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
 
 - (void)onClickedRepoButton {
