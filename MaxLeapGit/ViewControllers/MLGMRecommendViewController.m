@@ -284,6 +284,7 @@
         [wSelf fetchDataAndUpdateContentViews];
     };
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vcGenes];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
     [self presentViewController:nav animated:YES completion:nil];
 }
 

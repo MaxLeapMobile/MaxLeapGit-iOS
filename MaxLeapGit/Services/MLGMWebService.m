@@ -141,17 +141,52 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
             return;
         }
         
-        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstOrCreateByAttribute:@"loginName" withValue:userName inContext:localContext];
-            [userProfile fillProfile:responseObject];
-        } completion:^(BOOL contextDidSave, NSError *error) {
-            if (error) {
-                DDLogError(@"access /users/%@ api error:%@", userName, error.localizedDescription);
+        void(^saveDataBlock)(NSDictionary *) = ^(NSDictionary *responseDict){
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstOrCreateByAttribute:@"loginName" withValue:userName inContext:localContext];
+                [userProfile fillProfile:responseDict];
+            } completion:^(BOOL contextDidSave, NSError *error) {
+                if (error) {
+                    DDLogError(@"access /users/%@ api error:%@", userName, error.localizedDescription);
+                }
+                
+                MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName];
+                BLOCK_SAFE_ASY_RUN_MainQueue(completion, userProfile, error);
+            }];
+        };
+        
+        if (![userName isEqualToString:kOnlineUserName]) {
+            saveDataBlock(responseObject);
+        } else {
+            NSMutableDictionary *responseDict = [responseObject mutableCopy];
+            [self fetchEmailForAuthenticatedUserWithCompletion:^(NSString *email) {
+                if (email.length) {
+                    [responseDict setValue:email forKey:@"email"];
+                }
+                saveDataBlock(responseDict);
+            }];
+        }
+    }];
+}
+
+- (void)fetchEmailForAuthenticatedUserWithCompletion:(void(^)(NSString *email))completion {
+    NSString *endPoint = @"/user/emails";
+    NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:nil];
+    [kSharedNetworkClient startRequest:urlRequest patternFile:@"emailPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, id responseObject, NSError *error) {
+        if (error) {
+            DDLogError(@"access /user/emails api error:%@", error.localizedDescription);
+            BLOCK_SAFE_RUN(completion, nil);
+            return;
+        }
+        
+        __block NSString *email = nil;
+        NSArray *emails = (NSArray *)responseObject;
+        [emails enumerateObjectsUsingBlock:^(NSDictionary *emailDict, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (emailDict[@"email"] && [emailDict[@"primary"] boolValue]) {
+                email = emailDict[@"email"];
             }
-            
-            MLGMActorProfile *userProfile = [MLGMActorProfile MR_findFirstByAttribute:@"loginName" withValue:userName];
-            BLOCK_SAFE_ASY_RUN_MainQueue(completion, userProfile, error);
         }];
+        BLOCK_SAFE_RUN(completion, email);
     }];
 }
 
