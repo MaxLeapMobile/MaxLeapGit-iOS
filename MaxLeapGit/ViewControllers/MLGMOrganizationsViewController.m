@@ -76,9 +76,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MLGMActorProfile *actorProfile = self.results[indexPath.row];
-    MLGMWebViewController *webViewVC = [[MLGMWebViewController alloc] init];
-    webViewVC.url = [NSString stringWithFormat:@"https://github.com/%@", actorProfile.loginName];
-    [self.navigationController pushViewController:webViewVC animated:YES];
+    MLGMOrganizationDetailController *orgDetailVC = [[MLGMOrganizationDetailController alloc] init];
+    orgDetailVC.url = [NSString stringWithFormat:@"https://github.com/%@", actorProfile.loginName];
+    [self.navigationController pushViewController:orgDetailVC animated:YES];
 }
 
 #pragma mark- Getter Setter

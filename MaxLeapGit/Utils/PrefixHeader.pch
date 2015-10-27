@@ -49,6 +49,7 @@
 #import "MLGMNewGeneViewController.h"
 #import "MLGMOrganizationCell.h"
 #import "MLGMOrganizationsViewController.h"
+#import "MLGMOrganizationDetailController.h"
 #import "MLGMRecommendEmptyView.h"
 #import "MLGMRecommendViewController.h"
 #import "MLGMRepo.h"

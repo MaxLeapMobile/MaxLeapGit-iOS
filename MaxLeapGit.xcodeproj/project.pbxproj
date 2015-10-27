@@ -66,6 +66,7 @@
 		B4E7F6A81BDDE3E500942F6D /* libFlurry_7.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E7F6A71BDDE3E500942F6D /* libFlurry_7.2.1.a */; };
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
+		E3101C1C1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3101C1B1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m */; settings = {ASSET_TAGS = (); }; };
 		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; };
 		E38539CE1BDF26A900B61D52 /* emailPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E38539CD1BDF26A900B61D52 /* emailPattern.json */; settings = {ASSET_TAGS = (); }; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; };
@@ -228,6 +229,8 @@
 		B4FFE4741BC7AB3B0011EE2D /* MLGMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMError.h; sourceTree = "<group>"; };
 		B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMError.m; sourceTree = "<group>"; };
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E3101C1A1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMOrganizationDetailController.h; sourceTree = "<group>"; };
+		E3101C1B1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMOrganizationDetailController.m; sourceTree = "<group>"; };
 		E31D875C1BD60D1A00909236 /* recommendReposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recommendReposPattern.json; sourceTree = "<group>"; };
 		E38539CD1BDF26A900B61D52 /* emailPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emailPattern.json; sourceTree = "<group>"; };
 		E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchPageTitleView.h; sourceTree = "<group>"; };
@@ -653,6 +656,8 @@
 				E3AB6DFB1BCCE50300140E78 /* MLGMReposViewController.m */,
 				E3AB6DF01BCCE50300140E78 /* MLGMOrganizationsViewController.h */,
 				E3AB6DF11BCCE50300140E78 /* MLGMOrganizationsViewController.m */,
+				E3101C1A1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.h */,
+				E3101C1B1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m */,
 			);
 			name = HomePage;
 			sourceTree = "<group>";
@@ -884,6 +889,7 @@
 				B4429FCE1BCCF82200F8B108 /* MLGMHomePageHeaderCell.m in Sources */,
 				E3AB6E201BCCE50300140E78 /* MLGMHomePageViewController.m in Sources */,
 				B43F3FC11BB126450036ECF6 /* main.m in Sources */,
+				E3101C1C1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m in Sources */,
 				B40C359E1BCF86EF0081AB5B /* MLGMFollowRelation+CoreDataProperties.m in Sources */,
 				B423C36A1BCCBC340087CE3B /* MLGMStringUtil.m in Sources */,
 				B4653D671BCBF58400D6F82B /* MLGMRepo.m in Sources */,

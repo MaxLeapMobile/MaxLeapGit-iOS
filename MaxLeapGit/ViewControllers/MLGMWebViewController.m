@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     if (_url.length) {
         NSArray *array = [_url componentsSeparatedByString:@"/"];
@@ -48,7 +49,7 @@
 #pragma mark- SubView Configuration
 - (void)configureWebView {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 -  44) configuration:webViewConfiguration];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64) configuration:webViewConfiguration];
     self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
     
