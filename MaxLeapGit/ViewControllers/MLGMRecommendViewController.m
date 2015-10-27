@@ -58,18 +58,28 @@
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading...", @"")];
    
     [kWebService fetchRecommendReposForGenes:self.requestGenes fromPage:self.requestPageNumber completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+
+        [self reloadDataAndViewsWithNewRepos:repos isReachEnd:isReachEnd error:error];
+    }];
+}
+
+- (void)reloadDataAndViewsWithNewRepos:(NSArray *)repos isReachEnd:(BOOL)isReachEnd error:(NSError *)error {
+    if (self.requestGenes.count > 0 && repos.count == 0 && self.requestPageNumber == 0) {
+        [kWebService fetchRecommendReposForGenes:self.requestGenes fromPage:++self.requestPageNumber completion:^(NSArray *repos, BOOL isReachEnd, NSError *error) {
+            [self reloadDataAndViewsWithNewRepos:repos isReachEnd:isReachEnd error:error];
+        }];
+    } else {
         if (error) {
             [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
             return;
         }
         
-        [SVProgressHUD dismiss];
-        
         self.didRequestedDataReachEnd = isReachEnd;
         
+        [SVProgressHUD dismiss];
         [self updateRepos:repos];
         [self updateContentViews];
-    }];
+    }
 }
 
 - (void)updateRepos:(NSArray *)repos {
