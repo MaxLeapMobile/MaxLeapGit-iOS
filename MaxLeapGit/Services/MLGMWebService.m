@@ -157,6 +157,9 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)fetchOrganizationInfoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *orgMOs, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/orgs", userName];
+    if ([userName isEqualToString:kOnlineUserName]) {
+        endPoint = [NSString stringWithFormat:@"/user/orgs"];
+    }
     NSDictionary *parameters = @{@"page" : @(page), @"per_page" : @(kPerPage)};
     NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
     [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
@@ -179,6 +182,9 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
 
 - (void)fetchOrganizationCountForUserName:(NSString *)userName completion:(void(^)(NSUInteger orgCount, NSError *error))completion; {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/orgs", userName];
+    if ([userName isEqualToString:kOnlineUserName]) {
+        endPoint = [NSString stringWithFormat:@"/user/orgs"];
+    }
     NSDictionary *parameters = @{@"page" : @(1), @"per_page" : @(1)};
     NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
     [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
@@ -209,7 +215,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     [kSharedNetworkClient startRequest:request patternFile:@"userPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSDictionary *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, orgName, error);
-            DDLogError(@"access orgs/%@/ api error:%@", orgName, error.localizedDescription);
+            DDLogError(@"access orgs/%@ api error:%@", orgName, error.localizedDescription);
             return;
         }
         
@@ -260,7 +266,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     [kSharedNetworkClient startRequest:urlRequest patternFile:@"organizationPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, YES, error);
-            DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
+            DDLogError(@"access /user/%@/received_events api error:%@", userName, error.localizedDescription);
             return;
         }
         
@@ -357,7 +363,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
     [kSharedNetworkClient startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
-            DDLogError(@"access /user/%@/orgs api error:%@", userName, error.localizedDescription);
+            DDLogError(@"access /users/%@/followers api error:%@", userName, error.localizedDescription);
             
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
             return;
@@ -380,7 +386,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     NSURLRequest *urlRequest = [kSharedNetworkClient getRequestWithEndPoint:endPoint parameters:parameters];
     [kSharedNetworkClient startRequest:urlRequest patternFile:@"followerPattern.json" completion:^(NSDictionary *responHeaderFields, NSInteger statusCode, NSArray *responseObject, NSError *error) {
         if (error) {
-            DDLogError(@"access /user/%@/received_events api error:%@", userName, error.localizedDescription);
+            DDLogError(@"access /user/%@/following api error:%@", userName, error.localizedDescription);
             BLOCK_SAFE_ASY_RUN_MainQueue(completion, nil, NO, error);
             return;
         }

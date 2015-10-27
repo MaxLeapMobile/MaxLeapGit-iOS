@@ -62,7 +62,6 @@
 }
 
 - (void)configureLeapCloud {
-    [MLLogger setLogLevel:MLLogLevelError];
     [MaxLeap setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key site:MLSiteUS];
 }
 
@@ -112,6 +111,10 @@
 }
 
 - (void)checkCredentials:(id)sender {
+    if (!kOnlineAccount) {
+        return;
+    }
+    
     [kWebService checkSessionTokenStatusCompletion:^(BOOL valid, NSError *error) {
         if (!valid && kOnlineAccount) {
             [self logout];
