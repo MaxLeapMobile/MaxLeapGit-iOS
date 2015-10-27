@@ -166,6 +166,9 @@
                                                               page++;
                                                               [weakSelf.results addObjectsFromArray:events];
                                                               [weakSelf.tableView reloadData];
+                                                              if (!isReachEnd && events.count < 5) {
+                                                                  [self.tableView triggerInfiniteScrolling];
+                                                              }
                                                           } else {
                                                               [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error", nil)];
                                                           }
