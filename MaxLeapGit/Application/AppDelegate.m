@@ -62,6 +62,7 @@
 }
 
 - (void)configureLeapCloud {
+    [MLLogger setLogLevel:MLLogLevelError];    
     [MaxLeap setApplicationId:kMaxLeap_Application_ID clientKey:kMaxLeap_REST_API_Key site:MLSiteUS];
 }
 
@@ -95,7 +96,7 @@
     
     self.fileLogger = fileLogger;
     
-    if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
+    if (![[BITHockeyManager sharedHockeyManager] appEnvironment]) {
         [DDLog addLogger:[DDASLLogger sharedInstance]];
         [DDLog addLogger:[DDTTYLogger sharedInstance]];
     }
