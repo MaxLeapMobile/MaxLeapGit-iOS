@@ -67,7 +67,7 @@
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; };
-		E38539CE1BDF26A900B61D52 /* emailPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E38539CD1BDF26A900B61D52 /* emailPattern.json */; settings = {ASSET_TAGS = (); }; };
+		E38539CE1BDF26A900B61D52 /* emailPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E38539CD1BDF26A900B61D52 /* emailPattern.json */; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; };
 		E3AB6E0E1BCCE50300140E78 /* MLGMNewGeneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE71BCCE50300140E78 /* MLGMNewGeneViewController.m */; };
 		E3AB6E0F1BCCE50300140E78 /* MLGMFollowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AB6DE91BCCE50300140E78 /* MLGMFollowViewController.m */; };
