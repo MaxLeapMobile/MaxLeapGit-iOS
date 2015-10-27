@@ -59,7 +59,7 @@
 - (void)updateConstraints {
     if (!_didSetupConstraints) {
         [self.avatarImageView centerInContainerOnAxis:NSLayoutAttributeCenterX];
-        [self.avatarImageView pinToSuperviewEdges:JRTViewPinTopEdge inset:33.0];
+        [self.avatarImageView pinToSuperviewEdges:JRTViewPinTopEdge inset:66.0];
         [self.avatarImageView constrainToSize:CGSizeMake(54, 54)];
         
         [self.nickNameLabel pinToSuperviewEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge inset:0.0];

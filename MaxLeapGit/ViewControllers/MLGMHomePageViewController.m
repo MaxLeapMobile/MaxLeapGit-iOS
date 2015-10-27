@@ -136,10 +136,10 @@
     if (scrollView == self.tableView) {
         CGFloat scrollOffset = scrollView.contentOffset.y;
         if (scrollOffset < 0) {
-            self.bgViewHeightConstraints.constant = 190 - scrollOffset;
+            self.bgViewHeightConstraints.constant = 190 + 44 - scrollOffset;
             self.bgViewTopConstraints.constant = 0;
         } else {
-            self.bgViewHeightConstraints.constant = 190;
+            self.bgViewHeightConstraints.constant = 190 + 44;
             self.bgViewTopConstraints.constant = -scrollOffset;
         }
     }
@@ -378,7 +378,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 196;
+        return 196 + 44;
     } else {
         return 44;
     }
