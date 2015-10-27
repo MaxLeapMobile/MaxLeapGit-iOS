@@ -259,6 +259,7 @@
 		E3AB6E051BCCE50300140E78 /* MLGMTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMTimeLineViewController.m; sourceTree = "<group>"; };
 		E3AB6E0A1BCCE50300140E78 /* MLGMHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMHomePageViewController.h; sourceTree = "<group>"; };
 		E3AB6E0B1BCCE50300140E78 /* MLGMHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMHomePageViewController.m; sourceTree = "<group>"; };
+		E3E977031BDF8ADA00F732ED /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,6 +501,7 @@
 		B43F3FB11BB10F570036ECF6 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				E3E977031BDF8ADA00F732ED /* Reveal.framework */,
 				B4720FD41BD61060000FCF5A /* MaxLeap.framework */,
 				B4F71FB31BDDCBE300C8CCFF /* Flurry */,
 			);
@@ -1041,6 +1043,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/MaxLeapGit/Framework/**",
+					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1055,6 +1059,46 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework/Flurry",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"CocoaLumberjack\"",
+					"-l\"MagicalRecord\"",
+					"-l\"SDWebImage\"",
+					"-l\"SVProgressHUD\"",
+					"-l\"SVPullToRefresh\"",
+					"-l\"TTTAttributedLabel\"",
+					"-l\"WYPopoverController\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"HockeySDK\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"Reveal\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxleap.gitmaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1073,6 +1117,8 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/MaxLeapGit/Framework/**",
+					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1087,6 +1133,46 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MaxLeapGit/Framework/Flurry",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"CocoaLumberjack\"",
+					"-l\"MagicalRecord\"",
+					"-l\"SDWebImage\"",
+					"-l\"SVProgressHUD\"",
+					"-l\"SVPullToRefresh\"",
+					"-l\"TTTAttributedLabel\"",
+					"-l\"WYPopoverController\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"HockeySDK\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"Reveal\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.maxleap.gitmaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
