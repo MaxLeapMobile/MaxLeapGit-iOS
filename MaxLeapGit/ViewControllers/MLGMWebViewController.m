@@ -70,7 +70,6 @@
     _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_activityIndicatorView];
     [_activityIndicatorView centerInContainer];
-    [_activityIndicatorView startAnimating];
 }
 
 #pragma mark- Action
