@@ -48,7 +48,7 @@
 #pragma mark- SubView Configuration
 - (void)configureWebView {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64) configuration:webViewConfiguration];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64 -  44) configuration:webViewConfiguration];
     self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
     
@@ -70,7 +70,6 @@
     _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_activityIndicatorView];
     [_activityIndicatorView centerInContainer];
-    [_activityIndicatorView startAnimating];
 }
 
 #pragma mark- Action

@@ -22,7 +22,11 @@
 #pragma mark- View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     [self configureSubViews];
+    [self updateViewConstraints];
     
     [self reloadData];
 }
