@@ -50,6 +50,7 @@
 - (void)configureWebView {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 64) configuration:webViewConfiguration];
+    self.webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
     
