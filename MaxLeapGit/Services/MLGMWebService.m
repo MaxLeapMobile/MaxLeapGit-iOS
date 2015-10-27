@@ -155,6 +155,7 @@ static NSString *userSortMethodForType(MLGMSearchUserSortType type) {
     }];
 }
 
+
 - (void)fetchOrganizationInfoForUserName:(NSString *)userName fromPage:(NSUInteger)page completion:(void(^)(NSArray *orgMOs, BOOL isReachEnd, NSError *error))completion {
     NSString *endPoint = [NSString stringWithFormat:@"/users/%@/orgs", userName];
     if ([userName isEqualToString:kOnlineUserName]) {
