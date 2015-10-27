@@ -1,0 +1,15 @@
+{
+    "id": "number",
+    "login": "string",
+    "name?": "string",
+    "avatar_url": "string",
+    "followers": "number",
+    "following": "number",
+    "hireable?": "bool",
+    "created_at": "string",
+    "updated_at": "string",
+    "email?": "string",
+    "blog?": "string",
+    "location?": "string",
+    "company?": "string"
+}

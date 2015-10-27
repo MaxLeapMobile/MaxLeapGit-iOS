@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
+    <entity name="MLGMAccount" representedClassName="MLGMAccount" syncable="YES">
+        <attribute name="accessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isInitializeGene" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isOnline" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="actorProfile" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MLGMActorProfile" syncable="YES"/>
+    </entity>
+    <entity name="MLGMActorProfile" representedClassName="MLGMActorProfile" syncable="YES">
+        <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blog" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="company" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followerCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="followingCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="githubCreatTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="githubId" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="githubUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="hireable" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nickName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="organizationCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="publicRepoCount" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="starCount" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <relationship name="genes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MLGMGene" inverseName="userProfile" inverseEntity="MLGMGene" syncable="YES"/>
+    </entity>
+    <entity name="MLGMEvent" representedClassName="MLGMEvent" syncable="YES">
+        <attribute name="actorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="sourceRepoName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetRepoName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLGMFollowRelation" representedClassName="MLGMFollowRelation" syncable="YES">
+        <attribute name="isFollow" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="sourceLoginName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetLoginName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLGMGene" representedClassName="MLGMGene" syncable="YES">
+        <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maxLeapID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="skill" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MLGMActorProfile" inverseName="genes" inverseEntity="MLGMActorProfile" syncable="YES"/>
+    </entity>
+    <entity name="MLGMRepo" representedClassName="MLGMRepo" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="htmlPageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="introduction" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLGMTagRelation" representedClassName="MLGMTagRelation" syncable="YES">
+        <attribute name="isStarred" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="loginName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="repoName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagDate" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MLGMAccount" positionX="-342" positionY="243" width="128" height="103"/>
+        <element name="MLGMActorProfile" positionX="-171" positionY="153" width="128" height="313"/>
+        <element name="MLGMEvent" positionX="-342" positionY="-0" width="128" height="135"/>
+        <element name="MLGMFollowRelation" positionX="-135" positionY="18" width="128" height="90"/>
+        <element name="MLGMGene" positionX="16" positionY="321" width="128" height="120"/>
+        <element name="MLGMRepo" positionX="34" positionY="15" width="128" height="120"/>
+        <element name="MLGMTagRelation" positionX="160" positionY="192" width="128" height="105"/>
+    </elements>
+</model>

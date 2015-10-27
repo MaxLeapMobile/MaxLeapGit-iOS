@@ -1,0 +1,233 @@
+ [
+  {
+  "login": "braintree",
+  "id": 3453,
+  "url": "https://api.github.com/orgs/braintree",
+  "repos_url": "https://api.github.com/orgs/braintree/repos",
+  "events_url": "https://api.github.com/orgs/braintree/events",
+  "members_url": "https://api.github.com/orgs/braintree/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/braintree/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/3453?v=3",
+  "description": null
+  },
+  {
+  "login": "guardian",
+  "id": 164318,
+  "url": "https://api.github.com/orgs/guardian",
+  "repos_url": "https://api.github.com/orgs/guardian/repos",
+  "events_url": "https://api.github.com/orgs/guardian/events",
+  "members_url": "https://api.github.com/orgs/guardian/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/guardian/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/164318?v=3",
+  "description": "The source code of the world's leading liberal voice"
+  },
+  {
+  "login": "znc",
+  "id": 179272,
+  "url": "https://api.github.com/orgs/znc",
+  "repos_url": "https://api.github.com/orgs/znc/repos",
+  "events_url": "https://api.github.com/orgs/znc/events",
+  "members_url": "https://api.github.com/orgs/znc/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/znc/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/179272?v=3",
+  "description": null
+  },
+  {
+  "login": "venmo",
+  "id": 256998,
+  "url": "https://api.github.com/orgs/venmo",
+  "repos_url": "https://api.github.com/orgs/venmo/repos",
+  "events_url": "https://api.github.com/orgs/venmo/events",
+  "members_url": "https://api.github.com/orgs/venmo/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/venmo/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/256998?v=3",
+  "description": ""
+  },
+  {
+  "login": "apiaryio",
+  "id": 765943,
+  "url": "https://api.github.com/orgs/apiaryio",
+  "repos_url": "https://api.github.com/orgs/apiaryio/repos",
+  "events_url": "https://api.github.com/orgs/apiaryio/events",
+  "members_url": "https://api.github.com/orgs/apiaryio/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/apiaryio/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/765943?v=3",
+  "description": ""
+  },
+  {
+  "login": "AFNetworking",
+  "id": 1181541,
+  "url": "https://api.github.com/orgs/AFNetworking",
+  "repos_url": "https://api.github.com/orgs/AFNetworking/repos",
+  "events_url": "https://api.github.com/orgs/AFNetworking/events",
+  "members_url": "https://api.github.com/orgs/AFNetworking/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/AFNetworking/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/1181541?v=3",
+  "description": "A delightful iOS and OS X networking framework"
+  },
+  {
+  "login": "CocoaPods",
+  "id": 1189714,
+  "url": "https://api.github.com/orgs/CocoaPods",
+  "repos_url": "https://api.github.com/orgs/CocoaPods/repos",
+  "events_url": "https://api.github.com/orgs/CocoaPods/events",
+  "members_url": "https://api.github.com/orgs/CocoaPods/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/CocoaPods/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/1189714?v=3",
+  "description": "The Swift & Objective C Dependency Manager"
+  },
+  {
+  "login": "Palaver",
+  "id": 1782588,
+  "url": "https://api.github.com/orgs/Palaver",
+  "repos_url": "https://api.github.com/orgs/Palaver/repos",
+  "events_url": "https://api.github.com/orgs/Palaver/events",
+  "members_url": "https://api.github.com/orgs/Palaver/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/Palaver/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/1782588?v=3",
+  "description": ""
+  },
+  {
+  "login": "getpelican",
+  "id": 2043492,
+  "url": "https://api.github.com/orgs/getpelican",
+  "repos_url": "https://api.github.com/orgs/getpelican/repos",
+  "events_url": "https://api.github.com/orgs/getpelican/events",
+  "members_url": "https://api.github.com/orgs/getpelican/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/getpelican/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/2043492?v=3",
+  "description": null
+  },
+  {
+  "login": "cocodelabs",
+  "id": 4679281,
+  "url": "https://api.github.com/orgs/cocodelabs",
+  "repos_url": "https://api.github.com/orgs/cocodelabs/repos",
+  "events_url": "https://api.github.com/orgs/cocodelabs/events",
+  "members_url": "https://api.github.com/orgs/cocodelabs/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/cocodelabs/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/4679281?v=3",
+  "description": ""
+  },
+  {
+  "login": "rails-girls-summer-of-code",
+  "id": 4704447,
+  "url": "https://api.github.com/orgs/rails-girls-summer-of-code",
+  "repos_url": "https://api.github.com/orgs/rails-girls-summer-of-code/repos",
+  "events_url": "https://api.github.com/orgs/rails-girls-summer-of-code/events",
+  "members_url": "https://api.github.com/orgs/rails-girls-summer-of-code/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/rails-girls-summer-of-code/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/4704447?v=3",
+  "description": null
+  },
+  {
+  "login": "NSLondon",
+  "id": 4969053,
+  "url": "https://api.github.com/orgs/NSLondon",
+  "repos_url": "https://api.github.com/orgs/NSLondon/repos",
+  "events_url": "https://api.github.com/orgs/NSLondon/events",
+  "members_url": "https://api.github.com/orgs/NSLondon/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/NSLondon/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/4969053?v=3",
+  "description": ""
+  },
+  {
+  "login": "Mantle",
+  "id": 7318467,
+  "url": "https://api.github.com/orgs/Mantle",
+  "repos_url": "https://api.github.com/orgs/Mantle/repos",
+  "events_url": "https://api.github.com/orgs/Mantle/events",
+  "members_url": "https://api.github.com/orgs/Mantle/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/Mantle/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/7318467?v=3",
+  "description": "Model framework for Cocoa and Cocoa Touch"
+  },
+  {
+  "login": "Alamofire",
+  "id": 7774181,
+  "url": "https://api.github.com/orgs/Alamofire",
+  "repos_url": "https://api.github.com/orgs/Alamofire/repos",
+  "events_url": "https://api.github.com/orgs/Alamofire/events",
+  "members_url": "https://api.github.com/orgs/Alamofire/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/Alamofire/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/7774181?v=3",
+  "description": "Elegant Networking in Swift"
+  },
+  {
+  "login": "the-hypermedia-project",
+  "id": 8340192,
+  "url": "https://api.github.com/orgs/the-hypermedia-project",
+  "repos_url": "https://api.github.com/orgs/the-hypermedia-project/repos",
+  "events_url": "https://api.github.com/orgs/the-hypermedia-project/events",
+  "members_url": "https://api.github.com/orgs/the-hypermedia-project/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/the-hypermedia-project/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/8340192?v=3",
+  "description": null
+  },
+  {
+  "login": "CocoaPods-Fonts",
+  "id": 8393842,
+  "url": "https://api.github.com/orgs/CocoaPods-Fonts",
+  "repos_url": "https://api.github.com/orgs/CocoaPods-Fonts/repos",
+  "events_url": "https://api.github.com/orgs/CocoaPods-Fonts/events",
+  "members_url": "https://api.github.com/orgs/CocoaPods-Fonts/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/CocoaPods-Fonts/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/8393842?v=3",
+  "description": "A collection of fonts wrapped in Pods"
+  },
+  {
+  "login": "QueryKit",
+  "id": 8472749,
+  "url": "https://api.github.com/orgs/QueryKit",
+  "repos_url": "https://api.github.com/orgs/QueryKit/repos",
+  "events_url": "https://api.github.com/orgs/QueryKit/events",
+  "members_url": "https://api.github.com/orgs/QueryKit/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/QueryKit/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/8472749?v=3",
+  "description": "A simple CoreData query language for Swift and Objective-C."
+  },
+  {
+  "login": "GitSubmodules",
+  "id": 8843434,
+  "url": "https://api.github.com/orgs/GitSubmodules",
+  "repos_url": "https://api.github.com/orgs/GitSubmodules/repos",
+  "events_url": "https://api.github.com/orgs/GitSubmodules/events",
+  "members_url": "https://api.github.com/orgs/GitSubmodules/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/GitSubmodules/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/8843434?v=3",
+  "description": null
+  },
+  {
+  "login": "SwiftOnSails",
+  "id": 9407729,
+  "url": "https://api.github.com/orgs/SwiftOnSails",
+  "repos_url": "https://api.github.com/orgs/SwiftOnSails/repos",
+  "events_url": "https://api.github.com/orgs/SwiftOnSails/events",
+  "members_url": "https://api.github.com/orgs/SwiftOnSails/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/SwiftOnSails/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/9407729?v=3",
+  "description": ""
+  },
+  {
+  "login": "rivrproject",
+  "id": 10283449,
+  "url": "https://api.github.com/orgs/rivrproject",
+  "repos_url": "https://api.github.com/orgs/rivrproject/repos",
+  "events_url": "https://api.github.com/orgs/rivrproject/events",
+  "members_url": "https://api.github.com/orgs/rivrproject/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/rivrproject/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/10283449?v=3",
+  "description": "Lightweight Python web application framework"
+  },
+  {
+  "login": "git-comment",
+  "id": 14359369,
+  "url": "https://api.github.com/orgs/git-comment",
+  "repos_url": "https://api.github.com/orgs/git-comment/repos",
+  "events_url": "https://api.github.com/orgs/git-comment/events",
+  "members_url": "https://api.github.com/orgs/git-comment/members{/member}",
+  "public_members_url": "https://api.github.com/orgs/git-comment/public_members{/member}",
+  "avatar_url": "https://avatars.githubusercontent.com/u/14359369?v=3",
+  "description": ""
+  }
+  ]

@@ -8,31 +8,84 @@
 
 #import <Availability.h>
 #ifndef __IPHONE_8_0
-#warning "This project uses features only available in iOS SDK 5.0 and later."
+#warning "This project uses features only available in iOS SDK 8.0 and later."
 #endif
 
-/*! 头文件导入 */
 #ifdef __OBJC__
-#import <CoreData/CoreData.h>
-#import <CoreGraphics/CoreGraphics.h>
-#import <CoreText/CoreText.h>
-#import <QuartzCore/QuartzCore.h>
-#import <CoreLocation/CoreLocation.h>
-#import <Security/Security.h>
-#import <QuickLook/QuickLook.h>
-#import <AssetsLibrary/AssetsLibrary.h>
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <MobileCoreServices/MobileCoreServices.h>
-#import <CFNetwork/CFNetwork.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <StoreKit/StoreKit.h>
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
+#import "DDLog.h"
 #import "Flurry.h"
+#import "MagicalRecord.h"
+#import "SVProgressHUD.h"
+#import <HockeySDK/HockeySDK.h>
+#import <MaxLeap/MaxLeap.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
+#import <WebKit/WebKit.h>
+
+#import "AppDelegate.h"
+#import "JSONValidation.h"
+#import "MLGMAccount+CoreDataProperties.h"
+#import "MLGMAccount.h"
+#import "MLGMActorProfile.h"
+#import "MLGMAuthViewController.h"
+#import "MLGMCustomTabBarController.h"
+#import "MLGMError.h"
+#import "MLGMEvent.h"
+#import "MLGMFollowCell.h"
+#import "MLGMFollowRelation.h"
+#import "MLGMFollowViewController.h"
+#import "MLGMGene.h"
+#import "MLGMGeneCell.h"
+#import "MLGMGenesViewController.h"
+#import "MLGMHomePageCell.h"
+#import "MLGMHomePageHeaderCell.h"
+#import "MLGMHomePageViewController.h"
+#import "MLGMLoginViewController.h"
+#import "MLGMNewGeneViewController.h"
+#import "MLGMOrganizationCell.h"
+#import "MLGMOrganizationsViewController.h"
+#import "MLGMRecommendEmptyView.h"
+#import "MLGMRecommendViewController.h"
+#import "MLGMRepo.h"
+#import "MLGMRepoCell.h"
+#import "MLGMRepoDetailController.h"
+#import "MLGMReposViewController.h"
+#import "MLGMSearchPageTitleView.h"
+#import "MLGMSearchViewController.h"
+#import "MLGMSortViewController.h"
+#import "MLGMTagRelation.h"
+#import "MLGMStringUtil.h"
+#import "MLGMTimeLineCell.h"
+#import "MLGMTimeLineViewController.h"
+#import "MLGMWebService.h"
+#import "MLGMWebViewController.h"
+#import "UIBarButtonItem+Extension.h"
+#import "WYPopoverController.h"
+
+#import "NSBundle+Extension.h"
+#import "NSDate+Extension.h"
+#import "UIView+CustomBorder.h"
+#import "NSBundle+Extension.h"
+#import "NSDictionary+Extension.h"
+#import "NSString+Extension.h"
+#import "UIImage+Extension.h"
+#import "UIView+AutoLayout.h"
+#import "UIViewController+Extension.h"
+#import "UIBarButtonItem+Extension.h"
+#import "MLGMNetworkClient.h"
+
 #endif
 
-#define CONFIGURE(configureKey) configureKey
-
-#define kAppVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#ifdef DEBUG
+static const int ddLogLevel = DDLogLevelInfo;
+#else
+static const int ddLogLevel = DDLogLevelError;
+#endif
 
 #define DEFINE_SHARED_INSTANCE_USING_BLOCK(block) \
 static dispatch_once_t pred = 0; \
@@ -62,6 +115,8 @@ BLOCK_SAFE_RUN(block,__VA_ARGS__); \
 
 #define SAFE_STRING(string) string ?: @""
 
+#define NULL_TO_NIL(obj) ({ __typeof__ (obj) __obj = (obj); __obj == [NSNull null] ? nil : obj; })
+
 #define execute_after_main_queue(delayInSeconds,  block) \
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{ \
     BLOCK_SAFE_ASY_RUN_MainQueue(block); \
@@ -79,18 +134,7 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-#ifdef DEBUG
-#define LOG_Message(level, ...) LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"message",level,__VA_ARGS__)
-#define LOG_IMAGE(level, image) LogImageDataF(__FILE__, __LINE__, __FUNCTION__, @"image", level, image.size.width, image.size.width, UIImagePNGRepresentation(image))
-#else
-#define LOG_Message(...)   do{}while(0)
-#define LOG_IMAGE(...)     do{}while(0)
-#endif
-
-#define HelveticalRegular           @"HelveticaNeue"
-#define HelveticalBold              @"HelveticaNeue-Bold"
-#define HelveticalLight             @"HelveticaNeue-Light"
-#define HelveticalMedium            @"HelveticaNeue-Medium"
+#define kAppVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -99,4 +143,23 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (delayInSeconds) * NSEC_PER_SEC)
 #define IS_IPHONE_6 ([[UIScreen mainScreen] bounds].size.height == 667.0f || [[UIScreen mainScreen] bounds].size.width == 667.0f)
 #define IS_IPHONE_6_Plus ([[UIScreen mainScreen] bounds].size.height == 736.0f || [[UIScreen mainScreen] bounds].size.width == 736.0f)
 
+#define HelveticalRegular           @"HelveticaNeue"
+#define HelveticalBold              @"HelveticaNeue-Bold"
+#define HelveticalLight             @"HelveticaNeue-Light"
+#define HelveticalMedium            @"HelveticaNeue-Medium"
+
 #define ScreenRect [[UIScreen mainScreen] bounds]
+
+#define CONFIGURE(configureKey) configureKey
+#define kGitHub_Client_ID CONFIGURE(@"GitHub_Client_ID")
+#define KGitHub_Client_Secret CONFIGURE(@"GitHub_Client_Secret")
+#define kGitHub_Redirect_URL CONFIGURE(@"GitHub_Redirect_URL")
+#define kMaxLeap_Application_ID CONFIGURE(@"MaxLeap_Application_ID")
+#define kMaxLeap_Client_Key CONFIGURE(@"MaxLeap_Client_Key")
+#define kMaxLeap_REST_API_Key CONFIGURE(@"MaxLeap_REST_API_Key")
+#define kHockeyApp_Identifier CONFIGURE(@"HockeyApp_Identifier")
+#define kMaxLeapUserPassword CONFIGURE(@"MaxLeapUserPassword")
+#define kFlurryAPIKey CONFIGURE(@"FlurryAPIKey")
+
+#define ThemeNavigationBarColor     UIColorFromRGB(0x333333)
+#define BottomToolBarColor          UIColorFromRGB(0x0076FF)

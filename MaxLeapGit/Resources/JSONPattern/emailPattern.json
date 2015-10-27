@@ -1,0 +1,7 @@
+ [
+  {
+  "email": "string",
+  "primary": "bool",
+  "verified": "bool"
+  }
+]
