@@ -63,7 +63,8 @@ GitMaster helps you find exciting projects. Simply specify your genes about your
   #define kGitHub_Redirect_URL CONFIGURE(@"GitHub_Redirect_URL")
 ```
 
-Please Note:
+######Please Note:
+
 To facilitate both iOS and Android versions of GitMaster, we took advantage of the powerful computing ability and high efficiency of our 
 [MaxLeap CloudCode service](https://maxleap.com/en_us/guide/usermanual/cloudcode.html) to realize the logic of GitHub projects recommendations. The part of "Recommendation" in this project, therefore, is not runnable at the moment due to the confidentiality of MaxLeap-related keys. We will optimize this part and make it available in the near future. To learn more about MaxLeap CloudCode, please refer to: https://maxleap.com/en_us/guide/devguide/java.html.
 
