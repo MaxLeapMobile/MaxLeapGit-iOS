@@ -67,7 +67,6 @@
 		B4FFE4761BC7AB3B0011EE2D /* MLGMError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FFE4751BC7AB3B0011EE2D /* MLGMError.m */; };
 		B93786E2BEF594F94DA3446F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5172BC9B65FADD5B99762D /* libPods.a */; };
 		E3101C1C1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3101C1B1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m */; };
-		E311B0561BE078E3002B890A /* ScreenShots.gif in Resources */ = {isa = PBXBuildFile; fileRef = E311B0551BE078E3002B890A /* ScreenShots.gif */; settings = {ASSET_TAGS = (); }; };
 		E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E31D875C1BD60D1A00909236 /* recommendReposPattern.json */; };
 		E38539CE1BDF26A900B61D52 /* emailPattern.json in Resources */ = {isa = PBXBuildFile; fileRef = E38539CD1BDF26A900B61D52 /* emailPattern.json */; };
 		E3974C651BCE48F40042AB7F /* MLGMSearchPageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3974C641BCE48F40042AB7F /* MLGMSearchPageTitleView.m */; };
@@ -232,7 +231,6 @@
 		E260566CA9D865B12FF82152 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E3101C1A1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMOrganizationDetailController.h; sourceTree = "<group>"; };
 		E3101C1B1BDF7CBE004FA5B7 /* MLGMOrganizationDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGMOrganizationDetailController.m; sourceTree = "<group>"; };
-		E311B0551BE078E3002B890A /* ScreenShots.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = ScreenShots.gif; path = ScreenShot/ScreenShots.gif; sourceTree = "<group>"; };
 		E31D875C1BD60D1A00909236 /* recommendReposPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recommendReposPattern.json; sourceTree = "<group>"; };
 		E38539CD1BDF26A900B61D52 /* emailPattern.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emailPattern.json; sourceTree = "<group>"; };
 		E3974C631BCE48F40042AB7F /* MLGMSearchPageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGMSearchPageTitleView.h; sourceTree = "<group>"; };
@@ -468,7 +466,6 @@
 		B43F3F8A1BB10E180036ECF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E311B0551BE078E3002B890A /* ScreenShots.gif */,
 				B43F3F8B1BB10E180036ECF6 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -785,7 +782,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E311B0561BE078E3002B890A /* ScreenShots.gif in Resources */,
 				B42265111BCBB15000CD5634 /* followerPattern.json in Resources */,
 				B4099A7D1BD4E52200B7AEB8 /* searchReposPattern.json in Resources */,
 				E31D875D1BD60D1A00909236 /* recommendReposPattern.json in Resources */,
