@@ -53,8 +53,7 @@ GitMaster helps you find exciting projects. Simply specify your genes about your
 ## Requirements
 * Require at least iOS 8.0.
 
-* Integrate frameworks:
-  In your project directory, run "pod install".
+* Integrate frameworks: run "pod install".
 
 * Authentication:
   GitMaster supports two variants of OAuth2 for signing in. You will need to register your OAuth application, and provide GitMaster with your client ID, client secret and callback URL in PrefixHeader.pch file before trying to authenticate: 
