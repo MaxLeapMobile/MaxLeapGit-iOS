@@ -27,21 +27,42 @@ GitMaster helps you find exciting projects. Simply specify your genes about your
 * Slide out menu for quick and efficient navigation
 
 ## Third-party Tools
-* CocoaLumberjack
-* MagicalRecord
-* TTTAttributedLabel
-* SVProgressHUD
-* SVPullToRefresh
-* WYPopoverController
-* SDWebImage
-* HockeySDK
+
+[CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack)
+
+[MagicalRecord](https://github.com/magicalpanda/MagicalRecord)
+
+[TTTAttributedLabel](https://github.com/TTTAttributedLabel/TTTAttributedLabel)
+
+[SVProgressHUD](https://github.com/TransitApp/SVProgressHUD)
+
+[SVPullToRefresh](https://github.com/samvermette/SVPullToRefresh)
+
+[WYPopoverController](https://github.com/nicolaschengdev/WYPopoverController)
+
+[SDWebImage](https://github.com/rs/SDWebImage)
+
+[HockeySDK](http://support.hockeyapp.net/kb/client-integration-ios-mac-os-x/hockeyapp-for-ios)
+
+[VeriJSON](http://bitbucket.org/dcutting/verijson/)
 
 ## Support
 * GitMaster is an Open Source project on Github. Star and Pull requests are welcome!
   https://github.com/MaxLeapMobile/MaxLeapGit-iOS
 
 ## Requirements
-Require at least iOS 8.0.
+* Require at least iOS 8.0.
+
+* Integrate frameworks:
+  In your project directory, run "pod install".
+
+* Authentication:
+  GitMaster supports two variants of OAuth2 for signing in. You will need to register your OAuth application, and provide GitMaster with your client ID, client secret and callback URL in PrefixHeader.pch file before trying to authenticate: 
+```objective-c
+  #define kGitHub_Client_ID CONFIGURE(@"GitHub_Client_ID") 
+  #define KGitHub_Client_Secret CONFIGURE(@"GitHub_Client_Secret")
+  #define kGitHub_Redirect_URL CONFIGURE(@"GitHub_Redirect_URL")
+```
 
 ## Release Notes
 
