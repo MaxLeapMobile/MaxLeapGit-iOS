@@ -1,5 +1,6 @@
 ## MaxLeapGit-iOS
 [![Build Status](https://travis-ci.org/MaxLeapMobile/MaxLeapGit-iOS.svg?branch=master)](https://travis-ci.org/MaxLeapMobile/MaxLeapGit-iOS)
+[![Version Status](https://img.shields.io/badge/version-1.0-green.svg)](https://github.com/MaxLeapMobile/MaxLeapGit-iOS/releases)
 
 GitMaster helps you find exciting projects. Simply specify your genes about your language skills，and GitMaster will tell you about new and interesting projects that you never knew existed!
 
