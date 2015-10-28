@@ -1,58 +1,53 @@
-# MaxLeapGit-iOS
+## MaxLeapGit-iOS
 [![Build Status](https://travis-ci.org/MaxLeapMobile/MaxLeapGit-iOS.svg?branch=master)](https://travis-ci.org/MaxLeapMobile/MaxLeapGit-iOS)
 
-An application to contact best projects and best developers.
+GitMaster helps you find exciting projects. Simply specify your genes about your language skills，and GitMaster will tell you about new and interesting projects that you never knew existed!
 
+## Preview
+![ScreenShots](https://github.com/MaxLeapMobile/MaxLeapGit-iOS/blob/Dev/Snapshots/ScreenShots.gif?raw=true)
 
-### API说明：
- 
-假定用户名为kylef，组织名为：guardian，项目:mzp/LoveLiver
+## Languages supported
 
-1. 获取指定用户的资料：
-https://api.github.com/users/kylef
+* Html Skills: Html5, Bootstrap
+* Java Skills: Android, Spring
+* Javascript Skills: AngularJS, Bootstrap, jQuery, Node
+* Objective-C Skills: iOS
+* PHP Skills: Laravel, CodeIgniter
+* Python Skills: Web Framework
+* Swift Skills: iOS
 
-2. 获取用户的组织：
-https://api.github.com/users/kylef/orgs?page=1&per_page=100
+## Features included
 
-3. 获取组织最后的更新时间
-https://api.github.com/orgs/guardian/events?page=1&per_page=1
+* Best daily updated project recommendations!
+* Quick access to your repos
+* Star, watch or fork repositories
+* Search users and repositories
+* See the code and recent commits of different branches, issues and forks
+* Access your repos and stars
+* Slide out menu for quick and efficient navigation
 
-4. 获取用户的仓库列表
-https://api.github.com/users/kylef/repos?page=1&per_page=100
+## Third-party Tools
+* CocoaLumberjack
+* MagicalRecord
+* TTTAttributedLabel
+* SVProgressHUD
+* SVPullToRefresh
+* WYPopoverController
+* SDWebImage
+* HockeySDK
 
-5. 获取用户star过的项目
-https://api.github.com/users/kylef/starred?page=1&per_page=100
+## Support
+* GitMaster is an Open Source project on Github. Star and Pull requests are welcome!
+  https://github.com/MaxLeapMobile/MaxLeapGit-iOS
 
-6. 时间线
-https://api.github.com/users/kylef/received_events?page=0&per_page=100
+## Requirements
+Require at least iOS 8.0.
 
-7. follow指定用户 put
-https://api.github.com/user/following/liruqi
+## Release Notes
 
-8. unfollow指定用户 delete
-https://api.github.com/user/following/liruqi
+**1.0** 
 
-9. 指定用户的follower列表
-https://api.github.com/users/kylef/followers
+## License  
+MIT
 
-10. 指定用户的following列表
-https://api.github.com/users/kylef/following
-
-11. 用户a是否关注b
-https://api.github.com/users/users/xdream86/following/kylef
-
-12. 用户star过的项目
-https://api.github.com/users/kylef/starred
-
-13. 是否star过指定项目
-https://api.github.com/user/starred/kylef 
-204表示成功
-
-14. star项目
-https://api.github.com/user/starred/mzp/LoveLiver put方法
-
-15. unstar项目
-https://api.github.com/user/starred/mzp/LoveLiver delete方法
-
-16. fork项目
-https://api.github.com/repos/mzp/LoveLiver/forks
+GitMaster is not affiliated with GitHub in any way. GitMaster is a third-party GitHub client.
